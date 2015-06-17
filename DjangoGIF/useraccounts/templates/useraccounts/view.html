@@ -6,12 +6,26 @@
     </head>
 
     <body>
+        {% if can_edit %}
         <h1> Hello {{ name }}!</h1>
+        {% else %}
+        <h1>{{ name }}'s Profile</h1>
+        {% endif %}
 
+        {% for object in gifs %}
+        <img src="{{ object.url }}">
+        <p>{{ object.notes }}</p>
+        <p>Added: {{ object.created }}</p>
+        {% endfor %}
+
+        {% if can_edit %}
         <form action="/account/add-gif/" method="post">
             {% csrf_token %}
             {{ form }}
             <input type="submit">
         </form>
+        {% endif %}
+
+        <a href="/account/logout">Logout</a>
     </body>
 </html>

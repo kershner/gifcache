@@ -1,20 +1,21 @@
-from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db import models
 
 
 # Create your models here.
 class Profile(models.Model):
-    name = models.CharField(max_length=200)
+    owner = models.ForeignKey(User)
 
     def __unicode__(self):
-        return self.name
+        return self.username
 
 
 class Gif(models.Model):
-    owner = models.ForeignKey(Profile)
+    owner = models.ForeignKey(User)
     url = models.CharField(max_length=400)
     created = models.DateTimeField(default=timezone.now)
-    notes = models.CharField(max_length=400, default='')
+    notes = models.CharField(max_length=400, default='', blank=True)
 
     def __unicode__(self):
         return self.url
