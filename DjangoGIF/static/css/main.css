@@ -1,0 +1,120 @@
+body {
+	background-color: #F2F2F2;
+	color: #4d4d4d;
+	font-family: 'Quicksand', sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.animate {
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+/* Home Page Styles *********************************************************/
+.container {
+	padding: 1em;
+}
+
+#logo {
+	text-align: center;
+	font-size: 4em;
+	font-family: 'Questrial', sans-serif;
+	letter-spacing: .25em;
+	border-bottom: .15em solid #99d0e0;
+}
+
+#home-links {
+	margin: 0 auto;
+	width: 30em;
+	text-align: center;
+}
+
+#home-links a {
+	margin: 1em;
+	font-size: 1.5em;
+	border-bottom: .15em solid #6BB0C4;
+	color: #6BB0C4;
+}
+
+#home-links a:hover {
+	color: #2b5d6b;
+	border-bottom: .15em solid #2b5d6b;
+	font-size: 1.75em;
+}
+
+.message {
+	text-align: center;
+}
+
+form {
+	margin: 1em;
+}
+
+input {
+	display: block;
+	margin: 1em;
+	padding: .25em;
+	border: .25em solid #99d0e0;
+	border-radius: .5em;
+}
+
+label {
+	display: block;
+	margin-left: 1em;
+	margin-bottom: -.75em;
+}
+
+.helptext {
+	margin-left: 1em;
+}
+
+.submit {
+	background-color: #99d0e0;
+	color: white;
+}
+
+.submit:hover {
+	cursor: pointer;
+	background-color: #2b5d6b;
+	border: .25em solid #2b5d6b;
+}
+
+.hidden {
+	display: none;
+}
+
+/* Profile View Styles *********************************************************/
+#gif-grid {
+	margin: 1em;
+}
+
+#gif-grid p {
+	font-family: 'Open Sans', sans-serif;
+	font-size: .75em;
+}
+
+.gif-grid-element {
+	display: inline-block;
+	position: relative;
+	padding: .5em;
+	width: 10em;
+	border: .25em solid #99d0e0;
+	border-radius: 1em;
+}
+
+.img-wrapper {
+	max-width: 100%;
+}
+
+.img-wrapper img {
+	width: 100%;
+}
+
+.gif-date {
+	font-size: .6em !important;
+}

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <h1>Thanks for signing up, {{ name }}</h1>
+{% extends 'home/base.html' %}
+{% block content %}
+<h1>Thanks for signing up, {{ name }}</h1>
 
-        <a href="/account/login">Please Log In to Continue</a>
-    </body>
-</html>
+<a href="{% url 'useraccounts:login' %}">Please Log In to Continue</a>
+{% endblock %}

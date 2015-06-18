@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
+{% extends 'home/base.html' %}
+{% block content %}
+<h1>Log In</h1>
 
-    <body>
-        {% if message %}
-        <p>{{ message }}</p>
-        {% endif %}
+{% if message %}
+<p class="message">{{ message }}</p>
+{% endif %}
 
-        <form action="/account/authenticate-user/" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit">
-        </form>
-    </body>
-</html>
+<form action="{% url 'useraccounts:authenticate' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="submit animate">
+</form>
+{% endblock %}

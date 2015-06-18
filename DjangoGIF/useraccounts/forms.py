@@ -18,5 +18,5 @@ class LoginForm(forms.Form):
 
 class AddGifForm(forms.Form):
     url = forms.URLField(label='', widget=forms.TextInput(attrs={'placeholder': 'URL'}))
-    notes = forms.CharField(label='', required=False, widget=forms.Textarea(attrs={'placeholder': 'Notes'}))
-    hidden_id = forms.CharField(label='')
+    label = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Label'}))
+    hidden_id = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'hidden'}))

@@ -1,31 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-
-    <body>
+{% extends 'home/base.html' %}
+{% block content %}
+    <div class="container">
         {% if can_edit %}
         <h1> Hello {{ name }}!</h1>
         {% else %}
         <h1>{{ name }}'s Profile</h1>
         {% endif %}
 
+        <div id="gif-grid">
         {% for object in gifs %}
-        <img src="{{ object.url }}">
-        <p>{{ object.notes }}</p>
-        <p>Added: {{ object.created }}</p>
+        <div class="gif-grid-element">
+            <div class="img-wrapper">
+                <img src="{{ object.url }}">
+            </div>
+
+            <p>{{ object.label }}</p>
+            <p class="gif-date">Added: {{ object.created }}</p>
+        </div>
         {% endfor %}
+        </div>
 
         {% if can_edit %}
-        <form action="/account/add-gif/" method="post">
+        <form action="{% url 'useraccounts:add-gif' %}" method="post">
             {% csrf_token %}
             {{ form }}
-            <input type="submit">
+            <input type="submit" value="Add GIF" class="submit animate">
         </form>
         {% endif %}
 
-        <a href="/account/logout">Logout</a>
-    </body>
-</html>
+        <a href="{% url 'useraccounts:logout' %}">Logout</a>
+    </div>
+{% endblock content %}

@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <h1>GifLocker!</h1>
-        {% if message %}
-            <p>{{ message }}</p>
-        {% endif %}
+{% extends 'home/base.html' %}
+{% block content %}
 
-        <a href="/account/signup">Sign Up</a>
-        <a href="/account/login">Log In</a>
-        <a href="/account/logout">Log Out</a>
-    </body>
-</html>
+<div class="container">
+    <h1 id="logo">GifLocker</h1>
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <div id="home-links">
+        <a href="{% url 'useraccounts:signup' %}" class="animate">Sign Up</a>
+        <a href="{% url 'useraccounts:login' %}" class="animate">Log In</a>
+        <a href="{% url 'useraccounts:logout' %}" class="animate">Log Out</a>
+    </div>
+</div>
+{% endblock %}

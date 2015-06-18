@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm, AddGifForm, LoginForm
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Gif
@@ -108,9 +109,9 @@ def add_gif(request):
         if form.is_valid():
             hidden_id = request.POST['hidden_id']
             url = request.POST['url']
-            notes = request.POST['notes']
+            label = request.POST['label']
             u = User.objects.get(id=hidden_id)
-            g = Gif(owner=u, url=url, created=timezone.now(), notes=notes)
+            g = Gif(owner=u, url=url, created=timezone.now(), label=label)
             g.save()
             return redirect('/account/view/%s' % str(u.username))
     else:

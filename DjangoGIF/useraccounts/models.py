@@ -15,7 +15,7 @@ class Gif(models.Model):
     owner = models.ForeignKey(User)
     url = models.CharField(max_length=400)
     created = models.DateTimeField(default=timezone.now)
-    notes = models.CharField(max_length=400, default='', blank=True)
+    label = models.CharField(max_length=400, default='', blank=True)
 
     def __unicode__(self):
         return self.url
