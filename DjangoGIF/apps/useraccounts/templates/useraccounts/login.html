@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<h1>Log In</h1>
+
+{% if message %}
+<p class="message">{{ message }}</p>
+{% endif %}
+
+<form action="{% url 'useraccounts:authenticate' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="submit animate">
+</form>
+{% endblock %}

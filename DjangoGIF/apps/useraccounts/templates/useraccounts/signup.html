@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+Sign up for an account!
+<form action="{% url 'useraccounts:create-account' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="submit animate">
+</form>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<h1>Thanks for signing up, {{ name }}</h1>
+
+<a href="{% url 'useraccounts:login' %}">Please Log In to Continue</a>
+{% endblock %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import credentials
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')e^tb3u6u_q3f8wjm^qr)o-4t@vfgr%7(7xt_1(85i+=22c@_4'
+SECRET_KEY = credentials.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
-    'useraccounts',
+    'taggit',
+    'apps.home',
+    'apps.useraccounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -107,3 +109,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     '/static/',
 )
+
+# Mail server settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = credentials.email_user
+EMAIL_HOST_PASSWORD = credentials.email_password

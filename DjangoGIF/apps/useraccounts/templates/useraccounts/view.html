@@ -1,0 +1,68 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <div class="container">
+        {% if can_edit %}
+        <h1> Hello {{ name }}!</h1>
+        {% else %}
+        <h1>{{ name }}'s Profile</h1>
+        {% endif %}
+
+        <div id="tagged-gif-grid" class="gif-grid">
+            {% for entry in tagged_gifs %}
+            <div class="tag-group">
+                <div class="tag-name">{{ entry.0 }}</div>
+                {% for object in entry.1 %}
+                    <div class="gif-grid-element">
+                        <div class="img-wrapper">
+                            <img src="{{ object.url }}">
+                        </div>
+                        <p>{{ object.label }}</p>
+                        <p class="gif-date">Added: {{ object.created }}</p>
+                        {% if can_edit %}
+                        <i class="fa fa-pencil-square-o edit animate"></i>
+                        <i class="fa fa-times delete animate"></i>
+                        <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
+                            <input type="text" name="url" value="{{ object.url }}" placeholder="URL">
+                            <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
+                            <input type="text" name="tags" value="{{ object.tag_names }}" placeholder="Tags">
+                            <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
+                            <input type="submit" value="Edit GIF" class="submit animate">
+                        </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <div id="all-gif-grid" class="gif-grid">
+            <div>all GIFs</div>
+            {% for object in gifs %}
+            <div class="gif-grid-element">
+                <div class="img-wrapper">
+                    <img src="{{ object.url }}">
+                </div>
+
+                <p>{{ object.label }}</p>
+                <p class="gif-date">Added: {{ object.created }}</p>
+                {% if can_edit %}
+                <i class="fa fa-pencil-square-o edit animate"></i>
+                <i class="fa fa-times delete animate"></i>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if can_edit %}
+        <form action="{% url 'useraccounts:add-gif' %}" method="post">
+            {% csrf_token %}
+            {{ add_form }}
+            <input type="submit" value="Add GIF" class="submit animate">
+        </form>
+        {% endif %}
+
+        <a href="{% url 'useraccounts:logout' %}">Logout</a>
+    </div>
+{% endblock content %}
