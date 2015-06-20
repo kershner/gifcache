@@ -55,23 +55,28 @@ form {
 	overflow: auto;
 }
 
-.edit-form input {
-	margin: .25em auto;
-	width: 90%;
-}
-
 input {
 	display: block;
 	margin: .5em 0;
 	padding: .25em;
 	border: .25em solid #99d0e0;
 	border-radius: .5em;
+	font-family: 'Quicksand', sans-serif;
 }
 
 label {
 	display: block;
 	margin-left: 1em;
 	margin-bottom: -.75em;
+}
+
+.edit-form, .delete-form {
+	display: none;
+}
+
+.edit-form input, .delete-form input {
+	margin: .25em auto;
+	width: 90%;
 }
 
 .helptext {
@@ -87,6 +92,21 @@ label {
 	cursor: pointer;
 	background-color: #2b5d6b;
 	border: .25em solid #2b5d6b;
+}
+
+.delete {
+	background-color: #ff6767;
+	border: .25em solid #ff6767;
+}
+
+.cancel {
+	margin: .25em auto;
+	width: 83%;
+	padding: .25em;
+	border-radius: .5em;
+	text-align: center;
+	font-size: .8em;
+	border: .25em solid #99d0e0;
 }
 
 .hidden {
@@ -129,10 +149,13 @@ label {
 	border-radius: 1em;
 }
 
-.delete {
+.delete-icon {
 	position: absolute;
 	right: 0.5em;
+}
 
+.delete-icon:hover {
+	color: #ff6767 !important;
 }
 
 .img-wrapper {

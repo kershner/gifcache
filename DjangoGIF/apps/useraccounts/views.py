@@ -1,6 +1,6 @@
 from .forms import SignupForm, AddGifForm, LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.utils import timezone
 from taggit.models import Tag
@@ -13,15 +13,16 @@ def view_profile(request, username):
     if request.user.username == username:
         can_edit = True
 
-    u = User.objects.get(username=username)
+    u = get_object_or_404(User, username=username)
     gifs = Gif.objects.filter(owner=u)
 
     tags = list(set(Tag.objects.filter(gif__owner=u)))
+    print tags
 
     tagged_gifs = []
     for tag in tags:
         temp_gifs = gifs.filter(tags__name__in=[str(tag)])
-        tagged_gifs.append([str(tag), temp_gifs])
+        tagged_gifs.append([tag.name, temp_gifs])
 
     add_gif_form = AddGifForm(initial={
         'hidden_id': u.id
@@ -33,9 +34,7 @@ def view_profile(request, username):
         'tagged_gifs': tagged_gifs,
         'can_edit': can_edit
     }
-    return render(request,
-                  'useraccounts/view.html',
-                  context)
+    return render(request, 'useraccounts/view.html', context)
 
 
 def login_view(request):
@@ -80,9 +79,7 @@ def signup(request):
             print message
     else:
         form = SignupForm()
-    return render(request,
-                  'useraccounts/signup.html',
-                  {'form': form})
+    return render(request, 'useraccounts/signup.html', {'form': form})
 
 
 def create_account(request):
@@ -103,9 +100,7 @@ def create_account(request):
             return render(request, 'useraccounts/account_created.html', context)
     else:
         form = SignupForm()
-        return render(request,
-                      'useraccounts/signup.html',
-                      {'form': form})
+        return render(request, 'useraccounts/signup.html', {'form': form})
 
 
 def add_gif(request):
@@ -116,18 +111,57 @@ def add_gif(request):
             url = request.POST['url']
             label = request.POST['label']
             tags = request.POST['tags']
-            u = User.objects.get(id=hidden_id)
+            u = get_object_or_404(User, id=hidden_id)
             g = Gif(owner=u, url=url, created=timezone.now(), label=label, tag_names=tags)
             g.save()
-            g.tags.add(tags)
+            tags = tags.replace(',', '').split(' ')
+            for tag in tags:
+                g.tags.add(tag)
             return redirect('/account/view/%s' % str(u.username))
     else:
         form = AddGifForm()
-    return render(request,
-                  'useraccounts/view.html',
-                  {'form': form})
+        return render(request, 'useraccounts/view.html', {'form': form})
 
 
 def edit_gif(request):
-    print 'Form submitted'
+    if request.user.is_authenticated():
+        username = request.user.username
+        if request.method == 'POST':
+            url = request.POST['url']
+            label = request.POST['label']
+            tags = request.POST['tags']
+            gif_id = request.POST['gif_id']
+            u = get_object_or_404(User, username=username)
+            Gif.objects.filter(pk=gif_id, owner=u).update(url=url, label=label, tag_names=tags)
+            g = get_object_or_404(Gif, pk=gif_id, owner=u)
+            tags = tags.replace(',', '').split(' ')
+            for tag in tags:
+                g.tags.add(tag)
+            return redirect('/account/view/%s' % str(username))
+        else:
+            return redirect('/account/view/%s' % str(username))
+    else:
+        context = {'message': 'You must be logged in to edit GIFs!'}
+        return render(request, 'home/home.html', context)
+
+
+def delete_gif(request):
+    if request.user.is_authenticated():
+        username = request.user.username
+        if request.method == 'POST':
+            gif_id = request.POST['gif_id']
+            u = get_object_or_404(User, username=username)
+            g = Gif(pk=gif_id, owner=u)
+            g.delete()
+            return redirect('/account/view/%s' % str(username))
+    else:
+        context = {'message': 'You must be logged in to edit GIFs!'}
+        return render(request, 'home/home.html', context)
+
+
+def manage_tags(request):
+    username = request.user.username
+    u = get_object_or_404(User, username=username)
+    tags = Tag.objects.filter(gif__owner=u).distinct()
+    print tags
     return

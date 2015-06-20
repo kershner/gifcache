@@ -15,7 +15,7 @@ class Profile(models.Model):
 class Gif(models.Model):
     owner = models.ForeignKey(User)
     url = models.CharField(max_length=400)
-    created = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(default=timezone.now, auto_now=False)
     label = models.CharField(max_length=400, default='', blank=True)
     tags = TaggableManager()
     tag_names = models.CharField(max_length=400, default='', blank=True)
