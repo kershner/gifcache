@@ -15,6 +15,20 @@ a {
 	transition: all 0.2s ease-in-out;
 }
 
+.selected {
+	background-color: #2b5d6b;
+	color: white;
+}
+
+.icon-selected {
+	color: #2b5d6b;
+}
+
+.warning {
+	background-color: #ff6767 !important;
+	color: white;
+}
+
 /* Home Page Styles *********************************************************/
 .container {
 	padding: 1em;
@@ -59,8 +73,7 @@ input {
 	display: block;
 	margin: .5em 0;
 	padding: .25em;
-	border: .25em solid #99d0e0;
-	border-radius: .5em;
+	border: .15em solid #99d0e0;
 	font-family: 'Quicksand', sans-serif;
 }
 
@@ -85,13 +98,14 @@ label {
 
 .submit {
 	background-color: #99d0e0;
+	padding: .5em;
 	color: white;
+	border: none;
 }
 
 .submit:hover {
 	cursor: pointer;
 	background-color: #2b5d6b;
-	border: .25em solid #2b5d6b;
 }
 
 .delete {
@@ -103,7 +117,6 @@ label {
 	margin: .25em auto;
 	width: 83%;
 	padding: .25em;
-	border-radius: .5em;
 	text-align: center;
 	font-size: .8em;
 	border: .25em solid #99d0e0;
@@ -124,7 +137,7 @@ label {
 	margin: 1em;
 }
 
-.tag-name {
+.tag-title {
 
 }
 
@@ -168,4 +181,54 @@ label {
 
 .gif-date {
 	font-size: .6em !important;
+}
+
+.tags {
+	margin: 1em auto;
+}
+
+.tags i {
+	display: inline-block;
+}
+
+.delete-tag:hover {
+	color: #ff6767 !important;
+}
+
+.tag {
+	display: inline-block;	
+	margin: .1em;
+	padding: .25em;
+	background-color: #99d0e0;
+	color: white;
+}
+
+.tag:hover {	
+	background-color: #2b5d6b;	
+}
+
+.tag-name {
+	display: inline-block;
+}
+
+.add-tags {
+	margin: .5em auto;
+	padding: .25em;
+	text-align: center;
+	background-color: #2b5d6b;
+	color: white;
+}
+
+.add-tags:hover {
+	cursor: pointer;
+	background-color: #99d0e0;
+}
+
+.add-tags input {	
+	display: inline-block;
+	width: 80%;
+}
+
+.add-tags i {
+	display: inline-block;
 }

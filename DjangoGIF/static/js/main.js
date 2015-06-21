@@ -1,6 +1,7 @@
 $(document).ready(function () {
 	showEdit();
 	showDelete();
+	selectTagToRemove();
 });
 
 function showEdit() {
@@ -30,4 +31,30 @@ function showDelete() {
 			showDelete();
 		});
 	})
+}
+
+function selectTagToRemove() {	
+	$('.tag').children('.delete-tag').on('click', function() {
+		var selected = Number($(this).siblings('.remove-tag-input').val());
+		if (selected) {
+			$(this).parent().removeClass('warning');
+			$(this).removeClass('icon-selected');
+			$(this).siblings('.remove-tag-input').val(0);			
+			updateTagRemoveInput($(this).parents('.tags'));
+		} else {
+			$(this).parent().addClass('warning');
+			$(this).addClass('icon-selected');
+			$(this).siblings('.remove-tag-input').val(1);		
+			updateTagRemoveInput($(this).parents('.tags'));
+		}
+	});
+}
+
+function updateTagRemoveInput(element) {
+	values = [];
+	$(element).find('.remove-tag-input').each(function() {
+		value = $(this).val();
+		values.push(value);
+	});
+	$(element).find('.remove-tags-values').val(values);
 }

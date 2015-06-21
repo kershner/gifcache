@@ -2,6 +2,7 @@ from .forms import SignupForm, AddGifForm, LoginForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.utils import timezone
 from taggit.models import Tag
 from .models import Gif
@@ -17,7 +18,6 @@ def view_profile(request, username):
     gifs = Gif.objects.filter(owner=u)
 
     tags = list(set(Tag.objects.filter(gif__owner=u)))
-    print tags
 
     tagged_gifs = []
     for tag in tags:
@@ -127,16 +127,30 @@ def edit_gif(request):
     if request.user.is_authenticated():
         username = request.user.username
         if request.method == 'POST':
-            url = request.POST['url']
             label = request.POST['label']
-            tags = request.POST['tags']
+            tags_to_add = request.POST['tags_to_add']
+            tags_to_remove_index = request.POST['tags_to_remove'].split(',')
             gif_id = request.POST['gif_id']
+
             u = get_object_or_404(User, username=username)
-            Gif.objects.filter(pk=gif_id, owner=u).update(url=url, label=label, tag_names=tags)
             g = get_object_or_404(Gif, pk=gif_id, owner=u)
-            tags = tags.replace(',', '').split(' ')
-            for tag in tags:
-                g.tags.add(tag)
+            Gif.objects.filter(pk=gif_id, owner=u).update(label=label)
+
+            if tags_to_add:
+                tags = tags_to_add.replace(',', '').split(' ')
+                for tag in tags:
+                    g.tags.add(tag)
+
+            if tags_to_remove_index:
+                active_tags = list(set(Tag.objects.filter(gif__pk=gif_id)))
+                tags_to_remove = []
+                for i, j in enumerate(active_tags):
+                    index = int(tags_to_remove_index[i])
+                    if index:
+                        tags_to_remove.append(j)
+                for tag in tags_to_remove:
+                    g.tags.remove(tag)
+
             return redirect('/account/view/%s' % str(username))
         else:
             return redirect('/account/view/%s' % str(username))
@@ -165,3 +179,9 @@ def manage_tags(request):
     tags = Tag.objects.filter(gif__owner=u).distinct()
     print tags
     return
+
+
+def ajax_test(request):
+    csrf = request.POST['csrfmiddlewaretoken']
+    data = {'csrf_token': csrf}
+    return JsonResponse(data)

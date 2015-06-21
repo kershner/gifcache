@@ -11,7 +11,7 @@
         <div id="tagged-gif-grid" class="gif-grid">
             {% for entry in tagged_gifs %}
             <div class="tag-group">
-                <div class="tag-name">{{ entry.0 }}</div>
+                <div class="tag-title">{{ entry.0 }}</div>
                 {% for object in entry.1 %}
                     <div class="gif-grid-element">
                         <div class="img-wrapper">
@@ -32,13 +32,27 @@
                         </form>
 
                         <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
-                            Edit GIF
                             {% csrf_token %}
-                            <input type="text" name="url" value="{{ object.url }}" placeholder="URL">
                             <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
-                            <input type="text" name="tags" value="{{ object.tag_names }}" placeholder="Tags">
-                            <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                            <input type="submit" value="Edit GIF" class="submit animate">
+                            <div class="tags">
+                                {% for tag in object.tags.all %}
+                                <div class="tag animate">
+                                    <div class="tag-name">{{ tag.name }}</div>
+                                    <i class="fa fa-trash-o delete-tag"></i>
+                                    <input class="remove-tag-input hidden" type="text" value="0">
+                                </div>
+                                {% endfor %}
+                                <div class="add-tags animate">
+                                    <i class="fa fa-tag"></i>
+                                    Add Tags
+                                </div>
+
+                                <input class="add-tags-values " type="text" name="tags_to_add" value="">
+                                <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="0">
+                                <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
+                            </div>
+
+                            <input type="submit" value="Apply" class="submit animate">
                         </form>
                         {% endif %}
                     </div>
@@ -74,7 +88,6 @@
                 <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
                     Edit GIF
                     {% csrf_token %}
-                    <input type="text" name="url" value="{{ object.url }}" placeholder="URL">
                     <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
                     <input type="text" name="tags" value="{{ object.tag_names }}" placeholder="Tags">
                     <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
