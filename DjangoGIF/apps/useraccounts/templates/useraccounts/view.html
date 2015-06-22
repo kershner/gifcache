@@ -3,9 +3,44 @@
     <div class="container">
         {% if can_edit %}
         <h1> Hello {{ name }}!</h1>
-        <a href="{% url 'useraccounts:manage-tags' %}">Manage Tags</a>
         {% else %}
         <h1>{{ name }}'s Profile</h1>
+        {% endif %}
+
+        {% if can_edit %}
+        <div id="tag-manager">
+            {% for tag in tags %}
+            <div class="tag-manager-tag">
+                <div class="tag-manager-tag-title">{{ tag }}</div>
+
+                <div class="tag-manager-tag-options">
+                    <div class="rename">Rename</div>
+                    <input type="text" value="0" class="tag-rename-input hidden">
+
+                    <div class="delete">Delete</div>
+                    <input type="text" value="0" class="tag-delete-input hidden">
+                </div>
+
+                <div class="tag-manager-form">
+                    <form class="rename-tag-form hidden" action="{% url 'useraccounts:rename-tag' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="new_name" value="{{ tag }}">
+                        <input type="text" name="current_name" value="{{ tag }}" class="hidden">
+                        <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
+                        <input type="submit" class="submit">
+                    </form>
+
+                    <form class="delete-tag-form hidden" action="{% url 'useraccounts:delete-tag' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="current_name" value="{{ tag }}" class="hidden">
+                        <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
+                        <input type="submit" class="submit" value="Delete" style="display: inline-block;">
+                        <div class="delete-tag-cancel">Cancel</div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <div id="tagged-gif-grid" class="gif-grid">
@@ -22,7 +57,9 @@
 
                         {% if can_edit %}
                         <i class="fa fa-pencil-square-o edit-icon animate"></i>
+                        <input class="edit-gif-input hidden" type="text" value="0">
                         <i class="fa fa-times delete-icon animate"></i>
+                        <input class="delete-gif-input hidden" type="text" value="0">
                         <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
                             Delete GIF
                             {% csrf_token %}
@@ -48,10 +85,14 @@
                                         Add Tags
                                         <input type="text" value="0" class="add-tags-input hidden">
                                     </div>
+
+                                    <div class="tags-to-be-added hidden">
+                                        <div class="tags-to-be-added-title">Tags to be Added</div>
+                                    </div>
                                 </div>
 
-                                <input class="add-tags-values" type="text" name="tags_to_add" value="">
-                                <input class="remove-tags-values" type="text" name="tags_to_remove" value="none">
+                                <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
+                                <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
                                 <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
                             </div>
 
@@ -79,7 +120,9 @@
 
                 {% if can_edit %}
                 <i class="fa fa-pencil-square-o edit-icon animate"></i>
+                <input class="edit-gif-input hidden" type="text" value="0">
                 <i class="fa fa-times delete-icon animate"></i>
+                <input class="delete-gif-input hidden" type="text" value="0">
                 <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
                     Delete GIF
                     {% csrf_token %}
@@ -96,7 +139,7 @@
                         <div class="tag animate">
                             <div class="tag-name">{{ tag.name }}</div>
                             <i class="fa fa-trash-o delete-tag"></i>
-                            <input class="remove-tag-input hidden" type="text" value="0">
+                            <input class="remove-tag-input hidden" type="text" value=" ">
                         </div>
                         {% endfor %}
                         <div class="add-tags">
@@ -105,10 +148,14 @@
                                 Add Tags
                                 <input type="text" value="0" class="add-tags-input hidden">
                             </div>
+
+                            <div class="tags-to-be-added hidden">
+                                <div class="tags-to-be-added-title">Tags to be Added</div>
+                            </div>
                         </div>
 
                         <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
-                        <input class="remove-tags-values" type="text" name="tags_to_remove" value="none">
+                        <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
                         <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
                     </div>
 

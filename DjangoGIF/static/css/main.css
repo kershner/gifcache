@@ -16,12 +16,12 @@ a {
 }
 
 .selected {
-	background-color: #2b5d6b;
+	background-color: #2b5d6b !important;
 	color: white;
 }
 
 .icon-selected {
-	color: #2b5d6b;
+	color: #2b5d6b !important;
 }
 
 .warning {
@@ -98,19 +98,15 @@ label {
 
 .submit {
 	background-color: #99d0e0;
-	padding: .5em;
+	padding: .25em;
 	color: white;
 	border: none;
+	font-size: 1em;
 }
 
 .submit:hover {
 	cursor: pointer;
 	background-color: #2b5d6b;
-}
-
-.delete {
-	background-color: #ff6767;
-	border: .25em solid #ff6767;
 }
 
 .cancel {
@@ -253,4 +249,89 @@ label {
 .add-tag-submit:hover {
 	cursor: pointer;
 	background-color: #2b5d6b; 
+}
+
+.tags-to-be-added {
+	margin: .5em auto;
+	border: 1px solid #99d0e0;
+}
+
+.tags-to-be-added-title {
+	padding: .2em;
+	background-color: #99d0e0;
+	color: white;
+}
+
+.tag-to-be-added {
+	display: block;
+	margin: .25em;	
+}
+
+.tag-to-be-added div {
+	display: inline-block;
+	margin-left: .25em;
+}
+
+/* Tag Manager *****************************************************************/
+#tag-manager {
+	margin: 0 auto;
+	width: 90%;
+}
+
+.tag-manager-tag {
+	display: inline-block;
+	margin: 1em;
+	min-width: 1em;
+	border: 1px solid #99d0e0;
+}
+
+.tag-manager-tag-title {
+	padding-left: .5em;
+	background-color: #99d0e0;
+	color: white;
+}
+
+.tag-manager-tag-options {
+	text-align: center;
+}
+
+.tag-manager-tag-options div {
+	display: inline-block;
+	margin: .1em;	
+	padding: .25em;
+}
+
+.tag-manager-tag-options div:hover {
+	cursor: pointer;
+	background-color: #2b5d6b;
+	color: white;
+}
+
+.tag-manager-tag-options .rename {
+
+}
+
+.tag-manager-tag-options .delete {
+
+}
+
+.tag-manager-form form {
+	margin: 1em auto;
+	text-align: center;
+}
+
+.tag-manager-form .submit {
+	margin: .25em auto;
+}
+
+.delete-tag-form div {
+	display: inline-block;
+	padding: .25em;
+	background-color: #99d0e0;
+	color: white;
+}
+
+.delete-tag-form div:hover {
+	cursor: pointer;
+	background-color: #2b5d6b;
 }

@@ -3,42 +3,43 @@ $(document).ready(function () {
 	showDelete();
 	selectTagToRemove();
 	addTags();
+	tagManagerOptions();
 });
 
 function showEdit() {
 	$('.edit-icon').on('click', function() {
-		$(this).css('color', '#99d0e0')
-		$(this).siblings('.edit-form').css('display', 'block');
-		$(this).on('click', function() {
-			$(this).css('color', '#4d4d4d')
+		var clicked = Number($(this).siblings('.edit-gif-input').val());
+		if (clicked) {
+			$(this).siblings('.edit-gif-input').val(0);
+			$(this).removeClass('icon-selected');
 			$(this).siblings('.edit-form').css('display', 'none');
-			showEdit();
-		});
-	})
+		} else {
+			$(this).siblings('.edit-gif-input').val(1);
+			$(this).addClass('icon-selected');
+			$(this).siblings('.edit-form').css('display', 'block');
+		}
+	});
 }
 
 function showDelete() {
 	$('.delete-icon').on('click', function() {
-		$(this).siblings('.delete-form').children('.cancel').on('click', function() {
-			$(this).parent().siblings('.delete-icon').css('color', '#4d4d4d')
-			$(this).parent('.delete-form').css('display', 'none');			
-			showDelete();
-		});
-		$(this).css('color', '#ff6767')
-		$(this).siblings('.delete-form').css('display', 'block');
-		$(this).on('click', function() {
-			$(this).css('color', '#4d4d4d')
-			$(this).siblings('.delete-form').css('display', 'none');			
-			showDelete();
-		});
-	})
+		var clicked = Number($(this).siblings('.delete-gif-input').val());
+		if (clicked) {
+			$(this).siblings('.delete-gif-input').val(0);
+			$(this).removeClass('icon-selected');
+			$(this).siblings('.delete-form').css('display', 'none');
+		} else {
+			$(this).siblings('.delete-gif-input').val(1);
+			$(this).addClass('icon-selected');
+			$(this).siblings('.delete-form').css('display', 'block');
+		}
+	});
 }
 
 function selectTagToRemove() {	
 	$('.tag').children('.delete-tag').on('click', function() {
 		var tagName = $(this).siblings('.tag-name').text();
-		var selected = Number($(this).siblings('.remove-tag-input').val());
-		console.log(selected);
+		var selected = $(this).siblings('.remove-tag-input').val();
 		if (selected == tagName) {
 			$(this).parent().removeClass('warning');
 			$(this).removeClass('icon-selected');
@@ -81,12 +82,85 @@ function addTags() {
 }
 
 function addTagSubmit(element) {
-	console.log(element);
 	$(element).on('click', function() {
 		var tag = $(element).siblings('.add-tag-field').val();
 		if (tag.length > 0) {
+			$(this).siblings('.tags-to-be-added').removeClass('hidden');
 			var currentVal = $('.add-tags-values').val();
-			$('.add-tags-values').val(currentVal + tag + ' ');
+			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o animate delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
+			$(this).siblings('.tags-to-be-added').append(html);
+			$(this).siblings('.add-tag-field').val('');			
+			var tagsToBeAddedDiv = $(this).siblings('.tags-to-be-added');
+			updateAddTagInput(tagsToBeAddedDiv);
+			removeAddedTag(tagsToBeAddedDiv);
 		}
+	});
+}
+
+function removeAddedTag(element) {
+	var deleteIcon = $(element).children('.tag-to-be-added').children('.delete-tag');
+	$(deleteIcon).on('click', function() {
+		$(this).siblings('.tag-to-be-added-value').text('');
+		updateAddTagInput(element);
+		$(this).parent().remove();
+		var tagsToAdd = $(element).children().length;
+		if (tagsToAdd > 1) {
+			// Nothing
+		} else {
+			$(element).addClass('hidden');
+		}
+	});
+}
+
+function updateAddTagInput(element) {	
+	var tagValues = $(element).children('.tag-to-be-added').children('.tag-to-be-added-value');
+	var tagValuesInput = $(element).parent().siblings('.add-tags-values');
+	values = [];
+	$(tagValues).each(function() {
+		value = $(this).text();
+		values.push(value);
+	});
+	$(tagValuesInput).val(values);
+}
+
+function tagManagerOptions() {
+	$('.rename').on('click', function() {
+		var clicked = Number($(this).siblings('.tag-rename-input').val());
+		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');
+		if (clicked) {
+			$(this).removeClass('selected');
+			$(this).siblings('.tag-rename-input').val(0);
+			$(form).addClass('hidden');
+		} else {
+			$(this).addClass('selected');
+			$(this).siblings('.tag-rename-input').val(1);		
+			$(form).removeClass('hidden');
+		}
+	});
+
+	$('.delete').on('click', function() {
+		var clicked2 = Number($(this).siblings('.tag-delete-input').val());
+		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
+		if (clicked2) {
+			$(this).removeClass('selected');
+			$(this).siblings('.tag-delete-input').val(0);
+			$(form2).addClass('hidden');
+		} else {
+			$(this).addClass('selected');
+			$(this).siblings('.tag-delete-input').val(1);
+			$(form2).removeClass('hidden');
+		}
+		cancelTagDelete();
+	});
+}
+
+function cancelTagDelete() {
+	$('.delete-tag-cancel').on('click', function() {		
+		var parentDelete = $(this).parents('.tag-manager-form').siblings('.tag-manager-tag-options').children('.delete');
+		var deleteSelect = $(parentDelete).siblings('.tag-delete-input');		
+		$(deleteSelect).val(0);
+		$(parentDelete).removeClass('selected');
+		$(this).siblings('.delete-tag-confirm').removeClass('selected');
+		$(this).parent().addClass('hidden');
 	});
 }

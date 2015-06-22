@@ -1,6 +1,6 @@
-from .forms import SignupForm, AddGifForm, LoginForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from .forms import SignupForm, AddGifForm, LoginForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils import timezone
@@ -32,6 +32,8 @@ def view_profile(request, username):
         'add_form': add_gif_form,
         'gifs': gifs,
         'tagged_gifs': tagged_gifs,
+        'tags': tags,
+        'user_id': u.id,
         'can_edit': can_edit
     }
     return render(request, 'useraccounts/view.html', context)
@@ -138,7 +140,7 @@ def edit_gif(request):
             active_tags = Tag.objects.filter(gif__owner=u, gif__pk=gif_id)
 
             if tags_to_add:
-                tags = tags_to_add.strip().split(' ')
+                tags = tags_to_add.split(',')
                 for tag in tags:
                     g.tags.add(tag)
 
@@ -146,7 +148,7 @@ def edit_gif(request):
                 for tag in active_tags:
                     for i in tags_to_remove:
                         if str(tag.name) == str(i):
-                            print tag.name, ' tag is being removed'
+                            print tag.name, 'tag is being removed'
                             g.tags.remove(tag)
 
             return redirect('/account/view/%s' % str(username))
@@ -171,15 +173,29 @@ def delete_gif(request):
         return render(request, 'home/home.html', context)
 
 
-def manage_tags(request):
-    username = request.user.username
-    u = get_object_or_404(User, username=username)
-    tags = Tag.objects.filter(gif__owner=u).distinct()
-    print tags
-    return
+def rename_tag(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = request.POST['user_id']
+            current_name = request.POST['current_name']
+            new_name = request.POST['new_name']
+            u = get_object_or_404(User, pk=user_id)
+            gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
+            for gif in gifs:
+                gif.tags.remove(current_name)
+                gif.tags.add(new_name)
+            return redirect('/account/view/%s' % str(username))
 
 
-def ajax_test(request):
-    csrf = request.POST['csrfmiddlewaretoken']
-    data = {'csrf_token': csrf}
-    return JsonResponse(data)
+def delete_tag(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = request.POST['user_id']
+            current_name = request.POST['current_name']
+            u = get_object_or_404(User, pk=user_id)
+            gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
+            for gif in gifs:
+                gif.tags.remove(current_name)
+            return redirect('/account/view/%s' % str(username))
