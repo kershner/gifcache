@@ -2,6 +2,7 @@ $(document).ready(function () {
 	showEdit();
 	showDelete();
 	selectTagToRemove();
+	addTags();
 });
 
 function showEdit() {
@@ -35,16 +36,18 @@ function showDelete() {
 
 function selectTagToRemove() {	
 	$('.tag').children('.delete-tag').on('click', function() {
+		var tagName = $(this).siblings('.tag-name').text();
 		var selected = Number($(this).siblings('.remove-tag-input').val());
-		if (selected) {
+		console.log(selected);
+		if (selected == tagName) {
 			$(this).parent().removeClass('warning');
 			$(this).removeClass('icon-selected');
-			$(this).siblings('.remove-tag-input').val(0);			
+			$(this).siblings('.remove-tag-input').val(' ');
 			updateTagRemoveInput($(this).parents('.tags'));
-		} else {
+		} else if (selected == ' ') {
 			$(this).parent().addClass('warning');
 			$(this).addClass('icon-selected');
-			$(this).siblings('.remove-tag-input').val(1);		
+			$(this).siblings('.remove-tag-input').val(tagName);		
 			updateTagRemoveInput($(this).parents('.tags'));
 		}
 	});
@@ -57,4 +60,33 @@ function updateTagRemoveInput(element) {
 		values.push(value);
 	});
 	$(element).find('.remove-tags-values').val(values);
+}
+
+function addTags() {
+	$('.add-tags-title').on('click', function() {
+		var clicked = Number($(this).children('input').val());
+		if (clicked) {
+			$(this).removeClass('warning');
+			$(this).children('input').val(0);
+			$(this).siblings('.add-tag-field').remove();
+			$(this).siblings('.add-tag-submit').remove();
+		} else {
+			$(this).addClass('warning');
+			$(this).children('input').val(1);
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit">Add</div>';
+			$(this).parent().append(html);
+			addTagSubmit($(this).siblings('.add-tag-submit'));
+		}
+	});
+}
+
+function addTagSubmit(element) {
+	console.log(element);
+	$(element).on('click', function() {
+		var tag = $(element).siblings('.add-tag-field').val();
+		if (tag.length > 0) {
+			var currentVal = $('.add-tags-values').val();
+			$('.add-tags-values').val(currentVal + tag + ' ');
+		}
+	});
 }

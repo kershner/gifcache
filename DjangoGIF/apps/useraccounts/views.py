@@ -129,27 +129,25 @@ def edit_gif(request):
         if request.method == 'POST':
             label = request.POST['label']
             tags_to_add = request.POST['tags_to_add']
-            tags_to_remove_index = request.POST['tags_to_remove'].split(',')
+            tags_to_remove = request.POST['tags_to_remove'].strip().split(',')
             gif_id = request.POST['gif_id']
 
             u = get_object_or_404(User, username=username)
             g = get_object_or_404(Gif, pk=gif_id, owner=u)
             Gif.objects.filter(pk=gif_id, owner=u).update(label=label)
+            active_tags = Tag.objects.filter(gif__owner=u, gif__pk=gif_id)
 
             if tags_to_add:
-                tags = tags_to_add.replace(',', '').split(' ')
+                tags = tags_to_add.strip().split(' ')
                 for tag in tags:
                     g.tags.add(tag)
 
-            if tags_to_remove_index:
-                active_tags = list(set(Tag.objects.filter(gif__pk=gif_id)))
-                tags_to_remove = []
-                for i, j in enumerate(active_tags):
-                    index = int(tags_to_remove_index[i])
-                    if index:
-                        tags_to_remove.append(j)
-                for tag in tags_to_remove:
-                    g.tags.remove(tag)
+            if not tags_to_remove[0] == 'none':
+                for tag in active_tags:
+                    for i in tags_to_remove:
+                        if str(tag.name) == str(i):
+                            print tag.name, ' tag is being removed'
+                            g.tags.remove(tag)
 
             return redirect('/account/view/%s' % str(username))
         else:

@@ -123,7 +123,7 @@ label {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 /* Profile View Styles *********************************************************/
@@ -212,16 +212,8 @@ label {
 }
 
 .add-tags {
-	margin: .5em auto;
-	padding: .25em;
+	margin: .25em auto;	
 	text-align: center;
-	background-color: #2b5d6b;
-	color: white;
-}
-
-.add-tags:hover {
-	cursor: pointer;
-	background-color: #99d0e0;
 }
 
 .add-tags input {	
@@ -231,4 +223,34 @@ label {
 
 .add-tags i {
 	display: inline-block;
+}
+
+.add-tags-title {
+	display: inline-block;
+	padding: .25em;
+	background-color: #2b5d6b;
+	color: white;
+}
+
+.add-tags-title:hover {
+	cursor: pointer;
+	background-color: #99d0e0;
+}
+
+.add-tag-field {	
+	width: 60% !important;
+}
+
+.add-tag-submit {
+	display: inline-block;
+	margin: .25em;
+	background-color: #99d0e0;
+	color: white;
+	padding: 0.45em;
+	font-size: .75em;
+}
+
+.add-tag-submit:hover {
+	cursor: pointer;
+	background-color: #2b5d6b; 
 }
