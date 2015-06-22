@@ -14,10 +14,10 @@
                 <div class="tag-manager-tag-title">{{ tag }}</div>
 
                 <div class="tag-manager-tag-options">
-                    <div class="rename">Rename</div>
+                    <div class="rename animate">Rename</div>
                     <input type="text" value="0" class="tag-rename-input hidden">
 
-                    <div class="delete">Delete</div>
+                    <div class="delete animate">Delete</div>
                     <input type="text" value="0" class="tag-delete-input hidden">
                 </div>
 
@@ -75,13 +75,13 @@
                                 {% for tag in object.tags.all %}
                                 <div class="tag animate">
                                     <div class="tag-name">{{ tag.name }}</div>
-                                    <i class="fa fa-trash-o delete-tag"></i>
+                                    <i class="fa fa-trash-o delete-tag animate"></i>
                                     <input class="remove-tag-input hidden" type="text" value=" ">
                                 </div>
                                 {% endfor %}
                                 <div class="add-tags">
                                     <div class="add-tags-title animate">
-                                        <i class="fa fa-tag"></i>
+                                        <i class="fa fa-tag animate"></i>
                                         Add Tags
                                         <input type="text" value="0" class="add-tags-input hidden">
                                     </div>

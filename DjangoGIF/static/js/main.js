@@ -74,7 +74,7 @@ function addTags() {
 		} else {
 			$(this).addClass('warning');
 			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit">Add</div>';
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit animate">Add</div>';
 			$(this).parent().append(html);
 			addTagSubmit($(this).siblings('.add-tag-submit'));
 		}

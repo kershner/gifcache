@@ -16,12 +16,13 @@ a {
 }
 
 .selected {
-	background-color: #2b5d6b !important;
+	background-color: #498FBD !important;
+	box-shadow: 1px 5px 15px -5px #000;
 	color: white;
 }
 
 .icon-selected {
-	color: #2b5d6b !important;
+	color: #70DAA7 !important;
 }
 
 .warning {
@@ -73,8 +74,9 @@ input {
 	display: block;
 	margin: .5em 0;
 	padding: .25em;
-	border: .15em solid #99d0e0;
+	border: .15em solid #70DAA7;
 	font-family: 'Quicksand', sans-serif;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 label {
@@ -97,16 +99,17 @@ label {
 }
 
 .submit {
-	background-color: #99d0e0;
+	background-color: #498FBD;
 	padding: .25em;
 	color: white;
 	border: none;
 	font-size: 1em;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .submit:hover {
 	cursor: pointer;
-	background-color: #2b5d6b;
+	background-color: #72ADD3;
 }
 
 .cancel {
@@ -142,20 +145,24 @@ label {
 	font-size: .75em;
 }
 
+.gif-grid i {
+	color: #25B972;
+	font-size: 1.75em;
+}
+
 .gif-grid i:hover {
 	cursor: pointer;
-	color: #99d0e0;
+	color: #70DAA7;
 }
 
 .gif-grid-element {	
 	position: relative;
 	display: inline-block;
 	margin-top: .25em;
-	position: relative;
 	padding: .5em;
 	width: 10em;
-	border: .25em solid #99d0e0;
-	border-radius: 1em;
+	/*border: 1px solid #25B972;*/
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .delete-icon {
@@ -172,6 +179,7 @@ label {
 }
 
 .img-wrapper img {
+	box-shadow: 1px 5px 15px -5px #000;
 	width: 100%;
 }
 
@@ -185,6 +193,9 @@ label {
 
 .tags i {
 	display: inline-block;
+	color: #498FBD;
+	font-size: 1em;
+;
 }
 
 .delete-tag:hover {
@@ -195,12 +206,8 @@ label {
 	display: inline-block;	
 	margin: .1em;
 	padding: .25em;
-	background-color: #99d0e0;
+	background-color: #72ADD3;
 	color: white;
-}
-
-.tag:hover {	
-	background-color: #2b5d6b;	
 }
 
 .tag-name {
@@ -219,18 +226,23 @@ label {
 
 .add-tags i {
 	display: inline-block;
+	color: #70DAA7;
 }
 
 .add-tags-title {
 	display: inline-block;
 	padding: .25em;
-	background-color: #2b5d6b;
+	background-color: #25B972;
 	color: white;
 }
 
 .add-tags-title:hover {
 	cursor: pointer;
-	background-color: #99d0e0;
+	background-color: #498FBD;
+}
+
+.add-tags-title:hover > i {
+	color: #72ADD3;
 }
 
 .add-tag-field {	
@@ -240,15 +252,16 @@ label {
 .add-tag-submit {
 	display: inline-block;
 	margin: .25em;
-	background-color: #99d0e0;
+	background-color: #72ADD3;
 	color: white;
 	padding: 0.45em;
 	font-size: .75em;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .add-tag-submit:hover {
 	cursor: pointer;
-	background-color: #2b5d6b; 
+	background-color: #72ADD3; 
 }
 
 .tags-to-be-added {
@@ -282,12 +295,12 @@ label {
 	display: inline-block;
 	margin: 1em;
 	min-width: 1em;
-	border: 1px solid #99d0e0;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .tag-manager-tag-title {
 	padding-left: .5em;
-	background-color: #99d0e0;
+	background-color: #25B972;
 	color: white;
 }
 
@@ -303,8 +316,10 @@ label {
 
 .tag-manager-tag-options div:hover {
 	cursor: pointer;
-	background-color: #2b5d6b;
+	background-color: #498FBD;
 	color: white;
+	box-shadow: 1px 5px 15px -5px #000;
+
 }
 
 .tag-manager-tag-options .rename {
