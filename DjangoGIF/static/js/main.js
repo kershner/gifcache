@@ -8,31 +8,15 @@ $(document).ready(function () {
 
 function showEdit() {
 	$('.edit-icon').on('click', function() {
-		var clicked = Number($(this).siblings('.edit-gif-input').val());
-		if (clicked) {
-			$(this).siblings('.edit-gif-input').val(0);
-			$(this).removeClass('icon-selected');
-			$(this).siblings('.edit-form').css('display', 'none');
-		} else {
-			$(this).siblings('.edit-gif-input').val(1);
-			$(this).addClass('icon-selected');
-			$(this).siblings('.edit-form').css('display', 'block');
-		}
+		$(this).siblings('.gif-form.edit-form').toggleClass('hidden');
+		$(this).toggleClass('icon-selected');		
 	});
 }
 
 function showDelete() {
 	$('.delete-icon').on('click', function() {
-		var clicked = Number($(this).siblings('.delete-gif-input').val());
-		if (clicked) {
-			$(this).siblings('.delete-gif-input').val(0);
-			$(this).removeClass('icon-selected');
-			$(this).siblings('.delete-form').css('display', 'none');
-		} else {
-			$(this).siblings('.delete-gif-input').val(1);
-			$(this).addClass('icon-selected');
-			$(this).siblings('.delete-form').css('display', 'block');
-		}
+		$(this).siblings('.gif-form.delete-form').toggleClass('hidden');
+		$(this).toggleClass('icon-selected');		
 	});
 }
 
@@ -125,42 +109,14 @@ function updateAddTagInput(element) {
 
 function tagManagerOptions() {
 	$('.rename').on('click', function() {
-		var clicked = Number($(this).siblings('.tag-rename-input').val());
-		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');
-		if (clicked) {
-			$(this).removeClass('selected');
-			$(this).siblings('.tag-rename-input').val(0);
-			$(form).addClass('hidden');
-		} else {
-			$(this).addClass('selected');
-			$(this).siblings('.tag-rename-input').val(1);		
-			$(form).removeClass('hidden');
-		}
+		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');		
+		form.toggleClass('hidden');
+		$(this).toggleClass('selected');
 	});
 
 	$('.delete').on('click', function() {
-		var clicked2 = Number($(this).siblings('.tag-delete-input').val());
 		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
-		if (clicked2) {
-			$(this).removeClass('selected');
-			$(this).siblings('.tag-delete-input').val(0);
-			$(form2).addClass('hidden');
-		} else {
-			$(this).addClass('selected');
-			$(this).siblings('.tag-delete-input').val(1);
-			$(form2).removeClass('hidden');
-		}
-		cancelTagDelete();
-	});
-}
-
-function cancelTagDelete() {
-	$('.delete-tag-cancel').on('click', function() {		
-		var parentDelete = $(this).parents('.tag-manager-form').siblings('.tag-manager-tag-options').children('.delete');
-		var deleteSelect = $(parentDelete).siblings('.tag-delete-input');		
-		$(deleteSelect).val(0);
-		$(parentDelete).removeClass('selected');
-		$(this).siblings('.delete-tag-confirm').removeClass('selected');
-		$(this).parent().addClass('hidden');
+		form2.toggleClass('hidden');
+		$(this).toggleClass('selected');
 	});
 }

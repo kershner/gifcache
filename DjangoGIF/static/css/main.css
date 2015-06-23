@@ -15,10 +15,8 @@ a {
 	transition: all 0.2s ease-in-out;
 }
 
-.selected {
-	background-color: #498FBD !important;
-	box-shadow: 1px 5px 15px -5px #000;
-	color: white;
+.selected {	
+	border-bottom: .25em solid #498FBD !important;
 }
 
 .icon-selected {
@@ -74,9 +72,9 @@ input {
 	display: block;
 	margin: .5em 0;
 	padding: .25em;
-	border: .15em solid #70DAA7;
+	border: .1em solid #70DAA7;
 	font-family: 'Quicksand', sans-serif;
-	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .25em;
 }
 
 label {
@@ -85,13 +83,28 @@ label {
 	margin-bottom: -.75em;
 }
 
-.edit-form, .delete-form {
-	display: none;
+.gif-form {
+	position: relative;
 }
 
-.edit-form input, .delete-form input {
-	margin: .25em auto;
+.gif-form input {
+	margin: .75em auto;
 	width: 90%;
+}
+
+.gif-form-title {
+	position: relative;
+	margin: 1em 0;	
+	color: #25B972;
+	border-bottom: .1em solid #25b972;
+}
+
+.gif-form-title div {
+	position: absolute;
+	padding: 0 .25em;
+	z-index: 2;
+	top: -.65em;
+	background-color: #e6e6e6;
 }
 
 .helptext {
@@ -105,6 +118,7 @@ label {
 	border: none;
 	font-size: 1em;
 	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .25em;
 }
 
 .submit:hover {
@@ -118,7 +132,6 @@ label {
 	padding: .25em;
 	text-align: center;
 	font-size: .8em;
-	border: .25em solid #99d0e0;
 }
 
 .hidden {
@@ -133,11 +146,20 @@ label {
 
 .tag-group {
 	display: inline-block;
+	position: relative;
 	margin: 1em;
+	padding: 1em;
+	border: .15em solid #25B972;
+	border-radius: 1em;
 }
 
 .tag-title {
-
+	position: absolute;
+	padding: 0 .25em;
+	top: -.75em;
+	background-color: #f2f2f2;
+	font-size: 1.25em;
+	color: #25B972;
 }
 
 .gif-grid p {
@@ -161,8 +183,9 @@ label {
 	margin-top: .25em;
 	padding: .5em;
 	width: 10em;
-	/*border: 1px solid #25B972;*/
+	background-color: #e6e6e6;
 	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: 1em;
 }
 
 .delete-icon {
@@ -179,6 +202,7 @@ label {
 }
 
 .img-wrapper img {
+	border-radius: 1em 1em 0 0;
 	box-shadow: 1px 5px 15px -5px #000;
 	width: 100%;
 }
@@ -188,14 +212,14 @@ label {
 }
 
 .tags {
-	margin: 1em auto;
+	position: relative;
+	margin: 1.5em auto;
 }
 
 .tags i {
 	display: inline-block;
 	color: #498FBD;
 	font-size: 1em;
-;
 }
 
 .delete-tag:hover {
@@ -205,9 +229,10 @@ label {
 .tag {
 	display: inline-block;	
 	margin: .1em;
-	padding: .25em;
+	padding: .35em;
 	background-color: #72ADD3;
 	color: white;
+	border-radius: 1em 1em 0 1em;
 }
 
 .tag-name {
@@ -215,7 +240,7 @@ label {
 }
 
 .add-tags {
-	margin: .25em auto;	
+	margin: .75em auto;	
 	text-align: center;
 }
 
@@ -231,9 +256,12 @@ label {
 
 .add-tags-title {
 	display: inline-block;
-	padding: .25em;
+	margin: .5em;
+	padding: .3em .75em;
 	background-color: #25B972;
 	color: white;
+	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .25em;
 }
 
 .add-tags-title:hover {
@@ -257,6 +285,7 @@ label {
 	padding: 0.45em;
 	font-size: .75em;
 	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .25em;
 }
 
 .add-tag-submit:hover {
@@ -265,19 +294,26 @@ label {
 }
 
 .tags-to-be-added {
-	margin: .5em auto;
-	border: 1px solid #99d0e0;
+	margin: 1em auto;
+	margin-bottom: 0;
+	border: .1em solid #72ADD3;
+	border-radius: .75em;
 }
 
 .tags-to-be-added-title {
 	padding: .2em;
-	background-color: #99d0e0;
+	background-color: #72ADD3;
 	color: white;
+	border-radius: .55em .55em 0 0;
 }
 
 .tag-to-be-added {
 	display: block;
 	margin: .25em;	
+}
+
+.tag-to-be-added i {
+	color: #72ADD3;
 }
 
 .tag-to-be-added div {
@@ -295,31 +331,32 @@ label {
 	display: inline-block;
 	margin: 1em;
 	min-width: 1em;
-	box-shadow: 1px 5px 15px -5px #000;
+	border: .1em solid #25B972;
+	border-radius: .75em;
 }
 
 .tag-manager-tag-title {
 	padding-left: .5em;
 	background-color: #25B972;
 	color: white;
+	border-radius: .6em .6em 0 0;
 }
 
 .tag-manager-tag-options {
 	text-align: center;
+	padding: .5em;
 }
 
 .tag-manager-tag-options div {
 	display: inline-block;
 	margin: .1em;	
 	padding: .25em;
+	border-bottom: .25em solid #F2F2F2;
 }
 
 .tag-manager-tag-options div:hover {
 	cursor: pointer;
-	background-color: #498FBD;
-	color: white;
-	box-shadow: 1px 5px 15px -5px #000;
-
+	border-bottom: .25em solid #498FBD;
 }
 
 .tag-manager-tag-options .rename {

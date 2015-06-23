@@ -115,3 +115,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = credentials.email_user
 EMAIL_HOST_PASSWORD = credentials.email_password
+
+# Media Settings
+MEDIA_ROOT = '..\Programming\Projects\DjangoGIF\DjangoGIF\gifs\\'
+MEDIA_URL = '/media/'

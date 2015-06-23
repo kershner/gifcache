@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+<!--{% extends 'home/base.html' %}-->
 {% block content %}
     <div class="container">
         {% if can_edit %}
@@ -15,10 +15,7 @@
 
                 <div class="tag-manager-tag-options">
                     <div class="rename animate">Rename</div>
-                    <input type="text" value="0" class="tag-rename-input hidden">
-
                     <div class="delete animate">Delete</div>
-                    <input type="text" value="0" class="tag-delete-input hidden">
                 </div>
 
                 <div class="tag-manager-form">
@@ -27,15 +24,14 @@
                         <input type="text" name="new_name" value="{{ tag }}">
                         <input type="text" name="current_name" value="{{ tag }}" class="hidden">
                         <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                        <input type="submit" class="submit">
+                        <input type="submit" class="submit animate">
                     </form>
 
                     <form class="delete-tag-form hidden" action="{% url 'useraccounts:delete-tag' %}" method="post">
                         {% csrf_token %}
                         <input type="text" name="current_name" value="{{ tag }}" class="hidden">
                         <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                        <input type="submit" class="submit" value="Delete" style="display: inline-block;">
-                        <div class="delete-tag-cancel">Cancel</div>
+                        <input type="submit" class="submit animate" value="Delete" style="display: inline-block;">
                     </form>
                 </div>
             </div>
@@ -48,7 +44,7 @@
             <div class="tag-group">
                 <div class="tag-title">{{ entry.0 }}</div>
                 {% for object in entry.1 %}
-                    <div class="gif-grid-element">
+                    <div class="gif-grid-element animate">
                         <div class="img-wrapper">
                             <img src="{{ object.url }}">
                         </div>
@@ -57,47 +53,62 @@
 
                         {% if can_edit %}
                         <i class="fa fa-pencil-square-o edit-icon animate"></i>
-                        <input class="edit-gif-input hidden" type="text" value="0">
                         <i class="fa fa-times delete-icon animate"></i>
-                        <input class="delete-gif-input hidden" type="text" value="0">
-                        <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
-                            Delete GIF
-                            {% csrf_token %}
-                            <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                            <input type="submit" value="Delete GIF" class="submit delete animate">
-                            <div class="submit cancel animate">Cancel</div>
-                        </form>
 
-                        <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
-                            {% csrf_token %}
-                            <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
-                            <div class="tags">
-                                {% for tag in object.tags.all %}
-                                <div class="tag animate">
-                                    <div class="tag-name">{{ tag.name }}</div>
-                                    <i class="fa fa-trash-o delete-tag animate"></i>
-                                    <input class="remove-tag-input hidden" type="text" value=" ">
-                                </div>
-                                {% endfor %}
-                                <div class="add-tags">
-                                    <div class="add-tags-title animate">
-                                        <i class="fa fa-tag animate"></i>
-                                        Add Tags
-                                        <input type="text" value="0" class="add-tags-input hidden">
-                                    </div>
-
-                                    <div class="tags-to-be-added hidden">
-                                        <div class="tags-to-be-added-title">Tags to be Added</div>
-                                    </div>
+                        <div class="gif-form delete-form hidden">
+                            <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
+                                {% csrf_token %}
+                                <div class="gif-form-title">
+                                    <div style="left: 1em;">delete GIF</div>
                                 </div>
 
-                                <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
-                                <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
-                                <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
-                            </div>
+                                <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
+                                <input type="submit" value="Delete GIF" class="submit warning animate">
+                            </form>
+                        </div>
 
-                            <input type="submit" value="Apply" class="submit animate">
-                        </form>
+                        <div class="gif-form edit-form hidden">
+                            <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
+                                {% csrf_token %}
+                                <div class="gif-form-title">
+                                    <div style="left: 1em;">label</div>
+                                </div>
+
+                                <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
+
+                                <div class="tags">
+                                    <div class="gif-form-title">
+                                        <div style="right: 1em;">tags</div>
+                                    </div>
+
+                                    {% for tag in object.tags.all %}
+                                    <div class="tag animate">
+                                        <div class="tag-name">{{ tag.name }}</div>
+                                        <i class="fa fa-trash-o delete-tag animate"></i>
+                                        <input class="remove-tag-input hidden" type="text" value=" ">
+                                    </div>
+                                    {% endfor %}
+
+                                    <div class="add-tags">
+                                        <div class="add-tags-title animate">
+                                            <i class="fa fa-tag animate"></i>
+                                            Add Tags
+                                            <input type="text" value="0" class="add-tags-input hidden">
+                                        </div>
+
+                                        <div class="tags-to-be-added hidden">
+                                            <div class="tags-to-be-added-title">Tags to be Added</div>
+                                        </div>
+                                    </div>
+
+                                    <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
+                                    <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
+                                    <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
+                                </div>
+
+                                <input type="submit" value="Apply" class="submit animate">
+                            </form>
+                        </div>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -112,7 +123,7 @@
             {% for object in gifs %}
             <div class="gif-grid-element">
                 <div class="img-wrapper">
-                    <img src="{{ object.url }}">
+                    <img src="{{ object.thumbnail.url }}">
                 </div>
 
                 <p>{{ object.label }}</p>
@@ -120,47 +131,62 @@
 
                 {% if can_edit %}
                 <i class="fa fa-pencil-square-o edit-icon animate"></i>
-                <input class="edit-gif-input hidden" type="text" value="0">
                 <i class="fa fa-times delete-icon animate"></i>
-                <input class="delete-gif-input hidden" type="text" value="0">
-                <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
-                    Delete GIF
-                    {% csrf_token %}
-                    <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                    <input type="submit" value="Delete GIF" class="submit delete animate">
-                    <div class="submit cancel animate">Cancel</div>
-                </form>
 
-                <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
-                    {% csrf_token %}
-                    <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
-                    <div class="tags">
-                        {% for tag in object.tags.all %}
-                        <div class="tag animate">
-                            <div class="tag-name">{{ tag.name }}</div>
-                            <i class="fa fa-trash-o delete-tag"></i>
-                            <input class="remove-tag-input hidden" type="text" value=" ">
-                        </div>
-                        {% endfor %}
-                        <div class="add-tags">
-                            <div class="add-tags-title animate">
-                                <i class="fa fa-tag"></i>
-                                Add Tags
-                                <input type="text" value="0" class="add-tags-input hidden">
-                            </div>
-
-                            <div class="tags-to-be-added hidden">
-                                <div class="tags-to-be-added-title">Tags to be Added</div>
-                            </div>
+                <div class="gif-form delete-form hidden">
+                    <form action="{% url 'useraccounts:delete-gif' %}" method="post" class="delete-form">
+                        {% csrf_token %}
+                        <div class="gif-form-title">
+                            <div style="left: 1em;">delete GIF</div>
                         </div>
 
-                        <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
-                        <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
-                        <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
-                    </div>
+                        <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
+                        <input type="submit" value="Delete GIF" class="submit warning animate">
+                    </form>
+                </div>
 
-                    <input type="submit" value="Apply" class="submit animate">
-                </form>
+                <div class="gif-form edit-form hidden">
+                    <form action="{% url 'useraccounts:edit-gif' %}" method="post" class="edit-form">
+                        {% csrf_token %}
+                        <div class="gif-form-title">
+                            <div style="left: 1em;">label</div>
+                        </div>
+
+                        <input type="text" name="label" value="{{ object.label }}" placeholder="Label">
+
+                        <div class="tags">
+                            <div class="gif-form-title">
+                                <div style="right: 1em;">tags</div>
+                            </div>
+
+                            {% for tag in object.tags.all %}
+                            <div class="tag animate">
+                                <div class="tag-name">{{ tag.name }}</div>
+                                <i class="fa fa-trash-o delete-tag animate"></i>
+                                <input class="remove-tag-input hidden" type="text" value=" ">
+                            </div>
+                            {% endfor %}
+
+                            <div class="add-tags">
+                                <div class="add-tags-title animate">
+                                    <i class="fa fa-tag animate"></i>
+                                    Add Tags
+                                    <input type="text" value="0" class="add-tags-input hidden">
+                                </div>
+
+                                <div class="tags-to-be-added hidden">
+                                    <div class="tags-to-be-added-title">Tags to be Added</div>
+                                </div>
+                            </div>
+
+                            <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
+                            <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="none">
+                            <input class="hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
+                        </div>
+
+                        <input type="submit" value="Apply" class="submit animate">
+                    </form>
+                </div>
                 {% endif %}
             </div>
             {% endfor %}

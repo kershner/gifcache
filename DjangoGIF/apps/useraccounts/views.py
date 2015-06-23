@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm, AddGifForm, LoginForm
+from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.utils import timezone
+from cStringIO import StringIO
 from taggit.models import Tag
 from .models import Gif
+from PIL import Image
+import requests
 
 
 # Create your views here.
@@ -113,16 +116,25 @@ def add_gif(request):
             url = request.POST['url']
             label = request.POST['label']
             tags = request.POST['tags']
+
+            img = requests.get(url)
+            img_file = Image.open(StringIO(img.content)).convert('RGB')
+            img_file.thumbnail((200, 200), Image.ANTIALIAS)
+            img_temp = StringIO()
+            img_file.save(img_temp, 'JPEG')
+
             u = get_object_or_404(User, id=hidden_id)
-            g = Gif(owner=u, url=url, created=timezone.now(), label=label, tag_names=tags)
+            g = Gif(owner=u, url=url, created=timezone.now(), label=label)
+            g.thumbnail.save(url + '-thumb.jpg', ContentFile(img_temp.getvalue()))
             g.save()
-            tags = tags.replace(',', '').split(' ')
+
+            tags = tags.split(',')
             for tag in tags:
                 g.tags.add(tag)
             return redirect('/account/view/%s' % str(u.username))
     else:
         form = AddGifForm()
-        return render(request, 'useraccounts/view.html', {'form': form})
+        return render(request, 'useraccounts/view/%s' % request.user.username, {'form': form})
 
 
 def edit_gif(request):
