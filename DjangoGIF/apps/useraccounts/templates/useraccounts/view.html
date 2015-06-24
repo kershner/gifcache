@@ -46,7 +46,7 @@
                 {% for object in entry.1 %}
                     <div class="gif-grid-element animate">
                         <div class="img-wrapper">
-                            <img src="{{ object.url }}">
+                            <img src="{{object.thumbnail.url }}">
                         </div>
                         <p>{{ object.label }}</p>
                         <p class="gif-date">Added: {{ object.created }}</p>
@@ -123,7 +123,7 @@
             {% for object in gifs %}
             <div class="gif-grid-element">
                 <div class="img-wrapper">
-                    <img src="{{ object.thumbnail.url }}">
+                    <img src="{{object.thumbnail.url}}">
                 </div>
 
                 <p>{{ object.label }}</p>

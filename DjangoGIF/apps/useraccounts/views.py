@@ -130,7 +130,10 @@ def add_gif(request):
 
             tags = tags.split(',')
             for tag in tags:
-                g.tags.add(tag)
+                if str(tag) == '':
+                    pass
+                else:
+                    g.tags.add(tag)
             return redirect('/account/view/%s' % str(u.username))
     else:
         form = AddGifForm()

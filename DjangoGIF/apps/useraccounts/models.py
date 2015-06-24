@@ -17,7 +17,7 @@ class Gif(models.Model):
     url = models.CharField(max_length=400)
     created = models.DateTimeField(default=timezone.now, auto_now=False)
     label = models.CharField(max_length=400, default='', blank=True)
-    thumbnail = models.ImageField(upload_to='gifs', default='')
+    thumbnail = models.ImageField(upload_to='thumbs', default='')
     tags = TaggableManager()
 
     def __unicode__(self):
