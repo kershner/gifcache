@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import credentials
-from PIL import Image
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -119,7 +118,5 @@ EMAIL_HOST_PASSWORD = credentials.email_password
 
 # Media Settings
 # MEDIA_ROOT = os.path.dirname(os.path.join(BASE_DIR, 'media', 'gifs'))
-MEDIA_ROOT = 'C:\\Programming\\Projects\DjangoGIF\\DjangoGIF\\media\\gifs\\'
+MEDIA_ROOT = 'E:\\Programming\\Projects\DjangoGIF\\DjangoGIF\\media\\gifs\\'
 MEDIA_URL = '/media/'
-
-print MEDIA_ROOT

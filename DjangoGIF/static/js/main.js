@@ -4,6 +4,7 @@ $(document).ready(function () {
 	selectTagToRemove();
 	addTags();
 	tagManagerOptions();
+	hoverGifs();
 });
 
 function showEdit() {
@@ -51,14 +52,14 @@ function addTags() {
 	$('.add-tags-title').on('click', function() {
 		var clicked = Number($(this).children('input').val());
 		if (clicked) {
-			$(this).removeClass('warning');
+			$(this).removeClass('add-tags-selected');
 			$(this).children('input').val(0);
 			$(this).siblings('.add-tag-field').remove();
 			$(this).siblings('.add-tag-submit').remove();
 		} else {
-			$(this).addClass('warning');
+			$(this).addClass('add-tags-selected');
 			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit animate">Add</div>';
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit">Add</div>';
 			$(this).parent().append(html);
 			addTagSubmit($(this).siblings('.add-tag-submit'));
 		}
@@ -118,5 +119,28 @@ function tagManagerOptions() {
 		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
 		form2.toggleClass('hidden');
 		$(this).toggleClass('selected');
+	});
+}
+
+function hoverGifs() {
+	$('.gif-grid-element').on({		
+		mouseenter: function() {			
+			var thumbnail = $(this).children('.gif-grid-thumbnail');
+			var gifUrl = $(this).children('.gif-url').text();
+			var html = '<div class="img-wrapper"><img src="' + gifUrl + '"></div>'
+			thumbnail.css({
+				'opacity': 0.0,
+				'z-index:': 1
+			});
+			$(this).prepend(html);
+		},
+		mouseleave: function() {
+			var thumbnail = $(this).children('.gif-grid-thumbnail');
+			thumbnail.css({
+				'opacity': 1.0,
+				'z-index:': 2
+			});
+			$(this).children('.img-wrapper').remove();
+		}
 	});
 }

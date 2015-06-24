@@ -117,9 +117,10 @@ def add_gif(request):
             label = request.POST['label']
             tags = request.POST['tags']
 
+            size = (150, 100)
             img = requests.get(url)
-            img_file = Image.open(StringIO(img.content)).convert('RGB')
-            img_file.thumbnail((200, 200), Image.ANTIALIAS)
+            img_file = Image.open(StringIO(img.content)).convert('RGB').resize(size)
+            img_file.thumbnail(size, Image.ANTIALIAS)
             img_temp = StringIO()
             img_file.save(img_temp, 'JPEG')
 
@@ -135,9 +136,7 @@ def add_gif(request):
                 else:
                     g.tags.add(tag)
             return redirect('/account/view/%s' % str(u.username))
-    else:
-        form = AddGifForm()
-        return render(request, 'useraccounts/view/%s' % request.user.username, {'form': form})
+        return redirect('/account/view/%s' % request.user.username)
 
 
 def edit_gif(request):

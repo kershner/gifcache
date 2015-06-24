@@ -8,6 +8,12 @@ a {
 	text-decoration: none;
 }
 
+hr {
+	background-color: #498FBD;
+	border: 0;
+	height: .25em;
+}
+
 .animate {
 	-webkit-transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
@@ -65,7 +71,7 @@ a {
 }
 
 form {
-	overflow: auto;
+	overflow: hidden;
 }
 
 input {
@@ -111,14 +117,24 @@ label {
 	margin-left: 1em;
 }
 
-.submit {
+.submit {	
+	position: relative;
 	background-color: #498FBD;
 	padding: .25em;
 	color: white;
 	border: none;
 	font-size: 1em;
-	box-shadow: 1px 5px 15px -5px #000;
-	border-radius: .25em;
+	border-radius: .2em;
+	-webkit-box-shadow: 0px 6px 0px #38749b;
+	-moz-box-shadow: 0px 6px 0px #38749b;
+	box-shadow: 0px 6px 0px #38749b;
+}
+
+.submit:active {
+	top: 7px;
+	-webkit-box-shadow: 0px 2px 0px #38749b;
+	-moz-box-shadow: 0px 2px 0px #38749b;
+	box-shadow: 0px 2px 0px #38749b;
 }
 
 .submit:hover {
@@ -168,13 +184,43 @@ label {
 }
 
 .gif-grid i {
-	color: #25B972;
-	font-size: 1.75em;
+	display: inline-block;	
+	font-size: 1.25em;
 }
 
-.gif-grid i:hover {
+.edit-icon {
+	display: inline-block;
+	width: 3em;
+	color: #25B972;
+}
+
+.edit-icon-desc {	
+	display: inline-block;
+	position: relative;
+	color: #25B972;
+	bottom: .2em;
+}
+
+.edit-icon:hover {
 	cursor: pointer;
 	color: #70DAA7;
+}
+
+.edit-icon:hover > .edit-icon-desc {
+	color: #70DAA7;
+}
+
+.delete-icon {
+	position: absolute;
+	right: 0.5em;
+	top: 0.5em;
+	color: #ff6767 !important;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.delete-icon:hover {
+	cursor: pointer;
+	color: #ff3434 !important;
 }
 
 .gif-grid-element {	
@@ -183,31 +229,44 @@ label {
 	margin-top: .25em;
 	padding: .5em;
 	width: 10em;
+	min-height: 4em;
 	background-color: #e6e6e6;
 	box-shadow: 1px 5px 15px -5px #000;
 	border-radius: 1em;
 }
 
-.delete-icon {
-	position: absolute;
-	right: 0.5em;
-}
-
-.delete-icon:hover {
-	color: #ff6767 !important;
+.gif-grid-element:hover {
+	z-index: 2;
+	-ms-transform: scale(1.1);
+	-ms-webkit: scale(1.1);
+	transform: scale(1.1);
 }
 
 .img-wrapper {
-	max-width: 100%;
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	max-width: 150px;	
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .img-wrapper img {
-	border-radius: 1em 1em 0 0;
-	box-shadow: 1px 5px 15px -5px #000;
 	width: 100%;
+	max-height: 100px;
+}
+
+.gif-grid-thumbnail {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	width: inherit;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .gif-date {
+	margin-top: 13.5em;
 	font-size: .6em !important;
 }
 
@@ -235,6 +294,10 @@ label {
 	border-radius: 1em 1em 0 1em;
 }
 
+.tag i:hover {
+	cursor: pointer;
+}
+
 .tag-name {
 	display: inline-block;
 }
@@ -256,55 +319,95 @@ label {
 
 .add-tags-title {
 	display: inline-block;
+	position: relative;
 	margin: .5em;
 	padding: .3em .75em;
 	background-color: #25B972;
 	color: white;
-	box-shadow: 1px 5px 15px -5px #000;
-	border-radius: .25em;
+	border-radius: .2em;
+	-webkit-box-shadow: 0px 6px 0px #1d8f58;
+	-moz-box-shadow: 0px 6px 0px #1d8f58;
+	box-shadow: 0px 6px 0px #1d8f58;
 }
 
 .add-tags-title:hover {
 	cursor: pointer;
 	background-color: #498FBD;
+	-webkit-box-shadow: 0px 6px 0px #38749b;
+	-moz-box-shadow: 0px 6px 0px #38749b;
+	box-shadow: 0px 6px 0px #38749b;
 }
 
 .add-tags-title:hover > i {
-	color: #72ADD3;
+	color: #38749b;
+}
+
+.add-tags-title:active, .add-tags-selected {
+	top: 7px;
+	background-color: #498FBD;
+	-webkit-box-shadow: 0px 2px 0px #38749b;
+	-moz-box-shadow: 0px 2px 0px #38749b;
+	box-shadow: 0px 2px 0px #38749b;
+}
+
+.add-tags-selected i {
+	color: #38749b;
+}
+
+.add-tags-selected:hover {
+	cursor: pointer;
+	-webkit-box-shadow: 0px 2px 0px #38749b;
+	-moz-box-shadow: 0px 2px 0px #38749b;
+	box-shadow: 0px 2px 0px #38749b;
 }
 
 .add-tag-field {	
+	position: relative;
+	top: .12em;
 	width: 60% !important;
+	height: 2.15em;
 }
 
 .add-tag-submit {
 	display: inline-block;
+	position: relative;
 	margin: .25em;
 	background-color: #72ADD3;
 	color: white;
 	padding: 0.45em;
 	font-size: .75em;
-	box-shadow: 1px 5px 15px -5px #000;
-	border-radius: .25em;
+	-webkit-box-shadow: 0px 3px 0px #38749b;
+	-moz-box-shadow: 0px 3px 0px #38749b;
+	box-shadow: 0px 3px 0px #38749b;
+	border-radius: .2em;
 }
 
 .add-tag-submit:hover {
 	cursor: pointer;
-	background-color: #72ADD3; 
+	background-color: #38749b;
+	-webkit-box-shadow: 0px 3px 0px #2a5876;
+	-moz-box-shadow: 0px 3px 0px #2a5876;
+	box-shadow: 0px 3px 0px #2a5876;
+}
+
+.add-tag-submit:active {
+	top: 7px;
+	-webkit-box-shadow: 0px 1px 0px #2a5876;
+	-moz-box-shadow: 0px 1px 0px #2a5876;
+	box-shadow: 0px 1px 0px #2a5876;
 }
 
 .tags-to-be-added {
 	margin: 1em auto;
 	margin-bottom: 0;
 	border: .1em solid #72ADD3;
-	border-radius: .75em;
+	border-radius: .2em;
 }
 
 .tags-to-be-added-title {
 	padding: .2em;
 	background-color: #72ADD3;
 	color: white;
-	border-radius: .55em .55em 0 0;
 }
 
 .tag-to-be-added {
@@ -314,6 +417,10 @@ label {
 
 .tag-to-be-added i {
 	color: #72ADD3;
+}
+
+.tag-to-be-added i:hover {
+	cursor: pointer;
 }
 
 .tag-to-be-added div {
