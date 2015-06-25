@@ -6,7 +6,7 @@
 <p class="message">{{ message }}</p>
 {% endif %}
 
-<form action="{% url 'useraccounts:authenticate' %}" method="post">
+<form action="{% url 'authenticate' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="submit animate">

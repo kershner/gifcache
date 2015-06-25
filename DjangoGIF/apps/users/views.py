@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from .forms import SignupForm, AddGifForm, LoginForm
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.utils import timezone
 from cStringIO import StringIO
+from .forms import AddGifForm
 from taggit.models import Tag
 from .models import Gif
 from PIL import Image
 import requests
+import json
 
 
 # Create your views here.
@@ -39,73 +40,7 @@ def view_profile(request, username):
         'user_id': u.id,
         'can_edit': can_edit
     }
-    return render(request, 'useraccounts/view.html', context)
-
-
-def login_view(request):
-    context = {'form': LoginForm()}
-    return render(request, 'useraccounts/login.html', context)
-
-
-def logout_view(request):
-    logout(request)
-    context = {'message': 'You have been succesfully logged out!'}
-    return render(request, 'home/home.html', context)
-
-
-def authenticate_user(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            return redirect('/account/view/%s' % str(user.username))
-        else:
-            context = {
-                'form': LoginForm(),
-                'message': 'This account has been deactivated, please create a new one.'
-            }
-            return render(request, 'useraccounts/login.html', context)
-    else:
-        context = {
-            'form': LoginForm(),
-            'message': 'Invalid Login, please try again.'
-        }
-        return render(request, 'useraccounts/login.html', context)
-
-
-def signup(request):
-    print request.user.username
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            message = 'Account Created!'
-            print message
-    else:
-        form = SignupForm()
-    return render(request, 'useraccounts/signup.html', {'form': form})
-
-
-def create_account(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            email = request.POST['email']
-            firstname = request.POST['first_name']
-            u = User.objects.create_user(username=username, password=password, email=email, first_name=firstname)
-            u.save()
-            request.user.username = username
-            context = {
-                'name': firstname,
-                'username': username
-            }
-            return render(request, 'useraccounts/account_created.html', context)
-    else:
-        form = SignupForm()
-        return render(request, 'useraccounts/signup.html', {'form': form})
+    return render(request, 'users/view.html', context)
 
 
 def add_gif(request):
@@ -135,8 +70,8 @@ def add_gif(request):
                     pass
                 else:
                     g.tags.add(tag)
-            return redirect('/account/view/%s' % str(u.username))
-        return redirect('/account/view/%s' % request.user.username)
+            return redirect('/u/%s' % str(u.username))
+        return redirect('/u/%s' % request.user.username)
 
 
 def edit_gif(request):
@@ -158,16 +93,16 @@ def edit_gif(request):
                 for tag in tags:
                     g.tags.add(tag)
 
-            if not tags_to_remove[0] == 'none':
+            if not str(tags_to_remove[0]) == '':
                 for tag in active_tags:
                     for i in tags_to_remove:
                         if str(tag.name) == str(i):
                             print tag.name, 'tag is being removed'
                             g.tags.remove(tag)
 
-            return redirect('/account/view/%s' % str(username))
+            return redirect('/u/%s' % str(username))
         else:
-            return redirect('/account/view/%s' % str(username))
+            return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
         return render(request, 'home/home.html', context)
@@ -176,12 +111,13 @@ def edit_gif(request):
 def delete_gif(request):
     if request.user.is_authenticated():
         username = request.user.username
+        print username
         if request.method == 'POST':
             gif_id = request.POST['gif_id']
             u = get_object_or_404(User, username=username)
             g = Gif(pk=gif_id, owner=u)
             g.delete()
-            return redirect('/account/view/%s' % str(username))
+            return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
         return render(request, 'home/home.html', context)
@@ -199,7 +135,7 @@ def rename_tag(request):
             for gif in gifs:
                 gif.tags.remove(current_name)
                 gif.tags.add(new_name)
-            return redirect('/account/view/%s' % str(username))
+            return redirect('/u/%s' % str(username))
 
 
 def delete_tag(request):
@@ -212,4 +148,24 @@ def delete_tag(request):
             gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
             for gif in gifs:
                 gif.tags.remove(current_name)
-            return redirect('/account/view/%s' % str(username))
+            return redirect('/u/%s' % str(username))
+
+
+def ajax_test(request):
+    if request.method == 'POST':
+        message = request.POST['message']
+        print message
+
+        response_data = {
+            'message': 'Data successfully sent to and returned from the server!'
+        }
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
+    else:
+        return HttpResponse(
+            json.dumps({'message': 'Not a POST request!'}),
+            content_type='application/json'
+        )

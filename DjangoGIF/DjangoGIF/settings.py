@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'taggit',
     'apps.home',
-    'apps.useraccounts',
+    'apps.users',
 )
 
 MIDDLEWARE_CLASSES = (
