@@ -235,9 +235,7 @@ label {
 }
 
 .gif-grid p {
-	margin: 0 auto;
 	font-family: 'Open Sans', sans-serif;
-	font-size: .75em;
 }
 
 .gif-grid i {
@@ -294,9 +292,9 @@ label {
 
 .gif-grid-element:hover {
 	z-index: 2;
-	-ms-transform: scale(1.1);
-	-ms-webkit: scale(1.1);
-	transform: scale(1.1);
+	-ms-transform: scale(1.2);
+	-ms-webkit: scale(1.2);
+	transform: scale(1.2);
 }
 
 .gif-grid-element:active {	
@@ -306,9 +304,9 @@ label {
 .focused {
 	background-color: #d9d9d9 !important;
 	z-index: 2;
-	-ms-transform: scale(1.1);
-	-ms-webkit: scale(1.1);
-	transform: scale(1.1);
+	-ms-transform: scale(1.2);
+	-ms-webkit: scale(1.2);
+	transform: scale(1.2);
 }
 
 .img-wrapper {
@@ -335,9 +333,23 @@ label {
 	box-shadow: 1px 5px 15px -5px #000;
 }
 
+.gif-grid-thumbnail:hover {
+	cursor: pointer;
+}
+
+.gif-label {
+	position: relative;
+	margin: 0;
+	margin-top: 6.25em;
+	color: #498FBD;
+	font-size: 1.15em
+}
+
 .gif-date {
-	margin-top: 13.5em !important;
+	display: none;
+	position: relative;
 	font-size: .6em !important;
+	text-align: center;	
 }
 
 .tags {
