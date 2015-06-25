@@ -1,23 +1,33 @@
 $(document).ready(function () {
-	showEdit();
+	clickGifElements();
 	showDelete();
+	showAddForm()
 	selectTagToRemove();
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
 });
 
-function showEdit() {
-	$('.edit-icon').on('click', function() {
-		$(this).siblings('.gif-form.edit-form').toggleClass('hidden');
-		$(this).toggleClass('icon-selected');		
-	});
+
+function clickGifElements() {
+	$('.gif-grid-thumbnail').on('click', function() {
+		$(this).parent().toggleClass('focused');
+		var div = $(this).parent().children().find('.gif-form-title').children(div);
+		div.toggleClass('focused');
+		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
+	})
 }
 
 function showDelete() {
 	$('.delete-icon').on('click', function() {
 		$(this).siblings('.gif-form.delete-form').toggleClass('hidden');
 		$(this).toggleClass('icon-selected');		
+	});
+}
+
+function showAddForm() {
+	$('.add-gif-form-button').on('click', function() {
+		$('.add-gif-form').toggleClass('hidden');
 	});
 }
 
@@ -49,7 +59,8 @@ function updateTagRemoveInput(element) {
 }
 
 function addTags() {
-	$('.add-tags-title').on('click', function() {
+	$('.add-tags-title').on('click', function(e) {
+		e.stopPropagation();
 		var clicked = Number($(this).children('input').val());
 		if (clicked) {
 			$(this).removeClass('add-tags-selected');
@@ -66,8 +77,8 @@ function addTags() {
 	});
 }
 
-function addTagSubmit(element) {
-	$(element).on('click', function() {
+function addTagSubmit(element) {	
+	$(element).on('click', function() {		
 		var tag = $(element).siblings('.add-tag-field').val();
 		if (tag.length > 0) {
 			$(this).siblings('.tags-to-be-added').removeClass('hidden');
@@ -128,19 +139,27 @@ function hoverGifs() {
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.gif-url').text();
 			var html = '<div class="img-wrapper"><img src="' + gifUrl + '"></div>'
-			thumbnail.css({
-				'opacity': 0.0,
-				'z-index:': 1
+			if ($(this).hasClass('focused')) {
+				// Nothing
+			} else {
+				thumbnail.css({
+				'opacity': 0.0
 			});
 			$(this).prepend(html);
+			}
 		},
-		mouseleave: function() {
-			var thumbnail = $(this).children('.gif-grid-thumbnail');
-			thumbnail.css({
-				'opacity': 1.0,
-				'z-index:': 2
-			});
-			$(this).children('.img-wrapper').remove();
+		mouseleave: function() {			
+			var variable = $(this).hasClass('focused');
+			console.log(variable);
+			if ($(this).hasClass('focused')) {
+				// Nothing
+			} else {
+				var thumbnail = $(this).children('.gif-grid-thumbnail');
+				thumbnail.css({
+					'opacity': 1.0
+				});
+				$(this).children('.img-wrapper').remove();
+			}
 		}
 	});
 }

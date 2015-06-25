@@ -52,10 +52,6 @@
                         <p>{{ object.label }}</p>
 
                         {% if can_edit %}
-                        <div class="edit-icon">
-                            <i class="fa fa-pencil-square-o animate"></i><p class="edit-icon-desc animate">Edit</p>
-                        </div>
-
                         <i class="fa fa-times delete-icon animate"></i>
 
                         <div class="gif-form delete-form hidden">
@@ -66,7 +62,7 @@
                                 </div>
 
                                 <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                <input type="submit" value="Delete GIF" class="submit warning animate">
+                                <input type="submit" value="Delete GIF" class="submit warning">
                             </form>
                         </div>
 
@@ -134,10 +130,6 @@
                     <p>{{ object.label }}</p>
 
                     {% if can_edit %}
-                    <div class="edit-icon">
-                        <i class="fa fa-pencil-square-o animate"></i><p class="edit-icon-desc animate">Edit</p>
-                    </div>
-
                     <i class="fa fa-times delete-icon animate"></i>
 
                     <div class="gif-form delete-form hidden">
@@ -148,7 +140,7 @@
                             </div>
 
                             <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                            <input type="submit" value="Delete GIF" class="submit warning animate">
+                            <input type="submit" value="Delete GIF" class="submit warning">
                         </form>
                     </div>
 
@@ -201,10 +193,14 @@
         </div>
 
         {% if can_edit %}
-        <form action="{% url 'useraccounts:add-gif' %}" method="post">
+        <div class="add-gif-form-button">
+            Add GIF
+        </div>
+
+        <form class="add-gif-form hidden" action="{% url 'useraccounts:add-gif' %}" method="post">
             {% csrf_token %}
             {{ add_form }}
-            <input type="submit" value="Add GIF" class="submit animate">
+            <input type="submit" value="Add GIF" class="submit">
         </form>
         {% endif %}
 
