@@ -38,6 +38,8 @@ def view_profile(request, username):
         'tagged_gifs': tagged_gifs,
         'tags': tags,
         'user_id': u.id,
+        'gif_number': len(gifs),
+        'tag_number': len(tags),
         'can_edit': can_edit
     }
     return render(request, 'users/view.html', context)

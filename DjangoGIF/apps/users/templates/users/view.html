@@ -1,10 +1,38 @@
 <!--{% extends 'home/base.html' %}-->
 {% block content %}
     <div class="container">
-        {% if can_edit %}
-        <h1> Hello {{ name }}!</h1>
-        {% else %}
-        <h1>{{ name }}'s Profile</h1>
+        <div class="nav">
+
+        </div>
+
+        <div class="profile-info">
+            <div class="profile-avatar">
+                <img src="http://i.imgur.com/1Nd8pHV.gif">
+            </div>
+
+            <div class="profile-name">{{ name }}'s Profile</div>
+
+            <div class="profile-stats">
+                <div class="stat">
+                    <div class="stat-number">{{ tag_number }}</div>
+                    <div class="stat-desc">tags</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-number">{{ gif_number }}</div>
+                    <div class="stat-desc">GIFs</div>
+                </div>
+            </div>
+        </div>
+
+        {% if tags %}
+        <div class="tag-nav">
+            <p>Jump to a Tag</p>
+
+            {% for tag in tags %}
+                <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <div id="tagged-gif-grid" class="gif-grid">
@@ -12,6 +40,7 @@
             <div class="tag-group">
                 <div class="tag-title">{{ entry.0 }}</div>
 
+                {% if can_edit %}
                 <br>
                 <br>
 
@@ -42,8 +71,11 @@
                         </form>
                     </div>
                 </div>
+                {% endif %}
 
                 {% for object in entry.1 %}
+                    <a name="{{ entry.0 }}"></a>
+
                     <div class="gif-grid-element animate">
                         <div class="gif-url hidden">{{ object.url }}</div>
                         <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">

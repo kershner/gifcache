@@ -1,4 +1,6 @@
 body {
+	margin: 0;
+	padding: 0;
 	background-color: #F2F2F2;
 	color: #4d4d4d;
 	font-family: 'Quicksand', sans-serif;
@@ -39,7 +41,6 @@ hr {
 
 /* Home Page Styles *********************************************************/
 .container {
-	padding: 1em;
 }
 
 #logo {
@@ -188,6 +189,77 @@ label {
 }
 
 /* Profile View Styles *********************************************************/
+.nav {
+	position: relative;
+	z-index: 6;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 10em;
+	/* SVG as background image (IE9/Chrome/Safari/Opera) */ 
+	background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzI1Qjk3MiIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzFEOEY1OCIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0OSkiIC8+Cjwvc3ZnPg==);
+	box-shadow: 1px 5px 15px -5px #000;
+}
+
+.profile-info {	
+	margin: 2em auto;
+	width: 100%;
+	text-align: center;
+}
+
+.profile-avatar img {
+	height: 8em;
+	width: 8em;
+	border-radius: 50%;
+	border: .3em solid #25B972;
+	box-shadow: 1px 5px 15px -5px #000;
+}
+
+.profile-name {
+	font-family: 'Open Sans';
+	font-size: 4em;
+	color: #498FBD;
+}
+
+.profile-stats {
+	margin: 0 auto;
+	width: 20em;
+	padding-bottom: 1em;
+	border-bottom: .15em solid #25B972;
+}
+
+.stat {
+	display: inline-block;
+	margin: 0 1.2em;	
+}
+
+.stat-number {
+	font-size: 3.25em;
+	color: #25B972;
+}
+
+.stat-desc {
+	font-size: 1.5em;
+}
+
+.tag-nav {
+	margin: 1em auto;	
+	margin-bottom: 2em;
+	width: 80%;
+	text-align: center;
+}
+
+.tag-nav p {
+	margin: .25em;
+}
+
+.tag-nav .tag:hover {
+	background-color: #4b96c7;
+	-webkit-box-shadow: 0px 6px 0px #357caa;
+	-moz-box-shadow: 0px 6px 0px #357caa;
+	box-shadow: 0px 6px 0px #357caa; 
+}
+
 .add-gif-form-button {
 	position: relative;
 	padding: .3em .75em;
@@ -221,6 +293,7 @@ label {
 }
 
 .gif-grid {
+	position: relative;
 	margin: .25em;
 	padding: .25em;
 }
