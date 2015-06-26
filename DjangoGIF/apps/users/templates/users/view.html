@@ -8,21 +8,15 @@
                 <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
 
                 <div id="locker" class="nav-logo-title">Locker</div>
+            </div>
 
-                <div class="nav-links">
-                    <a href="{% url 'home' %}">HOME</a>
-                    <a href="{% url 'signup' %}">SIGNUP</a>
-                    <a href="{% url 'login' %}">LOGIN</a>
-                </div>
-
-                {% if can_edit %}
-                <div class="nav-profile">
-                    <div class="nav-greeting">
-                        Hello, Tyler!
-                    </div>
-
-                    <a href="{% url 'logout' %}">Logout</a>
-                </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">HOME</a>
+                <a href="{% url 'signup' %}">SIGNUP</a>
+                {% if logged_in %}
+                <a href="{% url 'logout' %}">LOGOUT</a>
+                {% else %}
+                <a href="{% url 'login' %}">LOGIN</a>
                 {% endif %}
             </div>
         </div>
@@ -32,7 +26,7 @@
                 <img src="http://i.imgur.com/1Nd8pHV.gif">
             </div>
 
-            <div class="profile-name">{{ name }}'s Profile</div>
+            <div class="profile-name">{{ name }}</div>
 
             <div class="profile-stats">
                 <div class="stat">

@@ -198,7 +198,7 @@ label {
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 10em;
+	height: 3em;
 	/* SVG as background image (IE9/Chrome/Safari/Opera) */ 
 	background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzI1Qjk3MiIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzFEOEY1OCIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0OSkiIC8+Cjwvc3ZnPg==);
 	box-shadow: 1px 5px 15px -5px #000;
@@ -213,13 +213,13 @@ label {
 #gif {
 	position: absolute;
 	z-index: 2;
-	top: 1.4em;
-	left: .1em;
+	top: 0.3em;
+	left: 0.1em;
 }
 
 #locker {
 	position: absolute;
-	top: 1.3em;
+	top: 0.2em;
 	left: 2em;
 	font-family: 'Lobster', cursive;
 }
@@ -232,7 +232,7 @@ label {
 
 .nav-logo-img {
 	position: absolute;
-	top: .35em;
+	top: -0.75em;
 	left: 1.25em;
 }
 
@@ -247,7 +247,7 @@ label {
 .nav-links {
 	position: absolute;
 	right: 1em;
-	top: 0;
+	top: .5em;
 	font-size: 1.3em;
 }
 
@@ -281,30 +281,37 @@ label {
 }
 
 .profile-info {	
-	margin: 2em auto;
-	width: 100%;
+	margin: 0 auto;
+	padding: 1em;
+	width: 90%;
+	max-width: 45em;
 	text-align: center;
+	color: #074C78;
+}
+
+.profile-avatar {
+	display: inline-block;
 }
 
 .profile-avatar img {
 	height: 8em;
 	width: 8em;
 	border-radius: 50%;
-	border: .3em solid #25B972;
+	border: .3em solid #FFFFFF;
 	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .profile-name {
+	display: inline-block;
+	position: relative;
+	bottom: .75em;
 	font-family: 'Open Sans';
 	font-size: 4em;
-	color: #498FBD;
 }
 
 .profile-stats {
 	margin: 0 auto;
-	width: 20em;
-	padding-bottom: 1em;
-	border-bottom: .15em solid #25B972;
+	margin-top: -1.25em;
 }
 
 .stat {
@@ -314,7 +321,7 @@ label {
 
 .stat-number {
 	font-size: 3.25em;
-	color: #25B972;
+	color: #25B972;	
 }
 
 .stat-desc {
@@ -322,7 +329,7 @@ label {
 }
 
 .tag-nav {
-	margin: 1em auto;	
+	margin: -.5em auto;	
 	margin-bottom: 2em;
 	width: 80%;
 	text-align: center;
@@ -330,6 +337,7 @@ label {
 
 .tag-nav p {
 	margin: .25em;
+	color: #074C78;
 }
 
 .tag-nav .tag:hover {

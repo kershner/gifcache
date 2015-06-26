@@ -14,6 +14,10 @@ import json
 
 # Create your views here.
 def view_profile(request, username):
+    logged_in = False
+    if request.user.is_authenticated():
+        logged_in = True
+
     can_edit = False
     if request.user.username == username:
         can_edit = True
@@ -40,7 +44,8 @@ def view_profile(request, username):
         'user_id': u.id,
         'gif_number': len(gifs),
         'tag_number': len(tags),
-        'can_edit': can_edit
+        'can_edit': can_edit,
+        'logged_in': logged_in
     }
     return render(request, 'users/view.html', context)
 
