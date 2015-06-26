@@ -28,7 +28,12 @@ function showDelete() {
 function showAddForm() {
 	$('.add-gif-form-button').on('click', function() {
 		$(this).toggleClass('button-selected');
-		$('.add-gif-form').toggleClass('hidden');
+		$('.add-gif-form').toggleClass('hidden');	
+	});
+
+	$('#cancel-add').on('click', function(e) {
+		$('.add-gif-form-button').toggleClass('button-selected');
+		$('.add-gif-form').toggleClass('hidden');	
 	});
 }
 
@@ -84,7 +89,7 @@ function addTagSubmit(element) {
 		if (tag.length > 0) {
 			$(this).siblings('.tags-to-be-added').removeClass('hidden');
 			var currentVal = $('.add-tags-values').val();
-			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o animate delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
+			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
 			$(this).siblings('.tags-to-be-added').append(html);
 			$(this).siblings('.add-tag-field').val('');			
 			var tagsToBeAddedDiv = $(this).siblings('.tags-to-be-added');

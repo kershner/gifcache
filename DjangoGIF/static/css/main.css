@@ -40,13 +40,16 @@ hr {
 }
 
 /* Home Page Styles *********************************************************/
-.container {
+.wrapper {
+	position: relative;
+}
+
+.container {	
 }
 
 #logo {
 	text-align: center;
 	font-size: 4em;
-	font-family: 'Questrial', sans-serif;
 	letter-spacing: .25em;
 	border-bottom: .15em solid #99d0e0;
 }
@@ -80,9 +83,9 @@ form {
 
 input {
 	display: block;
-	margin: .5em 0;
+	margin: .5em auto;
 	padding: .25em;
-	border: .1em solid #25B972;
+	border: .15em solid #25B972;
 	font-family: 'Quicksand', sans-serif;
 	border-radius: .25em;
 }
@@ -201,6 +204,82 @@ label {
 	box-shadow: 1px 5px 15px -5px #000;
 }
 
+.nav-logo {
+	position: relative;
+	top: 1em;
+	margin-left: 1em;
+}
+
+#gif {
+	position: absolute;
+	z-index: 2;
+	top: 1.4em;
+	left: .1em;
+}
+
+#locker {
+	position: absolute;
+	top: 1.3em;
+	left: 2em;
+	font-family: 'Lobster', cursive;
+}
+
+.nav-logo-title {
+	font-size: 2em;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.nav-logo-img {
+	position: absolute;
+	top: .35em;
+	left: 1.25em;
+}
+
+.nav-logo-img img {
+	width: 5em;
+	height: 5em;
+	border-radius: 50%;
+	border: .3em solid white;
+	box-shadow: 1px 5px 15px -5px #000;
+}
+
+.nav-links {
+	position: absolute;
+	right: 1em;
+	top: 0;
+	font-size: 1.3em;
+}
+
+.nav-links a {
+	margin: 0 .25em;
+	color: white;
+}
+
+.nav-links a:hover {
+	text-shadow: 1px 1px 3px #000;
+}
+
+.nav-profile {
+	position: absolute;
+	top: 4.5em;
+	right: 1em;
+	color: white;
+	font-size: 1.3em;
+}
+
+.nav-profile a {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	color: white;
+	font-size:  .6em;
+}
+
+.nav-profile a:hover {
+	text-shadow: 1px 1px 3px #000;
+}
+
 .profile-info {	
 	margin: 2em auto;
 	width: 100%;
@@ -230,7 +309,7 @@ label {
 
 .stat {
 	display: inline-block;
-	margin: 0 1.2em;	
+	margin: 0 1.2em;
 }
 
 .stat-number {
@@ -262,9 +341,9 @@ label {
 
 .add-gif-form-button {
 	position: relative;
+	margin: 0 auto;
 	padding: .3em .75em;
 	width: 10em;
-	left: 1.5em;
 	text-align: center;
 	font-size: 1.2em;
 	line-height: 1.2em;
@@ -290,6 +369,66 @@ label {
 	-webkit-box-shadow: 0px 2px 0px #38749b;
 	-moz-box-shadow: 0px 2px 0px #38749b;
 	box-shadow: 0px 2px 0px #38749b;
+}
+
+.add-gif-form {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.add-gif-form h1 {
+	position: relative;
+	color: #25B972;
+}
+
+.add-gif-form form {
+	position: relative;
+	width: 20em;
+	height: 20em;
+	margin: 0 auto;
+	padding: 1.5em;
+	top: 20%;
+	background-color: #d9d9d9 !important;
+	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .25em;
+	text-align: center;
+}
+
+.add-form-input {
+	height: 2em;
+	line-height: 2em;
+	font-size: 1.3em;
+}
+
+.add-gif-form form .submit {
+	display: inline-block;
+	width: 6em;
+	text-align: center;
+}
+
+#cancel-add {
+	display: inline-block;
+	padding: .25em;
+	width: 6em;
+	text-align: center;
+	background-color: #ff6767;
+	color: white;
+	-webkit-box-shadow: 0px 6px 0px #ff4e4e;
+	-moz-box-shadow: 0px 6px 0px #ff4e4e;
+	box-shadow: 0px 6px 0px #ff4e4e;
+	border-radius: .25em;
+}
+
+#cancel-add:hover {
+	cursor: pointer;
+	background-color: #ff1b1b;
+	-webkit-box-shadow: 0px 6px 0px #e70000;
+	-moz-box-shadow: 0px 6px 0px #e70000;
+	box-shadow: 0px 6px 0px #e70000;
 }
 
 .gif-grid {
@@ -572,13 +711,13 @@ label {
 .tags-to-be-added {
 	margin: 1em auto;
 	margin-bottom: 0;
-	border: .1em solid #72ADD3;
+	border: .1em solid #498FBD;
 	border-radius: .2em;
 }
 
 .tags-to-be-added-title {
 	padding: .2em;
-	background-color: #72ADD3;
+	background-color: #498FBD;
 	color: white;
 }
 

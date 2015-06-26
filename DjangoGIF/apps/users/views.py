@@ -51,6 +51,8 @@ def add_gif(request):
         if form.is_valid():
             hidden_id = request.POST['hidden_id']
             url = request.POST['url']
+            if url.endswith('v'):
+                url = url[:-1]
             label = request.POST['label']
             tags = request.POST['tags']
 

@@ -2,7 +2,29 @@
 {% block content %}
     <div class="container">
         <div class="nav">
+            <div class="nav-logo">
+                <div id="gif" class="nav-logo-title">GIF</div>
 
+                <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
+
+                <div id="locker" class="nav-logo-title">Locker</div>
+
+                <div class="nav-links">
+                    <a href="{% url 'home' %}">HOME</a>
+                    <a href="{% url 'signup' %}">SIGNUP</a>
+                    <a href="{% url 'login' %}">LOGIN</a>
+                </div>
+
+                {% if can_edit %}
+                <div class="nav-profile">
+                    <div class="nav-greeting">
+                        Hello, Tyler!
+                    </div>
+
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
 
         <div class="profile-info">
@@ -32,6 +54,12 @@
             {% for tag in tags %}
                 <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
             {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if can_edit %}
+        <div class="add-gif-form-button">
+            Add GIF
         </div>
         {% endif %}
 
@@ -147,8 +175,6 @@
             {% endfor %}
         </div>
 
-        <hr>
-
         <div id="all-gif-grid" class="gif-grid">
             <div class="tag-group">
                 <div class="tag-title">all GIFs</div>
@@ -222,19 +248,17 @@
                 {% endfor %}
             </div>
         </div>
-
-        {% if can_edit %}
-        <div class="add-gif-form-button">
-            Add GIF
-        </div>
-
-        <form class="add-gif-form hidden" action="{% url 'users:add-gif' %}" method="post">
-            {% csrf_token %}
-            {{ add_form }}
-            <input type="submit" value="Add GIF" class="submit">
-        </form>
-        {% endif %}
-
-        <a href="{% url 'logout' %}">Logout</a>
     </div>
+{% if can_edit %}
+<div class="add-gif-form hidden">
+    <form action="{% url 'users:add-gif' %}" method="post">
+        <h1>Add a GIF</h1>
+
+        {% csrf_token %}
+        {{ add_form }}
+        <input type="submit" value="Add GIF" class="submit">
+        <div id="cancel-add">Cancel</div>
+    </form>
+</div>
+{% endif %}
 {% endblock content %}

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{% static '/static/css/main.css' %}">
 
         <!-- Fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -19,7 +19,10 @@
     </head>
 
     <body>
+
+    <div class="wrapper">
     {% block content %}{% endblock %}
+    </div>
 
     <!-- JavaScripts -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
