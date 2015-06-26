@@ -29,27 +29,25 @@
             <div class="profile-name">{{ name }}</div>
 
             <div class="profile-stats">
-                <div class="stat">
+                <div id="tag-nav" class="stat stats-clickable">
                     <div class="stat-number">{{ tag_number }}</div>
                     <div class="stat-desc">tags</div>
+
+                    {% if tags %}
+                    <div class="tag-nav hidden">
+                        {% for tag in tags %}
+                            <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
 
-                <div class="stat">
+                <div class="stat" style="padding-left: 1em;">
                     <div class="stat-number">{{ gif_number }}</div>
                     <div class="stat-desc">GIFs</div>
                 </div>
             </div>
         </div>
-
-        {% if tags %}
-        <div class="tag-nav">
-            <p>Jump to a Tag</p>
-
-            {% for tag in tags %}
-                <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
-            {% endfor %}
-        </div>
-        {% endif %}
 
         {% if can_edit %}
         <div class="add-gif-form-button">
