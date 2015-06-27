@@ -6,6 +6,7 @@ $(document).ready(function () {
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
+	gifMasonry();
 });
 
 
@@ -167,6 +168,24 @@ function hoverGifs() {
 			}
 		}
 	});
+}
+
+function gifMasonry() {
+	var grid = $('.tag-group').masonry({
+		itemSelector: '.gif-grid-element',
+		columnWidth: '.gif-grid-element',
+		isFitWidth: true
+	});
+	// grid.imagesLoaded().progress(function() {
+	// 	grid.masonry('layout');
+	// });
+
+	var grid2 = $('#gif-grids').masonry({
+		itemSelector: '.tag-group',
+		isFitWidth: true,
+		trasitionDuration: '0.1s'
+	});
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

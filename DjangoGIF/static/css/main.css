@@ -4,6 +4,7 @@ body {
 	background-color: #F2F2F2;
 	color: #4d4d4d;
 	font-family: 'Quicksand', sans-serif;
+	overflow-x: hidden;
 }
 
 a {
@@ -44,7 +45,11 @@ hr {
 	position: relative;
 }
 
-.container {	
+.container {
+}
+
+#gif-grids {
+	margin: 0 auto;
 }
 
 #logo {
@@ -377,6 +382,7 @@ label {
 .add-gif-form-button {
 	position: relative;
 	margin: 0 auto;
+	margin-bottom: 2em;
 	padding: .3em .75em;
 	width: 10em;
 	text-align: center;
@@ -475,7 +481,7 @@ label {
 .tag-group {
 	display: inline-block;
 	position: relative;
-	margin: 1em;
+	margin: .5em;
 	padding: 1em;
 	border: .15em solid #25B972;
 	border-radius: 1em;
@@ -778,10 +784,12 @@ label {
 .tag-manager {
 	display: inline-block;
 	position: absolute;
-	top: .35em;
+	top: 0;
 	left: 0;
 	right: 0;
+	z-index: 1;
 	margin: 0 auto;
+	width: 100%;
 }
 
 .tag-manager-options {
@@ -827,6 +835,7 @@ label {
 
 .rename {
 	position: relative;
+	font-size: .75em;
 	color: white;
 	background-color: #25B972;
 	-webkit-box-shadow: 0px 6px 0px #1d8f58;
@@ -853,6 +862,7 @@ label {
 
 .delete {
 	position: relative;
+	font-size: .75em;
 	border-radius: .2em;
 	background-color: #ff6767;
 	border: none;
