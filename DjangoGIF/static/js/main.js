@@ -6,7 +6,7 @@ $(document).ready(function () {
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
-	setTimeout(gifMasonry(), 200);
+	gifMasonry();
 	contentFadeIn();
 	showTagManager();
 });

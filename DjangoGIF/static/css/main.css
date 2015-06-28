@@ -492,8 +492,9 @@ label {
 	box-shadow: 0px 6px 0px #e70000;
 }
 
-#all-gif-grid, #tagged-gif-grid {
-	margin: 0 auto;
+#all-gif-grid {
+	margin: 0 auto !important;
+	width: 100%;
 }
 
 .gif-grid {

@@ -115,7 +115,7 @@
                                 <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
                                     {% csrf_token %}
                                     <div class="gif-form-title">
-                                        <div style="left: 1em;">delete GIF</div>
+                                        <div style="left: 1.2em;">delete GIF</div>
                                     </div>
 
                                     <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
