@@ -1,27 +1,32 @@
 <!--{% extends 'home/base.html' %}-->
 {% block content %}
     <div class="container">
-        <div class="nav">
+        <div class="nav hidden">
             <div class="nav-logo">
                 <div id="gif" class="nav-logo-title">GIF</div>
 
                 <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
 
-                <div id="locker" class="nav-logo-title">Locker</div>
+                <div id="cache" class="nav-logo-title">Cache</div>
             </div>
 
             <div class="nav-links">
                 <a href="{% url 'home' %}">HOME</a>
                 <a href="{% url 'signup' %}">SIGNUP</a>
                 {% if logged_in %}
-                <a href="{% url 'logout' %}">LOGOUT</a>
+                <div class="profile-nav-link">PROFILE
+                    <div class="profile-nav-extra">
+                        <a href="#">SETTINGS</a>
+                        <a href="{% url 'logout' %}">LOGOUT</a>
+                    </div>
+                </div>
                 {% else %}
                 <a href="{% url 'login' %}">LOGIN</a>
                 {% endif %}
             </div>
         </div>
 
-        <div class="profile-info">
+        <div class="profile-info hidden">
             <div class="profile-avatar">
                 <img src="http://i.imgur.com/1Nd8pHV.gif">
             </div>
@@ -55,14 +60,16 @@
         </div>
         {% endif %}
 
-        <div id="gif-grids">
+        <div id="grids hidden">
             <div id="tagged-gif-grid" class="gif-grid">
                 {% for entry in tagged_gifs %}
                 <div class="tag-group">
                     <div class="tag-title">{{ entry.0 }}</div>
 
                     {% if can_edit %}
-                    <div class="tag-manager">
+                    <i class="fa fa-cog tag-settings-icon"></i>
+
+                    <div class="tag-manager hidden">
                         <div class="tag-manager-options">
                             <div class="rename">Rename</div>
                             <div class="delete">Delete</div>

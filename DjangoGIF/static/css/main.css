@@ -222,7 +222,7 @@ label {
 	left: 0.1em;
 }
 
-#locker {
+#cache {
 	position: absolute;
 	top: 0.2em;
 	left: 2em;
@@ -265,24 +265,45 @@ label {
 	text-shadow: 1px 1px 3px #000;
 }
 
+.profile-nav-link {
+	display: inline-block;
+	color: white;
+	height: 4em;
+}
+
+.profile-nav-link:hover {
+	cursor: pointer;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.profile-nav-link:hover > .profile-nav-extra {
+	display: block;
+	text-shadow: none;
+}
+
+.profile-nav-extra {
+	display: none;
+	position: absolute;
+	padding: .5em;
+	top: 2.5em;
+	right: -1em;
+	/* SVG as background image (IE9/Chrome/Safari/Opera) */ 
+	background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzI1Qjk3MiIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzFEOEY1OCIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0OSkiIC8+Cjwvc3ZnPg==);
+	font-size: .75em;
+	width: 6em;
+	box-shadow: 1px 5px 15px -5px #000;
+}
+
+.profile-nav-extra a {
+	margin-bottom: 1em;
+}
+
 .nav-profile {
 	position: absolute;
 	top: 4.5em;
 	right: 1em;
 	color: white;
 	font-size: 1.3em;
-}
-
-.nav-profile a {
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	color: white;
-	font-size:  .6em;
-}
-
-.nav-profile a:hover {
-	text-shadow: 1px 1px 3px #000;
 }
 
 .profile-info {	
@@ -295,7 +316,6 @@ label {
 	/* SVG as background image (IE9/Chrome/Safari/Opera) */ 
 	background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3MDMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTAwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNzJBREQzIiBvZmZzZXQ9IjAiLz48c3RvcCBzdG9wLWNvbG9yPSIjNEI5NkM3IiBvZmZzZXQ9IjEiLz4KPC9saW5lYXJHcmFkaWVudD4KPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNnNzAzKSIgLz4KPC9zdmc+);
 	box-shadow: 0 2em 2.3em -2.25em #000;
-	border-radius: .25em;
 }
 
 .profile-avatar {
@@ -355,7 +375,7 @@ label {
 	background-color: #d9d9d9;
 	text-align: center;
 	box-shadow: 1px 5px 15px -5px #000;
-	border-radius: .5em;
+	border-radius: .25em;
 }
 
 #tag-nav {
@@ -472,6 +492,10 @@ label {
 	box-shadow: 0px 6px 0px #e70000;
 }
 
+#all-gif-grid, #tagged-gif-grid {
+	margin: 0 auto;
+}
+
 .gif-grid {
 	position: relative;
 	margin: .25em;
@@ -494,6 +518,24 @@ label {
 	background-color: #f2f2f2;
 	font-size: 1.25em;
 	color: #25B972;
+}
+
+.tag-settings-icon {
+	position: absolute;
+	padding: 0 .1em;
+	top: -.5em;
+	right: .35em;
+	color: #25B972;
+	background-color: #F2F2F2;
+}
+
+.tag-settings-icon:hover {
+	cursor: pointer;
+	color: #1d8f58;
+}
+
+.tag-settings-icon-clicked {
+	color: #1d8f58 !important;
 }
 
 .gif-grid p {
@@ -780,6 +822,10 @@ label {
 	margin-left: .25em;
 }
 
+.tag-to-be-added-value {
+	color: #074C78;
+}
+
 /* Tag Manager *****************************************************************/
 .tag-manager {
 	display: inline-block;
@@ -793,22 +839,29 @@ label {
 }
 
 .tag-manager-options {
+	position: absolute;
 	margin: 0 auto;
+	top: 0.75em;
+	right: 1em;
 	text-align: center;
 	padding: .5em;
+	width: 10em;
+	background-color: #d9d9d9;
+	border-radius: .25em;
+	box-shadow: 1px 5px 15px -5px #000;
 }
 
 .tag-manager-options div {
-	display: inline-block;
-	margin: .1em;	
+	display: block;
+	margin: 1em auto;	
 	padding: .25em;
 }
 
 .tag-manager-form form {
 	position: relative;
 	margin: 1em auto;
-	padding: 1em;
-	z-index: 5;	
+	top: 6em;
+	padding: 1em;	
 	width: 75%;
 	max-width: 20em;
 	background-color: #d9d9d9;
@@ -824,8 +877,10 @@ label {
 }
 
 .tag-manager-form form input {
+	position: relative;
 	width: 100%;
 	font-size: 1.25em;
+	z-index: 2;
 }
 
 .tag-manager-form .submit {
