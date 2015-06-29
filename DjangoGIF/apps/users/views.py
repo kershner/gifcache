@@ -89,7 +89,7 @@ def edit_gif(request):
         if request.method == 'POST':
             label = request.POST['label']
             tags_to_add = request.POST['tags_to_add']
-            tags_to_remove = request.POST['tags_to_remove'].strip().split(',')
+            tags_to_remove = request.POST['tags_to_remove'].replace(' ', '').split(',')
             gif_id = request.POST['gif_id']
 
             u = get_object_or_404(User, username=username)
@@ -157,6 +157,80 @@ def delete_tag(request):
             gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
             for gif in gifs:
                 gif.tags.remove(current_name)
+            return redirect('/u/%s' % str(username))
+
+
+def bulk_delete(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = request.POST['user_id']
+            bulk_ids = request.POST['bulk_values'].split(',')
+            unique_ids = []
+            for entry in bulk_ids:
+                if entry in unique_ids:
+                    pass
+                else:
+                    unique_ids.append(entry)
+            u = get_object_or_404(User, pk=user_id)
+            for gif in unique_ids:
+                g = Gif(pk=int(gif), owner=u)
+                g.delete()
+            return redirect('/u/%s' % str(username))
+
+
+def bulk_add_tags(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = request.POST['user_id']
+            tags = request.POST['tags'].replace(' ', '').split(',')
+            bulk_ids = request.POST['bulk_values'].split(',')
+
+            u = get_object_or_404(User, pk=user_id)
+
+            unique_ids = []
+            for entry in bulk_ids:
+                if entry in unique_ids:
+                    pass
+                else:
+                    unique_ids.append(entry)
+
+            for gif in unique_ids:
+                g = Gif(pk=int(gif), owner=u)
+                for tag in tags:
+                    if str(tag) == '':
+                        pass
+                    else:
+                        g.tags.add(tag)
+            return redirect('/u/%s' % str(username))
+
+
+def bulk_remove_tags(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = request.POST['user_id']
+            tags = str(request.POST['tags']).replace(' ', '').split(',')
+            bulk_ids = request.POST['bulk_values'].split(',')
+
+            u = get_object_or_404(User, pk=user_id)
+
+            unique_ids = []
+            for entry in bulk_ids:
+                if entry in unique_ids:
+                    pass
+                else:
+                    unique_ids.append(entry)
+
+            for gif in unique_ids:
+                g = Gif(pk=int(gif), owner=u)
+                active_tags = Tag.objects.filter(gif__owner=u, gif__pk=int(gif))
+                for tag in active_tags:
+                    for i in tags:
+                        if str(tag.name) == str(i):
+                            print tag.name, 'tag is being removed'
+                            g.tags.remove(tag)
             return redirect('/u/%s' % str(username))
 
 

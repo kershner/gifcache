@@ -1,24 +1,15 @@
 $(document).ready(function () {
 	clickGifElements();
 	showDelete();
-	showAddForm()
+	showAddForm();
+	bulkOperations();
 	selectTagToRemove();
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
 	gifMasonry();
-	contentFadeIn();
 	showTagManager();
 });
-
-function contentFadeIn() {
-	$('.nav').toggleClass('hidden');
-	$('.profile-info').toggleClass('hidden');
-	$('.grids').toggleClass('hidden');
-	// $('.nav').fadeIn(300);
-	// $('.profile-info').fadeIn(400);
-	// $('.grids').fadeIn(600);
-}
 
 function showTagManager() {
 	$('.tag-settings-icon').on('click', function() {
@@ -27,6 +18,19 @@ function showTagManager() {
 	});
 }
 
+function tagManagerOptions() {
+	$('.rename').on('click', function() {
+		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');		
+		form.toggleClass('hidden');
+		$(this).toggleClass('green-btn-selected');
+	});
+
+	$('.delete').on('click', function() {
+		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
+		form2.toggleClass('hidden');
+		$(this).toggleClass('red-btn-selected');
+	});
+}
 
 function clickGifElements() {
 	$('.gif-grid-thumbnail').on('click', function() {
@@ -46,29 +50,83 @@ function showDelete() {
 
 function showAddForm() {
 	$('.add-gif-form-button').on('click', function() {
-		$(this).toggleClass('button-selected');
+		$(this).toggleClass('green-btn-selected');
 		$('.add-gif-form').toggleClass('hidden');	
 	});
 
 	$('#cancel-add').on('click', function(e) {
-		$('.add-gif-form-button').toggleClass('button-selected');
+		$('.add-gif-form-button').toggleClass('green-btn-selected');
 		$('.add-gif-form').toggleClass('hidden');	
 	});
 
 	$('.add-gif-form').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
-		if (target.is('.submit')) {
+		if (target.is('#add-gif-submit')) {
 			$(this).children('form').submit();
 		} else if (target.is('form, input, h1')) {
 			$('#cancel-add').on('click', function(e) {
-				$('.add-gif-form-button').toggleClass('button-selected');
+				$('.add-gif-form-button').toggleClass('green-btn-selected');
 				$('.add-gif-form').toggleClass('hidden');	
 			});
 		} else {
 			$(this).toggleClass('hidden');
-			$('.add-gif-form-button').toggleClass('button-selected');
+			$('.add-gif-form-button').toggleClass('green-btn-selected');
 		}
+	});
+}
+
+function bulkOperations() {
+	$('.bulk-gif-button').on('click', function() {
+		showBulkOptions();
+		$(this).toggleClass('blue-btn-selected');
+		$('.gif-grid-element').each(function() {
+			$(this).children('.bulk-wrapper').toggleClass('hidden');
+		});
+		$('#bulk-operations').toggleClass('hidden');
+		bulkSelect();
+		$('#bulk-operations .submit').on('click', function() {
+			console.log('Clicked!');
+			grabBulkValues();
+		});		
+	});
+}
+
+function showBulkOptions() {
+	$('#bulk-delete-btn').on('click', function() {
+		$(this).toggleClass('red-btn-selected');
+		$(this).siblings('#bulk-operations-delete').toggleClass('hidden');
+	});
+
+	$('#bulk-add-tags-btn').on('click', function() {
+		$(this).toggleClass('green-btn-selected');
+		$(this).siblings('#bulk-operations-add-tags').toggleClass('hidden');
+	});
+
+	$('#bulk-remove-tags-btn').on('click', function() {
+		$(this).toggleClass('blue-btn-selected');
+		$(this).siblings('#bulk-operations-remove-tags').toggleClass('hidden');
+	});
+}
+
+function bulkSelect() {
+	$('.bulk-wrapper').on('click', function() {
+		$(this).children('i').toggleClass('fa-circle-o, fa-circle');
+	});
+}
+
+function grabBulkValues() {
+	var ids = [];
+	$('.bulk-wrapper').each(function() {
+		var gifID = $(this).children('input').val();
+		if ($(this).children('i').hasClass('fa-circle')) {
+			ids.push(gifID);
+		} else {
+			// Nothing
+		}		
+	});
+	$('#bulk-operations').find('.bulk-values').each(function(){
+		$(this).val(ids.join());
 	});
 }
 
@@ -111,7 +169,7 @@ function addTags() {
 		} else {
 			$(this).addClass('add-tags-selected');
 			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit">Add</div>';
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit blue-btn">Add</div>';
 			$(this).parent().append(html);
 			addTagSubmit($(this).siblings('.add-tag-submit'));
 		}
@@ -160,47 +218,44 @@ function updateAddTagInput(element) {
 	$(tagValuesInput).val(values);
 }
 
-function tagManagerOptions() {
-	$('.rename').on('click', function() {
-		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');		
-		form.toggleClass('hidden');
-		$(this).toggleClass('button-selected');
-	});
-
-	$('.delete').on('click', function() {
-		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
-		form2.toggleClass('hidden');
-		$(this).toggleClass('delete-selected');
-	});
-}
-
 function hoverGifs() {
 	$('.gif-grid-element').on({		
 		mouseenter: function() {			
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.gif-url').text();
-			var html = '<div class="img-wrapper"><img src="' + gifUrl + '"></div>'
+			var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
 			if ($(this).hasClass('focused')) {
-				// Nothing
+				gifExpand($(this));
 			} else {
 				thumbnail.css({
 				'opacity': 0.0
 			});
 			$(this).prepend(html);
+			gifExpand($(this));		
 			}
 		},
 		mouseleave: function() {			
 			var variable = $(this).hasClass('focused');
 			if ($(this).hasClass('focused')) {
-				// Nothing
+				gifExpand($(this));
 			} else {
 				var thumbnail = $(this).children('.gif-grid-thumbnail');
 				thumbnail.css({
 					'opacity': 1.0
 				});
 				$(this).children('.img-wrapper').remove();
+				gifExpand($(this));				
 			}
 		}
+	});
+}
+
+function gifExpand(parent) {
+	$(parent).find('.gif-expand').on('click', function() {
+		$(this).siblings('.img-wrapper').toggleClass('expanded');		
+	});
+	$(parent).find('.img-wrapper').on('click', function() {
+		$(this).toggleClass('expanded');
 	});
 }
 
@@ -217,7 +272,6 @@ function gifMasonry() {
 		trasitionDuration: '0.1s'
 	});
 }
-
 //////////////////////////////////////////////////////////////////////////////////
 // AJAX example for later reference
 function editGifAjax() {
