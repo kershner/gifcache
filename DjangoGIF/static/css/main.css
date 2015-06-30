@@ -17,6 +17,12 @@ hr {
 	height: .25em;
 }
 
+.anchor {
+	display: block;
+	position: relative;
+	top: -3em;
+}
+
 .animate {
 	-webkit-transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
@@ -542,11 +548,11 @@ label {
 	text-align: center;
 }
 
-#add-gif-submit, #cancel-add {
+#add-gif-submit {
 	display: inline-block;
 	margin: 0;
 	padding: .25em;
-	width: 6em;
+	width: 60%;
 	font-size: 1.1em;
 }
 
@@ -676,6 +682,7 @@ label {
 .gif-grid-element {	
 	position: relative;
 	display: inline-block;
+	z-index: 1;
 	margin: .25em;
 	padding: .5em;
 	width: 10em;
@@ -725,7 +732,7 @@ label {
 }
 
 .img-wrapper {
-	position: absolute;
+	position: absolute;	
 	margin: 0 auto;
 	left: 0;
 	right: 0;
@@ -916,10 +923,10 @@ label {
 .tag-manager {
 	display: inline-block;
 	position: absolute;
+	z-index: 2;
 	top: 0;
 	left: 0;
-	right: 0;
-	z-index: 1;
+	right: 0;	
 	margin: 0 auto;
 	width: 100%;
 }

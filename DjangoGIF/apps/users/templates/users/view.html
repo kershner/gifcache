@@ -64,7 +64,16 @@
                 Bulk Operations
             </div>
         </div>
-        {% endif %}
+
+        <div class="add-gif-form hidden">
+            <form action="{% url 'users:add-gif' %}" method="post">
+                <h1>Add a GIF</h1>
+
+                {% csrf_token %}
+                {{ add_form }}
+                <input id="add-gif-submit" type="submit" value="Add GIF" class="blue-btn">
+            </form>
+        </div>
 
         <div id="bulk-operations" class="hidden">
             <div id="bulk-delete-btn" class="bulk-btn red-btn">Delete GIFs</div>
@@ -104,6 +113,9 @@
                 </form>
             </div>
         </div>
+        {% endif %}
+
+
 
         <div id="grids">
             <div id="tagged-gif-grid" class="gif-grid">
@@ -145,7 +157,7 @@
                     {% endif %}
 
                     {% for object in entry.1 %}
-                        <a name="{{ entry.0 }}"></a>
+                        <a class="anchor" name="{{ entry.0 }}"></a>
 
                         <div class="gif-grid-element animate">
                             <div class="bulk-wrapper hidden">
@@ -304,16 +316,4 @@
             </div>
         </div>
     </div>
-{% if can_edit %}
-<div class="add-gif-form hidden">
-    <form action="{% url 'users:add-gif' %}" method="post">
-        <h1>Add a GIF</h1>
-
-        {% csrf_token %}
-        {{ add_form }}
-        <input id="add-gif-submit" type="submit" value="Add GIF" class="blue-btn">
-        <div id="cancel-add" class="red-btn">Cancel</div>
-    </form>
-</div>
-{% endif %}
 {% endblock content %}
