@@ -34,17 +34,9 @@
             <div class="profile-name">{{ name }}</div>
 
             <div class="profile-stats">
-                <div id="tag-nav" class="stat stats-clickable">
+                <div id="tag-nav" class="stat">
                     <div class="stat-number">{{ tag_number }}</div>
                     <div class="stat-desc">tags</div>
-
-                    {% if tags %}
-                    <div class="tag-nav hidden">
-                        {% for tag in tags %}
-                            <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
                 </div>
 
                 <div class="stat" style="padding-left: 1em;">
@@ -55,14 +47,69 @@
         </div>
 
         {% if can_edit %}
-        <div class="main-buttons">
+        <div class="inner-nav">
+            {% if tags %}
+            <div class="inner-nav-tags inner-nav-btn yellow-btn">
+                Tags
+                <div class="inner-tag-nav hidden">
+                    {% for tag in tags %}
+                    <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
             <div class="add-gif-form-button green-btn">
                 Add GIF
             </div>
 
             <div class="bulk-gif-button blue-btn">
-                Bulk Operations
+                Bulk Tasks
             </div>
+
+            <div id="bulk-operations" class="hidden">
+                <div id="bulk-delete-btn" class="bulk-btn red-btn">Delete GIFs</div>
+                <div id="bulk-remove-tags-btn" class="bulk-btn blue-btn">Remove Tags</div>
+                <div id="bulk-add-tags-btn" class="bulk-btn green-btn">Add Tags</div>
+
+                <div id="bulk-operations-delete" class="bulk-option hidden">
+                    <p>Delete Selected GIFs</p>
+                    <form action="{% url 'users:bulk-delete' %}" method="post">
+                        {% csrf_token %}
+                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                        <input type="submit" class="submit red-btn" value="Delete">
+                    </form>
+                </div>
+
+                <div id="bulk-operations-add-tags" class="bulk-option hidden">
+                    <p>Add Tags to Selected GIFs</p>
+
+                    <form action="{% url 'users:bulk-add-tags' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name='tags' placeholder="Comma Separated Tags">
+                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                        <input type="submit" class="submit blue-btn" value="Submit">
+                    </form>
+                </div>
+
+                <div id="bulk-operations-remove-tags" class="bulk-option hidden">
+                    <p>Remove Tags From Selected GIFs</p>
+
+                    <form action="{% url 'users:bulk-remove-tags' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name='tags' placeholder="Comma Separated Tags">
+                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                        <input type="submit" class="submit blue-btn" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="sort inner-nav-btn peach-btn">Sort</div>
+
+            <div class="top inner-nav-btn purple-btn"><a href="#top" style="color: white;">Top</a></div>
         </div>
 
         <div class="add-gif-form hidden">
@@ -74,53 +121,13 @@
                 <input id="add-gif-submit" type="submit" value="Add GIF" class="blue-btn">
             </form>
         </div>
-
-        <div id="bulk-operations" class="hidden">
-            <div id="bulk-delete-btn" class="bulk-btn red-btn">Delete GIFs</div>
-            <div id="bulk-operations-delete" class="bulk-option hidden">
-                <p>Delete Selected GIFs</p>
-                <form action="{% url 'users:bulk-delete' %}" method="post">
-                    {% csrf_token %}
-                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                    <input type="submit" class="submit red-btn" value="Delete">
-                </form>
-            </div>
-
-            <div id="bulk-add-tags-btn" class="bulk-btn green-btn">Add Tags</div>
-            <div id="bulk-operations-add-tags" class="bulk-option hidden">
-                <p>Add Tags to Selected GIFs</p>
-
-                <form action="{% url 'users:bulk-add-tags' %}" method="post">
-                    {% csrf_token %}
-                    <input type="text" name='tags' placeholder="Comma Separated Tags">
-                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                    <input type="submit" class="submit blue-btn" value="Submit">
-                </form>
-            </div>
-
-            <div id="bulk-remove-tags-btn" class="bulk-btn blue-btn">Remove Tags</div>
-            <div id="bulk-operations-remove-tags" class="bulk-option hidden">
-                <p>Remove Tags From Selected GIFs</p>
-
-                <form action="{% url 'users:bulk-remove-tags' %}" method="post">
-                    {% csrf_token %}
-                    <input type="text" name='tags' placeholder="Comma Separated Tags">
-                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                    <input type="submit" class="submit blue-btn" value="Submit">
-                </form>
-            </div>
-        </div>
         {% endif %}
-
-
 
         <div id="grids">
             <div id="tagged-gif-grid" class="gif-grid">
                 {% for entry in tagged_gifs %}
                 <div class="tag-group">
+                    <a class="anchor" name="{{ entry.0 }}"></a>
                     <div class="tag-title">{{ entry.0 }}</div>
 
                     {% if can_edit %}
@@ -157,8 +164,6 @@
                     {% endif %}
 
                     {% for object in entry.1 %}
-                        <a class="anchor" name="{{ entry.0 }}"></a>
-
                         <div class="gif-grid-element animate">
                             <div class="bulk-wrapper hidden">
                                 <i class="fa fa-circle-o"></i>

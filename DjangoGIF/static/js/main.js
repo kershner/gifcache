@@ -7,10 +7,10 @@ $(document).ready(function () {
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
-	gifMasonry();
-	// gifIsotope();
-	// gifPackery();
+	gifIsotope();
 	showTagManager();
+	showInnerNav();
+	colorTagGrops();
 });
 
 function showTagManager() {
@@ -252,48 +252,52 @@ function gifExpand(parent) {
 	});
 }
 
-function gifMasonry() {
-	var grid = $('.tag-group').masonry({
-		itemSelector: '.gif-grid-element',
-		columnWidth: '.gif-grid-element',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
-	});
-
-	var taggedGrid = $('#tagged-gif-grid').masonry({
-		itemSelector: '.tag-group',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
-	});
-}
-
 function gifIsotope() {
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
-		columnWidth: '.gif-grid-element',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
+		masonry: {
+			columnWidth: '.gif-grid-element',
+			isFitWidth: true
+		}
 	});
 
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
+		layoutMode: 'packery'
 	});
-	console.log('gifIsotope');
+
+	$('.layout').on('click', function() {
+		taggedGrid.isotope();
+	});
 }
 
-// function gifPackery() {
-// 	var grid = $('.tag-group').packery({
-// 		'itemSelector': '.gif-grid-element',		
-// 		'columnWidth': '.gif-grid-element',
-// 		'percentPosition': true
-// 	});
+function showInnerNav() {
+	$(document).scroll(function() {
+		var scroll = $(document).scrollTop();
+		if (scroll > 390) {
+			$('.inner-nav').addClass('inner-nav-fixed');
+		} else {
+			$('.inner-nav').removeClass('inner-nav-fixed');
+		}
+	});
+}
 
-// 	var taggedGrid = $('#tagged-gif-grid').packery({
-// 		'itemSelector': '.tag-group'
-// 	});
-// }
+function colorTagGrops() {	
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#ffc726', '#585ec7', '#FF8359'];
+	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
+	var counter = randomnumber;
+	$('.tag-group').each(function() {
+		if (counter > colors.length) {
+			counter = 0;
+		}
+		var color = colors[counter];
+		$(this).css('border', '.15em solid ' + color);
+		$(this).find('.tag-title').css('color', color);
+		$(this).find('.tag-settings-icon').css('color', color);
+		counter += 1
+	});
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // AJAX example for later reference
 function editGifAjax() {
