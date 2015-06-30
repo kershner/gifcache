@@ -265,10 +265,6 @@ function gifIsotope() {
 		itemSelector: '.tag-group',
 		layoutMode: 'packery'
 	});
-
-	$('.layout').on('click', function() {
-		taggedGrid.isotope();
-	});
 }
 
 function showInnerNav() {

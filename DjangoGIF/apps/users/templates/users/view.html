@@ -46,7 +46,6 @@
             </div>
         </div>
 
-        {% if can_edit %}
         <div class="inner-nav">
             {% if tags %}
             <div class="inner-nav-tags inner-nav-btn yellow-btn">
@@ -59,6 +58,7 @@
             </div>
             {% endif %}
 
+            {% if can_edit %}
             <div class="add-gif-form-button green-btn">
                 Add GIF
             </div>
@@ -106,12 +106,14 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
 
             <div class="sort inner-nav-btn peach-btn">Sort</div>
 
-            <div class="top inner-nav-btn purple-btn"><a href="#top" style="color: white;">Top</a></div>
+            <a class="top" href="#top" style="color: white;"><div class="top inner-nav-btn purple-btn">Top</div></a>
         </div>
 
+        {% if can_edit %}
         <div class="add-gif-form hidden">
             <form action="{% url 'users:add-gif' %}" method="post">
                 <h1>Add a GIF</h1>
