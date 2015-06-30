@@ -8,8 +8,6 @@ $(document).ready(function () {
 	tagManagerOptions();
 	hoverGifs();
 	gifMasonry();
-	// gifIsotope();
-	// gifPackery();
 	showTagManager();
 });
 
@@ -55,13 +53,22 @@ function showAddForm() {
 		$(this).toggleClass('green-btn-selected');
 		$('.add-gif-form').toggleClass('hidden');	
 	});
+
+	$('#cancel-add').on('click', function(e) {
+		$('.add-gif-form-button').toggleClass('green-btn-selected');
+		$('.add-gif-form').toggleClass('hidden');	
+	});
+
 	$('.add-gif-form').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
 		if (target.is('#add-gif-submit')) {
 			$(this).children('form').submit();
 		} else if (target.is('form, input, h1')) {
-			// Nothing
+			$('#cancel-add').on('click', function(e) {
+				$('.add-gif-form-button').toggleClass('green-btn-selected');
+				$('.add-gif-form').toggleClass('hidden');	
+			});
 		} else {
 			$(this).toggleClass('hidden');
 			$('.add-gif-form-button').toggleClass('green-btn-selected');
@@ -228,8 +235,8 @@ function hoverGifs() {
 			}
 		},
 		mouseleave: function() {			
-			var gif = $(this).find('.img-wrapper');
-			if ($(this).hasClass('focused') || $(gif).hasClass('expanded')) {
+			var variable = $(this).hasClass('focused');
+			if ($(this).hasClass('focused')) {
 				gifExpand($(this));
 			} else {
 				var thumbnail = $(this).children('.gif-grid-thumbnail');
@@ -256,8 +263,7 @@ function gifMasonry() {
 	var grid = $('.tag-group').masonry({
 		itemSelector: '.gif-grid-element',
 		columnWidth: '.gif-grid-element',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
+		isFitWidth: true
 	});
 
 	var taggedGrid = $('#tagged-gif-grid').masonry({
@@ -266,34 +272,6 @@ function gifMasonry() {
 		trasitionDuration: '0.1s'
 	});
 }
-
-function gifIsotope() {
-	var grid = $('.tag-group').isotope({
-		itemSelector: '.gif-grid-element',
-		columnWidth: '.gif-grid-element',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
-	});
-
-	var taggedGrid = $('#tagged-gif-grid').isotope({
-		itemSelector: '.tag-group',
-		isFitWidth: true,
-		trasitionDuration: '0.1s'
-	});
-	console.log('gifIsotope');
-}
-
-// function gifPackery() {
-// 	var grid = $('.tag-group').packery({
-// 		'itemSelector': '.gif-grid-element',		
-// 		'columnWidth': '.gif-grid-element',
-// 		'percentPosition': true
-// 	});
-
-// 	var taggedGrid = $('#tagged-gif-grid').packery({
-// 		'itemSelector': '.tag-group'
-// 	});
-// }
 //////////////////////////////////////////////////////////////////////////////////
 // AJAX example for later reference
 function editGifAjax() {
