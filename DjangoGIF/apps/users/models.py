@@ -1,15 +1,17 @@
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from django.utils import timezone
 from django.db import models
-from django.db.models.signals import pre_delete
-from django.dispatch.dispatcher import receiver
-from django.shortcuts import get_object_or_404
 
 
 # Create your models here.
 class Profile(models.Model):
     owner = models.ForeignKey(User)
+    avatar = models.URLField
+    avatar_thumb = models.ImageField(upload_to='avatars', default='')
 
     def __unicode__(self):
         return self.username
@@ -27,6 +29,7 @@ class Gif(models.Model):
         return self.url
 
 
+# Signal to delete associated media from server when user deletes a GIF
 @receiver(pre_delete, sender=Gif)
 def user_thumbnail_delete(sender, instance, **kwargs):
     print 'Firing pre-delete signal...'

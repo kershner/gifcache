@@ -1,18 +1,87 @@
+from .forms import AddGifForm, EditProfileForm, LoginForm, SignupForm
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
+from .models import Gif, Profile
 from cStringIO import StringIO
-from .forms import AddGifForm
 from taggit.models import Tag
-from .models import Gif
 from PIL import Image
 import requests
 import json
 
 
 # Create your views here.
+def login_view(request):
+    context = {'form': LoginForm()}
+    return render(request, 'users/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    context = {'message': 'You have been succesfully logged out!'}
+    return render(request, 'home/home.html', context)
+
+
+def authenticate_user(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return redirect('/u/%s' % str(user.username))
+        else:
+            context = {
+                'form': LoginForm(),
+                'message': 'This account has been deactivated, please create a new one.'
+            }
+            return render(request, 'users/login.html', context)
+    else:
+        context = {
+            'form': LoginForm(),
+            'message': 'Invalid Login, please try again.'
+        }
+        return render(request, 'users/login.html', context)
+
+
+def signup(request):
+    print request.user.username
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            message = 'Account Created!'
+            print message
+    else:
+        form = SignupForm()
+    return render(request, 'users/signup.html', {'form': form})
+
+
+def create_account(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            email = request.POST['email']
+            firstname = request.POST['first_name']
+            u = User.objects.create_user(username=username, password=password, email=email, first_name=firstname)
+            p = Profile(owner=u, avatar='http://www.default.biz')
+            u.save()
+            p.save()
+            request.user.username = username
+            context = {
+                'name': firstname,
+                'username': username
+            }
+            return render(request, 'users/account_created.html', context)
+    else:
+        form = SignupForm()
+        return render(request, 'users/signup.html', {'form': form})
+
+
 def view_profile(request, username):
     logged_in = False
     if request.user.is_authenticated():
@@ -48,6 +117,30 @@ def view_profile(request, username):
         'logged_in': logged_in
     }
     return render(request, 'users/view.html', context)
+
+
+def edit_profile(request, username):
+    u = get_object_or_404(User, username=username)
+    p = get_object_or_404(Profile, owner=u)
+
+    form = EditProfileForm(initial={
+        'username': u.username,
+        'first_name': u.first_name,
+        'avatar_url': p.avatar
+    })
+    context = {
+        'form': form,
+        'message': ''
+    }
+    if request.user.is_authenticated():
+        if request.user.username == username:
+            return render(request, 'users/edit-profile.html', context)
+        else:
+            return redirect('/u/%s' % request.user.username)
+    else:
+        context['message'] = 'You must be logged in to edit a profile!'
+        context['form'] = LoginForm()
+        return render(request, 'users/login.html', context)
 
 
 def add_gif(request):
@@ -114,7 +207,7 @@ def edit_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
-        return render(request, 'home/home.html', context)
+        return render(request, 'users/login.html', context)
 
 
 def delete_gif(request):
@@ -129,7 +222,7 @@ def delete_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
-        return render(request, 'home/home.html', context)
+        return render(request, 'users/login.html', context)
 
 
 def rename_tag(request):

@@ -8,9 +8,9 @@
     {% endif %}
 
     <div id="home-links">
-        <a href="{% url 'signup' %}" class="animate">Sign Up</a>
-        <a href="{% url 'login' %}" class="animate">Log In</a>
-        <a href="{% url 'logout' %}" class="animate">Log Out</a>
+        <a href="{% url 'users:signup' %}" class="animate">Sign Up</a>
+        <a href="{% url 'users:login' %}" class="animate">Log In</a>
+        <a href="{% url 'users:logout' %}" class="animate">Log Out</a>
     </div>
 </div>
 {% endblock %}

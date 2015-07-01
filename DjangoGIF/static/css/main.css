@@ -145,37 +145,37 @@ hr {
 
 .yellow-btn {
 	position: relative;
-	background-color: #ffc726;
+	background-color: #FFA533;
 	text-align: center;
 	color: white;
 	border-radius: .2em;
 	border: none;
-	-webkit-box-shadow: 0px 6px 0px #f2b400;
-	-moz-box-shadow: 0px 6px 0px #f2b400;
-	box-shadow: 0px 6px 0px #f2b400; 
+	-webkit-box-shadow: 0px 6px 0px #ff8f00;
+	-moz-box-shadow: 0px 6px 0px #ff8f00;
+	box-shadow: 0px 6px 0px #ff8f00; 
 }
 
 .yellow-btn:hover {
 	cursor: pointer;
-	background-color: #f2b400;
-	-webkit-box-shadow: 0px 6px 0px #bf8e00;
-	-moz-box-shadow: 0px 6px 0px #bf8e00;
-	box-shadow: 0px 6px 0px #bf8e00;
+	background-color: #ff8f00;
+	-webkit-box-shadow: 0px 6px 0px #cc7200;
+	-moz-box-shadow: 0px 6px 0px #cc7200;
+	box-shadow: 0px 6px 0px #cc7200;
 }
 
 .yellow-btn:active, .yellow-btn-selected {
 	top: 4px;
-	background-color: #f2b400;
-	-webkit-box-shadow: 0px 2px 0px #bf8e00;
-	-moz-box-shadow: 0px 2px 0px #bf8e00;
-	box-shadow: 0px 2px 0px #bf8e00;
+	background-color: #ff8f00;
+	-webkit-box-shadow: 0px 2px 0px #cc7200;
+	-moz-box-shadow: 0px 2px 0px #cc7200;
+	box-shadow: 0px 2px 0px #cc7200;
 }
 
 .yellow-btn-selected:hover {
-	background-color: #bf8e00;
-	-webkit-box-shadow: 0px 2px 0px #8c6800;
-	-moz-box-shadow: 0px 2px 0px #8c6800;
-	box-shadow: 0px 2px 0px #8c6800;
+	background-color: #cc7200;
+	-webkit-box-shadow: 0px 2px 0px #995600;
+	-moz-box-shadow: 0px 2px 0px #995600;
+	box-shadow: 0px 2px 0px #995600;
 }
 
 .purple-btn {

@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+<form action="">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="blue-btn" value="Submit">
+</form>
+
+{% endblock content %}

@@ -279,7 +279,7 @@ function showInnerNav() {
 }
 
 function colorTagGrops() {	
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#ffc726', '#585ec7', '#FF8359'];
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
 	var counter = randomnumber;
 	$('.tag-group').each(function() {

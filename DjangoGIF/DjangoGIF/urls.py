@@ -17,16 +17,9 @@ from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
-from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='home'),
+    url(r'^$', include('apps.home.urls'), name='home'),
     url(r'^u/', include('apps.users.urls', namespace='users')),
-    url(r'^$', views.index, name='home'),
-    url(r'^signup/$', views.signup, name='signup'),
-    url(r'^login/$', views.login_view, name='login'),
-    url(r'^logout/$', views.logout_view, name='logout'),
-    url(r'^authenticate-user/$', views.authenticate_user, name='authenticate'),
-    url(r'^create-account/$', views.create_account, name='create-account'),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

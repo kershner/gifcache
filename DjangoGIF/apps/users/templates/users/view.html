@@ -1,6 +1,6 @@
-<!--{% extends 'home/base.html' %}-->
+{% extends 'home/base.html' %}
 {% block content %}
-<div class="container" xmlns="http://www.w3.org/1999/html">
+<div class="container">
         <div class="nav">
             <div class="nav-logo">
                 <div id="gif" class="nav-logo-title">GIF</div>
@@ -12,16 +12,16 @@
 
             <div class="nav-links">
                 <a href="{% url 'home' %}">HOME</a>
-                <a href="{% url 'signup' %}">SIGNUP</a>
+                <a href="{% url 'users:signup' %}">SIGNUP</a>
                 {% if logged_in %}
                 <div class="profile-nav-link">PROFILE
                     <div class="profile-nav-extra">
                         <a href="#">SETTINGS</a>
-                        <a href="{% url 'logout' %}">LOGOUT</a>
+                        <a href="{% url 'users:logout' %}">LOGOUT</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{% url 'login' %}">LOGIN</a>
+                <a href="{% url 'users:login' %}">LOGIN</a>
                 {% endif %}
             </div>
         </div>
