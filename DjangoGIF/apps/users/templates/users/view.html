@@ -11,24 +11,24 @@
             </div>
 
             <div class="nav-links">
-                <a href="{% url 'home' %}">HOME</a>
-                <a href="{% url 'users:signup' %}">SIGNUP</a>
+                <a href="{% url 'home:home' %}">HOME</a>
+                <a href="{% url 'home:signup' %}">SIGNUP</a>
                 {% if logged_in %}
                 <div class="profile-nav-link">PROFILE
                     <div class="profile-nav-extra">
                         <a href="#">SETTINGS</a>
-                        <a href="{% url 'users:logout' %}">LOGOUT</a>
+                        <a href="{% url 'home:logout' %}">LOGOUT</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{% url 'users:login' %}">LOGIN</a>
+                <a href="{% url 'home:login' %}">LOGIN</a>
                 {% endif %}
             </div>
         </div>
 
         <div class="profile-info">
             <div class="profile-avatar">
-                <img src="http://i.imgur.com/1Nd8pHV.gif">
+                <img src="{{ avatar_url }}">
             </div>
 
             <div class="profile-name">{{ name }}</div>

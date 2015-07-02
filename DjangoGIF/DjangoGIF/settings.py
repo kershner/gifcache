@@ -120,3 +120,4 @@ EMAIL_HOST_PASSWORD = credentials.email_password
 # MEDIA_ROOT = os.path.dirname(os.path.join(BASE_DIR, 'media', 'gifs'))
 MEDIA_ROOT = 'E:\\Programming\\Projects\DjangoGIF\\DjangoGIF\\media\\gifs\\'
 MEDIA_URL = '/media/'
+

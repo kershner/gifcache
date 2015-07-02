@@ -1,12 +1,13 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<h1>Log In</h1>
 
-{% if message %}
-<p class="message">{{ message }}</p>
+Sign up for an account!
+{% if errors %}
+{{ errors }}
 {% endif %}
 
-<form action="{% url 'users:authenticate' %}" method="post">
+
+<form action="{% url 'home:create-account' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="submit animate">

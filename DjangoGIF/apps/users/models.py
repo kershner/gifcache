@@ -10,11 +10,11 @@ from django.db import models
 # Create your models here.
 class Profile(models.Model):
     owner = models.ForeignKey(User)
-    avatar = models.URLField
+    avatar = models.URLField(max_length=400, default='')
     avatar_thumb = models.ImageField(upload_to='avatars', default='')
 
     def __unicode__(self):
-        return self.username
+        return self.owner.username
 
 
 class Gif(models.Model):

@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^$', include('apps.home.urls'), name='home'),
+    url(r'^', include('apps.home.urls', namespace='home')),
     url(r'^u/', include('apps.users.urls', namespace='users')),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
