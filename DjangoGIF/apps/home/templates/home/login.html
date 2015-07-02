@@ -1,14 +1,14 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<h1>Log In</h1>
+<h1 class="title">Log In</h1>
 
 {% if message %}
-<p class="message">{{ message }}</p>
+<div class="message">{{ message }}</div>
 {% endif %}
 
-<form action="{% url 'home:authenticate' %}" method="post">
+<form action="{% url 'home:authenticate' %}" method="post" class="main-form">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" class="submit animate">
+    <input type="submit" class="green-btn main-submit">
 </form>
 {% endblock %}

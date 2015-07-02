@@ -11,7 +11,15 @@ def index(request):
 
 
 def login_view(request):
-    context = {'form': LoginForm()}
+    logged_in = False
+    if request.user.is_authenticated():
+        logged_in = True
+
+    context = {
+        'form': LoginForm(),
+        'logged_in': logged_in,
+        'username': request.user.username
+        }
     return render(request, 'home/login.html', context)
 
 
@@ -64,7 +72,7 @@ def create_account(request):
             email = request.POST['email']
             firstname = request.POST['first_name']
             u = User.objects.create_user(username=username, password=password, email=email, first_name=firstname)
-            p = Profile(owner=u, avatar='http://www.default.biz')
+            p = Profile(owner=u)
             u.save()
             p.save()
             request.user.username = username

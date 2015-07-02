@@ -1,34 +1,9 @@
 {% extends 'home/base.html' %}
 {% block content %}
 <div class="container">
-        <div class="nav">
-            <div class="nav-logo">
-                <div id="gif" class="nav-logo-title">GIF</div>
-
-                <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
-
-                <div id="cache" class="nav-logo-title">Cache</div>
-            </div>
-
-            <div class="nav-links">
-                <a href="{% url 'home:home' %}">HOME</a>
-                <a href="{% url 'home:signup' %}">SIGNUP</a>
-                {% if logged_in %}
-                <div class="profile-nav-link">PROFILE
-                    <div class="profile-nav-extra">
-                        <a href="#">SETTINGS</a>
-                        <a href="{% url 'home:logout' %}">LOGOUT</a>
-                    </div>
-                </div>
-                {% else %}
-                <a href="{% url 'home:login' %}">LOGIN</a>
-                {% endif %}
-            </div>
-        </div>
-
         <div class="profile-info">
             <div class="profile-avatar">
-                <img src="{{ avatar_url }}">
+                <img src="{{ avatar }}">
             </div>
 
             <div class="profile-name">{{ name }}</div>
@@ -62,7 +37,10 @@
             <div class="add-gif-form-button green-btn">
                 Add GIF
             </div>
+            {% endif %}
 
+            {% if gifs %}
+            {% if can_edit %}
             <div class="bulk-gif-button blue-btn">
                 Bulk Tasks
             </div>
@@ -111,6 +89,7 @@
             <div class="sort inner-nav-btn peach-btn">Sort</div>
 
             <a class="top" href="#top" style="color: white;"><div class="top inner-nav-btn purple-btn">Top</div></a>
+            {% endif %}
         </div>
 
         {% if can_edit %}
@@ -125,6 +104,11 @@
         </div>
         {% endif %}
 
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if gifs %}
         <div id="grids">
             <div id="tagged-gif-grid" class="gif-grid">
                 {% for entry in tagged_gifs %}
@@ -322,5 +306,12 @@
                 </div>
             </div>
         </div>
+        {% else %}
+            {% if can_edit %}
+                <div class="message">Welcome to your GifCache!  Go ahead and add some GIFs!</div>
+            {% else %}
+                <div class="message">{{ name }} hasn't added any GIFs yet.</div>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock content %}

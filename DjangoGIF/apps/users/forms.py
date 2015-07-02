@@ -2,9 +2,8 @@ from django import forms
 
 
 class EditProfileForm(forms.Form):
-    username = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Username'}))
-    first_name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-    avatar_url = forms.CharField(label='', widget=forms.URLInput(attrs={'placeholder': 'Avatar URL'}))
+    first_name = forms.CharField(label='Nickname', widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    avatar_url = forms.CharField(label='Avatar URL', widget=forms.TextInput(attrs={'placeholder': 'Avatar URL'}))
 
 
 class AddGifForm(forms.Form):

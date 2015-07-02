@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^bulk-add-tags/$', views.bulk_add_tags, name='bulk-add-tags'),
     url(r'^bulk-remove-tags/$', views.bulk_remove_tags, name='bulk-remove-tags'),
     url(r'^(?P<username>[\w.@+-]+)/edit-profile/$', views.edit_profile, name='edit-profile'),
+    url(r'^(?P<username>[\w.@+-]+)/update-profile/$', views.update_profile, name='update-profile'),
     url(r'^ajax-test/$', views.ajax_test, name='ajax-test'),
 ]

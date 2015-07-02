@@ -23,7 +23,13 @@ def view_profile(request, username):
     if request.user.username == username:
         can_edit = True
 
+    message = request.session.get('message')
+    if message is not None:
+        message = request.session['message']
+        request.session['message'] = None
+
     u = get_object_or_404(User, username=username)
+    p = get_object_or_404(Profile, owner=u)
     gifs = Gif.objects.filter(owner=u)
 
     tags = list(set(Tag.objects.filter(gif__owner=u)))
@@ -37,6 +43,7 @@ def view_profile(request, username):
         'hidden_id': u.id
     })
     context = {
+        'username': u.username,
         'name': u.first_name,
         'add_form': add_gif_form,
         'gifs': gifs,
@@ -46,23 +53,29 @@ def view_profile(request, username):
         'gif_number': len(gifs),
         'tag_number': len(tags),
         'can_edit': can_edit,
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'avatar': p.avatar,
+        'message': message
     }
     return render(request, 'users/view.html', context)
 
 
 def edit_profile(request, username):
+    logged_in = False
+    if request.user.is_authenticated():
+        logged_in = True
+
     u = get_object_or_404(User, username=username)
     p = get_object_or_404(Profile, owner=u)
 
     form = EditProfileForm(initial={
-        'username': u.username,
         'first_name': u.first_name,
         'avatar_url': p.avatar
     })
     context = {
+        'username': u.username,
         'form': form,
-        'message': ''
+        'logged_in': logged_in
     }
     if request.user.is_authenticated():
         if request.user.username == username:
@@ -73,6 +86,41 @@ def edit_profile(request, username):
         context['message'] = 'You must be logged in to edit a profile!'
         context['form'] = LoginForm()
         return render(request, 'users/login.html', context)
+
+
+def update_profile(request, username):
+    if request.method == 'POST':
+        if request.user.username == username:
+            nickname = request.POST['first_name']
+            avatar_url = request.POST['avatar_url']
+            u = get_object_or_404(User, username=username)
+            p = get_object_or_404(Profile, owner=u)
+            if avatar_url == '/media/avatars/default-user-image.png':
+                print 'Default Avatar'
+                u.first_name = nickname
+                u.save()
+            elif avatar_url == '':
+                print 'Setting avatar to default!'
+                u.first_name = nickname
+                p.avatar = '/media/avatars/default-user-image.png'
+                u.save()
+                p.save()
+            else:
+                print 'Updating avatar!'
+                u.first_name = nickname
+                p.avatar = avatar_url
+                u.save()
+                p.save()
+
+            request.session['message'] = 'Your profile was successfully updated!'
+            return redirect('/u/%s' % str(username))
+        else:
+            context = {
+                'message': 'You are trying to edit another user\'s profile!'
+            }
+            return render(request, 'users/login.html', context)
+    else:
+        return redirect('/u/%s' % str(username))
 
 
 def add_gif(request):

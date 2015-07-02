@@ -1,10 +1,9 @@
 {% extends 'home/base.html' %}
 {% block content %}
-
-<form action="">
+<form action="/u/{{ username }}/update-profile/" method="post" class="main-form">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" class="blue-btn" value="Submit">
+    <input type="submit" class="blue-btn main-submit" value="Submit">
 </form>
 
 {% endblock content %}

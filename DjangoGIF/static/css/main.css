@@ -17,6 +17,24 @@ hr {
 	height: .25em;
 }
 
+form {
+	overflow: hidden;
+}
+
+input {
+	display: block;
+	margin: .5em auto;
+	padding: .25em;
+	border: .15em solid #25B972;
+	font-family: 'Quicksand', sans-serif;
+}
+
+label {
+	display: block;
+	margin-left: 1em;
+	margin-bottom: -.75em;
+}
+
 .anchor {
 	display: block;
 	position: relative;
@@ -30,18 +48,67 @@ hr {
 	transition: all 0.2s ease-in-out;
 }
 
-.warning {
-	background-color: #ff6767 !important;
-	color: white !important;
-	-webkit-box-shadow: 0px 6px 0px #ff3434 !important;
-	-moz-box-shadow: 0px 6px 0px #ff3434 !important;
-	box-shadow: 0px 6px 0px #ff3434 !important; 
+.title {
+	margin: 1em;
+	text-align: center;
+}
+
+.helptext {	
+	display: none;
+}
+
+.message {
+	margin: 1em auto;
+	padding: 1em;
+	width: 40%;
+	min-width: 15em;
+	background-color: #72ADD3;	
+	font-family: 'Open Sans';
+	color: white;
+	text-align: center;
+	box-shadow: 1px 5px 15px -5px #000;
+	border-radius: .2em;
+}
+
+.main-form {
+	position: relative;
+	margin: 1em auto;	
+	padding: 1em;
+	padding-top: 2em;
+	width: 25em;
+	background-color: #72ADD3;
+	border-radius: .2em;
+}
+
+.main-form input {
+	height: 1.5em;
+	line-height: 1.5em;
+	font-size: 1.5em;
+	border: none;
+	border-bottom: .3em solid #498FBD;
+	border-radius: .2em;
+}
+
+.main-form label {
+	margin: -10px auto;
+	width: 16em;
+	font-size: 1.2em;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.main-form .main-submit {
+	position: relative;
+	margin-top: 2em;
+	width: 10em;
+	height: 2em;
+	border: none;
 }
 
 /* Buttons ******************************************************************/
 .green-btn {
 	position: relative;
-	background-color: #25B972;
+	background-color: #25B972;	
 	text-align: center;
 	color: white;
 	border-radius: .2em;
@@ -78,8 +145,8 @@ hr {
 	background-color: #498FBD;
 	text-align: center;
 	color: white;
-	border: none;
 	border-radius: .2em;
+	border: none;
 	-webkit-box-shadow: 0px 6px 0px #38749b;
 	-moz-box-shadow: 0px 6px 0px #38749b;
 	box-shadow: 0px 6px 0px #38749b; 
@@ -282,29 +349,6 @@ hr {
 	color: #2b5d6b;
 	border-bottom: .15em solid #2b5d6b;
 	font-size: 1.75em;
-}
-
-.message {
-	text-align: center;
-}
-
-form {
-	overflow: hidden;
-}
-
-input {
-	display: block;
-	margin: .5em auto;
-	padding: .25em;
-	border: .15em solid #25B972;
-	font-family: 'Quicksand', sans-serif;
-	border-radius: .25em;
-}
-
-label {
-	display: block;
-	margin-left: 1em;
-	margin-bottom: -.75em;
 }
 
 .gif-form {
@@ -641,15 +685,13 @@ label {
 
 .add-gif-form form {
 	position: relative;
-	width: 20em;
-	height: 20em;
 	margin: 0 auto;
 	padding: 1.5em;
 	top: 20%;
+	width: 20em;
 	background-color: #d9d9d9 !important;
-	box-shadow: 1px 5px 15px -5px #000;
-	border-radius: .25em;
 	text-align: center;
+	box-shadow: 1px 5px 15px -5px #000;	
 }
 
 .add-form-input {
@@ -664,9 +706,10 @@ label {
 	text-align: center;
 }
 
-#add-gif-submit {
+#add-gif-submit {	
 	display: inline-block;
-	margin: 0;
+	position: relative;
+	margin-top: 3em;
 	padding: .25em;
 	width: 60%;
 	font-size: 1.1em;
