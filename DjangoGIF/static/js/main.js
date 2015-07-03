@@ -162,7 +162,7 @@ function addTags() {
 		} else {
 			$(this).addClass('add-tags-selected');
 			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit blue-btn">Add</div>';
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit btn blue-btn">Add</div>';
 			$(this).parent().append(html);
 			addTagSubmit($(this).siblings('.add-tag-submit'));
 		}
@@ -216,7 +216,19 @@ function hoverGifs() {
 		mouseenter: function() {			
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.gif-url').text();
-			var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
+			// Check what kind of URL we have
+			var isGfycat = gifUrl.includes('gfycat');
+			var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
+			var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
+			var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
+			console.log(gifUrl);
+			if (isGifv || isMp4 || isWebm || isGfycat) {
+				console.log('Mp4, Gifv, Gfycat, or Webm file');
+				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop></video></div>'
+			} else {
+				console.log('Normal GIF file');
+				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
+			}			
 			if ($(this).hasClass('focused')) {
 				gifExpand($(this));
 			} else {
@@ -224,13 +236,13 @@ function hoverGifs() {
 				'opacity': 0.0
 			});
 			$(this).prepend(html);
-			gifExpand($(this));		
+			gifExpand($(this));
+			gfyCollection.init
 			}
 		},
 		mouseleave: function() {			
 			var gif = $(this).find('.img-wrapper');
 			if ($(this).hasClass('focused') || $(gif).hasClass('expanded')) {
-				gifExpand($(this));
 			} else {
 				var thumbnail = $(this).children('.gif-grid-thumbnail');
 				thumbnail.css({
@@ -244,10 +256,11 @@ function hoverGifs() {
 }
 
 function gifExpand(parent) {
-	$(parent).find('.gif-expand').on('click', function() {
-		$(this).siblings('.img-wrapper').toggleClass('expanded');		
+	$(parent).find('.gif-expand').on('click', function(e) {
+		$(this).siblings('.img-wrapper').toggleClass('expanded');
 	});
-	$(parent).find('.img-wrapper').on('click', function() {
+	$(parent).find('.img-wrapper').on('click', function(e) {
+		e.preventDefault();
 		$(this).toggleClass('expanded');
 	});
 }

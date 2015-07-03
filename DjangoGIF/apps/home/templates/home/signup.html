@@ -9,6 +9,6 @@
 <form action="{% url 'home:create-account' %}" method="post" class="main-form">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" class="green-btn main-submit">
+    <input type="submit" class="btn green-btn main-submit">
 </form>
 {% endblock %}

@@ -23,7 +23,7 @@
 
         <div class="inner-nav">
             {% if tags %}
-            <div class="inner-nav-tags inner-nav-btn yellow-btn">
+            <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
                 Tags
                 <div class="inner-tag-nav hidden">
                     {% for tag in tags %}
@@ -34,21 +34,21 @@
             {% endif %}
 
             {% if can_edit %}
-            <div class="add-gif-form-button green-btn">
+            <div class="add-gif-form-button btn green-btn">
                 Add GIF
             </div>
             {% endif %}
 
             {% if gifs %}
             {% if can_edit %}
-            <div class="bulk-gif-button blue-btn">
+            <div class="bulk-gif-button btn blue-btn">
                 Bulk Tasks
             </div>
 
             <div id="bulk-operations" class="hidden">
-                <div id="bulk-delete-btn" class="bulk-btn red-btn">Delete GIFs</div>
-                <div id="bulk-remove-tags-btn" class="bulk-btn blue-btn">Remove Tags</div>
-                <div id="bulk-add-tags-btn" class="bulk-btn green-btn">Add Tags</div>
+                <div id="bulk-delete-btn" class="btn bulk-btn red-btn">Delete GIFs</div>
+                <div id="bulk-remove-tags-btn" class="btn bulk-btn blue-btn">Remove Tags</div>
+                <div id="bulk-add-tags-btn" class="btn bulk-btn green-btn">Add Tags</div>
 
                 <div id="bulk-operations-delete" class="bulk-option hidden">
                     <p>Delete Selected GIFs</p>
@@ -56,7 +56,7 @@
                         {% csrf_token %}
                         <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
                         <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit red-btn" value="Delete">
+                        <input type="submit" class="submit btn red-btn" value="Delete">
                     </form>
                 </div>
 
@@ -68,7 +68,7 @@
                         <input type="text" name='tags' placeholder="Comma Separated Tags">
                         <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
                         <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit blue-btn" value="Submit">
+                        <input type="submit" class="submit btn blue-btn" value="Submit">
                     </form>
                 </div>
 
@@ -80,26 +80,26 @@
                         <input type="text" name='tags' placeholder="Comma Separated Tags">
                         <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
                         <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit blue-btn" value="Submit">
+                        <input type="submit" class="submit btn blue-btn" value="Submit">
                     </form>
                 </div>
             </div>
             {% endif %}
 
-            <div class="sort inner-nav-btn peach-btn">Sort</div>
+            <div class="sort btn inner-nav-btn peach-btn">Sort</div>
 
-            <a class="top" href="#top" style="color: white;"><div class="top inner-nav-btn purple-btn">Top</div></a>
+            <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
             {% endif %}
         </div>
 
         {% if can_edit %}
         <div class="add-gif-form hidden">
-            <form action="{% url 'users:add-gif' %}" method="post">
+            <form class="main-form" action="{% url 'users:add-gif' %}" method="post">
                 <h1>Add a GIF</h1>
 
                 {% csrf_token %}
                 {{ add_form }}
-                <input id="add-gif-submit" type="submit" value="Add GIF" class="blue-btn">
+                <input id="add-gif-submit" type="submit" value="Add GIF" class="btn green-btn">
             </form>
         </div>
         {% endif %}
@@ -122,8 +122,8 @@
                     <div class="tag-manager hidden">
                         <div class="tag-manager-options">
                             <div class="tag-manager-title">Tag Options</div>
-                            <div class="rename green-btn">Rename</div>
-                            <div class="delete red-btn">Delete</div>
+                            <div class="rename btn green-btn">Rename</div>
+                            <div class="delete btn red-btn">Delete</div>
                         </div>
 
                         <div class="tag-manager-form">
@@ -133,8 +133,10 @@
                                 {% csrf_token %}
                                 <input type="text" name="new_name" value="{{ entry.0 }}">
                                 <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                                 <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                                <input type="submit" class="blue-btn">
+                                <input type="submit" class="btn blue-btn">
                             </form>
 
                             <form class="delete-tag-form hidden" action="{% url 'users:delete-tag' %}" method="post">
@@ -143,7 +145,7 @@
                                 {% csrf_token %}
                                 <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                                 <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                                <input type="submit" class="red-btn" value="Delete">
+                                <input type="submit" class="btn red-btn" value="Delete">
                             </form>
                         </div>
                     </div>
@@ -174,7 +176,7 @@
                                     </div>
 
                                     <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                    <input type="submit" value="Delete GIF" class="red-btn">
+                                    <input type="submit" value="Delete GIF" class="btn red-btn">
                                 </form>
                             </div>
 
@@ -205,7 +207,7 @@
                                                 <div class="tags-to-be-added-title">Tags to be Added</div>
                                             </div>
 
-                                            <div class="add-tags-title green-btn">
+                                            <div class="add-tags-title btn green-btn">
                                                 <i class="fa fa-tag"></i>
                                                 Add Tags
                                                 <input type="text" value="0" class="add-tags-input hidden">
@@ -217,7 +219,7 @@
                                         <input class="gif-id-field hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
                                     </div>
 
-                                    <input type="submit" value="Apply" class="edit-gif-submit blue-btn">
+                                    <input type="submit" value="Apply" class="edit-gif-submit btn blue-btn">
                                 </form>
                             </div>
                             {% endif %}
@@ -254,7 +256,7 @@
                                 </div>
 
                                 <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                <input type="submit" value="Delete GIF" class="red-btn">
+                                <input type="submit" value="Delete GIF" class="btn red-btn">
                             </form>
                         </div>
 
@@ -285,7 +287,7 @@
                                             <div class="tags-to-be-added-title">Tags to be Added</div>
                                         </div>
 
-                                        <div class="add-tags-title green-btn">
+                                        <div class="add-tags-title btn green-btn">
                                             <i class="fa fa-tag"></i>
                                             Add Tags
                                             <input type="text" value="0" class="add-tags-input hidden">
@@ -297,7 +299,7 @@
                                     <input class="gif-id-field hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
                                 </div>
 
-                                <input type="submit" value="Apply" class="edit-gif-submit blue-btn">
+                                <input type="submit" value="Apply" class="edit-gif-submit btn blue-btn">
                             </form>
                         </div>
                         {% endif %}

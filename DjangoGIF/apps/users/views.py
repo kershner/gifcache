@@ -68,13 +68,10 @@ def edit_profile(request, username):
     u = get_object_or_404(User, username=username)
     p = get_object_or_404(Profile, owner=u)
 
-    form = EditProfileForm(initial={
-        'first_name': u.first_name,
-        'avatar_url': p.avatar
-    })
     context = {
         'username': u.username,
-        'form': form,
+        'nickname': u.first_name,
+        'avatar_url': p.avatar,
         'logged_in': logged_in
     }
     if request.user.is_authenticated():
@@ -91,7 +88,7 @@ def edit_profile(request, username):
 def update_profile(request, username):
     if request.method == 'POST':
         if request.user.username == username:
-            nickname = request.POST['first_name']
+            nickname = request.POST['nickname']
             avatar_url = request.POST['avatar_url']
             u = get_object_or_404(User, username=username)
             p = get_object_or_404(Profile, owner=u)
@@ -127,32 +124,73 @@ def add_gif(request):
     if request.method == 'POST':
         form = AddGifForm(request.POST)
         if form.is_valid():
-            hidden_id = request.POST['hidden_id']
-            url = request.POST['url']
-            if url.endswith('v'):
-                url = url[:-1]
+            error = False
             label = request.POST['label']
             tags = request.POST['tags']
+            hidden_id = request.POST['hidden_id']
+            url = request.POST['url']
+            # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
+            if url.endswith('gif'):
+                formatted_url = url
+            elif url.endswith('v'):
+                print 'Gifv URL'
+                formatted_url = url[:-1]
+                url = url.replace('.gifv', '.mp4')
+            elif url.endswith('mp4'):
+                print 'MP4 Url'
+                formatted_url = url.replace('.mp4', '.gif')
+            elif url.endswith('.webm'):
+                print 'Webm Url'
+                formatted_url = url.replace('.webm', '.gif')
+            elif 'gfycat' in url:
+                    print 'Gfycat URL'
+                    if '.mp4' in url:
+                        print 'Gfycat MP4 file'
+                        error = True
+                        gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
+                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+                    elif '.webm' in url:
+                        print 'Gfycat WebM file'
+                        gfy_name = url.rsplit('/', 1)[1].replace('.webm', '')
+                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+                    else:
+                        print 'Normal Gfycat URL'
+                        gfy_name = url.rsplit('/', 1)[1]
+                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+            else:
+                error = True
+                request.session['message'] = 'You tried to add a non-GIF file!'
+                return redirect('/u/%s' % str(request.user.username))
 
-            size = (150, 100)
-            img = requests.get(url)
-            img_file = Image.open(StringIO(img.content)).convert('RGB').resize(size)
-            img_file.thumbnail(size, Image.ANTIALIAS)
-            img_temp = StringIO()
-            img_file.save(img_temp, 'JPEG')
+            if error:
+                request.session['message'] = 'Error with image file, please try another!'
+                return redirect('/u/%s' % str(request.user.username))
+            else:
+                print 'URL being saved: ', url
+                print 'Formatted URL for img processing: ', formatted_url
+                size = (150, 100)
+                img = requests.get(formatted_url)
+                img = StringIO(img.content)
+                img_file = Image.open(img).convert('RGB').resize(size)
+                img_file.thumbnail(size, Image.ANTIALIAS)
+                img_temp = StringIO()
+                img_file.save(img_temp, 'JPEG')
 
-            u = get_object_or_404(User, id=hidden_id)
-            g = Gif(owner=u, url=url, created=timezone.now(), label=label)
-            g.thumbnail.save(url + '-thumb.jpg', ContentFile(img_temp.getvalue()))
-            g.save()
+                u = get_object_or_404(User, id=hidden_id)
+                g = Gif(owner=u, url=url, created=timezone.now(), label=label)
+                g.thumbnail.save(url + '-thumb.jpg', ContentFile(img_temp.getvalue()))
+                g.save()
 
-            tags = tags.split(',')
-            for tag in tags:
-                if str(tag) == '':
-                    pass
-                else:
-                    g.tags.add(tag)
-            return redirect('/u/%s' % str(u.username))
+                tags = tags.split(',')
+                for tag in tags:
+                    if str(tag) == '':
+                        pass
+                    else:
+                        g.tags.add(tag)
+                return redirect('/u/%s' % str(u.username))
         return redirect('/u/%s' % request.user.username)
 
 

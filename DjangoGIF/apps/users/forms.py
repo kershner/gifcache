@@ -2,7 +2,7 @@ from django import forms
 
 
 class EditProfileForm(forms.Form):
-    first_name = forms.CharField(label='Nickname', widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    nickname = forms.CharField(label='Nickname', widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
     avatar_url = forms.CharField(label='Avatar URL', widget=forms.TextInput(attrs={'placeholder': 'Avatar URL'}))
 
 

@@ -7,7 +7,16 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
-    return render(request, 'home/home.html')
+    logged_in = False
+    if request.user.is_authenticated():
+        logged_in = True
+
+    context = {
+        'logged_in': logged_in,
+        'username': request.user.username
+        }
+
+    return render(request, 'home/home.html', context)
 
 
 def login_view(request):
@@ -70,14 +79,14 @@ def create_account(request):
             username = request.POST['username']
             password = request.POST['password']
             email = request.POST['email']
-            firstname = request.POST['first_name']
-            u = User.objects.create_user(username=username, password=password, email=email, first_name=firstname)
+            nickname = request.POST['nickname']
+            u = User.objects.create_user(username=username, password=password, email=email, first_name=nickname)
             p = Profile(owner=u)
             u.save()
             p.save()
             request.user.username = username
             context = {
-                'name': firstname,
+                'name': nickname,
                 'username': username
             }
             return render(request, 'home/account_created.html', context)

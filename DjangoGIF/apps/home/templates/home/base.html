@@ -35,13 +35,12 @@
             <div class="profile-nav-link">PROFILE
                 <div class="profile-nav-extra">
                     <a href="/u/{{ username }}">{{ username }}</a>
-                    <a href="/u/{{ username }}/edit-profile">EDIT</a>
-                    <a href="{% url 'home:logout' %}">LOGOUT</a>
+                    <a href="/u/{{ username }}/edit-profile">Edit</a>
+                    <a href="{% url 'home:logout' %}">Logout</a>
                 </div>
             </div>
             {% else %}
             <a href="{% url 'home:signup' %}">SIGNUP</a>
-
             <a href="{% url 'home:login' %}">LOGIN</a>
             {% endif %}
         </div>
@@ -53,7 +52,9 @@
     <!-- JavaScripts -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="http://test.gfycat.com/gfycat_test_june25.js"></script>
     <script type="text/javascript" src="{% static '/static/js/packery-mode.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/static/js/main.js' %}"></script>
+
     </body>
 </html>
