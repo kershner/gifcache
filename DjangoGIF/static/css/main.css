@@ -35,6 +35,9 @@ label {
 	margin-bottom: -.75em;
 }
 
+.container {
+}
+
 .label {
 	position: relative;
 	margin: 0;
@@ -48,7 +51,7 @@ label {
 .anchor {
 	display: block;
 	position: relative;
-	top: -5em;
+	top: -7em;
 }
 
 .animate {
@@ -430,7 +433,7 @@ label {
 #gif {
 	position: absolute;
 	z-index: 2;
-	top: 0.3em;
+	top: 0.25em;
 	left: 0.1em;
 }
 
@@ -642,7 +645,7 @@ label {
 	margin: 0 auto;
 	padding: .75em;
 	width: 10em;
-	background-color: #d9d9d9;
+	background-color: #F2F2F2;
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em; 
@@ -672,7 +675,7 @@ label {
 	width: 60%;
 	max-width: 30em;
 	min-width: 15em;
-	background-color: #d9d9d9;
+	background-color: #F2F2F2;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -746,28 +749,33 @@ label {
 .tag-group {
 	display: inline-block;
 	position: relative;
-	margin: .5em;
+	margin: .5em auto;
 	padding: 1em;
 	border: .15em solid #25B972;
 	border-radius: 1em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .tag-title {
 	position: absolute;
-	padding: 0 .25em;
+	padding: 0 .5em;
 	top: -.75em;
 	background-color: #f2f2f2;
 	font-size: 1.25em;
 	color: #25B972;
+	border-radius: .25em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .tag-settings-icon {
 	position: absolute;
-	padding: 0 .1em;
+	padding: .2em .3em;
 	top: -.5em;
 	right: .35em;
 	color: #25B972;
 	background-color: #F2F2F2;
+	border-radius: 50%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .tag-settings-icon:hover {
@@ -830,6 +838,7 @@ label {
 	left: 0;
 	width: 100%;
 	height: 100%;
+	border: none;
 	border-radius: 1em;
 	background-color: rgba(0, 0, 0, 0.5);
 }
@@ -875,12 +884,12 @@ label {
 	transform: scale(1.2);
 }
 
-.gif-grid-element:active {	
-	top: 4px;
+.gif-grid-element:active {
+	
 }
 
 .expanded {
-	z-index: 5;
+	z-index: 6 !important;
 	-ms-transform: scale(3);
 	-ms-webkit: scale(3);
 	transform: scale(3);
@@ -905,6 +914,8 @@ label {
 	-ms-transform: scale(1.2);
 	-ms-webkit: scale(1.2);
 	transform: scale(1.2);
+	/*border: 0.15em solid rgb(255, 103, 103);*/
+	/*box-shadow: none;*/
 }
 
 .gif-grid-element .img-wrapper {
@@ -1103,7 +1114,7 @@ label {
 	text-align: center;
 	padding: .5em;
 	width: 10em;
-	background-color: #d9d9d9;
+	background-color: #F2F2F2;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }

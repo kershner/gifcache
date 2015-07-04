@@ -10,7 +10,7 @@ $(document).ready(function () {
 	gifIsotope();
 	showTagManager();
 	showInnerNav();
-	colorTagGrops();
+	colorTagGroups();
 });
 
 function showTagManager() {
@@ -37,10 +37,24 @@ function tagManagerOptions() {
 function clickGifElements() {
 	$('.gif-grid-thumbnail').on('click', function() {
 		$(this).parent().toggleClass('focused');
-		var div = $(this).parent().children().find('.gif-form-title').children(div);
+		var div = $(this).parent().find('.gif-form-title').children(div);
 		div.toggleClass('focused');
 		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
-	})
+
+		if ($(this).parent().hasClass('focused')) {
+			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+			var color  = colors[Math.floor(Math.random() * colors.length)];			
+			$(this).parent().css({
+				'border': '0.2em solid ' + color,
+				'background-color': color
+			});			
+		} else {
+			$(this).parent().css({
+				'border': 'none',
+				'background-color': '#e6e6e6'
+			});
+		}		
+	});
 }
 
 function showDelete() {
@@ -79,7 +93,6 @@ function bulkOperations() {
 		$('#bulk-operations').toggleClass('hidden');
 		bulkSelect();
 		$('#bulk-operations .submit').on('click', function() {
-			console.log('Clicked!');
 			grabBulkValues();
 		});		
 	});
@@ -214,6 +227,7 @@ function updateAddTagInput(element) {
 function hoverGifs() {
 	$('.gif-grid-element').on({		
 		mouseenter: function() {			
+			var gif = $(this).find('.img-wrapper');
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.gif-url').text();
 			// Check what kind of URL we have
@@ -221,35 +235,35 @@ function hoverGifs() {
 			var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
 			var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 			var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
-			console.log(gifUrl);
 			if (isGifv || isMp4 || isWebm || isGfycat) {
 				console.log('Mp4, Gifv, Gfycat, or Webm file');
 				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop></video></div>'
 			} else {
 				console.log('Normal GIF file');
 				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
-			}			
-			if ($(this).hasClass('focused')) {
+			}
+
+			if ($(this).hasClass('focused') || gif.hasClass('expanded')) {
 				gifExpand($(this));
 			} else {
 				thumbnail.css({
 				'opacity': 0.0
-			});
-			$(this).prepend(html);
-			gifExpand($(this));
-			gfyCollection.init
+				});
+				$(this).prepend(html);
+				gifExpand($(this));
 			}
 		},
 		mouseleave: function() {			
 			var gif = $(this).find('.img-wrapper');
-			if ($(this).hasClass('focused') || $(gif).hasClass('expanded')) {
+			if ($(this).hasClass('focused') || gif.hasClass('expanded')) {
+				gifExpand($(this));
 			} else {
 				var thumbnail = $(this).children('.gif-grid-thumbnail');
 				thumbnail.css({
 					'opacity': 1.0
 				});
 				$(this).children('.img-wrapper').remove();
-				gifExpand($(this));				
+				gifExpand($(this));			
 			}
 		}
 	});
@@ -276,7 +290,10 @@ function gifIsotope() {
 
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',
-		layoutMode: 'packery'
+		layoutMode: 'packery',
+		packery: {
+			gutter: 10
+		}
 	});
 }
 
@@ -291,16 +308,19 @@ function showInnerNav() {
 	});
 }
 
-function colorTagGrops() {	
+function colorTagGroups() {	
 	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
 	var counter = randomnumber;
 	$('.tag-group').each(function() {
-		if (counter > colors.length) {
+		if (counter > colors.length - 1 ) {
 			counter = 0;
 		}
 		var color = colors[counter];
-		$(this).css('border', '.15em solid ' + color);
+		$(this).css({
+			'border': '.15em solid ' + color,
+			'background-color': color
+		});		
 		$(this).find('.tag-title').css('color', color);
 		$(this).find('.tag-settings-icon').css('color', color);
 		counter += 1

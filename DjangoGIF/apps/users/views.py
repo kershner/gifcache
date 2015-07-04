@@ -129,6 +129,7 @@ def add_gif(request):
             tags = request.POST['tags']
             hidden_id = request.POST['hidden_id']
             url = request.POST['url']
+
             # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
             if url.endswith('gif'):
                 formatted_url = url
