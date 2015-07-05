@@ -10,7 +10,7 @@ $(document).ready(function () {
 	gifIsotope();
 	showTagManager();
 	showInnerNav();
-	colorTagGroups();
+	colorPageElements();
 });
 
 function showTagManager() {
@@ -316,7 +316,7 @@ function showInnerNav() {
 	});
 }
 
-function colorTagGroups() {	
+function colorPageElements() {	
 	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
 	var counter = randomnumber;
@@ -336,9 +336,33 @@ function colorTagGroups() {
 		});
 		counter += 1
 	});
-	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];	
+	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
 	$('.profile-info').css({
 		'background-color': profileInfoColor
+	});	
+}
+
+function colorMainForm() {
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];	
+	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
+	var counter = randomnumber;	
+	$('.main-form').css({
+		'margin-top': '5em',
+		'background-color': colors[counter]
+	});
+	$('.title').css({
+		'background-color': colors[counter]
+	});
+	counter += 1;
+	$('.main-field').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var color = colors[counter];
+		$(this).css({
+			'border-bottom': '.3em solid ' + color
+		});
+		counter += 1
 	});
 }
 //////////////////////////////////////////////////////////////////////////////////

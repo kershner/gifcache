@@ -25,6 +25,7 @@ def login_view(request):
         logged_in = True
 
     context = {
+        'title': 'Login',
         'form': LoginForm(),
         'logged_in': logged_in,
         'username': request.user.username
@@ -48,12 +49,14 @@ def authenticate_user(request):
             return redirect('/u/%s' % str(user.username))
         else:
             context = {
+                'title': 'Login',
                 'form': LoginForm(),
                 'message': 'This account has been deactivated, please create a new one.'
             }
             return render(request, 'home/login.html', context)
     else:
         context = {
+            'title': 'Login',
             'form': LoginForm(),
             'message': 'Invalid Login, please try again.'
         }
@@ -69,7 +72,7 @@ def signup(request):
             print message
     else:
         form = SignupForm()
-    return render(request, 'home/signup.html', {'form': form})
+    return render(request, 'home/signup.html', {'form': form, 'title': 'Signup'})
 
 
 def create_account(request):

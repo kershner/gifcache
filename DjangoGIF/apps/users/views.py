@@ -43,7 +43,7 @@ def view_profile(request, username):
         'hidden_id': u.id
     })
     context = {
-        'username': u.username,
+        'username': request.user.username,
         'name': u.first_name,
         'add_form': add_gif_form,
         'gifs': gifs,
@@ -69,6 +69,7 @@ def edit_profile(request, username):
     p = get_object_or_404(Profile, owner=u)
 
     context = {
+        'title': 'Edit Profile',
         'username': u.username,
         'nickname': u.first_name,
         'avatar_url': p.avatar,

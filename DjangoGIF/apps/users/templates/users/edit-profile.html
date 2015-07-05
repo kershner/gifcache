@@ -1,17 +1,18 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<h1 class="title">Edit Profile</h1>
 
-<form action="/u/{{ username }}/update-profile/" method="post" class="main-form">
+<form action="/u/{{ username }}/update-profile/" method="post" class="main-form animate">
+    <h1 class="title">Edit Profile</h1>
+
     {% csrf_token %}
-    <input type="text" name="nickname" value="{{ nickname }}">
+    <input type="text" name="nickname" value="{{ nickname }}" class="main-field animate">
     <div class="label">Nickname</div>
 
     <div class="edit-profile-avatar">
         <div class="img-wrapper">
             <img src="{{ avatar_url }}">
         </div>
-        <input type="text" name="avatar_url" value="{{ avatar_url }}">
+        <input type="text" name="avatar_url" value="{{ avatar_url }}" class="main-field animate">
         <div class="label">Avatar</div>
     </div>
 

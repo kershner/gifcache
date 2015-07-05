@@ -19,6 +19,10 @@
                     <div class="stat-desc">GIFs</div>
                 </div>
             </div>
+
+            {% if can_edit %}
+            <a href="/u/{{ username }}/edit-profile"><div class="btn blue-btn">Edit</div></a>
+            {% endif %}
         </div>
 
         <div class="inner-nav animate-bg">
@@ -152,7 +156,7 @@
                     {% endif %}
 
                     {% for object in entry.1 %}
-                        <div class="gif-grid-element animate">
+                        <div class="gif-grid-element animate-fast">
                             <div class="bulk-wrapper hidden">
                                 <i class="fa fa-circle-o"></i>
                                 <input type="text" value="{{ object.id }}" class="hidden">
@@ -228,7 +232,7 @@
                     <div class="tag-title">all GIFs</div>
 
                     {% for object in gifs %}
-                    <div class="gif-grid-element animate">
+                    <div class="gif-grid-element animate-fast">
                         <div class="bulk-wrapper hidden">
                             <i class="fa fa-circle-o"></i>
                             <input type="text" value="{{ object.id }}" class="hidden">
