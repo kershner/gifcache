@@ -252,16 +252,13 @@
 
                         <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
                             {% csrf_token %}
-                            <div class="gif-form-title">
-                                <div style="left: 1em;">label</div>
+                            <div class="gif-form-section">
+                                <div class="gif-form-title" style="left: .5em;">label</div>
+                                <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
                             </div>
 
-                            <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
-
-                            <div class="tags">
-                                <div class="gif-form-title">
-                                    <div style="right: 1em;">tags</div>
-                                </div>
+                            <div class="tags gif-form-section">
+                                <div class="gif-form-title" style="right: .5em;">tags</div>
 
                                 {% for tag in object.tags.all %}
                                 <div class="tag">
