@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 {% block content %}
 <div class="container">
-        <div class="profile-info">
+        <div class="profile-info animate">
             <div class="profile-avatar">
                 <img src="{{ avatar }}">
             </div>
@@ -14,14 +14,14 @@
                     <div class="stat-desc">tags</div>
                 </div>
 
-                <div class="stat" style="padding-left: 1em;">
+                <div class="stat">
                     <div class="stat-number">{{ gif_number }}</div>
                     <div class="stat-desc">GIFs</div>
                 </div>
             </div>
         </div>
 
-        <div class="inner-nav">
+        <div class="inner-nav animate-bg">
             {% if tags %}
             <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
                 Tags
@@ -112,12 +112,12 @@
         <div id="grids">
             <div id="tagged-gif-grid" class="gif-grid">
                 {% for entry in tagged_gifs %}
-                <div class="tag-group">
+                <div class="tag-group animate-bg">
                     <a class="anchor" name="{{ entry.0 }}"></a>
-                    <div class="tag-title">{{ entry.0 }}</div>
+                    <div class="tag-title animate-bg">{{ entry.0 }}</div>
 
                     {% if can_edit %}
-                    <i class="fa fa-cog tag-settings-icon"></i>
+                    <i class="fa fa-cog tag-settings-icon animate"></i>
 
                     <div class="tag-manager hidden">
                         <div class="tag-manager-options">
@@ -163,24 +163,18 @@
 
                             <p class="gif-date">Added: {{ object.created }}</p>
                             <p class="gif-label">{{ object.label }}</p>
-                            <i class="fa fa-expand gif-expand"></i>
+                            <i class="fa fa-expand gif-expand animate"></i>
 
                             {% if can_edit %}
-                            <i class="fa fa-times delete-icon animate"></i>
-
-                            <div class="gif-form delete-form hidden">
-                                <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
-                                    {% csrf_token %}
-                                    <div class="gif-form-title">
-                                        <div style="left: 1.2em;">delete GIF</div>
-                                    </div>
-
-                                    <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                    <input type="submit" value="Delete GIF" class="btn red-btn">
-                                </form>
-                            </div>
-
                             <div class="gif-form edit-form hidden">
+                                <div class="gif-form delete-form">
+                                    <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
+                                        {% csrf_token %}
+                                        <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
+                                        <input type="submit" value="Delete GIF" class="btn red-btn">
+                                    </form>
+                                </div>
+
                                 <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
                                     {% csrf_token %}
                                     <div class="gif-form-title">
@@ -230,7 +224,7 @@
             </div>
 
             <div id="all-gif-grid" class="gif-grid">
-                <div class="tag-group">
+                <div class="tag-group animate-bg">
                     <div class="tag-title">all GIFs</div>
 
                     {% for object in gifs %}
@@ -243,24 +237,18 @@
                         <div class="gif-url hidden">{{ object.url }}</div>
                         <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
                         <p class="gif-label">{{ object.label }}</p>
-                        <i class="fa fa-expand gif-expand"></i>
+                        <i class="fa fa-expand gif-expand animate"></i>
 
                         {% if can_edit %}
-                        <i class="fa fa-times delete-icon animate"></i>
-
-                        <div class="gif-form delete-form hidden">
-                            <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
-                                {% csrf_token %}
-                                <div class="gif-form-title">
-                                    <div style="left: 1em;">delete GIF</div>
-                                </div>
-
-                                <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                <input type="submit" value="Delete GIF" class="btn red-btn">
-                            </form>
-                        </div>
-
                         <div class="gif-form edit-form hidden">
+                            <div class="gif-form delete-form">
+                                <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
+                                    {% csrf_token %}
+                                    <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
+                                    <input type="submit" value="Delete GIF" class="btn red-btn">
+                                </form>
+                            </div>
+
                             <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
                                 {% csrf_token %}
                                 <div class="gif-form-title">

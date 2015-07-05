@@ -44,14 +44,22 @@ function clickGifElements() {
 		if ($(this).parent().hasClass('focused')) {
 			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 			var color  = colors[Math.floor(Math.random() * colors.length)];			
-			$(this).parent().css({
-				'border': '0.2em solid ' + color,
+			$(this).parent().css({				
 				'background-color': color
-			});			
+			});	
+			$(this).parent().find('.gif-form-title div').css({
+				'background-color': color
+			});
+			$(this).parent().find('.gif-label').css({
+				'color': 'white'
+			});
 		} else {
 			$(this).parent().css({
 				'border': 'none',
 				'background-color': '#e6e6e6'
+			});
+			$(this).parent().find('.gif-label').css({
+				'color': '#498FBD'
 			});
 		}		
 	});
@@ -283,7 +291,7 @@ function gifIsotope() {
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
 		masonry: {
-			columnWidth: '.gif-grid-element',
+			columnWidth: '.gif-grid-element',			
 			isFitWidth: true
 		}
 	});
@@ -318,15 +326,21 @@ function colorTagGroups() {
 		}
 		var color = colors[counter];
 		$(this).css({
-			'border': '.15em solid ' + color,
 			'background-color': color
 		});		
-		$(this).find('.tag-title').css('color', color);
-		$(this).find('.tag-settings-icon').css('color', color);
+		$(this).find('.tag-title').css('background-color', color);
+		$(this).find('.tag-settings-icon').css('background-color', color);
+		$(this).find('.tag-manager-options').css('background-color', color);
+		$(this).find('.tag-manager-form form').each(function(){
+			$(this).css('background-color', color);
+		});
 		counter += 1
 	});
+	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];	
+	$('.profile-info').css({
+		'background-color': profileInfoColor
+	});
 }
-
 //////////////////////////////////////////////////////////////////////////////////
 // AJAX example for later reference
 function editGifAjax() {
