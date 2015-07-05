@@ -76,6 +76,9 @@ function showAddForm() {
 	$('.add-gif-form-button').on('click', function() {
 		$(this).toggleClass('green-btn-selected');
 		$('.add-gif-form').toggleClass('hidden');	
+		setTimeout(function() {
+			colorMainForm();
+		}, 1);		
 	});
 	$('.add-gif-form').on('click', function(e) {
 		e.preventDefault();
@@ -291,7 +294,7 @@ function gifIsotope() {
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
 		masonry: {
-			columnWidth: '.gif-grid-element',			
+			columnWidth: '.gif-grid-element',
 			isFitWidth: true
 		}
 	});
@@ -347,7 +350,6 @@ function colorMainForm() {
 	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
 	var counter = randomnumber;	
 	$('.main-form').css({
-		'margin-top': '5em',
 		'background-color': colors[counter]
 	});
 	$('.title').css({

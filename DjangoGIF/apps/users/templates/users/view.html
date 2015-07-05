@@ -98,7 +98,7 @@
 
         {% if can_edit %}
         <div class="add-gif-form hidden">
-            <form class="main-form" action="{% url 'users:add-gif' %}" method="post">
+            <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
                 <h1>Add a GIF</h1>
 
                 {% csrf_token %}
@@ -121,7 +121,7 @@
                     <div class="tag-title animate-bg">{{ entry.0 }}</div>
 
                     {% if can_edit %}
-                    <i class="fa fa-cog tag-settings-icon animate"></i>
+                    <i class="fa fa-cog tag-settings-icon animate-fast"></i>
 
                     <div class="tag-manager hidden">
                         <div class="tag-manager-options">

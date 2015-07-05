@@ -7,7 +7,7 @@ class EditProfileForm(forms.Form):
 
 
 class AddGifForm(forms.Form):
-    url = forms.URLField(label='', widget=forms.TextInput(attrs={'placeholder': 'URL', 'class': 'add-form-input'}))
-    label = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Label', 'class': 'add-form-input'}))
-    tags = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Tags', 'class': 'add-form-input'}))
+    url = forms.URLField(label='', widget=forms.TextInput(attrs={'placeholder': 'URL', 'class': 'main-field add-form-input animate'}))
+    label = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Label', 'class': 'main-field add-form-input animate'}))
+    tags = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Tags', 'class': 'main-field add-form-input animate'}))
     hidden_id = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'hidden'}))

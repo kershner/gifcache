@@ -30,7 +30,18 @@ input {
 label {
 	display: block;
 	margin-left: 1em;
-	margin-bottom: -.75em;
+	margin-bottom: -.75em;	
+}
+
+.label {
+	position: relative;
+	margin: 0;
+	left: 4em;
+	bottom: .75em;
+	text-align: left;
+	color: white;
+	font-size: .75em;
+	text-shadow: 1px 1px 3px #000;
 }
 
 .container {
@@ -43,16 +54,6 @@ label {
 	-webkit-box-shadow: 0px 6px 0px #ff3434 !important;
 	-moz-box-shadow: 0px 6px 0px #ff3434 !important;
 	box-shadow: 0px 6px 0px #ff3434 !important;
-}
-
-.label {
-	position: relative;
-	margin: 0;
-	left: 4em;
-	bottom: .75em;
-	text-align: left;
-	color: white;
-	font-size: .75em;
 }
 
 .anchor {
@@ -137,7 +138,8 @@ label {
 
 .main-form {
 	position: relative;
-	margin: 1em auto;	
+	margin: 1em auto;
+	margin-top: 4em;
 	padding: 1em;
 	padding-top: 2em;
 	width: 25em;
@@ -596,7 +598,7 @@ label {
 
 .stat {
 	display: inline-block;
-	padding: 1em;
+	padding: .5em;
 }
 
 .stat-number {
@@ -606,6 +608,9 @@ label {
 .stat-desc {
 	position: relative;
 	font-size: 1.5em;
+}
+
+#tag-nav {
 }
 
 .tag-nav {
@@ -620,18 +625,6 @@ label {
 	text-align: center;
 	box-shadow: 1px 5px 15px -5px #000;
 	border-radius: .25em;
-}
-
-.tag-nav p {
-	margin: .25em;
-	color: #074C78;
-}
-
-.inner-tag-nav .tag:hover {
-	background-color: #4b96c7;
-	-webkit-box-shadow: 0px 6px 0px #357caa;
-	-moz-box-shadow: 0px 6px 0px #357caa;
-	box-shadow: 0px 6px 0px #357caa;
 }
 
 .inner-nav {
@@ -671,7 +664,7 @@ label {
 
 .inner-tag-nav {
 	position: absolute;
-	z-index: 5;
+	z-index: 7;
 	margin: 0 auto;
 	padding: .75em;
 	width: 10em;
@@ -679,6 +672,13 @@ label {
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em; 
+}
+
+.inner-tag-nav .tag:hover {
+	background-color: #4b96c7;
+	-webkit-box-shadow: 0px 6px 0px #357caa;
+	-moz-box-shadow: 0px 6px 0px #357caa;
+	box-shadow: 0px 6px 0px #357caa;
 }
 
 .add-gif-form-button {
@@ -812,17 +812,21 @@ label {
 
 .tag-settings-icon:hover {
 	cursor: pointer;
-	opacity: 0.9;
 	-ms-transform: scale(1.2);
 	-ms-webkit: scale(1.2);
 	transform: scale(1.2);
 }
 
 .tag-settings-icon-clicked {
-	opacity: 0.9;
+	z-index: 9;
+	border-radius: .25em;
 	-ms-transform: scale(1.2) !important;
 	-ms-webkit: scale(1.2) !important;
 	transform: scale(1.2) !important;
+}
+
+.tag-settings-icon:active {
+	top: 1px;
 }
 
 .gif-grid p {
@@ -1107,16 +1111,21 @@ label {
 }
 
 .tags-to-be-added-title {
-	padding: .2em;
+	padding: .175em;
 	background-color: #38749b;
 	color: white;
 	border-radius: 1em 1em 0 0;
+	text-shadow: 1px 1px 3px #000;
 }
 
 .tag-to-be-added {
 	display: block;
 	margin: .25em;
-	color: white !important;
+	color: white !important;	
+}
+
+.tag-to-be-added-value {
+	text-shadow: 1px 1px 3px #000;
 }
 
 .tag-to-be-added i {
@@ -1136,7 +1145,7 @@ label {
 .tag-manager {
 	display: inline-block;
 	position: absolute;
-	z-index: 2;
+	z-index: 8;
 	top: 0;
 	left: 0;
 	right: 0;	
@@ -1170,12 +1179,12 @@ label {
 	top: 9em;
 	padding: 1em;	
 	width: 75%;
-	max-width: 20em;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	max-width: 20em;	
 	color: white;
 	text-align: center;
-	border-radius: .2em;
+	border-radius: 1em;
 	border: .2em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .tag-manager-options-title {
