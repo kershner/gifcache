@@ -47,7 +47,7 @@ function clickGifElements() {
 			$(this).parent().css({				
 				'background-color': color
 			});	
-			$(this).parent().find('.gif-form-title div').css({
+			$(this).parent().find('.gif-form-title').css({
 				'background-color': color
 			});
 			$(this).parent().find('.gif-label').css({
@@ -330,7 +330,10 @@ function colorPageElements() {
 		var color = colors[counter];
 		$(this).css({
 			'background-color': color
-		});		
+		});
+		$(this).find('.tag-manager-options-title').css({
+			'background-color': color
+		});
 		$(this).find('.tag-title').css('background-color', color);
 		$(this).find('.tag-settings-icon').css('background-color', color);
 		$(this).find('.tag-manager-options').css('background-color', color);
@@ -342,14 +345,23 @@ function colorPageElements() {
 	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
 	$('.profile-info').css({
 		'background-color': profileInfoColor
-	});	
+	});
+	$('.profile-name').css({
+		'background-color': profileInfoColor
+	});
+	$('.bulk-option').each(function() {
+		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
+		$(this).css({
+			'border-top': '.15em solid ' + bulkOptionColor
+		});
+	});
 }
 
 function colorMainForm() {
 	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];	
 	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
 	var counter = randomnumber;	
-	$('.main-form').css({
+	$('.main-form, .main-form h1').css({
 		'background-color': colors[counter]
 	});
 	$('.title').css({

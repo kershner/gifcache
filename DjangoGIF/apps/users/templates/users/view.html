@@ -1,237 +1,162 @@
 {% extends 'home/base.html' %}
 {% block content %}
 <div class="container">
-        <div class="profile-info animate">
-            <div class="profile-avatar">
-                <img src="{{ avatar }}">
-            </div>
 
-            <div class="profile-name">{{ name }}</div>
+    <div class="profile-info animate">
+        <div class="profile-name">{{ name }}</div>
 
-            <div class="profile-stats">
-                <div id="tag-nav" class="stat">
-                    <div class="stat-number">{{ tag_number }}</div>
-                    <div class="stat-desc">tags</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-number">{{ gif_number }}</div>
-                    <div class="stat-desc">GIFs</div>
-                </div>
-            </div>
-
-            {% if can_edit %}
-            <a href="/u/{{ username }}/edit-profile"><div class="btn blue-btn">Edit</div></a>
-            {% endif %}
+        <div class="profile-avatar">
+            <img src="{{ avatar }}">
         </div>
 
-        <div class="inner-nav animate-bg">
-            {% if tags %}
-            <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
-                Tags
-                <div class="inner-tag-nav hidden">
-                    {% for tag in tags %}
-                    <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-
-            {% if can_edit %}
-            <div class="add-gif-form-button btn green-btn">
-                Add GIF
-            </div>
-            {% endif %}
-
-            {% if gifs %}
-            {% if can_edit %}
-            <div class="bulk-gif-button btn blue-btn">
-                Bulk Tasks
+        <div class="profile-stats">
+            <div id="tag-nav" class="stat">
+                <div class="stat-number">{{ tag_number }}</div>
+                <div class="stat-desc">tags</div>
             </div>
 
-            <div id="bulk-operations" class="hidden">
-                <div id="bulk-delete-btn" class="btn bulk-btn red-btn">Delete GIFs</div>
-                <div id="bulk-remove-tags-btn" class="btn bulk-btn blue-btn">Remove Tags</div>
-                <div id="bulk-add-tags-btn" class="btn bulk-btn green-btn">Add Tags</div>
-
-                <div id="bulk-operations-delete" class="bulk-option hidden">
-                    <p>Delete Selected GIFs</p>
-                    <form action="{% url 'users:bulk-delete' %}" method="post">
-                        {% csrf_token %}
-                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit btn red-btn" value="Delete">
-                    </form>
-                </div>
-
-                <div id="bulk-operations-add-tags" class="bulk-option hidden">
-                    <p>Add Tags to Selected GIFs</p>
-
-                    <form action="{% url 'users:bulk-add-tags' %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" name='tags' placeholder="Comma Separated Tags">
-                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit btn blue-btn" value="Submit">
-                    </form>
-                </div>
-
-                <div id="bulk-operations-remove-tags" class="bulk-option hidden">
-                    <p>Remove Tags From Selected GIFs</p>
-
-                    <form action="{% url 'users:bulk-remove-tags' %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" name='tags' placeholder="Comma Separated Tags">
-                        <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
-                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="submit btn blue-btn" value="Submit">
-                    </form>
-                </div>
+            <div class="stat">
+                <div class="stat-number">{{ gif_number }}</div>
+                <div class="stat-desc">GIFs</div>
             </div>
-            {% endif %}
-
-            <div class="sort btn inner-nav-btn peach-btn">Sort</div>
-
-            <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
-            {% endif %}
         </div>
 
         {% if can_edit %}
-        <div class="add-gif-form hidden">
-            <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
-                <h1>Add a GIF</h1>
+        <a href="/u/{{ username }}/edit-profile"><div class="btn blue-btn">Edit</div></a>
+        {% endif %}
+    </div>
 
-                {% csrf_token %}
-                {{ add_form }}
-                <input id="add-gif-submit" type="submit" value="Add GIF" class="btn green-btn">
-            </form>
+    <div class="inner-nav animate-bg">
+        {% if tags %}
+        <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
+            Tags
+            <div class="inner-tag-nav hidden">
+                {% for tag in tags %}
+                <a href="#{{ tag }}"><div class="tag">{{ tag }}</div></a>
+                {% endfor %}
+            </div>
         </div>
         {% endif %}
 
-        {% if message %}
-        <div class="message">{{ message }}</div>
+        {% if can_edit %}
+        <div class="add-gif-form-button btn green-btn">
+            Add GIF
+        </div>
         {% endif %}
 
         {% if gifs %}
-        <div id="grids">
-            <div id="tagged-gif-grid" class="gif-grid">
-                {% for entry in tagged_gifs %}
-                <div class="tag-group animate-bg">
-                    <a class="anchor" name="{{ entry.0 }}"></a>
-                    <div class="tag-title animate-bg">{{ entry.0 }}</div>
+        {% if can_edit %}
+        <div class="bulk-gif-button btn blue-btn">
+            Bulk Tasks
+        </div>
 
-                    {% if can_edit %}
-                    <i class="fa fa-cog tag-settings-icon animate-fast"></i>
+        <div id="bulk-operations" class="hidden">
+            <div id="bulk-delete-btn" class="btn bulk-btn red-btn">Delete GIFs</div>
+            <div id="bulk-remove-tags-btn" class="btn bulk-btn blue-btn">Remove Tags</div>
+            <div id="bulk-add-tags-btn" class="btn bulk-btn green-btn">Add Tags</div>
 
-                    <div class="tag-manager hidden">
-                        <div class="tag-manager-options">
-                            <div class="tag-manager-title">Tag Options</div>
-                            <div class="rename btn green-btn">Rename</div>
-                            <div class="delete btn red-btn">Delete</div>
-                        </div>
-
-                        <div class="tag-manager-form">
-                            <form class="rename-tag-form hidden" action="{% url 'users:rename-tag' %}" method="post">
-                                <div class="tag-manager-options-title">Rename Tag</div>
-
-                                {% csrf_token %}
-                                <input type="text" name="new_name" value="{{ entry.0 }}">
-                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
-                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
-                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
-                                <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                                <input type="submit" class="btn blue-btn">
-                            </form>
-
-                            <form class="delete-tag-form hidden" action="{% url 'users:delete-tag' %}" method="post">
-                                <div class="tag-manager-options-title">Delete Tag</div>
-
-                                {% csrf_token %}
-                                <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
-                                <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
-                                <input type="submit" class="btn red-btn" value="Delete">
-                            </form>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {% for object in entry.1 %}
-                        <div class="gif-grid-element animate-fast">
-                            <div class="bulk-wrapper hidden">
-                                <i class="fa fa-circle-o"></i>
-                                <input type="text" value="{{ object.id }}" class="hidden">
-                            </div>
-
-                            <div class="gif-url hidden">{{ object.url }}</div>
-                            <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
-
-                            <p class="gif-date">Added: {{ object.created }}</p>
-                            <p class="gif-label">{{ object.label }}</p>
-                            <i class="fa fa-expand gif-expand animate"></i>
-
-                            {% if can_edit %}
-                            <div class="gif-form edit-form hidden">
-                                <div class="gif-form delete-form">
-                                    <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
-                                        {% csrf_token %}
-                                        <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
-                                        <input type="submit" value="Delete GIF" class="btn red-btn">
-                                    </form>
-                                </div>
-
-                                <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
-                                    {% csrf_token %}
-                                    <div class="gif-form-title">
-                                        <div style="left: 1em;">label</div>
-                                    </div>
-
-                                    <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
-
-                                    <div class="tags">
-                                        <div class="gif-form-title">
-                                            <div style="right: 1em;">tags</div>
-                                        </div>
-
-                                        {% for tag in object.tags.all %}
-                                        <div class="tag">
-                                            <div class="tag-name">{{ tag.name }}</div>
-                                            <i class="fa fa-trash-o delete-tag"></i>
-                                            <input class="remove-tag-input hidden" type="text" value=" ">
-                                        </div>
-                                        {% endfor %}
-
-                                        <div class="add-tags">
-                                            <div class="tags-to-be-added hidden">
-                                                <div class="tags-to-be-added-title">Tags to be Added</div>
-                                            </div>
-
-                                            <div class="add-tags-title btn green-btn">
-                                                <i class="fa fa-tag"></i>
-                                                Add Tags
-                                                <input type="text" value="0" class="add-tags-input hidden">
-                                            </div>
-                                        </div>
-
-                                        <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
-                                        <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="">
-                                        <input class="gif-id-field hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
-                                    </div>
-
-                                    <input type="submit" value="Apply" class="edit-gif-submit btn blue-btn">
-                                </form>
-                            </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-                {% endfor %}
+            <div id="bulk-operations-delete" class="bulk-option hidden">
+                <p>Delete Selected GIFs</p>
+                <form action="{% url 'users:bulk-delete' %}" method="post">
+                    {% csrf_token %}
+                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                    <input type="submit" class="submit btn red-btn" value="Delete">
+                </form>
             </div>
 
-            <div id="all-gif-grid" class="gif-grid">
-                <div class="tag-group animate-bg">
-                    <div class="tag-title">all GIFs</div>
+            <div id="bulk-operations-add-tags" class="bulk-option hidden">
+                <p>Add Tags to Selected GIFs</p>
 
-                    {% for object in gifs %}
+                <form action="{% url 'users:bulk-add-tags' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name='tags' placeholder="Comma Separated Tags">
+                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                    <input type="submit" class="submit btn blue-btn" value="Submit">
+                </form>
+            </div>
+
+            <div id="bulk-operations-remove-tags" class="bulk-option hidden">
+                <p>Remove Tags From Selected GIFs</p>
+
+                <form action="{% url 'users:bulk-remove-tags' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name='tags' placeholder="Comma Separated Tags">
+                    <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
+                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                    <input type="submit" class="submit btn blue-btn" value="Submit">
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="sort btn inner-nav-btn peach-btn">Sort</div>
+
+        <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
+        {% endif %}
+    </div>
+
+    {% if can_edit %}
+    <div class="add-gif-form hidden">
+        <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
+            <h1>Add a GIF</h1>
+
+            {% csrf_token %}
+            {{ add_form }}
+            <input id="add-gif-submit" type="submit" value="Add GIF" class="btn green-btn">
+        </form>
+    </div>
+    {% endif %}
+
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+
+    {% if gifs %}
+    <div id="grids">
+        <div id="tagged-gif-grid" class="gif-grid">
+            {% for entry in tagged_gifs %}
+            <div class="tag-group animate-bg">
+                <a class="anchor" name="{{ entry.0 }}"></a>
+                <div class="tag-title animate-bg">{{ entry.0 }}</div>
+
+                {% if can_edit %}
+                <i class="fa fa-cog tag-settings-icon animate-fast"></i>
+
+                <div class="tag-manager hidden">
+                    <div class="tag-manager-options">
+                        <div class="tag-manager-title">Tag Options</div>
+                        <div class="rename btn green-btn">Rename</div>
+                        <div class="delete btn red-btn">Delete</div>
+                    </div>
+
+                    <div class="tag-manager-form">
+                        <form class="rename-tag-form hidden" action="{% url 'users:rename-tag' %}" method="post">
+                            <div class="tag-manager-options-title">Rename Tag</div>
+
+                            {% csrf_token %}
+                            <input type="text" name="new_name" value="{{ entry.0 }}">
+                            <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                            <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                            <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                            <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
+                            <input type="submit" class="btn blue-btn">
+                        </form>
+
+                        <form class="delete-tag-form hidden" action="{% url 'users:delete-tag' %}" method="post">
+                            <div class="tag-manager-options-title">Delete Tag</div>
+
+                            {% csrf_token %}
+                            <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
+                            <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
+                            <input type="submit" class="btn red-btn" value="Delete">
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% for object in entry.1 %}
                     <div class="gif-grid-element animate-fast">
                         <div class="bulk-wrapper hidden">
                             <i class="fa fa-circle-o"></i>
@@ -239,7 +164,9 @@
                         </div>
 
                         <div class="gif-url hidden">{{ object.url }}</div>
-                        <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
+                        <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
+
+                        <p class="gif-date">Added: {{ object.created }}</p>
                         <p class="gif-label">{{ object.label }}</p>
                         <i class="fa fa-expand gif-expand animate"></i>
 
@@ -255,17 +182,13 @@
 
                             <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
                                 {% csrf_token %}
-                                <div class="gif-form-title">
-                                    <div style="left: 1em;">label</div>
+                                <div class="gif-form-section">
+                                    <div class="gif-form-title" style="left: .5em;">label</div>
+                                    <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
                                 </div>
 
-                                <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
-
-                                <div class="tags">
-                                    <div class="gif-form-title">
-                                        <div style="right: 1em;">tags</div>
-                                    </div>
-
+                                <div class="tags gif-form-section">
+                                    <div class="gif-form-title" style="right: .5em;">tags</div>
                                     {% for tag in object.tags.all %}
                                     <div class="tag">
                                         <div class="tag-name">{{ tag.name }}</div>
@@ -296,16 +219,90 @@
                         </div>
                         {% endif %}
                     </div>
-                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="all-gif-grid" class="gif-grid">
+            <div class="tag-group animate-bg">
+                <div class="tag-title">all GIFs</div>
+
+                {% for object in gifs %}
+                <div class="gif-grid-element animate-fast">
+                    <div class="bulk-wrapper hidden">
+                        <i class="fa fa-circle-o"></i>
+                        <input type="text" value="{{ object.id }}" class="hidden">
+                    </div>
+
+                    <div class="gif-url hidden">{{ object.url }}</div>
+                    <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
+                    <p class="gif-label">{{ object.label }}</p>
+                    <i class="fa fa-expand gif-expand animate"></i>
+
+                    {% if can_edit %}
+                    <div class="gif-form edit-form hidden">
+                        <div class="gif-form delete-form">
+                            <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
+                                {% csrf_token %}
+                                <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
+                                <input type="submit" value="Delete GIF" class="btn red-btn">
+                            </form>
+                        </div>
+
+                        <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
+                            {% csrf_token %}
+                            <div class="gif-form-title">
+                                <div style="left: 1em;">label</div>
+                            </div>
+
+                            <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
+
+                            <div class="tags">
+                                <div class="gif-form-title">
+                                    <div style="right: 1em;">tags</div>
+                                </div>
+
+                                {% for tag in object.tags.all %}
+                                <div class="tag">
+                                    <div class="tag-name">{{ tag.name }}</div>
+                                    <i class="fa fa-trash-o delete-tag"></i>
+                                    <input class="remove-tag-input hidden" type="text" value=" ">
+                                </div>
+                                {% endfor %}
+
+                                <div class="add-tags">
+                                    <div class="tags-to-be-added hidden">
+                                        <div class="tags-to-be-added-title">Tags to be Added</div>
+                                    </div>
+
+                                    <div class="add-tags-title btn green-btn">
+                                        <i class="fa fa-tag"></i>
+                                        Add Tags
+                                        <input type="text" value="0" class="add-tags-input hidden">
+                                    </div>
+                                </div>
+
+                                <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
+                                <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="">
+                                <input class="gif-id-field hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
+                            </div>
+
+                            <input type="submit" value="Apply" class="edit-gif-submit btn blue-btn">
+                        </form>
+                    </div>
+                    {% endif %}
                 </div>
+                {% endfor %}
             </div>
         </div>
-        {% else %}
-            {% if can_edit %}
-                <div class="message">Welcome to your GifCache!  Go ahead and add some GIFs!</div>
-            {% else %}
-                <div class="message">{{ name }} hasn't added any GIFs yet.</div>
-            {% endif %}
-        {% endif %}
     </div>
+    {% else %}
+        {% if can_edit %}
+            <div class="message">Welcome to your GifCache!  Go ahead and add some GIFs!</div>
+        {% else %}
+            <div class="message">{{ name }} hasn't added any GIFs yet.</div>
+        {% endif %}
+    {% endif %}
+</div>
 {% endblock content %}
