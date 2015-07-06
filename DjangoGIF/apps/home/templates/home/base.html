@@ -24,24 +24,54 @@
 
     <body>
 
-    <div class="nav">
-        <div class="nav-logo">
-            <div id="gif" class="nav-logo-title">GIF</div>
+    <div class="wrapper">
+        <div class="nav">
+            <div class="nav-logo">
+                <div id="gif" class="nav-logo-title">GIF</div>
+                <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
+                <div id="cache" class="nav-logo-title">Cache</div>
+            </div>
 
-            <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
+            <div class="nav-links">
+                <a href="{% url 'home:home' %}">HOME</a>
+                {% if logged_in %}
+                <div class="profile-nav-link">PROFILE
+                    <div class="profile-nav-extra">
+                        <a href="/u/{{ username }}">My Profile</a>
+                        <a href="{% url 'home:logout' %}">Logout</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'home:signup' %}">SIGNUP</a>
+                <a href="{% url 'home:login' %}">LOGIN</a>
+                {% endif %}
+            </div>
+        </div>
+        {% block content %}{% endblock %}
 
-            <div id="cache" class="nav-logo-title">Cache</div>
+        <div class="push"></div>
+    </div>
+
+    <div class="footer">
+        <a href="{% url 'home:home' %}">
+            <div class="footer-logo">
+                <div class="footer-gif">GIF</div>
+                <div class="footer-cache">Cache</div>
+            </div>
+        </a>
+
+        <div class="footer-problems">
+            <p>Trouble with the service?</p>
+            <div>
+                <i class="fa fa-paper-plane"></i>
+                <a href="mailto:tylerkershner@gmail.com">tylerkershner@gmail.com</a>
+            </div>
         </div>
 
-        <div class="nav-links">
-            <a href="{% url 'home:home' %}">HOME</a>
+        <div class="footer-nav-links">
             {% if logged_in %}
-            <div class="profile-nav-link">PROFILE
-                <div class="profile-nav-extra">
-                    <a href="/u/{{ username }}">My Profile</a>
-                    <a href="{% url 'home:logout' %}">Logout</a>
-                </div>
-            </div>
+            <a href="/u/{{ username }}">My Profile</a>
+            <a href="{% url 'home:logout' %}">Logout</a>
             {% else %}
             <a href="{% url 'home:signup' %}">SIGNUP</a>
             <a href="{% url 'home:login' %}">LOGIN</a>
@@ -49,13 +79,9 @@
         </div>
     </div>
 
-    {% block content %}
-    {% endblock %}
-
     <!-- JavaScripts -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
-    <script type="text/javascript" src="http://test.gfycat.com/gfycat_test_june25.js"></script>
     <script type="text/javascript" src="{% static '/static/js/packery-mode.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/static/js/main.js' %}"></script>
     {% if title == 'Login' or title == 'Signup' or title == 'Edit Profile' %}

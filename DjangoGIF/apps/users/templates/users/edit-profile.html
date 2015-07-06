@@ -1,7 +1,22 @@
 {% extends 'home/base.html' %}
 {% block content %}
 
-<form action="/u/{{ username }}/update-profile/" method="post" class="main-form animate">
+<form action="/u/{{ username }}/update-profile/" method="post" class="main-form animate" style="margin-top: 10%;">
+    <div class="edit-profile-delete-wrapper hidden">
+        <div class="edit-profile-delete">
+            <p>Are you sure?  This cannot be undone!</p>
+            <a href="/u/{{ username }}/delete-profile/">
+                <div class="btn red-btn delete-profile">Delete Profile</div>
+            </a>
+
+            <div class="btn green-btn cancel-delete-profile">Cancel</div>
+        </div>
+    </div>
+
+    <div class="delete-profile-button">
+        <p>Delete Profile</p><i class="fa fa-times"></i>
+    </div>
+
     <h1 class="title">Edit Profile</h1>
 
     {% csrf_token %}

@@ -7,10 +7,12 @@ $(document).ready(function () {
 	addTags();
 	tagManagerOptions();
 	hoverGifs();
+	copyUrl();
 	gifIsotope();
 	showTagManager();
 	showInnerNav();
 	colorPageElements();
+	deleteProfile();
 });
 
 function showTagManager() {
@@ -59,7 +61,7 @@ function clickGifElements() {
 				'background-color': '#e6e6e6'
 			});
 			$(this).parent().find('.gif-label').css({
-				'color': '#498FBD'
+				'color': '#4c4c4c'
 			});
 		}		
 	});
@@ -240,7 +242,7 @@ function hoverGifs() {
 		mouseenter: function() {			
 			var gif = $(this).find('.img-wrapper');
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
-			var gifUrl = $(this).children('.gif-url').text();
+			var gifUrl = $(this).children('.gif-url').val();
 			// Check what kind of URL we have
 			var isGfycat = gifUrl.includes('gfycat');
 			var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
@@ -290,13 +292,41 @@ function gifExpand(parent) {
 	});
 }
 
+function copyUrl() {
+	$('.copy-url').on('click', function() {
+		$(this).siblings('.gif-url').toggleClass('hidden');
+	});
+}
+
 function gifIsotope() {
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
 		masonry: {
 			columnWidth: '.gif-grid-element',
 			isFitWidth: true
+		},
+		getSortData: {
+			label: '.gif-label'
 		}
+	});
+
+	$('.sort-label').on('click', function() {
+		grid.isotope({
+			sortBy: 'label'
+		})
+	});
+
+	$('.sort-date').on('click', function() {
+		grid.isotope({
+			sortBy: 'original-order'
+		})
+	});
+
+	$('.sort-random').on('click', function() {
+		console.log('Sorting!');
+		grid.isotope({
+			sortBy: 'random'
+		})
 	});
 
 	var taggedGrid = $('#tagged-gif-grid').isotope({
@@ -346,9 +376,6 @@ function colorPageElements() {
 	$('.profile-info').css({
 		'background-color': profileInfoColor
 	});
-	$('.profile-name').css({
-		'background-color': profileInfoColor
-	});
 	$('.bulk-option').each(function() {
 		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
 		$(this).css({
@@ -377,6 +404,15 @@ function colorMainForm() {
 			'border-bottom': '.3em solid ' + color
 		});
 		counter += 1
+	});
+}
+
+function deleteProfile() {
+	$('.delete-profile-button').on('click', function() {
+		$(this).siblings('.edit-profile-delete-wrapper').toggleClass('hidden');		
+	});
+	$('.cancel-delete-profile').on('click', function() {
+		$(this).parents('.edit-profile-delete-wrapper').toggleClass('hidden');
 	});
 }
 //////////////////////////////////////////////////////////////////////////////////

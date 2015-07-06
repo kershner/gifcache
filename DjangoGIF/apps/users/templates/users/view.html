@@ -3,11 +3,11 @@
 <div class="container">
 
     <div class="profile-info animate">
-        <div class="profile-name">{{ name }}</div>
-
         <div class="profile-avatar">
             <img src="{{ avatar }}">
         </div>
+
+        <div class="profile-name">{{ name }}</div>
 
         <div class="profile-stats">
             <div id="tag-nav" class="stat">
@@ -91,7 +91,13 @@
         </div>
         {% endif %}
 
-        <div class="sort btn inner-nav-btn peach-btn">Sort</div>
+        <div class="sort btn inner-nav-btn peach-btn">Sort
+            <div class="sort-options hidden">
+                <div class="sort-label btn green-btn">Label</div>
+                <div class="sort-date btn blue-btn">Date</div>
+                <div class="sort-random btn purple-btn">Randomize</div>
+            </div>
+        </div>
 
         <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
         {% endif %}
@@ -163,12 +169,13 @@
                             <input type="text" value="{{ object.id }}" class="hidden">
                         </div>
 
-                        <div class="gif-url hidden">{{ object.url }}</div>
                         <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
 
-                        <p class="gif-date">Added: {{ object.created }}</p>
+                        <p class="gif-date">{{ object.created }}</p>
                         <p class="gif-label">{{ object.label }}</p>
+                        <i class="fa fa-link copy-url"></i>
                         <i class="fa fa-expand gif-expand animate"></i>
+                        <input type="text" class="gif-url hidden" value="{{ object.url }}">
 
                         {% if can_edit %}
                         <div class="gif-form edit-form hidden">
@@ -235,10 +242,11 @@
                         <input type="text" value="{{ object.id }}" class="hidden">
                     </div>
 
-                    <div class="gif-url hidden">{{ object.url }}</div>
                     <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
                     <p class="gif-label">{{ object.label }}</p>
+                    <i class="fa fa-link copy-url"></i>
                     <i class="fa fa-expand gif-expand animate"></i>
+                    <input type="text" class="gif-url hidden" value="{{ object.url }}">
 
                     {% if can_edit %}
                     <div class="gif-form edit-form hidden">

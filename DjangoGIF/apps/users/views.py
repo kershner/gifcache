@@ -83,7 +83,7 @@ def edit_profile(request, username):
     else:
         context['message'] = 'You must be logged in to edit a profile!'
         context['form'] = LoginForm()
-        return render(request, 'users/login.html', context)
+        return render(request, 'home/login.html', context)
 
 
 def update_profile(request, username):
@@ -116,9 +116,28 @@ def update_profile(request, username):
             context = {
                 'message': 'You are trying to edit another user\'s profile!'
             }
-            return render(request, 'users/login.html', context)
+            return render(request, 'home/login.html', context)
     else:
         return redirect('/u/%s' % str(username))
+
+
+def delete_profile(request, username):
+    if request.user.username == username:
+        u = get_object_or_404(User, username=username)
+        p = get_object_or_404(Profile, owner=u)
+        p.delete()
+        u.delete()
+        context = {
+            'message': 'Your profile has been successfully deleted!'
+        }
+        return render(request, 'home/home.html', context)
+    else:
+        context = {
+            'title': 'Login',
+            'message': 'You are trying to delete another user\'s profile!',
+            'form': LoginForm()
+        }
+        return render(request, 'home/login.html', context)
 
 
 def add_gif(request):
@@ -227,7 +246,7 @@ def edit_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
-        return render(request, 'users/login.html', context)
+        return render(request, 'home/login.html', context)
 
 
 def delete_gif(request):
@@ -242,7 +261,7 @@ def delete_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {'message': 'You must be logged in to edit GIFs!'}
-        return render(request, 'users/login.html', context)
+        return render(request, 'home/login.html', context)
 
 
 def rename_tag(request):
