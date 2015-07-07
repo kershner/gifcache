@@ -1,16 +1,22 @@
 {% extends 'home/base.html' %}
 {% block content %}
 
-<div class="container">
-    <h1 id="logo">GifCache</h1>
-    {% if message %}
-        <p class="message">{{ message }}</p>
-    {% endif %}
+<div class="home-section animate-bg" style="padding-top: 2em;">
+    <div id="main-logo">
+        <div class="main-logo-gif transparent animate">GIF</div>
+        <div class="main-logo-img levitate"><img src="http://i.imgur.com/SpaPReR.gif"></div>
+        <div class="main-logo-cache transparent animate">Cache</div>
+    </div>
 
-    <div id="home-links">
-        <a href="{% url 'home:signup' %}" class="animate">Sign Up</a>
-        <a href="{% url 'home:login' %}" class="animate">Log In</a>
-        <a href="{% url 'home:logout' %}" class="animate">Log Out</a>
+    <div class="slogan transparent animate">Store, organize, and display your favorite GIFs</div>
+
+    <div id="home-links" class="transparent animate">
+        <a href="{% url 'home:signup' %}"><div class="btn green-btn">Sign Up</div></a>
+        <a href="{% url 'home:login' %}"><div class="btn blue-btn">Log In</div></a>
     </div>
 </div>
+{% if message %}
+    <p class="message">{{ message }}</p>
+{% endif %}
+
 {% endblock %}

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	homeFadeIn();
 	colorPageElements();
 	gifIsotope();
 	tagManager();	
@@ -12,6 +13,21 @@ $(document).ready(function () {
 	showInnerNav();	
 	deleteProfile();
 });
+
+// Fades in elements on the splash page
+function homeFadeIn() {
+	setTimeout(function() {
+		$('.main-logo-gif, .main-logo-cache').css({
+			'opacity': '1.0'
+		});
+	}, 1200);
+
+	setTimeout(function() {
+		$('.slogan, #home-links').css({
+			'opacity': '1.0'
+		});
+	}, 1600);
+}
 
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {
@@ -45,6 +61,12 @@ function colorPageElements() {
 		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
 		$(this).css({
 			'border-top': '.15em solid ' + bulkOptionColor
+		});
+	});
+	$('.home-section').each(function() {
+		var homeColor = colors[Math.floor(Math.random() * colors.length)];
+		$(this).css({
+			'background-color': homeColor
 		});
 	});
 }

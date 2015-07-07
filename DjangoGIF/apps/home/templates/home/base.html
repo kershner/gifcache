@@ -12,6 +12,7 @@
         <!-- Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:600' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -25,7 +26,11 @@
     <body>
 
     <div class="wrapper">
+        {% if title == 'Home' %}
+        <div class="nav hidden">
+        {% else %}
         <div class="nav">
+        {% endif %}
             <div class="nav-logo">
                 <div id="gif" class="nav-logo-title">GIF</div>
                 <div class="nav-logo-img"><img src="http://i.imgur.com/SpaPReR.gif"></div>
@@ -33,17 +38,17 @@
             </div>
 
             <div class="nav-links">
-                <a href="{% url 'home:home' %}">HOME</a>
+                <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
                 {% if logged_in %}
-                <div class="profile-nav-link">PROFILE
+                <div class="profile-nav-link animate-fast">PROFILE
                     <div class="profile-nav-extra">
-                        <a href="/u/{{ username }}">My Profile</a>
-                        <a href="{% url 'home:logout' %}">Logout</a>
+                        <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+                        <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{% url 'home:signup' %}">SIGNUP</a>
-                <a href="{% url 'home:login' %}">LOGIN</a>
+                <a href="{% url 'home:signup' %}" class="animate-fast">SIGNUP</a>
+                <a href="{% url 'home:login' %}" class="animate-fast">LOGIN</a>
                 {% endif %}
             </div>
         </div>

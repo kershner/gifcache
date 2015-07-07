@@ -12,6 +12,7 @@ def index(request):
         logged_in = True
 
     context = {
+        'title': 'Home',
         'logged_in': logged_in,
         'username': request.user.username
         }
