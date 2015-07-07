@@ -106,7 +106,7 @@
     {% if can_edit %}
     <div class="add-gif-form hidden">
         <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
-            <h1>Add a GIF</h1>
+            <h1 class="title">Add a GIF</h1>
 
             {% csrf_token %}
             {{ add_form }}

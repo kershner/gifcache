@@ -124,7 +124,7 @@ label {
 	font-size: 1.75em;
 	text-shadow: 1px 1px 3px #000;
 	border: .15em solid white;
-	border-radius: 1em;
+	border-radius: .15em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -149,13 +149,13 @@ label {
 .main-form {
 	position: relative;
 	margin: 1em auto;
-	margin-top: 4em;
+	margin-top: 6em;
 	padding: 1em;
 	padding-top: 2em;
 	width: 25em;
 	background-color: #25B972;
 	border: .3em solid white;
-	border-radius: 1em;
+	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -486,7 +486,7 @@ label {
 .gif-form-section {
 	position: relative;
 	padding: .75em;	
-	border-radius: .5em;
+	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -494,7 +494,7 @@ label {
 	display: inline-block;
 	position: absolute;
 	top: -.95em;
-	padding: .25em .25em;
+	padding: .25em .5em;
 	font-size: 1em;	
 	color: white;
 }
@@ -580,15 +580,18 @@ label {
 	right: 1em;
 	top: .5em;
 	font-size: 1.3em;
+	text-shadow: 1px 1px 3px #000;
 }
 
 .nav-links a {
 	margin: 0 .25em;
 	color: white;
+	text-shadow: 1px 1px 3px #000;
 }
 
 .nav-links a:hover {
-	text-shadow: 1px 1px 3px #000;
+	color: #6b71ce;
+	text-shadow: none;
 }
 
 .profile-nav-link {
@@ -599,7 +602,8 @@ label {
 
 .profile-nav-link:hover {
 	cursor: pointer;
-	text-shadow: 1px 1px 3px #000;
+	color: #6b71ce;
+	text-shadow: none;
 }
 
 .profile-nav-link:hover > .profile-nav-extra {
@@ -646,7 +650,7 @@ label {
 	text-shadow: 1px 1px 3px #000;
 	border: .2em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: 1em;
+	border-radius: .25em;
 }
 
 .profile-avatar {	
@@ -856,20 +860,6 @@ label {
 	background-color: rgba(114, 173, 211, 0.8);
 }
 
-.add-gif-form h1 {
-	position: absolute;
-	padding: .25em .5em;
-	top: -1.75em;
-	left: 1em;
-	font-size: 1.75em;
-	text-align: center;
-	color: white;
-	text-shadow: 1px 1px 3px #000;
-	border: .2em solid white;
-	border-radius: 1em;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-}
-
 .add-gif-form .btn {
 	margin-top: 3em;
 	width: 10em;
@@ -895,7 +885,7 @@ label {
 	margin: .5em auto;
 	padding: 1em;
 	border: .2em solid white;
-	border-radius: 1em;
+	border-radius: .5em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -906,7 +896,7 @@ label {
 	background-color: #F2F2F2;
 	font-size: 1.25em;
 	color: white;
-	border-radius: 1em;
+	border-radius: .25em;
 	border: .1em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1236,16 +1226,15 @@ label {
 .tags-to-be-added {
 	margin: 1em auto;
 	margin-bottom: 0;
-	border-radius: 1em;
+	border-radius: .25em;
 	font-size: .8em;
 }
 
 .tags-to-be-added-title {
 	padding: .175em;
-	background-color: #38749b;
+	background-color: #4c4c4c;
 	color: white;
-	border-radius: 1em 1em 0 0;
-	text-shadow: 1px 1px 3px #000;
+	border-radius: .25em .25em 0 0;
 }
 
 .tag-to-be-added {
@@ -1293,7 +1282,7 @@ label {
 	width: 10em;
 	color: white;	
 	border: .2em solid white;
-	border-radius: 1em;
+	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -1312,7 +1301,7 @@ label {
 	max-width: 20em;	
 	color: white;
 	text-align: center;
-	border-radius: 1em;
+	border-radius: .25em;
 	border: .2em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1327,7 +1316,7 @@ label {
 	color: white;
 	text-shadow: 1px 1px 3px #000;
 	border: .2em solid white;
-	border-radius: 1em;
+	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -1401,11 +1390,13 @@ label {
 	display: inline-block;
 	position: relative;
 	padding: .2em .75em;
+	padding-right: .25em;
+	padding-bottom: .5em;
 	top: -1.75em;
 	right: -18em;
 	color: white;	
 	text-shadow: 1px 1px 3px #000;
-	border-radius: .5em;
+	border-radius: .25em;
 }
 
 .delete-profile-button:hover {

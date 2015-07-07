@@ -5,7 +5,7 @@
 <div class="message">{{ message }}</div>
 {% endif %}
 
-<form action="{% url 'home:authenticate' %}" method="post" class="main-form animate" style="margin-top: 10%;">
+<form action="{% url 'home:authenticate' %}" method="post" class="main-form animate">
     <h1 class="title">Log In</h1>
 
     {% csrf_token %}
