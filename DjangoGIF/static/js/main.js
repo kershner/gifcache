@@ -1,34 +1,126 @@
 $(document).ready(function () {
-	clickGifElements();
-	showDelete();
-	showAddForm();
-	bulkOperations();
-	selectTagToRemove();
-	addTags();
-	tagManagerOptions();
-	hoverGifs();
-	copyUrl();
-	gifIsotope();
-	showTagManager();
-	showInnerNav();
 	colorPageElements();
+	gifIsotope();
+	tagManager();	
+	showAddForm();
+	hoverGifs();
+	clickGifElements();
+	copyUrl();
+	addTags();
+	selectTagToRemove();
+	bulkOperations();		
+	showInnerNav();	
 	deleteProfile();
 });
 
-function showTagManager() {
+// Picks colors and applies them to various elements on page load
+function colorPageElements() {
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
+	var counter = randomnumber;
+	$('.tag-group').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var color = colors[counter];
+		$(this).css({
+			'background-color': color
+		});
+		$(this).find('.tag-manager-options-title').css({
+			'background-color': color
+		});
+		$(this).find('.tag-title').css('background-color', color);
+		$(this).find('.tag-settings-icon').css('background-color', color);
+		$(this).find('.tag-manager-options').css('background-color', color);
+		$(this).find('.tag-manager-form form').each(function(){
+			$(this).css('background-color', color);
+		});
+		counter += 1
+	});
+	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
+	$('.profile-info').css({
+		'background-color': profileInfoColor
+	});
+	$('.bulk-option').each(function() {
+		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
+		$(this).css({
+			'border-top': '.15em solid ' + bulkOptionColor
+		});
+	});
+}
+
+// Colors the border-bottom CSS property of the main form elements
+function colorMainForm() {
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];	
+	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
+	var counter = randomnumber;	
+	$('.main-form, .main-form h1').css({
+		'background-color': colors[counter]
+	});
+	$('.title').css({
+		'background-color': colors[counter]
+	});
+	counter += 1;
+	$('.main-field').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var color = colors[counter];
+		$(this).css({
+			'border-bottom': '.3em solid ' + color
+		});
+		counter += 1
+	});
+}
+
+// Handles the Isotope grids and sorting
+function gifIsotope() {
+	var grid = $('.tag-group').isotope({
+		itemSelector: '.gif-grid-element',
+		masonry: {
+			columnWidth: '.gif-grid-element',
+			isFitWidth: true
+		},
+		getSortData: {
+			label: '.gif-label'
+		}
+	});
+	$('.sort-label').on('click', function() {
+		grid.isotope({
+			sortBy: 'label'
+		})
+	});
+	$('.sort-date').on('click', function() {
+		grid.isotope({
+			sortBy: 'original-order'
+		})
+	});
+	$('.sort-random').on('click', function() {
+		console.log('Sorting!');
+		grid.isotope({
+			sortBy: 'random'
+		})
+	});
+	var taggedGrid = $('#tagged-gif-grid').isotope({
+		itemSelector: '.tag-group',
+		layoutMode: 'packery',
+		packery: {
+			gutter: 10
+		}
+	});
+}
+
+// Shows/hides the tag manager forms
+function tagManager() {
 	$('.tag-settings-icon').on('click', function() {
 		$(this).siblings('.tag-manager').toggleClass('hidden');
 		$(this).toggleClass('tag-settings-icon-clicked');
 	});
-}
-
-function tagManagerOptions() {
 	$('.rename').on('click', function() {
 		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');		
 		form.toggleClass('hidden');
 		$(this).toggleClass('green-btn-selected');
 	});
-
 	$('.delete').on('click', function() {
 		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
 		form2.toggleClass('hidden');
@@ -36,44 +128,7 @@ function tagManagerOptions() {
 	});
 }
 
-function clickGifElements() {
-	$('.gif-grid-thumbnail').on('click', function() {
-		$(this).parent().toggleClass('focused');
-		var div = $(this).parent().find('.gif-form-title').children(div);
-		div.toggleClass('focused');
-		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
-
-		if ($(this).parent().hasClass('focused')) {
-			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-			var color  = colors[Math.floor(Math.random() * colors.length)];			
-			$(this).parent().css({				
-				'background-color': color
-			});	
-			$(this).parent().find('.gif-form-title').css({
-				'background-color': color
-			});
-			$(this).parent().find('.gif-label').css({
-				'color': 'white'
-			});
-		} else {
-			$(this).parent().css({
-				'border': 'none',
-				'background-color': '#e6e6e6'
-			});
-			$(this).parent().find('.gif-label').css({
-				'color': '#4c4c4c'
-			});
-		}		
-	});
-}
-
-function showDelete() {
-	$('.delete-icon').on('click', function() {
-		$(this).siblings('.gif-form.delete-form').toggleClass('hidden');
-		$(this).toggleClass('icon-selected');		
-	});
-}
-
+// Show/hide main Add GIF form
 function showAddForm() {
 	$('.add-gif-form-button').on('click', function() {
 		$(this).toggleClass('green-btn-selected');
@@ -96,147 +151,7 @@ function showAddForm() {
 	});
 }
 
-function bulkOperations() {
-	$('.bulk-gif-button').on('click', function() {
-		showBulkOptions();
-		$(this).toggleClass('blue-btn-selected');
-		$('.gif-grid-element').each(function() {
-			$(this).children('.bulk-wrapper').toggleClass('hidden');
-		});
-		$('#bulk-operations').toggleClass('hidden');
-		bulkSelect();
-		$('#bulk-operations .submit').on('click', function() {
-			grabBulkValues();
-		});		
-	});
-}
-
-function showBulkOptions() {
-	$('#bulk-delete-btn').on('click', function() {
-		$(this).toggleClass('red-btn-selected');
-		$(this).siblings('#bulk-operations-delete').toggleClass('hidden');
-	});
-
-	$('#bulk-add-tags-btn').on('click', function() {
-		$(this).toggleClass('green-btn-selected');
-		$(this).siblings('#bulk-operations-add-tags').toggleClass('hidden');
-	});
-
-	$('#bulk-remove-tags-btn').on('click', function() {
-		$(this).toggleClass('blue-btn-selected');
-		$(this).siblings('#bulk-operations-remove-tags').toggleClass('hidden');
-	});
-}
-
-function bulkSelect() {
-	$('.bulk-wrapper').on('click', function() {
-		$(this).children('i').toggleClass('fa-circle-o, fa-circle');
-	});
-}
-
-function grabBulkValues() {
-	var ids = [];
-	$('.bulk-wrapper').each(function() {
-		var gifID = $(this).children('input').val();
-		if ($(this).children('i').hasClass('fa-circle')) {
-			ids.push(gifID);
-		} else {
-			// Nothing
-		}		
-	});
-	$('#bulk-operations').find('.bulk-values').each(function(){
-		$(this).val(ids.join());
-	});
-}
-
-function selectTagToRemove() {	
-	$('.tag').children('.delete-tag').on('click', function() {
-		var tagName = $(this).siblings('.tag-name').text();
-		var selected = $(this).siblings('.remove-tag-input').val();
-		if (selected == tagName) {
-			$(this).parent().removeClass('warning');
-			$(this).removeClass('icon-selected');
-			$(this).siblings('.remove-tag-input').val(' ');
-			updateTagRemoveInput($(this).parents('.tags'));
-		} else if (selected == ' ') {
-			$(this).parent().addClass('warning');
-			$(this).addClass('icon-selected');
-			$(this).siblings('.remove-tag-input').val(tagName);		
-			updateTagRemoveInput($(this).parents('.tags'));
-		}
-	});
-}
-
-function updateTagRemoveInput(element) {
-	values = [];
-	$(element).find('.remove-tag-input').each(function() {
-		value = $(this).val();
-		values.push(value);
-	});
-	$(element).find('.remove-tags-values').val(values);
-}
-
-function addTags() {
-	$('.add-tags-title').on('click', function(e) {
-		e.stopPropagation();
-		var clicked = Number($(this).children('input').val());
-		if (clicked) {
-			$(this).removeClass('add-tags-selected');
-			$(this).children('input').val(0);
-			$(this).siblings('.add-tag-field').remove();
-			$(this).siblings('.add-tag-submit').remove();
-		} else {
-			$(this).addClass('add-tags-selected');
-			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit btn blue-btn">Add</div>';
-			$(this).parent().append(html);
-			addTagSubmit($(this).siblings('.add-tag-submit'));
-		}
-	});
-}
-
-function addTagSubmit(element) {	
-	$(element).on('click', function() {		
-		var tag = $(element).siblings('.add-tag-field').val();
-		if (tag.length > 0) {
-			$(this).siblings('.tags-to-be-added').removeClass('hidden');
-			var currentVal = $('.add-tags-values').val();
-			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
-			$(this).siblings('.tags-to-be-added').append(html);
-			$(this).siblings('.add-tag-field').val('');			
-			var tagsToBeAddedDiv = $(this).siblings('.tags-to-be-added');
-			updateAddTagInput(tagsToBeAddedDiv);
-			removeAddedTag(tagsToBeAddedDiv);
-		}
-	});
-}
-
-function removeAddedTag(element) {
-	var deleteIcon = $(element).children('.tag-to-be-added').children('.delete-tag');
-	$(deleteIcon).on('click', function() {
-		$(this).siblings('.tag-to-be-added-value').text('');
-		updateAddTagInput(element);
-		$(this).parent().remove();
-		var tagsToAdd = $(element).children().length;
-		if (tagsToAdd > 1) {
-			// Nothing
-		} else {
-			$(element).addClass('hidden');
-		}
-	});
-}
-
-function updateAddTagInput(element) {	
-	var tagValues = $(element).children('.tag-to-be-added').children('.tag-to-be-added-value');
-	var tagValuesInput = $(element).parent().siblings('.add-tags-values');
-	values = [];
-	$(tagValues).each(function() {
-		value = $(this).text();
-		values.push(value);
-	});
-	$(tagValuesInput).val(values);
-}
-
+// Adds HTML element containing full GIF and lays it on top of thumbnail
 function hoverGifs() {
 	$('.gif-grid-element').on({		
 		mouseenter: function() {			
@@ -282,6 +197,39 @@ function hoverGifs() {
 	});
 }
 
+// Add focus class to GIF elements and show/hide GIF editing options
+function clickGifElements() {
+	$('.gif-grid-thumbnail').on('click', function() {
+		$(this).parent().toggleClass('focused');
+		var div = $(this).parent().find('.gif-form-title').children(div);
+		div.toggleClass('focused');
+		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
+
+		if ($(this).parent().hasClass('focused')) {
+			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+			var color  = colors[Math.floor(Math.random() * colors.length)];			
+			$(this).parent().css({				
+				'background-color': color
+			});	
+			$(this).parent().find('.gif-form-title').css({
+				'background-color': color
+			});
+			$(this).parent().find('.gif-label').css({
+				'color': 'white'
+			});
+		} else {
+			$(this).parent().css({
+				'border': 'none',
+				'background-color': '#e6e6e6'
+			});
+			$(this).parent().find('.gif-label').css({
+				'color': '#4c4c4c'
+			});
+		}		
+	});
+}
+
+// Scales up GIF once expand icon is clicked
 function gifExpand(parent) {
 	$(parent).find('.gif-expand').on('click', function(e) {
 		$(this).siblings('.img-wrapper').toggleClass('expanded');
@@ -292,52 +240,165 @@ function gifExpand(parent) {
 	});
 }
 
+// Displays text input containing the GIF url
 function copyUrl() {
 	$('.copy-url').on('click', function() {
 		$(this).siblings('.gif-url').toggleClass('hidden');
 	});
 }
 
-function gifIsotope() {
-	var grid = $('.tag-group').isotope({
-		itemSelector: '.gif-grid-element',
-		masonry: {
-			columnWidth: '.gif-grid-element',
-			isFitWidth: true
-		},
-		getSortData: {
-			label: '.gif-label'
-		}
+// Handles bulk tasks functionality
+function bulkOperations() {
+	$('.bulk-gif-button').on('click', function() {
+		showBulkOptions();
+		$(this).toggleClass('blue-btn-selected');
+		$('.gif-grid-element').each(function() {
+			$(this).children('.bulk-wrapper').toggleClass('hidden');
+		});
+		$('#bulk-operations').toggleClass('hidden');
+		bulkSelect();
+		$('#bulk-operations .submit').on('click', function() {
+			grabBulkValues();
+		});		
+	});
+}
+
+// Shows/hides various bulk task forms
+function showBulkOptions() {
+	$('#bulk-delete-btn').on('click', function() {
+		$(this).toggleClass('red-btn-selected');
+		$(this).siblings('#bulk-operations-delete').toggleClass('hidden');
 	});
 
-	$('.sort-label').on('click', function() {
-		grid.isotope({
-			sortBy: 'label'
-		})
+	$('#bulk-add-tags-btn').on('click', function() {
+		$(this).toggleClass('green-btn-selected');
+		$(this).siblings('#bulk-operations-add-tags').toggleClass('hidden');
 	});
 
-	$('.sort-date').on('click', function() {
-		grid.isotope({
-			sortBy: 'original-order'
-		})
+	$('#bulk-remove-tags-btn').on('click', function() {
+		$(this).toggleClass('blue-btn-selected');
+		$(this).siblings('#bulk-operations-remove-tags').toggleClass('hidden');
 	});
+}
 
-	$('.sort-random').on('click', function() {
-		console.log('Sorting!');
-		grid.isotope({
-			sortBy: 'random'
-		})
+// 'Selects' element by altering CSS class
+function bulkSelect() {
+	$('.bulk-wrapper').on('click', function() {
+		$(this).children('i').toggleClass('fa-circle-o, fa-circle');
 	});
+}
 
-	var taggedGrid = $('#tagged-gif-grid').isotope({
-		itemSelector: '.tag-group',
-		layoutMode: 'packery',
-		packery: {
-			gutter: 10
+// Scans for elements with 'selected' CSS class, records them in a text field
+function grabBulkValues() {
+	var ids = [];
+	$('.bulk-wrapper').each(function() {
+		var gifID = $(this).children('input').val();
+		if ($(this).children('i').hasClass('fa-circle')) {
+			ids.push(gifID);
+		} else {
+			// Nothing
+		}		
+	});
+	$('#bulk-operations').find('.bulk-values').each(function(){
+		$(this).val(ids.join());
+	});
+}
+
+// Records tag ID in text field, applies CSS class for UX feedback
+function selectTagToRemove() {	
+	$('.tag').children('.delete-tag').on('click', function() {
+		var tagName = $(this).siblings('.tag-name').text();
+		var selected = $(this).siblings('.remove-tag-input').val();
+		if (selected == tagName) {
+			$(this).parent().removeClass('warning');
+			$(this).removeClass('icon-selected');
+			$(this).siblings('.remove-tag-input').val(' ');
+			updateTagRemoveInput($(this).parents('.tags'));
+		} else if (selected == ' ') {
+			$(this).parent().addClass('warning');
+			$(this).addClass('icon-selected');
+			$(this).siblings('.remove-tag-input').val(tagName);		
+			updateTagRemoveInput($(this).parents('.tags'));
 		}
 	});
 }
 
+// Updates master log of which tags are being removed
+function updateTagRemoveInput(element) {
+	values = [];
+	$(element).find('.remove-tag-input').each(function() {
+		value = $(this).val();
+		values.push(value);
+	});
+	$(element).find('.remove-tags-values').val(values);
+}
+
+// Displays a form to add tags
+function addTags() {
+	$('.add-tags-title').on('click', function(e) {
+		e.stopPropagation();
+		var clicked = Number($(this).children('input').val());
+		if (clicked) {
+			$(this).removeClass('add-tags-selected');
+			$(this).children('input').val(0);
+			$(this).siblings('.add-tag-field').remove();
+			$(this).siblings('.add-tag-submit').remove();
+		} else {
+			$(this).addClass('add-tags-selected');
+			$(this).children('input').val(1);
+			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit btn blue-btn">Add</div>';
+			$(this).parent().append(html);
+			addTagSubmit($(this).siblings('.add-tag-submit'));
+		}
+	});
+}
+
+// Places tag into staging area to be submitted
+function addTagSubmit(element) {	
+	$(element).on('click', function() {		
+		var tag = $(element).siblings('.add-tag-field').val();
+		if (tag.length > 0) {
+			$(this).siblings('.tags-to-be-added').removeClass('hidden');
+			var currentVal = $('.add-tags-values').val();
+			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
+			$(this).siblings('.tags-to-be-added').append(html);
+			$(this).siblings('.add-tag-field').val('');			
+			var tagsToBeAddedDiv = $(this).siblings('.tags-to-be-added');
+			updateAddTagInput(tagsToBeAddedDiv);
+			removeAddedTag(tagsToBeAddedDiv);
+		}
+	});
+}
+
+// Removes tag from staging area
+function removeAddedTag(element) {
+	var deleteIcon = $(element).children('.tag-to-be-added').children('.delete-tag');
+	$(deleteIcon).on('click', function() {
+		$(this).siblings('.tag-to-be-added-value').text('');
+		updateAddTagInput(element);
+		$(this).parent().remove();
+		var tagsToAdd = $(element).children().length;
+		if (tagsToAdd > 1) {
+			// Nothing
+		} else {
+			$(element).addClass('hidden');
+		}
+	});
+}
+
+// Updates master log of which tags to add
+function updateAddTagInput(element) {	
+	var tagValues = $(element).children('.tag-to-be-added').children('.tag-to-be-added-value');
+	var tagValuesInput = $(element).parent().siblings('.add-tags-values');
+	values = [];
+	$(tagValues).each(function() {
+		value = $(this).text();
+		values.push(value);
+	});
+	$(tagValuesInput).val(values);
+}
+
+// Fades in fixed inner nav bar below a certain height
 function showInnerNav() {
 	$(document).scroll(function() {
 		var scroll = $(document).scrollTop();
@@ -349,64 +410,7 @@ function showInnerNav() {
 	});
 }
 
-function colorPageElements() {	
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
-	var counter = randomnumber;
-	$('.tag-group').each(function() {
-		if (counter > colors.length - 1 ) {
-			counter = 0;
-		}
-		var color = colors[counter];
-		$(this).css({
-			'background-color': color
-		});
-		$(this).find('.tag-manager-options-title').css({
-			'background-color': color
-		});
-		$(this).find('.tag-title').css('background-color', color);
-		$(this).find('.tag-settings-icon').css('background-color', color);
-		$(this).find('.tag-manager-options').css('background-color', color);
-		$(this).find('.tag-manager-form form').each(function(){
-			$(this).css('background-color', color);
-		});
-		counter += 1
-	});
-	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
-	$('.profile-info').css({
-		'background-color': profileInfoColor
-	});
-	$('.bulk-option').each(function() {
-		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
-		$(this).css({
-			'border-top': '.15em solid ' + bulkOptionColor
-		});
-	});
-}
-
-function colorMainForm() {
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];	
-	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
-	var counter = randomnumber;	
-	$('.main-form, .main-form h1').css({
-		'background-color': colors[counter]
-	});
-	$('.title').css({
-		'background-color': colors[counter]
-	});
-	counter += 1;
-	$('.main-field').each(function() {
-		if (counter > colors.length - 1 ) {
-			counter = 0;
-		}
-		var color = colors[counter];
-		$(this).css({
-			'border-bottom': '.3em solid ' + color
-		});
-		counter += 1
-	});
-}
-
+// Show/hide the Delete Profile form
 function deleteProfile() {
 	$('.delete-profile-button').on('click', function() {
 		$(this).siblings('.edit-profile-delete-wrapper').toggleClass('hidden');		
