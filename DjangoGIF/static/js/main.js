@@ -10,7 +10,7 @@ $(document).ready(function () {
 	addTags();
 	selectTagToRemove();
 	bulkOperations();		
-	showInnerNav();	
+	showInnerNav();
 	deleteProfile();
 });
 
@@ -345,7 +345,7 @@ function selectTagToRemove() {
 	});
 }
 
-// Updates master log of which tags are being removed
+// Updates hidden text field with tags to remove
 function updateTagRemoveInput(element) {
 	values = [];
 	$(element).find('.remove-tag-input').each(function() {
@@ -408,7 +408,7 @@ function removeAddedTag(element) {
 	});
 }
 
-// Updates master log of which tags to add
+// Updates hidden text field with tags to add
 function updateAddTagInput(element) {	
 	var tagValues = $(element).children('.tag-to-be-added').children('.tag-to-be-added-value');
 	var tagValuesInput = $(element).parent().siblings('.add-tags-values');
@@ -422,8 +422,9 @@ function updateAddTagInput(element) {
 
 // Fades in fixed inner nav bar below a certain height
 function showInnerNav() {
-	$(document).scroll(function() {
+	$(document).on('scroll', function() {
 		var scroll = $(document).scrollTop();
+		console.log(scroll);
 		if (scroll > 390) {
 			$('.inner-nav').addClass('inner-nav-fixed');
 		} else {
