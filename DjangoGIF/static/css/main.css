@@ -25,6 +25,27 @@ input {
 	border-radius: .25em;
 }
 
+.hidden {
+	display: none !important;	
+}
+
+.transparent {
+	opacity: 0;
+}
+
+.cancel {
+	margin: .25em auto;
+	width: 83%;
+	padding: .25em;
+	text-align: center;
+	font-size: .8em;
+}
+
+.errorlist li {
+	list-style-type: none;
+	color: white;
+}
+
 .main-form {
 	position: relative;
 	margin: 1em auto;
@@ -361,7 +382,7 @@ input {
 
 .green-btn {
 	background-color: #45C788;
-	box-shadow: 0px 6px 0px #32a76e; 
+	box-shadow: 0px 6px 0px #32a76e;
 }
 
 .green-btn:hover {	
@@ -492,6 +513,11 @@ input {
 /* Home Page Styles *********************************************************/
 .levitate {
 	-webkit-animation:
+		levitate 4s infinite;
+}
+
+.grow {
+	-webkit-animation:
 		grow 2s 1,
 		levitate 4s infinite;
 }
@@ -518,9 +544,45 @@ input {
 }
 
 .home-section {
+	position: relative;
 	margin: 0 auto;
 	height: 100vh;
 	width: 100%;
+	text-align: center;
+}
+
+.home-section-grey {
+	position: relative;	
+	margin: 0 auto;	
+	padding: 2em 0;
+	padding-bottom: 8em;
+	width: 100%;
+	text-align: center;
+}
+
+.home-arrow {
+	position: relative;
+	margin: 0 auto;
+	margin-top: -.25em;
+	width: 1em;
+	font-size: 4em !important;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.home-btn {
+	position: relative;
+	color: white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.home-btn:hover {	
+	transform: scale(1.05);
+}
+
+.home-btn:active {	
+	top: .25em;
 }
 
 #main-logo {
@@ -598,20 +660,59 @@ input {
 	text-shadow: 1px 1px 3px #000;
 }
 
-.cancel {
-	margin: .25em auto;
-	width: 83%;
-	padding: .25em;
-	text-align: center;
-	font-size: .8em;
+.home-bs-title {
+	margin: 1em 0;
+	font-size: 3.25em;
+	color: #4c4c4c;
 }
 
-.hidden {
-	display: none !important;	
+.startup-bs-box {
+	display: inline-block;
+	margin: 1em 3em;
+	height: 20em;
+	max-width: 20em;
 }
 
-.transparent {
-	opacity: 0;
+.startup-icon {		
+	margin: 0 auto;
+	width: 2.5em;
+	height: 2.5em;
+	line-height: 2.5em;
+	border-radius: 50%;
+	font-size: 5em;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.startup-bs-title {
+	margin: .5em;
+	font-size: 1.75em;
+	font-family: 'Open Sans';
+}
+
+.startup-bs-blurb {
+	font-size: 1.2em;
+}
+
+.startup-bs-img {
+	position: relative;
+	margin: 1em auto;
+	z-index: 1;	
+	height: 15em;
+	max-width: 15em;
+	text-align: center;	
+	border-radius: .25em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.startup-bs-img:hover {
+	transform: scale(1.75);	
+}
+
+.startup-bs-img img {
+	width: 100%;
+	border-radius: .25em;
 }
 
 /* Profile View Styles *********************************************************/

@@ -21,9 +21,8 @@ function homeFadeIn() {
 			'opacity': '1.0'
 		});
 	}, 1200);
-
 	setTimeout(function() {
-		$('.slogan, #home-links').css({
+		$('.slogan, #home-links, .home-arrow').css({
 			'opacity': '1.0'
 		});
 	}, 1600);
@@ -63,12 +62,26 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
-	$('.home-section').each(function() {
-		var homeColor = colors[Math.floor(Math.random() * colors.length)];
+	$('.home-section, .home-btn').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var color = colors[counter];
 		$(this).css({
-			'background-color': homeColor
+			'background-color': color
 		});
+		counter += 1
 	});
+	$('.startup-icon').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var color = colors[counter];
+		$(this).css({
+			'background-color': color
+		});
+		counter += 1
+	});	
 }
 
 // Colors the border-bottom CSS property of the main form elements

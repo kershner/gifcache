@@ -1,19 +1,66 @@
 {% extends 'home/base.html' %}
 {% block content %}
+{% load staticfiles %}
 
 <div class="home-section animate-bg" style="padding-top: 2em;">
     <div id="main-logo">
         <div class="main-logo-gif transparent animate">GIF</div>
-        <div class="main-logo-img levitate"><img src="http://i.imgur.com/eXxTPkH.gif"></div>
+        <div class="main-logo-img grow levitate"><img src="http://i.imgur.com/eXxTPkH.gif"></div>
         <div class="main-logo-cache transparent animate">Cache</div>
     </div>
 
     <div class="slogan transparent animate">Store, organize, and display your favorite GIFs</div>
 
     <div id="home-links" class="transparent animate">
-        <a href="{% url 'home:signup' %}"><div class="btn green-btn">Sign Up</div></a>
-        <a href="{% url 'home:login' %}"><div class="btn blue-btn">Log In</div></a>
+        <a href="{% url 'home:signup' %}"><div class="home-btn animate-fast">Sign Up</div></a>
+        <a href="{% url 'home:login' %}"><div class="home-btn animate-fast">Log In</div></a>
     </div>
+
+    <i class="home-arrow fa fa-chevron-down levitate transparent animate"></i>
+</div>
+
+<div class="home-section-grey">
+    <div class="home-bs-title">What is GifCache?</div>
+
+    <div class="startup-bs-box">
+        <div class="startup-icon">
+            <i class="fa fa-floppy-o"></i>
+        </div>
+
+        <div class="startup-bs-title">Store</div>
+
+        <div class="startup-bs-blurb">Save gifs from the internet</div>
+
+        <div class="startup-bs-img animate"><img src="{% static '/static/img/add-gif.png' %}"></div>
+    </div>
+
+    <div class="startup-bs-box">
+        <div class="startup-icon">
+            <i class="fa fa-folder-open"></i>
+        </div>
+
+        <div class="startup-bs-title">Organize</div>
+
+        <div class="startup-bs-blurb">Tag and sort your collection</div>
+
+        <div class="startup-bs-img animate"><img src="{% static '/static/img/add-tags.png' %}"></div>
+    </div>
+
+    <div class="startup-bs-box">
+        <div class="startup-icon">
+            <i class="fa fa-users"></i>
+        </div>
+
+        <div class="startup-bs-title">Share</div>
+
+        <div class="startup-bs-blurb">Show off your cache!</div>
+
+        <div class="startup-bs-img animate"><img src="{% static '/static/img/display.png' %}"></div>
+    </div>
+</div>
+
+<div class="home-section animate-bg">
+
 </div>
 {% if message %}
     <p class="message">{{ message }}</p>
