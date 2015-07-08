@@ -62,7 +62,7 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
-	$('.home-section, .home-btn').each(function() {
+	$('.home-section, .home-btn, .home-whatsnew-version').each(function() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
 		}
@@ -437,7 +437,6 @@ function updateAddTagInput(element) {
 function showInnerNav() {
 	$(document).on('scroll', function() {
 		var scroll = $(document).scrollTop();
-		console.log(scroll);
 		if (scroll > 390) {
 			$('.inner-nav').addClass('inner-nav-fixed');
 		} else {

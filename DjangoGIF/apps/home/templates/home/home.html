@@ -2,10 +2,10 @@
 {% block content %}
 {% load staticfiles %}
 
-<div class="home-section animate-bg" style="padding-top: 2em;">
+<div class="home-section animate-bg" style="height: 100vh; padding-top: 2em;">
     <div id="main-logo">
         <div class="main-logo-gif transparent animate">GIF</div>
-        <div class="main-logo-img grow levitate"><img src="http://i.imgur.com/eXxTPkH.gif"></div>
+        <div class="main-logo-img grow"><img src="http://i.imgur.com/eXxTPkH.gif"></div>
         <div class="main-logo-cache transparent animate">Cache</div>
     </div>
 
@@ -57,10 +57,54 @@
 
         <div class="startup-bs-img animate"><img src="{% static '/static/img/display.png' %}"></div>
     </div>
+
+    <div class="home-demo">
+        <div class="home-demo-blurb">View my cache for an example</div>
+
+        <div class="btn green-btn">u/kershner25</div>
+    </div>
 </div>
 
-<div class="home-section animate-bg">
+<div class="home-section animate-bg" style="padding-top: 2em; padding-bottom: 1em;">
+    <div class="home-about">
+        <div class="home-about-section">
+            <div class="mini-logo">
+                <div class="mini-logo-gif">GIF</div><div class="mini-logo-cache">Cache</div>
+            </div>
+            is a service to store and categorize GIF urls focused on speed and user experience.
+        </div>
 
+        <div class="home-about-section">
+            Since GIF files are often enormous, GifCache does not actually store the file itself.
+            You enter the GIF's URL, label it if you want, and add some tags to categorize it.  A small thumbnail is generated from
+            the URL and displayed initially on a user's profile.  The full GIF is only loaded when the
+            thumbnail element is focused on.
+        </div>
+
+        <div class="home-about-section">
+            Please be aware that when using GifCache and viewing numerous GIFs, your bandwidth usage
+            can easily hit hundreds of megabytes very quickly.
+        </div>
+
+        <div class="home-about-section">
+            <div class="home-whatsnew">
+                <div class="home-whatsnew-title">What's New</div>
+
+                <div class="home-whatsnew-version">v1.0</div>
+                <div class="home-whatsnew-date">July 2015</div>
+
+                <div class="home-whatsnew-notes">
+                    <div>- Site launched!</div>
+                    <div>- Chrome extension coming soon!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-plug">
+        <div class="home-plug-title">View more of my projects</div>
+        <a href="http://www.kershner.org"><div class="home-plug-link animate">kershner.org</div></a>
+    </div>
 </div>
 {% if message %}
     <p class="message">{{ message }}</p>

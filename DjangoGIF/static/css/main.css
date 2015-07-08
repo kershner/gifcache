@@ -518,8 +518,7 @@ input {
 
 .grow {
 	-webkit-animation:
-		grow 2s 1,
-		levitate 4s infinite;
+		grow 2s 1
 }
 
 @-webkit-keyframes grow {
@@ -546,7 +545,6 @@ input {
 .home-section {
 	position: relative;
 	margin: 0 auto;
-	height: 100vh;
 	width: 100%;
 	text-align: center;
 }
@@ -555,7 +553,7 @@ input {
 	position: relative;	
 	margin: 0 auto;	
 	padding: 2em 0;
-	padding-bottom: 8em;
+	padding-bottom: 3em;
 	width: 100%;
 	text-align: center;
 }
@@ -571,7 +569,7 @@ input {
 }
 
 .home-btn {
-	position: relative;
+	position: relative;	
 	color: white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
@@ -599,7 +597,7 @@ input {
 	display: inline-block;
 	position: absolute;
 	z-index: 1;
-	top: 3.79em;
+	top: 3.4em;
 	left: .8em;
 	font-family: 'Cabin', sans-serif;
 }
@@ -607,7 +605,7 @@ input {
 .main-logo-cache {
 	display: inline-block;
 	position: absolute;
-	top: 3.75em;
+	top: 3.325em;
 	right: .75em;
 	font-family: 'Lobster', cursive;
 }
@@ -656,8 +654,7 @@ input {
 	max-width: 15em;
 	line-height: 2em;
 	font-size: 1.75em;
-	font-family: 'Open Sans';
-	text-shadow: 1px 1px 3px #000;
+	font-family: 'Cabin', sans-serif;
 }
 
 .home-bs-title {
@@ -698,11 +695,9 @@ input {
 .startup-bs-img {
 	position: relative;
 	margin: 1em auto;
-	z-index: 1;	
-	height: 15em;
+	z-index: 1;
 	max-width: 15em;
-	text-align: center;	
-	border-radius: .25em;
+	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
@@ -712,7 +707,112 @@ input {
 
 .startup-bs-img img {
 	width: 100%;
+}
+
+.home-demo {
+	margin: 1em auto;
+	margin-top: 6em;
+	max-width: 20em;
+}
+
+.home-demo-blurb {	
+	margin: .25em;
+}
+
+.home-demo .btn {
+	height: 2.25em;
+	line-height: 2.25em;
+}
+
+.home-about {
+	margin: 0 auto;
+	padding: 1.55em;
+	max-width: 35em;
+	color: white;	
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
+}
+
+.home-about-section {
+	margin: 2em auto;
+	text-align: left;
+}
+
+.mini-logo {
+	display: inline-block;
+	position: relative;
+	font-size: 2em;
+}
+
+.mini-logo-gif {
+	display: inline-block;
+	font-family: 'Cabin', sans-serif;
+}
+
+.mini-logo-cache {
+	display: inline-block;
+	position: relative;
+	right: .05em;
+	font-family: 'Lobster', cursive;
+}
+
+.home-whatsnew {
+	position: relative;
+	margin: 0 auto;
+	padding: 2em;
+	min-height: 10em;
+	max-width: 20em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.home-whatsnew-title {
+	font-family: 'Lobster', cursive;
+	font-size: 4em;
+}
+
+.home-whatsnew-version {
+	margin: 0 auto;
+	width: 3em;
+	height: 3em;
+	line-height: 3em;
+	color: white;
+	font-size: 2em;
+	text-align: center;
+	text-shadow: 1px 1px 3px #000;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: 50%;
+}
+
+.home-whatsnew-date {
+	margin: .1em;
+	font-size: 1.75em;
+}
+
+.home-whatsnew-notes {
+	padding-top: .5em;
+	text-align: left;
+	border-top: .2em solid #45C788;
+}
+
+.home-plug {
+	margin: .25em auto;
+	margin-top: 5em;
+	width: 15em;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.home-plug-link {
+	margin: 0 auto;
+	width: 10em;
+	text-shadow: none;
+	font-size: 1.5em;
+	color: white;
+	font-family: 'Open Sans';
+}
+
+.home-plug-link:hover {
+	transform: scale(1.75);
 }
 
 /* Profile View Styles *********************************************************/
