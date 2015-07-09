@@ -36,7 +36,10 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    context = {'message': 'You have been succesfully logged out!'}
+    context = {
+        'title': 'Home',
+        'message': 'You have been succesfully logged out!'
+    }
     return render(request, 'home/home.html', context)
 
 

@@ -169,7 +169,7 @@ input {
 	width: 40%;
 	min-width: 15em;
 	background-color: #72ADD3;	
-	font-family: 'Open Sans';
+	font-family: 'PT Sans', sans-serif;
 	color: white;
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -200,13 +200,14 @@ input {
 	position: absolute;
 	z-index: 2;
 	top: 0.25em;
-	left: 0.1em;
+	left: 0.35em;
+	font-family: 'PT Sans', sans-serif;
 }
 
 #cache {
 	position: absolute;
-	top: 0.2em;
-	left: 2em;
+	top: 0.275em;
+	left: 1.8em;
 	font-family: 'Lobster', cursive;
 }
 
@@ -235,7 +236,7 @@ input {
 	right: 1em;
 	top: .5em;
 	font-size: 1.3em;
-	font-family: 'Open Sans';
+	font-family: 'PT Sans', sans-serif;
 	text-shadow: 1px 1px 3px #000;
 }
 
@@ -331,6 +332,7 @@ input {
 .footer-gif {
 	position: relative;
 	left: .15em;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .footer-cache {
@@ -346,7 +348,7 @@ input {
 }
 
 .footer-problems div {
-	font-family: 'Open Sans';	
+	font-family: 'PT Sans', sans-serif;
 	font-size: .75em;
 }
 
@@ -508,6 +510,7 @@ input {
 	min-width: 7em;
 	height: 2em;
 	line-height: 2em;
+	font-size: .75em;
 }
 
 /* Home Page Styles *********************************************************/
@@ -568,21 +571,6 @@ input {
 	text-shadow: 1px 1px 3px #000;
 }
 
-.home-btn {
-	position: relative;	
-	color: white;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: .25em;
-}
-
-.home-btn:hover {	
-	transform: scale(1.05);
-}
-
-.home-btn:active {	
-	top: .25em;
-}
-
 #main-logo {
 	position: relative;
 	margin: 0 auto;
@@ -599,13 +587,13 @@ input {
 	z-index: 1;
 	top: 3.4em;
 	left: .8em;
-	font-family: 'Cabin', sans-serif;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .main-logo-cache {
 	display: inline-block;
 	position: absolute;
-	top: 3.325em;
+	top: 3.4em;
 	right: .75em;
 	font-family: 'Lobster', cursive;
 }
@@ -644,17 +632,31 @@ input {
 
 #home-links {
 	margin: 0 auto;
-	text-align: center;
+	text-align: center;	
 }
 
-#home-links div {
+.home-btn {
 	display: inline-block;
-	margin: 2em .25em;
+	position: relative;
+	margin: 1em .25em;
+	background-color: rgba(77, 77, 77, 0.2);
 	width: 40%;
-	max-width: 15em;
+	max-width: 12em;
 	line-height: 2em;
 	font-size: 1.75em;
-	font-family: 'Cabin', sans-serif;
+	font-family: 'PT Sans', sans-serif;
+	color: white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.home-btn:hover {	
+	background-color: #45C788;
+	transform: scale(1.1);
+}
+
+.home-btn:active {	
+	top: .25em;
 }
 
 .home-bs-title {
@@ -685,7 +687,7 @@ input {
 .startup-bs-title {
 	margin: .5em;
 	font-size: 1.75em;
-	font-family: 'Open Sans';
+	font-family: 'PT Sans', sans-serif;
 }
 
 .startup-bs-blurb {
@@ -728,8 +730,7 @@ input {
 	margin: 0 auto;
 	padding: 1.55em;
 	max-width: 35em;
-	color: white;	
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	color: white;
 	border-radius: .25em;
 }
 
@@ -746,7 +747,7 @@ input {
 
 .mini-logo-gif {
 	display: inline-block;
-	font-family: 'Cabin', sans-serif;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .mini-logo-cache {
@@ -761,8 +762,8 @@ input {
 	margin: 0 auto;
 	padding: 2em;
 	min-height: 10em;
-	max-width: 20em;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	max-width: 25em;
+	text-align: center;
 }
 
 .home-whatsnew-title {
@@ -777,7 +778,6 @@ input {
 	line-height: 3em;
 	color: white;
 	font-size: 2em;
-	text-align: center;
 	text-shadow: 1px 1px 3px #000;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: 50%;
@@ -789,9 +789,16 @@ input {
 }
 
 .home-whatsnew-notes {
+	position: relative;
 	padding-top: .5em;
-	text-align: left;
-	border-top: .2em solid #45C788;
+	text-align: left;	
+	border-top: .2em solid white;
+}
+
+.home-whatsnew-notes div {
+	position: relative;
+	left: .75em;
+	text-indent: -.75em;
 }
 
 .home-plug {
@@ -808,10 +815,11 @@ input {
 	text-shadow: none;
 	font-size: 1.5em;
 	color: white;
-	font-family: 'Open Sans';
+	font-family: 'PT Sans', sans-serif;
 }
 
 .home-plug-link:hover {
+	text-shadow: 1px 1px 3px #000;
 	transform: scale(1.75);
 }
 
@@ -853,10 +861,10 @@ input {
 	position: relative;
 	margin: 0 auto;
 	margin-top: 1.25em;
-	margin-bottom: -1.15em;
+	margin-bottom: -1em;
 	z-index: 3;
 	top: -.5em;
-	font-family: 'Open Sans';
+	font-family: 'PT Sans', sans-serif;
 	font-size: 2em;
 	height: 1.75em;
 	line-height: 1.75em;
@@ -1096,7 +1104,7 @@ input {
 }
 
 .gif-grid p {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .gif-grid i {

@@ -62,7 +62,7 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
-	$('.home-section, .home-btn, .home-whatsnew-version').each(function() {
+	$('.home-section, .home-whatsnew-version').each(function() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
 		}
