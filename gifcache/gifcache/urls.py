@@ -18,6 +18,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 
+handler404 = 'apps.home.views.error404'
+handler500 = 'apps.home.views.error500'
 urlpatterns = [
     url(r'^', include('apps.home.urls', namespace='home')),
     url(r'^u/', include('apps.users.urls', namespace='users')),

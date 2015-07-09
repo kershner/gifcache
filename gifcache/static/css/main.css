@@ -177,6 +177,18 @@ input {
 	border-radius: .25em;
 }
 
+.welcome-msg {
+	margin: 1em auto;
+	padding: 1em;
+	max-width: 15em;
+	background-color: #72ADD3;
+	font-size: 3em;
+	color: white;
+	text-align: center;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .1em;
+}
+
 /* Main navbar */
 .nav {
 	position: relative;
@@ -524,6 +536,16 @@ input {
 		grow 2s 1
 }
 
+.pulse {
+	-webkit-animation:
+		pulse 3s infinite;
+}
+
+.spin {
+	-webkit-animation:
+		spin 25s infinite;
+}
+
 @-webkit-keyframes grow {
 	0% {
 		font-size: 0;
@@ -537,11 +559,32 @@ input {
 	0% {
 		-webkit-transform: translateY(-20px);
 	}
-    50% {
+	50% {
 		-webkit-transform: translateY(0px);
 	}
 	100% {
 		-webkit-transform: translateY(-20px);
+	}
+}
+
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-transform: scale(1);
+	}
+	50% {
+		-webkit-transform: scale(1.1);
+	}
+	100% {
+		-webkit-transform: translateY(1);
+	}
+}
+
+@-webkit-keyframes spin {
+	0%  {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
 	}
 }
 
@@ -569,6 +612,16 @@ input {
 	font-size: 4em !important;
 	color: white;
 	text-shadow: 1px 1px 3px #000;
+}
+
+.error-code {
+	display: inline-block;
+	position: absolute;
+	top: 3.4em;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	font-family: 'Lobster', cursive;
 }
 
 #main-logo {
@@ -608,6 +661,7 @@ input {
 }
 
 .slogan {
+	position: relative;
 	text-align: center;
 	color: white;
 	text-shadow: 1px 1px 3px #000;
@@ -792,7 +846,7 @@ input {
 	position: relative;
 	padding-top: .5em;
 	text-align: left;	
-	border-top: .2em solid white;
+	border-top: .1em solid white;
 }
 
 .home-whatsnew-notes div {
@@ -821,6 +875,42 @@ input {
 .home-plug-link:hover {
 	text-shadow: 1px 1px 3px #000;
 	transform: scale(1.75);
+}
+
+/* Account Created Page */
+.account-created {
+	position: relative;
+	margin: 1em auto;
+	margin-top: 10em;
+	padding: 2em;
+	max-width: 50em;
+	background-color: #6b71ce;
+	text-align: center;
+	color: white;
+	text-shadow: 1px 1px 3px #000;
+	border: .2em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.account-created a {
+	display: inline-block;
+	position: relative;
+	color: white;
+	margin: 2em auto;
+	padding: 1em;
+	background-color: rgba(77, 77, 77, 0.2);
+	text-shadow: none;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.account-created a:hover {
+	transform: scale(1.1);
+}
+
+.account-created a:active {
+	top: .25em;
 }
 
 /* Profile View Styles *********************************************************/

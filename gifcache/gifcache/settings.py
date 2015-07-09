@@ -26,7 +26,7 @@ SECRET_KEY = credentials.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -54,7 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'DjangoGIF.urls'
+ROOT_URLCONF = 'gifcache.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'DjangoGIF.wsgi.application'
+WSGI_APPLICATION = 'gifcache.wsgi.application'
 
 
 # Database
@@ -104,7 +104,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     '/static/',
@@ -117,7 +116,5 @@ EMAIL_HOST_USER = credentials.email_user
 EMAIL_HOST_PASSWORD = credentials.email_password
 
 # Media Settings
-# MEDIA_ROOT = os.path.dirname(os.path.join(BASE_DIR, 'media', 'gifs'))
-MEDIA_ROOT = 'E:\\Programming\\Projects\DjangoGIF\\DjangoGIF\\media\\gifs\\'
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'media\\gifs\\')
 MEDIA_URL = '/media/'
-
