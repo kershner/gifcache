@@ -180,9 +180,9 @@ input {
 .welcome-msg {
 	margin: 1em auto;
 	padding: 1em;
-	max-width: 15em;
+	max-width: 20em;
 	background-color: #72ADD3;
-	font-size: 3em;
+	font-size: 2em;
 	color: white;
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -773,6 +773,7 @@ input {
 
 .home-demo-blurb {	
 	margin: .25em;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .home-demo .btn {

@@ -25,6 +25,7 @@
         {% endif %}
     </div>
 
+    {% if gifs or can_edit %}
     <div class="inner-nav animate-bg">
         {% if tags %}
         <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
@@ -101,6 +102,7 @@
         <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
         {% endif %}
     </div>
+    {% endif %}
 
     {% if can_edit %}
     <div class="add-gif-form hidden">
@@ -305,7 +307,7 @@
         {% if can_edit %}
             <div class="welcome-msg">Welcome to your GifCache!</div>
         {% else %}
-            <div class="message">{{ name }} hasn't added any GIFs yet.</div>
+            <div class="welcome-msg">{{ name }} hasn't added any GIFs yet.</div>
         {% endif %}
     {% endif %}
 </div>
