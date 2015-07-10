@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddGifForm, EditProfileForm
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -7,10 +6,23 @@ from ..home.forms import LoginForm
 from django.utils import timezone
 from .models import Gif, Profile
 from cStringIO import StringIO
+from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
+import random
 import json
+import os
+
+
+# Returns number of saved GIFs in my static/img folder
+def get_saved_gifs():
+    gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static\\img\\')
+    files = []
+    for (dirpath, dirnames, filenames) in os.walk(gif_dir):
+        files.extend(filenames)
+        break
+    return len([f for f in files if f.endswith('gif')])
 
 
 # Create your views here.
@@ -55,7 +67,8 @@ def view_profile(request, username):
         'can_edit': can_edit,
         'logged_in': logged_in,
         'avatar': p.avatar,
-        'message': message
+        'message': message,
+        'random_gif': random.choice(xrange(get_saved_gifs()))
     }
     return render(request, 'users/view.html', context)
 
@@ -73,7 +86,8 @@ def edit_profile(request, username):
         'username': u.username,
         'nickname': u.first_name,
         'avatar_url': p.avatar,
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'random_gif': random.choice(xrange(get_saved_gifs()))
     }
     if request.user.is_authenticated():
         if request.user.username == username:
@@ -110,11 +124,12 @@ def update_profile(request, username):
                 u.save()
                 p.save()
 
-            request.session['message'] = 'Your profile was successfully updated!'
+            request.session['message'] = 'Your profile was successfully updated!',
             return redirect('/u/%s' % str(username))
         else:
             context = {
-                'message': 'You are trying to edit another user\'s profile!'
+                'message': 'You are trying to edit another user\'s profile!',
+                'random_gif': random.choice(xrange(get_saved_gifs()))
             }
             return render(request, 'home/login.html', context)
     else:
@@ -128,14 +143,16 @@ def delete_profile(request, username):
         p.delete()
         u.delete()
         context = {
-            'message': 'Your profile has been successfully deleted!'
+            'message': 'Your profile has been successfully deleted!',
+            'random_gif': random.choice(xrange(get_saved_gifs()))
         }
         return render(request, 'home/home.html', context)
     else:
         context = {
             'title': 'Login',
             'message': 'You are trying to delete another user\'s profile!',
-            'form': LoginForm()
+            'form': LoginForm(),
+            'random_gif': random.choice(xrange(get_saved_gifs()))
         }
         return render(request, 'home/login.html', context)
 
@@ -245,7 +262,10 @@ def edit_gif(request):
         else:
             return redirect('/u/%s' % str(username))
     else:
-        context = {'message': 'You must be logged in to edit GIFs!'}
+        context = {
+            'message': 'You must be logged in to edit GIFs!',
+            'random_gif': random.choice(xrange(get_saved_gifs()))
+        }
         return render(request, 'home/login.html', context)
 
 
@@ -260,7 +280,10 @@ def delete_gif(request):
             g.delete()
             return redirect('/u/%s' % str(username))
     else:
-        context = {'message': 'You must be logged in to edit GIFs!'}
+        context = {
+            'message': 'You must be logged in to edit GIFs!',
+            'random_gif': random.choice(xrange(get_saved_gifs()))
+        }
         return render(request, 'home/login.html', context)
 
 
@@ -316,7 +339,7 @@ def bulk_add_tags(request):
         if request.method == 'POST':
             username = request.user.username
             user_id = request.POST['user_id']
-            tags = request.POST['tags'].replace(' ', '').split(',')
+            tags = request.POST['tags'].split(',')
             bulk_ids = request.POST['bulk_values'].split(',')
 
             u = get_object_or_404(User, pk=user_id)
