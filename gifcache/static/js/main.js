@@ -52,6 +52,9 @@ function colorPageElements() {
 		});
 		counter += 1
 	});
+	$('.nav-logo-circle').css({
+		'background-color': colors[randomnumber]
+	});
 	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
 	$('.profile-info').css({
 		'background-color': profileInfoColor

@@ -30,11 +30,13 @@
         {% else %}
         <div class="nav">
         {% endif %}
-            <div class="nav-logo">
+            <a href="{% url 'home:home' %}">
+            <div class="nav-logo pulse">
                 <div id="gif" class="nav-logo-title">GIF</div>
-                <div class="nav-logo-img"><img src="/static/img/{{ random_gif }}.gif"></div>
+                <div class="nav-logo-circle animate"></div>
                 <div id="cache" class="nav-logo-title">Cache</div>
             </div>
+            </a>
 
             <div class="nav-links">
                 <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
