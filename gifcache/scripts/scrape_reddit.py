@@ -4,9 +4,9 @@ import praw
 
 
 def scrape_reddit(sub, reddit):
-    # submissions = reddit.get_subreddit(sub).get_hot(limit=200)
+    submissions = reddit.get_subreddit(sub).get_hot(limit=400)
     # submissions = reddit.get_subreddit(sub).get_top_from_all(limit=200)
-    submissions = reddit.get_subreddit(sub).get_top_from_month(limit=200)
+    # submissions = reddit.get_subreddit(sub).get_top_from_month(limit=200)
     for submission in submissions:
         if not submission.url.endswith('gif'):
             continue
