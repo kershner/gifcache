@@ -1,6 +1,7 @@
 $(document).ready(function () {
 	homeFadeIn();
 	colorPageElements();
+	colorMainForm();
 	gifIsotope();
 	tagManager();	
 	showAddForm();

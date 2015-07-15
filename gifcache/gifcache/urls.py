@@ -23,5 +23,6 @@ handler500 = 'apps.home.views.error500'
 urlpatterns = [
     url(r'^', include('apps.home.urls', namespace='home')),
     url(r'^u/', include('apps.users.urls', namespace='users')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

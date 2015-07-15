@@ -1,11 +1,11 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 {% if errors %}
 <div class="message">{{ errors }}</div>
 {% endif %}
 
 
-<form action="{% url 'home:create-account' %}" method="post" class="main-form animate">
+<form action="" method="post" class="main-form animate">
     <h1 class="title">Sign Up!</h1>
 
     {% csrf_token %}

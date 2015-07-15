@@ -1,0 +1,20 @@
+{% url 'registration_activate' activation_key as activation_key_url %}
+<body>
+<h3>Account registration for {{ site.name }}</h3>
+<p>
+Hello! You have asked to register an account at
+<b>{{ site.name }}</b>.<br/>
+If this wasn't you, please ignore this email and your address will be removed
+from our records.
+</p>
+<p>
+To activate this account, please click the following link within the next 
+<b>{{ expiration_days }}</b> days:<br/>
+<a href="http://{{ site.domain }}{{ activation_key_url }}">http://{{ site.domain }}{{  activation_key_url }}</a>
+</p>
+<p>
+Sincerely,<br/>
+Tyler,<br/>
+{{ site.name }} Management
+</p>
+</body>

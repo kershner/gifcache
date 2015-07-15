@@ -32,14 +32,12 @@ def index(request):
         logged_in = True
 
     random_gif = random.choice(xrange(get_saved_gifs()))
-
     context = {
         'title': 'Home',
         'logged_in': logged_in,
         'username': request.user.username,
         'random_gif': random_gif
         }
-
     return render(request, 'home/home.html', context)
 
 
@@ -52,8 +50,7 @@ def login_view(request):
         'title': 'Login',
         'form': LoginForm(),
         'logged_in': logged_in,
-        'username': request.user.username,
-        'random_gif': random.choice(xrange(get_saved_gifs()))
+        'username': request.user.username
         }
     return render(request, 'home/login.html', context)
 
@@ -80,62 +77,13 @@ def authenticate_user(request):
             context = {
                 'title': 'Login',
                 'form': LoginForm(),
-                'message': 'This account has been deactivated, please create a new one.',
-                'random_gif': random.choice(xrange(get_saved_gifs()))
+                'message': 'This account has been deactivated, please create a new one.'
             }
             return render(request, 'home/login.html', context)
     else:
         context = {
             'title': 'Login',
             'form': LoginForm(),
-            'message': 'Invalid Login, please try again.',
-            'random_gif': random.choice(xrange(get_saved_gifs()))
+            'message': 'Invalid Login, please try again.'
         }
         return render(request, 'home/login.html', context)
-
-
-def signup(request):
-    print request.user.username
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            message = 'Account Created!'
-            print message
-    else:
-        form = SignupForm()
-    context = {
-        'form': form,
-        'title': 'Signup',
-        'random_gif': random.choice(xrange(get_saved_gifs()))
-    }
-    return render(request, 'home/signup.html', context=context)
-
-
-def create_account(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            email = request.POST['email']
-            nickname = request.POST['nickname']
-            u = User.objects.create_user(username=username, password=password, email=email, first_name=nickname)
-            p = Profile(owner=u)
-            u.save()
-            p.save()
-            request.user.username = username
-            context = {
-                'name': nickname,
-                'username': username,
-                'random_gif': random.choice(xrange(get_saved_gifs()))
-            }
-            return render(request, 'home/account_created.html', context)
-        else:
-            context = {
-                'form': form
-            }
-            return render(request, 'home/signup.html', context)
-    else:
-        form = SignupForm()
-        random_gif = random.choice(xrange(get_saved_gifs()))
-        return render(request, 'home/signup.html', {'form': form, 'random_gif': random_gif})

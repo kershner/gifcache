@@ -1,5 +1,7 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
+{% url 'auth_password_reset' as auth_pwd_reset_url %}
+{% url 'registration_register' as register_url%}
 
 {% if message %}
 <div class="message">{{ message }}</div>
@@ -12,4 +14,9 @@
     {{ form }}
     <input type="submit" class="btn green-btn main-submit" value="Login">
 </form>
+
+<p>
+    <a href="{{ auth_pwd_reset_url }}">Forgot</a> your password?
+    <a href="{{ register_url }}">Need an account</a>?
+</p>
 {% endblock %}

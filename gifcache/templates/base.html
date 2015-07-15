@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 {% else %}
-                <a href="{% url 'home:signup' %}" class="animate-fast">SIGNUP</a>
+                <a href="{% url 'registration_register' %}" class="animate-fast">SIGNUP</a>
                 <a href="{% url 'home:login' %}" class="animate-fast">LOGIN</a>
                 {% endif %}
             </div>
@@ -78,7 +78,7 @@
             <a href="/u/{{ username }}">My Profile</a>
             <a href="{% url 'home:logout' %}">Logout</a>
             {% else %}
-            <a href="{% url 'home:signup' %}">SIGNUP</a>
+            <a href="{% url 'registration_register' %}">SIGNUP</a>
             <a href="{% url 'home:login' %}">LOGIN</a>
             {% endif %}
         </div>
@@ -89,10 +89,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
     <script type="text/javascript" src="{% static '/static/js/packery-mode.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/static/js/main.js' %}"></script>
-    {% if title == 'Login' or title == 'Signup' or title == 'Edit Profile' %}
-    <script type="text/javascript">
-        colorMainForm();
-    </script>
-    {% endif %}
     </body>
 </html>

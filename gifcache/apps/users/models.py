@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -27,6 +27,16 @@ class Gif(models.Model):
 
     def __unicode__(self):
         return self.url
+
+
+# Signal to create user profile once registration process completes
+@receiver(post_save, sender=User)
+def create_profile(sender, created, instance, **kwargs):
+    if created:
+        print 'Creating user profile...'
+        u = get_object_or_404(User, pk=instance.id)
+        p = Profile(owner=u)
+        p.save()
 
 
 # Signal to delete associated media from server when user deletes a GIF

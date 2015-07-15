@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
 <div class="home-section animate-bg" style="height: 100vh; padding-top: 2em;">
@@ -11,7 +11,7 @@
     <div class="slogan transparent animate">Store, organize, and display your favorite GIFs</div>
 
     <div id="home-links" class="transparent animate">
-        <a href="{% url 'home:signup' %}"><div class="home-btn animate-fast">Sign Up</div></a>
+        <a href="{% url 'registration_register' %}"><div class="home-btn animate-fast">Sign Up</div></a>
         <a href="{% url 'home:login' %}"><div class="home-btn animate-fast">Log In</div></a>
     </div>
 
