@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_delete, post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -10,8 +10,8 @@ from django.db import models
 # Create your models here.
 class Profile(models.Model):
     owner = models.ForeignKey(User)
-    avatar = models.URLField(max_length=400, default='/media/avatars/default-user-image.png')
-    avatar_thumb = models.ImageField(upload_to='avatars', default='/media/avatars/default-user-image.png')
+    avatar = models.URLField(max_length=400, default='https://gifcache.s3.amazonaws.com/avatars/default-user-image.png')
+    avatar_thumb = models.ImageField(upload_to='avatars', default='https://gifcache.s3.amazonaws.com/avatars/default-user-image.png')
 
     def __unicode__(self):
         return self.owner.username
@@ -40,7 +40,7 @@ def create_profile(sender, created, instance, **kwargs):
 
 
 # Signal to delete associated media from server when user deletes a GIF
-@receiver(pre_delete, sender=Gif)
+@receiver(post_delete, sender=Gif)
 def user_thumbnail_delete(sender, instance, **kwargs):
     print 'Firing pre-delete signal...'
     g = get_object_or_404(Gif, pk=instance.id)

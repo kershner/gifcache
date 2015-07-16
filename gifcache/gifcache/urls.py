@@ -18,6 +18,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 
+handler403 = 'apps.home.views.error403'
 handler404 = 'apps.home.views.error404'
 handler500 = 'apps.home.views.error500'
 urlpatterns = [
