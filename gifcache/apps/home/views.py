@@ -1,15 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from .forms import LoginForm, SignupForm
-from ..users.models import Profile
+from .forms import LoginForm
 import random
 import os
 
 
 # Returns number of saved GIFs in my static/img folder
 def get_saved_gifs():
-    gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static\\img\\')
+    gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static/img/')
     files = []
     for (dirpath, dirnames, filenames) in os.walk(gif_dir):
         files.extend(filenames)
@@ -19,11 +17,13 @@ def get_saved_gifs():
 
 # Create your views here.
 def error404(request):
-    return render(request, 'home/404.html')
+    context = {'title': 'Error'}
+    return render(request, 'home/404.html', context=context)
 
 
 def error500(request):
-    return render(request, 'home/500.html')
+    context = {'title': 'Error'}
+    return render(request, 'home/500.html', context=context)
 
 
 def index(request):

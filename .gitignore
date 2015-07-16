@@ -4,4 +4,4 @@ credentials.py
 *.jpg
 settings.py
 packery-mode.pkgd.min.js
-/static_prod
+/static_prod/

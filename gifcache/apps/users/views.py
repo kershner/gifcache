@@ -10,20 +10,7 @@ from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
-import random
 import json
-import os
-
-
-# Returns number of saved GIFs in my static/img folder
-def get_saved_gifs():
-    gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static\\img\\')
-    files = []
-    for (dirpath, dirnames, filenames) in os.walk(gif_dir):
-        files.extend(filenames)
-        break
-    return len([f for f in files if f.endswith('gif')])
-
 
 # Create your views here.
 def view_profile(request, username):
@@ -67,8 +54,7 @@ def view_profile(request, username):
         'can_edit': can_edit,
         'logged_in': logged_in,
         'avatar': p.avatar,
-        'message': message,
-        'random_gif': random.choice(xrange(get_saved_gifs()))
+        'message': message
     }
     return render(request, 'users/view.html', context)
 
@@ -86,8 +72,7 @@ def edit_profile(request, username):
         'username': u.username,
         'nickname': u.first_name,
         'avatar_url': p.avatar,
-        'logged_in': logged_in,
-        'random_gif': random.choice(xrange(get_saved_gifs()))
+        'logged_in': logged_in
     }
     if request.user.is_authenticated():
         if request.user.username == username:
@@ -128,8 +113,7 @@ def update_profile(request, username):
             return redirect('/u/%s' % str(username))
         else:
             context = {
-                'message': 'You are trying to edit another user\'s profile!',
-                'random_gif': random.choice(xrange(get_saved_gifs()))
+                'message': 'You are trying to edit another user\'s profile!'
             }
             return render(request, 'home/login.html', context)
     else:
@@ -143,16 +127,14 @@ def delete_profile(request, username):
         p.delete()
         u.delete()
         context = {
-            'message': 'Your profile has been successfully deleted!',
-            'random_gif': random.choice(xrange(get_saved_gifs()))
+            'message': 'Your profile has been successfully deleted!'
         }
         return render(request, 'home/home.html', context)
     else:
         context = {
             'title': 'Login',
             'message': 'You are trying to delete another user\'s profile!',
-            'form': LoginForm(),
-            'random_gif': random.choice(xrange(get_saved_gifs()))
+            'form': LoginForm()
         }
         return render(request, 'home/login.html', context)
 
@@ -263,8 +245,7 @@ def edit_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {
-            'message': 'You must be logged in to edit GIFs!',
-            'random_gif': random.choice(xrange(get_saved_gifs()))
+            'message': 'You must be logged in to edit GIFs!'
         }
         return render(request, 'home/login.html', context)
 
@@ -281,8 +262,7 @@ def delete_gif(request):
             return redirect('/u/%s' % str(username))
     else:
         context = {
-            'message': 'You must be logged in to edit GIFs!',
-            'random_gif': random.choice(xrange(get_saved_gifs()))
+            'message': 'You must be logged in to edit GIFs!'
         }
         return render(request, 'home/login.html', context)
 
