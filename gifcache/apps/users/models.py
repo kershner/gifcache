@@ -12,8 +12,8 @@ from django.db import models
 # Create your models here.
 class Profile(models.Model):
     owner = models.ForeignKey(User)
-    avatar = models.URLField(max_length=400, default='/static/default-user-image.png')
-    avatar_thumb = models.ImageField(upload_to='avatars', default='/static/default-user-image.png')
+    avatar = models.URLField(max_length=400, default='/static/img/default-user-image.png')
+    avatar_thumb = models.ImageField(upload_to='avatars', default='/static/img/default-user-image.png')
 
     def __unicode__(self):
         return self.owner.username
