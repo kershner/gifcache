@@ -726,6 +726,7 @@ input {
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
+	background-color: rgba(255, 255, 255, 0.175);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
 }
@@ -820,9 +821,15 @@ input {
 	text-align: left;
 }
 
-.code-link {	
+.code-link-wrapper {
+	display: block;
 	margin: 1em auto;
+	width: 12.75em;
+}
+
+.code-link {
 	padding: .25em;
+	padding-bottom: .4em;
 	width: 10em;
 	text-align: center;
 	font-size: 1.2em;
@@ -831,17 +838,10 @@ input {
 	border-radius: .25em;
 }
 
-.code-link a {
-	color: white;
-}
-
 .code-link:hover {
+	color: black;
 	background-color: white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-}
-
-.code-link:hover > a {
-	color: black;
 }
 
 .mini-logo {

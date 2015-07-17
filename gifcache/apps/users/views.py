@@ -10,7 +10,9 @@ from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
+import uuid
 import json
+
 
 # Create your views here.
 def view_profile(request, username):
@@ -126,10 +128,7 @@ def delete_profile(request, username):
         p = get_object_or_404(Profile, owner=u)
         p.delete()
         u.delete()
-        context = {
-            'message': 'Your profile has been successfully deleted!'
-        }
-        return render(request, 'home/home.html', context)
+        return redirect('/')
     else:
         context = {
             'title': 'Login',
@@ -201,7 +200,8 @@ def add_gif(request):
 
                 u = get_object_or_404(User, id=hidden_id)
                 g = Gif(owner=u, url=url, created=timezone.now(), label=label)
-                g.thumbnail.save(url + '-thumb.jpg', ContentFile(img_temp.getvalue()))
+                extra_hash = str(uuid.uuid4())
+                g.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
                 g.save()
 
                 tags = tags.split(',')
