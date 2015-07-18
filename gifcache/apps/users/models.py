@@ -46,8 +46,8 @@ def create_profile(sender, created, instance, **kwargs):
 def user_thumbnail_delete(sender, instance, **kwargs):
     print 'Firing pre-delete signal...'
     g = get_object_or_404(Gif, pk=instance.id)
-    filename = str(g.thumbnail)
-    filename = filename[filename.find('/') + 1:]
+    f = str(g.thumbnail)
+    filename = f[f.rfind('/') + 1:]
     s3conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
     bucket = Bucket(s3conn, settings.AWS_STORAGE_BUCKET_NAME)
     k = Key(bucket)

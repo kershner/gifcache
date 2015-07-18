@@ -20,7 +20,7 @@
     <h1 class="title">Edit Profile</h1>
 
     {% csrf_token %}
-    <input type="text" name="nickname" value="{{ nickname }}" class="main-field animate">
+    <input type="text" maxlength="40" name="nickname" value="{{ nickname }}" class="main-field animate">
     <div class="label">Nickname</div>
 
     <div class="edit-profile-avatar">
@@ -28,14 +28,10 @@
             <img src="{{ avatar_url }}">
         </div>
         <input type="text" name="avatar_url" value="{{ avatar_url }}" class="main-field animate">
-        <div class="label">Avatar</div>
+        <div class="label">Avatar (URL)</div>
     </div>
 
     <input type="submit" class="btn green-btn main-submit" value="Submit">
-
-    <div class="extra-login-links">
-        <a style="color: #bebebe;" href="{% url 'auth_password_reset' %}">Reset Password</a>
-    </div>
 </form>
 
 {% endblock content %}

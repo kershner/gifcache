@@ -56,17 +56,18 @@
             <div id="bulk-add-tags-btn" class="btn bulk-btn green-btn">Add Tags</div>
 
             <div id="bulk-operations-delete" class="bulk-option hidden">
-                <p>Delete Selected GIFs</p>
+                <p>Delete GIFs</p>
                 <form action="{% url 'users:bulk-delete' %}" method="post">
                     {% csrf_token %}
                     <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
                     <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
                     <input type="submit" class="submit btn red-btn" value="Delete">
+                    <div class="label bulk-delete-label">This cannot be undone</div>
                 </form>
             </div>
 
             <div id="bulk-operations-add-tags" class="bulk-option hidden">
-                <p>Add Tags to Selected GIFs</p>
+                <p>Add Tags to GIFs</p>
 
                 <form action="{% url 'users:bulk-add-tags' %}" method="post">
                     {% csrf_token %}
@@ -78,7 +79,7 @@
             </div>
 
             <div id="bulk-operations-remove-tags" class="bulk-option hidden">
-                <p>Remove Tags From Selected GIFs</p>
+                <p>Remove Tags From GIFs</p>
 
                 <form action="{% url 'users:bulk-remove-tags' %}" method="post">
                     {% csrf_token %}
@@ -185,6 +186,7 @@
                                     {% csrf_token %}
                                     <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
                                     <input type="submit" value="Delete GIF" class="btn red-btn">
+                                    <div class="label gif-grid-element-delete-label">This cannot be undone</div>
                                 </form>
                             </div>
 
@@ -307,7 +309,7 @@
         {% if can_edit %}
             <div class="welcome-msg">Welcome to your GifCache!</div>
         {% else %}
-            <div class="welcome-msg">{{ name }} hasn't added any GIFs yet.</div>
+            <div class="welcome-msg">{{ name }} hasn't added any GIFs yet</div>
         {% endif %}
     {% endif %}
 </div>

@@ -20,6 +20,7 @@ def error403(request):
     context = {'title': 'Error'}
     return render(request, 'home/403.html', context=context)
 
+
 def error404(request):
     context = {'title': 'Error'}
     return render(request, 'home/404.html', context=context)

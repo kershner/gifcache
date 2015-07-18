@@ -5,8 +5,7 @@ $(document).ready(function () {
 	gifIsotope();
 	tagManager();	
 	showAddForm();
-	hoverGifs();
-	clickGifElements();
+	hoverGifs();	
 	copyUrl();
 	addTags();
 	selectTagToRemove();
@@ -14,7 +13,6 @@ $(document).ready(function () {
 	showInnerNav();
 	deleteProfile();
 });
-
 // Fades in elements on the splash page
 function homeFadeIn() {
 	setTimeout(function() {
@@ -237,9 +235,14 @@ function hoverGifs() {
 }
 
 // Add focus class to GIF elements and show/hide GIF editing options
-function clickGifElements() {
+function clickGifElements(logged_in) {
 	$('.gif-grid-thumbnail').on('click', function() {
-		$(this).parent().toggleClass('focused');
+		if (logged_in === 'True') {
+			$(this).parent().toggleClass('focused');
+			$(this).parent().toggleClass('focused-logged-in');
+		} else {
+			$(this).parent().toggleClass('focused');
+		}		
 		var div = $(this).parent().find('.gif-form-title').children(div);
 		div.toggleClass('focused');
 		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
@@ -385,7 +388,7 @@ function addTags() {
 		} else {
 			$(this).addClass('add-tags-selected');
 			$(this).children('input').val(1);
-			var html = '<input class="add-tag-field" type="text" placeholder="tag"><div class="add-tag-submit btn blue-btn">Add</div>';
+			var html = '<input class="add-tag-field" maxlength="20" type="text" placeholder="tag"><div class="add-tag-submit btn blue-btn">Add</div>';
 			$(this).parent().append(html);
 			addTagSubmit($(this).siblings('.add-tag-submit'));
 		}

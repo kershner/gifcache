@@ -132,6 +132,21 @@ input {
 	text-shadow: 1px 1px 3px #000;
 }
 
+.gif-grid-element-delete-label {
+	left: 1.8em;
+	top: -.15em;
+	font-size: .65em;
+	text-shadow: none;
+}
+
+.bulk-delete-label {
+	left: 5.25em;
+	top: -.15em;
+	font-size: .65em;
+	text-shadow: none;
+	color: #2a5876;
+}
+
 .container {
 	text-align: center;
 	overflow-x: hidden;
@@ -726,7 +741,7 @@ input {
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
-	background-color: rgba(255, 255, 255, 0.175);
+	background-color: rgba(76, 76, 76, 0.3);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
 }
@@ -1157,7 +1172,11 @@ input {
 
 /* Gif Grids */
 #grids {
-	margin-bottom: 5em;
+	margin-bottom: 2em;
+}
+
+.expanded-grids {
+	min-height: 47em;	
 }
 
 #all-gif-grid {
@@ -1335,9 +1354,13 @@ input {
 	transform: scale(3);
 }
 
-.focused {
+.focused {	
 	z-index: 6;
 	transform: scale(1.2);
+}
+
+.focused-logged-in {
+	top: -15em !important;
 }
 
 .gif-grid-element .img-wrapper {

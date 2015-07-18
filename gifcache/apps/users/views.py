@@ -111,7 +111,7 @@ def update_profile(request, username):
                 u.save()
                 p.save()
 
-            request.session['message'] = 'Your profile was successfully updated!',
+            request.session['message'] = 'Your profile was successfully updated!'
             return redirect('/u/%s' % str(username))
         else:
             context = {
@@ -301,17 +301,21 @@ def bulk_delete(request):
             username = request.user.username
             user_id = request.POST['user_id']
             bulk_ids = request.POST['bulk_values'].split(',')
-            unique_ids = []
-            for entry in bulk_ids:
-                if entry in unique_ids:
-                    pass
-                else:
-                    unique_ids.append(entry)
-            u = get_object_or_404(User, pk=user_id)
-            for gif in unique_ids:
-                g = Gif(pk=int(gif), owner=u)
-                g.delete()
-            return redirect('/u/%s' % str(username))
+            if str(bulk_ids[0]) == '':
+                print 'Trying to bulk delete 0 GIFs, redirecting...'
+                return redirect('/u/%s' % str(username))
+            else:
+                unique_ids = []
+                for entry in bulk_ids:
+                    if entry in unique_ids:
+                        pass
+                    else:
+                        unique_ids.append(entry)
+                u = get_object_or_404(User, pk=user_id)
+                for gif in unique_ids:
+                    g = Gif(pk=int(gif), owner=u)
+                    g.delete()
+                return redirect('/u/%s' % str(username))
 
 
 def bulk_add_tags(request):
