@@ -239,17 +239,17 @@ function clickGifElements(logged_in) {
 	$('.gif-grid-thumbnail').on('click', function() {
 		if (logged_in === 'True') {
 			$(this).parent().toggleClass('focused');
+			if ($(this).parent().hasClass('focused')) {
+    		    $(this).parent().css({
+    		        'top': '-=150px'
+    		    });
+    		} else {
+    		   $(this).parent().css({
+    		        'top': '+=150px'
+    		    });
+    		}
 		} else {
 			$(this).parent().toggleClass('focused');
-		}
-		if ($(this).parent().hasClass('focused')) {
-		    $(this).parent().css({
-		        'top': '-=150px'
-		    });
-		} else {
-		   $(this).parent().css({
-		        'top': '+=150px'
-		    });
 		}
 		var div = $(this).parent().find('.gif-form-title').children(div);
 		div.toggleClass('focused');
