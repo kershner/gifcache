@@ -3,13 +3,13 @@ $(document).ready(function () {
 	colorPageElements();
 	colorMainForm();
 	gifIsotope();
-	tagManager();	
+	tagManager();
 	showAddForm();
-	hoverGifs();	
+	hoverGifs();
 	copyUrl();
 	addTags();
 	selectTagToRemove();
-	bulkOperations();		
+	bulkOperations();
 	showInnerNav();
 	deleteProfile();
 });
@@ -64,7 +64,7 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
-	$('.home-section, .home-whatsnew-version').each(function() {		
+	$('.home-section, .home-whatsnew-version').each(function() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
 		}
@@ -83,14 +83,14 @@ function colorPageElements() {
 			'background-color': color
 		});
 		counter += 1
-	});	
+	});
 }
 
 // Colors the border-bottom CSS property of the main form elements
 function colorMainForm() {
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];	
+	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
-	var counter = randomnumber;	
+	var counter = randomnumber;
 	$('.main-form, .main-form h1').css({
 		'background-color': colors[counter]
 	});
@@ -154,7 +154,7 @@ function tagManager() {
 		$(this).toggleClass('tag-settings-icon-clicked');
 	});
 	$('.rename').on('click', function() {
-		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');		
+		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');
 		form.toggleClass('hidden');
 		$(this).toggleClass('green-btn-selected');
 	});
@@ -169,10 +169,10 @@ function tagManager() {
 function showAddForm() {
 	$('.add-gif-form-button').on('click', function() {
 		$(this).toggleClass('green-btn-selected');
-		$('.add-gif-form').toggleClass('hidden');	
+		$('.add-gif-form').toggleClass('hidden');
 		setTimeout(function() {
 			colorMainForm();
-		}, 1);		
+		}, 1);
 	});
 	$('.add-gif-form').on('click', function(e) {
 		e.preventDefault();
@@ -190,8 +190,8 @@ function showAddForm() {
 
 // Adds HTML element containing full GIF and lays it on top of thumbnail
 function hoverGifs() {
-	$('.gif-grid-element').on({		
-		mouseenter: function() {			
+	$('.gif-grid-element').on({
+		mouseenter: function() {
 			var gif = $(this).find('.img-wrapper');
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.gif-url').val();
@@ -218,7 +218,7 @@ function hoverGifs() {
 				gifExpand($(this));
 			}
 		},
-		mouseleave: function() {			
+		mouseleave: function() {
 			var gif = $(this).find('.img-wrapper');
 			if ($(this).hasClass('focused') || gif.hasClass('expanded')) {
 				gifExpand($(this));
@@ -228,7 +228,7 @@ function hoverGifs() {
 					'opacity': 1.0
 				});
 				$(this).children('.img-wrapper').remove();
-				gifExpand($(this));			
+				gifExpand($(this));
 			}
 		}
 	});
@@ -239,20 +239,28 @@ function clickGifElements(logged_in) {
 	$('.gif-grid-thumbnail').on('click', function() {
 		if (logged_in === 'True') {
 			$(this).parent().toggleClass('focused');
-			$(this).parent().toggleClass('focused-logged-in');
 		} else {
 			$(this).parent().toggleClass('focused');
-		}		
+		}
+		if ($(this).parent().hasClass('focused')) {
+		    $(this).parent().css({
+		        'top': '-=150px'
+		    });
+		} else {
+		   $(this).parent().css({
+		        'top': '+=150px'
+		    });
+		}
 		var div = $(this).parent().find('.gif-form-title').children(div);
 		div.toggleClass('focused');
 		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
 
 		if ($(this).parent().hasClass('focused')) {
 			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-			var color  = colors[Math.floor(Math.random() * colors.length)];			
-			$(this).parent().css({				
+			var color  = colors[Math.floor(Math.random() * colors.length)];
+			$(this).parent().css({
 				'background-color': color
-			});	
+			});
 			$(this).parent().find('.gif-form-title').css({
 				'background-color': color
 			});
@@ -267,7 +275,7 @@ function clickGifElements(logged_in) {
 			$(this).parent().find('.gif-label').css({
 				'color': '#4c4c4c'
 			});
-		}		
+		}
 	});
 }
 
@@ -301,7 +309,7 @@ function bulkOperations() {
 		bulkSelect();
 		$('#bulk-operations .submit').on('click', function() {
 			grabBulkValues();
-		});		
+		});
 	});
 }
 
@@ -339,7 +347,7 @@ function grabBulkValues() {
 			ids.push(gifID);
 		} else {
 			// Nothing
-		}		
+		}
 	});
 	$('#bulk-operations').find('.bulk-values').each(function(){
 		$(this).val(ids.join());
@@ -347,7 +355,7 @@ function grabBulkValues() {
 }
 
 // Records tag ID in text field, applies CSS class for UX feedback
-function selectTagToRemove() {	
+function selectTagToRemove() {
 	$('.tag').children('.delete-tag').on('click', function() {
 		var tagName = $(this).siblings('.tag-name').text();
 		var selected = $(this).siblings('.remove-tag-input').val();
@@ -359,7 +367,7 @@ function selectTagToRemove() {
 		} else if (selected == ' ') {
 			$(this).parent().addClass('warning');
 			$(this).addClass('icon-selected');
-			$(this).siblings('.remove-tag-input').val(tagName);		
+			$(this).siblings('.remove-tag-input').val(tagName);
 			updateTagRemoveInput($(this).parents('.tags'));
 		}
 	});
@@ -396,15 +404,15 @@ function addTags() {
 }
 
 // Places tag into staging area to be submitted
-function addTagSubmit(element) {	
-	$(element).on('click', function() {		
+function addTagSubmit(element) {
+	$(element).on('click', function() {
 		var tag = $(element).siblings('.add-tag-field').val();
 		if (tag.length > 0) {
 			$(this).siblings('.tags-to-be-added').removeClass('hidden');
 			var currentVal = $('.add-tags-values').val();
 			var html = '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' + tag + '</div></div>';
 			$(this).siblings('.tags-to-be-added').append(html);
-			$(this).siblings('.add-tag-field').val('');			
+			$(this).siblings('.add-tag-field').val('');
 			var tagsToBeAddedDiv = $(this).siblings('.tags-to-be-added');
 			updateAddTagInput(tagsToBeAddedDiv);
 			removeAddedTag(tagsToBeAddedDiv);
@@ -429,7 +437,7 @@ function removeAddedTag(element) {
 }
 
 // Updates hidden text field with tags to add
-function updateAddTagInput(element) {	
+function updateAddTagInput(element) {
 	var tagValues = $(element).children('.tag-to-be-added').children('.tag-to-be-added-value');
 	var tagValuesInput = $(element).parent().siblings('.add-tags-values');
 	values = [];
@@ -455,7 +463,7 @@ function showInnerNav() {
 // Show/hide the Delete Profile form
 function deleteProfile() {
 	$('.delete-profile-button').on('click', function() {
-		$(this).siblings('.edit-profile-delete-wrapper').toggleClass('hidden');		
+		$(this).siblings('.edit-profile-delete-wrapper').toggleClass('hidden');
 	});
 	$('.cancel-delete-profile').on('click', function() {
 		$(this).parents('.edit-profile-delete-wrapper').toggleClass('hidden');
@@ -486,7 +494,7 @@ function editGifAjax() {
 			},
 
 			success: function(json) {
-				if (tagsToAdd.length > 0 || tagsToRemove.length > 0) {					
+				if (tagsToAdd.length > 0 || tagsToRemove.length > 0) {
 					// Call function to update tag groups
 					console.log('Tags are being added or removed!');
 					// updateTaggedGroups();
@@ -495,7 +503,7 @@ function editGifAjax() {
 					updateGifElements(instances, json['html'])
 				} else {
 					// Update GIF element that was just edited
-					console.log('Tags are not being added or removed!');					
+					console.log('Tags are not being added or removed!');
 					// updateGifValues(parent, label);
 					var instances = getAllGifElements(gifID);
 					updateGifElements(instances, json['html'])

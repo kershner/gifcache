@@ -22,7 +22,7 @@ a:hover {
 input {
 	display: block;
 	margin: .5em auto;
-	padding: .25em;	
+	padding: .25em;
 	max-width: 90%;
 	font-family: 'Quicksand', sans-serif;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -31,7 +31,7 @@ input {
 }
 
 .hidden {
-	display: none !important;	
+	display: none !important;
 }
 
 .transparent {
@@ -186,7 +186,7 @@ input {
 .img-wrapper video {
 	width: 150px;
 	min-height: 100px;
-	max-height: 100px;	
+	max-height: 100px;
 	border-radius: .5em;
 }
 
@@ -206,7 +206,7 @@ input {
 	padding: 1em;
 	width: 40%;
 	min-width: 15em;
-	background-color: #72ADD3;	
+	background-color: #72ADD3;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
 	text-align: center;
@@ -325,7 +325,7 @@ input {
 	position: absolute;
 	padding: .75em;
 	top: 2.75em;
-	right: -1em;	
+	right: -1em;
 	background-color: #25B972;
 	font-size: .75em;
 	min-width: 6em;
@@ -354,7 +354,7 @@ input {
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	height: 10em;	
+	height: 10em;
 	text-align: center;
 	color: #bebebe;
 	background-color: #4c4c4c;
@@ -373,8 +373,8 @@ input {
 	color: #6b71ce;
 }
 
-.footer-logo {	
-	display: inline-block;	
+.footer-logo {
+	display: inline-block;
 	margin: .5em;
 }
 
@@ -416,7 +416,7 @@ input {
 
 /* Buttons ******************************************************************/
 .btn {
-	position: relative;	
+	position: relative;
 	text-align: center;
 	color: white;
 	border-radius: .2em;
@@ -441,12 +441,12 @@ input {
 	box-shadow: 0px 6px 0px #32a76e;
 }
 
-.green-btn:hover {	
+.green-btn:hover {
 	background-color: #32a76e;
 	box-shadow: 0px 6px 0px #268054;
 }
 
-.green-btn:active, .green-btn-selected {	
+.green-btn:active, .green-btn-selected {
 	background-color: #32a76e;
 	box-shadow: 0px 2px 0px #268054;
 }
@@ -459,7 +459,7 @@ input {
 
 .blue-btn {
 	background-color: #72ADD3;
-	box-shadow: 0px 6px 0px #4c97c7; 
+	box-shadow: 0px 6px 0px #4c97c7;
 }
 
 .blue-btn:hover {
@@ -479,7 +479,7 @@ input {
 
 .red-btn {
 	background-color: #ff3434;
-	box-shadow: 0px 6px 0px #ff0101; 
+	box-shadow: 0px 6px 0px #ff0101;
 }
 
 .red-btn:hover {
@@ -499,7 +499,7 @@ input {
 
 .yellow-btn {
 	background-color: #FFB558;
-	box-shadow: 0px 6px 0px #ff9e25; 
+	box-shadow: 0px 6px 0px #ff9e25;
 }
 
 .yellow-btn:hover {
@@ -507,7 +507,7 @@ input {
 	box-shadow: 0px 6px 0px #f18600;
 }
 
-.yellow-btn:active, .yellow-btn-selected {	
+.yellow-btn:active, .yellow-btn-selected {
 	background-color: #ff9e25;
 	box-shadow: 0px 2px 0px #f18600;
 }
@@ -519,7 +519,7 @@ input {
 
 .purple-btn {
 	background-color: #6b71ce;
-	box-shadow: 0px 6px 0px #454cc1; 
+	box-shadow: 0px 6px 0px #454cc1;
 }
 
 .purple-btn:hover {
@@ -539,7 +539,7 @@ input {
 
 .peach-btn {
 	background-color: #ff8358;
-	box-shadow: 0px 6px 0px #ff5d25; 
+	box-shadow: 0px 6px 0px #ff5d25;
 }
 
 .peach-btn:hover {
@@ -638,8 +638,8 @@ input {
 }
 
 .home-section-grey {
-	position: relative;	
-	margin: 0 auto;	
+	position: relative;
+	margin: 0 auto;
 	padding: 2em 0;
 	padding-bottom: 3em;
 	width: 100%;
@@ -728,7 +728,7 @@ input {
 
 #home-links {
 	margin: 0 auto;
-	text-align: center;	
+	text-align: center;
 }
 
 .home-btn {
@@ -751,7 +751,7 @@ input {
 	background-color: #25B972;
 }
 
-.home-btn:active {	
+.home-btn:active {
 	top: .25em;
 }
 
@@ -768,7 +768,7 @@ input {
 	max-width: 20em;
 }
 
-.startup-icon {		
+.startup-icon {
 	margin: 0 auto;
 	width: 2.5em;
 	height: 2.5em;
@@ -813,7 +813,7 @@ input {
 	max-width: 20em;
 }
 
-.home-demo-blurb {	
+.home-demo-blurb {
 	margin: .25em;
 	font-family: 'PT Sans', sans-serif;
 }
@@ -911,7 +911,7 @@ input {
 .home-whatsnew-notes {
 	position: relative;
 	padding-top: .5em;
-	text-align: left;	
+	text-align: left;
 	border-top: .1em solid white;
 }
 
@@ -957,7 +957,7 @@ input {
 
 /* Profile View Styles *********************************************************/
 /* Box with profile info */
-.profile-info {	
+.profile-info {
 	position: relative;
 	display: inline-block;
 	margin: 1em auto;
@@ -972,7 +972,7 @@ input {
 	border-radius: .25em;
 }
 
-.profile-avatar {	
+.profile-avatar {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -985,11 +985,11 @@ input {
 	position: relative;
 	height: 8em;
 	width: 8em;
-	border-radius: 50%;	
+	border-radius: 50%;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
-.profile-name {	
+.profile-name {
 	position: relative;
 	margin: 0 auto;
 	margin-top: 1.25em;
@@ -1039,7 +1039,7 @@ input {
 	top: 0;
 	left: 0;
 	right: 0;
-	margin: 0 auto;	
+	margin: 0 auto;
 	text-align: center;
 	border-radius: 0 0 .25em .25em;
 }
@@ -1065,7 +1065,7 @@ input {
 	background-color: #F2F2F2;
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: .25em; 
+	border-radius: .25em;
 }
 
 .sort:hover > .sort-options {
@@ -1176,7 +1176,7 @@ input {
 }
 
 .expanded-grids {
-	min-height: 47em;	
+	min-height: 47em;
 }
 
 #all-gif-grid {
@@ -1271,7 +1271,7 @@ input {
 }
 
 .delete-form {
-	margin-bottom: 2em;	
+	margin-bottom: 2em;
 }
 
 /* Hidden div inside Gif elements, activated when bulk options seleced */
@@ -1309,7 +1309,7 @@ input {
 }
 
 /* Elements of the Gif Grids */
-.gif-grid-element {	
+.gif-grid-element {
 	position: relative;
 	display: inline-block;
 	z-index: 5;
@@ -1335,17 +1335,17 @@ input {
 
 .gif-form-section {
 	position: relative;
-	padding: .75em;	
+	padding: .75em;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
-.gif-form-title {	
+.gif-form-title {
 	display: inline-block;
 	position: absolute;
 	top: -.95em;
 	padding: .25em .5em;
-	font-size: 1em;	
+	font-size: 1em;
 	color: white;
 }
 
@@ -1354,13 +1354,9 @@ input {
 	transform: scale(3);
 }
 
-.focused {	
+.focused {
 	z-index: 6;
 	transform: scale(1.2);
-}
-
-.focused-logged-in {
-	top: -15em !important;
 }
 
 .gif-grid-element .img-wrapper {
@@ -1402,7 +1398,7 @@ input {
 	display: none;
 	position: relative;
 	font-size: .6em !important;
-	text-align: center;	
+	text-align: center;
 }
 
 /* Tag display/add form inside Gif Grid Elements */
@@ -1430,7 +1426,7 @@ input {
 }
 
 .tag {
-	display: inline-block;	
+	display: inline-block;
 	margin: .3em;
 	padding: .3em .8em;
 	background-color: #72ADD3;
@@ -1449,11 +1445,11 @@ input {
 }
 
 .add-tags {
-	margin: .75em auto;	
+	margin: .75em auto;
 	text-align: center;
 }
 
-.add-tags input {	
+.add-tags input {
 	display: inline-block;
 	width: 80%;
 }
@@ -1493,7 +1489,7 @@ input {
 	color: #14653e;
 }
 
-.add-tag-field {	
+.add-tag-field {
 	position: relative;
 	top: .12em;
 	width: 60% !important;
@@ -1524,7 +1520,7 @@ input {
 .tag-to-be-added {
 	display: block;
 	margin: .25em;
-	color: white !important;	
+	color: white !important;
 }
 
 .tag-to-be-added-value {
@@ -1551,7 +1547,7 @@ input {
 	z-index: 8;
 	top: 0;
 	left: 0;
-	right: 0;	
+	right: 0;
 	margin: 0 auto;
 	width: 100%;
 }
@@ -1564,7 +1560,7 @@ input {
 	text-align: center;
 	padding: .5em;
 	width: 10em;
-	color: white;	
+	color: white;
 	border: .2em solid white;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -1572,7 +1568,7 @@ input {
 
 .tag-manager-options div {
 	display: block;
-	margin: 1em auto;	
+	margin: 1em auto;
 	padding: .25em;
 }
 
@@ -1580,9 +1576,9 @@ input {
 	position: relative;
 	margin: 1em auto;
 	top: 9em;
-	padding: 1em;	
+	padding: 1em;
 	width: 75%;
-	max-width: 20em;	
+	max-width: 20em;
 	color: white;
 	text-align: center;
 	border-radius: .25em;
@@ -1636,7 +1632,7 @@ input {
 	top: 25%;
 }
 
-.edit-profile-delete p {	
+.edit-profile-delete p {
 	text-align: center;
 	color: white;
 	text-shadow: 1px 1px 3px #000;
@@ -1677,7 +1673,7 @@ input {
 	padding-bottom: .5em;
 	top: .25em;
 	right: .5em;
-	color: white;	
+	color: white;
 	text-shadow: 1px 1px 3px #000;
 	border-radius: .25em;
 }
@@ -1699,5 +1695,5 @@ input {
 	margin: 0 .2em;
 	top: .1em;
 	font-size: 1.25em;
-	color: #ff3434;		
+	color: #ff3434;
 }
