@@ -135,7 +135,7 @@ input {
 .gif-grid-element-delete-label {
 	left: 1.8em;
 	top: -.15em;
-	font-size: .65em;
+	font-size: .65em;	
 	text-shadow: none;
 }
 
@@ -179,22 +179,13 @@ input {
 
 /* Responsive images/videos */
 .img-wrapper {
-	position: relative;
 	max-width: 150px;
 }
 
-.img-wrapper video {
+.img-wrapper img, .img-wrapper video {
 	width: 150px;
-	min-height: 100px;
-	max-height: 100px;
-	border-radius: .5em;
-}
-
-.img-wrapper img {
-	width: 100%;
-	min-height: 100px;
-	max-height: 100px;
-	border-radius: .5em;
+	height: 100px;
+	border-radius: .25em;
 }
 
 .img-wrapper:hover {
@@ -989,6 +980,14 @@ input {
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
+.profile-avatar video {
+	position: relative;
+	height: 8em;
+	width: 8em;
+	border-radius: 50%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
 .profile-name {
 	position: relative;
 	margin: 0 auto;
@@ -1024,6 +1023,7 @@ input {
 .inner-nav {
 	position: relative;
 	margin: 0 auto;
+	z-index: 10;
 	margin-bottom: 1em;
 	padding: 1em;
 	background-color: #F2F2F2;
@@ -1655,7 +1655,8 @@ input {
 	margin: 0 auto;
 }
 
-.edit-profile-avatar .img-wrapper img {
+.edit-profile-avatar .img-wrapper img, 
+.edit-profile-avatar .img-wrapper video {
 	width: 8em;
 	height: 8em;
 	min-width: 8em;

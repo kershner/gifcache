@@ -3,7 +3,11 @@
 <div class="container">
     <div class="profile-info animate">
         <div class="profile-avatar">
-            <img src="{{ avatar }}">
+            {% if element == 'img' %}
+                <img src="{{ avatar }}">
+            {% elif element == 'video' %}
+                <video src="{{ avatar }}" autoplay loop></video>
+            {% endif %}
         </div>
 
         <div class="profile-name">{{ name }}</div>
@@ -159,6 +163,7 @@
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                             <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
                             <input type="submit" class="btn red-btn" value="Delete">
+                            <div class="label gif-grid-element-delete-label" style="text-align: center;">This cannot be undone</div>
                         </form>
                     </div>
                 </div>
@@ -234,10 +239,12 @@
             {% endfor %}
         </div>
 
+        <!--All GIFs Grid-->
         <div id="all-gif-grid" class="gif-grid">
             <div class="tag-group animate-bg">
                 <div class="tag-title">all GIFs</div>
 
+                <!--GIF Grid Element-->
                 {% for object in gifs %}
                 <div class="gif-grid-element animate-fast">
                     <div class="bulk-wrapper hidden">
@@ -245,6 +252,7 @@
                         <input type="text" value="{{ object.id }}" class="hidden">
                     </div>
 
+                    <!--Thumbnail / Hidden URL -->
                     <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
                     <p class="gif-label">{{ object.label }}</p>
                     <i class="fa fa-link copy-url animate"></i>
@@ -252,22 +260,26 @@
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
 
                     {% if can_edit %}
+                    <!--Delete Button-->
                     <div class="gif-form edit-form hidden">
                         <div class="gif-form delete-form">
                             <form action="{% url 'users:delete-gif' %}" method="post" class="delete-form">
                                 {% csrf_token %}
                                 <input type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID" class="hidden">
                                 <input type="submit" value="Delete GIF" class="btn red-btn">
+                                <div class="label gif-grid-element-delete-label">This cannot be undone</div>
                             </form>
                         </div>
 
                         <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
+                            <!--GIF Label-->
                             {% csrf_token %}
                             <div class="gif-form-section">
                                 <div class="gif-form-title" style="left: .5em;">label</div>
                                 <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
                             </div>
 
+                            <!--Tags-->
                             <div class="tags gif-form-section">
                                 <div class="gif-form-title" style="right: .5em;">tags</div>
 

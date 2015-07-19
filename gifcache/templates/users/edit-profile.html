@@ -25,7 +25,11 @@
 
     <div class="edit-profile-avatar">
         <div class="img-wrapper">
+        {% if element == 'img' %}
             <img src="{{ avatar_url }}">
+        {% elif element == 'video' %}
+            <video src="{{ avatar_url }}" autoplay loop></video>
+        {% endif %}
         </div>
         <input type="text" name="avatar_url" value="{{ avatar_url }}" class="main-field animate">
         <div class="label">Avatar (URL)</div>

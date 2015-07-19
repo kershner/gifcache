@@ -122,21 +122,43 @@ function gifIsotope() {
 			label: '.gif-label'
 		}
 	});
+	var labelClicked = false;
 	$('.sort-label').on('click', function() {
-		grid.isotope({
-			sortBy: 'label'
-		})
+		$(this).toggleClass('green-btn-selected');
+		if (labelClicked === false) {
+			labelClicked = true;
+			grid.isotope({
+				sortBy: 'label',
+				sortAscending: true
+			});
+		} else {
+			labelClicked = false;
+			grid.isotope({
+				sortBy: 'label',
+				sortAscending: false
+			});
+		}
 	});
+	var dateClicked = false;
 	$('.sort-date').on('click', function() {
-		grid.isotope({
-			sortBy: 'original-order'
-		})
+		$(this).toggleClass('blue-btn-selected');
+		if (dateClicked === false) {
+			dateClicked = true;
+			grid.isotope({
+				sortBy: 'original-order',
+				sortAscending: true
+			});
+		} else {
+			dateClicked = false;
+			grid.isotope({
+				sortBy: 'original-order',
+				sortAscending: false
+			});
+		}
 	});
 	$('.sort-random').on('click', function() {
-		console.log('Sorting!');
-		grid.isotope({
-			sortBy: 'random'
-		})
+		console.log('Shuffling grids!');
+		grid.isotope('shuffle');
 	});
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',

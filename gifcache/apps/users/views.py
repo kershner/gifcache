@@ -34,7 +34,6 @@ def view_profile(request, username):
     gifs = Gif.objects.filter(owner=u)
 
     tags = list(set(Tag.objects.filter(gif__owner=u)))
-
     tagged_gifs = []
     for tag in tags:
         temp_gifs = gifs.filter(tags__name__in=[str(tag)])
@@ -43,6 +42,16 @@ def view_profile(request, username):
     add_gif_form = AddGifForm(initial={
         'hidden_id': u.id
     })
+
+    avatar = p.avatar
+    if p.avatar.endswith('.gif'):
+        print 'GIF Avatar'
+        element = 'img'
+    else:
+        extension = p.avatar[p.avatar.rfind('.'):]
+        element = 'video'
+        avatar = avatar.replace(extension, '.mp4')
+        print avatar
     context = {
         'username': request.user.username,
         'name': u.first_name,
@@ -55,7 +64,8 @@ def view_profile(request, username):
         'tag_number': len(tags),
         'can_edit': can_edit,
         'logged_in': logged_in,
-        'avatar': p.avatar,
+        'avatar': avatar,
+        'element': element,
         'message': message
     }
     return render(request, 'users/view.html', context)
@@ -69,11 +79,22 @@ def edit_profile(request, username):
     u = get_object_or_404(User, username=username)
     p = get_object_or_404(Profile, owner=u)
 
+    avatar = p.avatar
+    if p.avatar.endswith('.gif'):
+        print 'GIF Avatar'
+        element = 'img'
+    else:
+        extension = p.avatar[p.avatar.rfind('.'):]
+        element = 'video'
+        avatar = avatar.replace(extension, '.mp4')
+        print avatar
+
     context = {
         'title': 'Edit Profile',
         'username': u.username,
         'nickname': u.first_name,
-        'avatar_url': p.avatar,
+        'avatar_url': avatar,
+        'element': element,
         'logged_in': logged_in
     }
     if request.user.is_authenticated():
