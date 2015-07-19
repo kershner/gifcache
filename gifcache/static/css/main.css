@@ -135,7 +135,7 @@ input {
 .gif-grid-element-delete-label {
 	left: 1.8em;
 	top: -.15em;
-	font-size: .65em;	
+	font-size: .65em;
 	text-shadow: none;
 }
 
@@ -732,9 +732,9 @@ input {
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
-	background-color: rgba(76, 76, 76, 0.3);
+	background-color: rgba(76, 76, 76, 0.6);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: .25em;
+	border-radius: .15em;
 }
 
 .home-btn:hover {
@@ -1655,7 +1655,7 @@ input {
 	margin: 0 auto;
 }
 
-.edit-profile-avatar .img-wrapper img, 
+.edit-profile-avatar .img-wrapper img,
 .edit-profile-avatar .img-wrapper video {
 	width: 8em;
 	height: 8em;

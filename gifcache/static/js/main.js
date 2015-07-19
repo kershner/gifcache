@@ -13,6 +13,7 @@ $(document).ready(function () {
 	showInnerNav();
 	deleteProfile();
 });
+
 // Fades in elements on the splash page
 function homeFadeIn() {
 	setTimeout(function() {
@@ -68,9 +69,19 @@ function colorPageElements() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
 		}
-		var color = colors[counter];
+		var homeColor = colors[counter];
 		$(this).css({
-			'background-color': color
+			'background-color': homeColor
+		});
+		counter += 1
+	});
+	$('.home-btn').each(function() {
+		if (counter > colors.length - 1 ) {
+			counter = 0;
+		}
+		var newColor = colors[counter];
+		$(this).css({
+			'border-bottom': '.18em solid ' + newColor
 		});
 		counter += 1
 	});
