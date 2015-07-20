@@ -45,14 +45,12 @@ def view_profile(request, username):
     })
 
     avatar = p.avatar
-    if p.avatar.endswith('.gif'):
-        print 'GIF Avatar'
+    if p.avatar.endswith(('gif', 'png')):
         element = 'img'
     else:
         extension = p.avatar[p.avatar.rfind('.'):]
         element = 'video'
         avatar = avatar.replace(extension, '.mp4')
-        print avatar
     context = {
         'username': request.user.username,
         'name': u.first_name,
