@@ -5,6 +5,7 @@ $(document).ready(function () {
 	gifIsotope();
 	tagManager();
 	showAddForm();
+	gifGrabber();
 	hoverGifs();
 	copyUrl();
 	addTags();
@@ -59,6 +60,9 @@ function colorPageElements() {
 	$('.profile-info').css({
 		'background-color': profileInfoColor
 	});
+	$('.profile-avatar img, .profile-avatar video').css({
+		'background-color': profileInfoColor
+	});
 	$('.bulk-option').each(function() {
 		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
 		$(this).css({
@@ -85,6 +89,15 @@ function colorPageElements() {
 		});
 		counter += 1
 	});
+	$('.nav-links a, .profile-nav-link').each(function() {
+		var classes = ['red', 'yellow', 'purple', 'peach'];
+		if (counter > classes.length - 1 ) {
+			counter = 0;
+		}
+		var dynamicClass = classes[counter] + '-border';
+		$(this).addClass(dynamicClass);
+		counter += 1
+	});
 	$('.startup-icon').each(function() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
@@ -95,6 +108,7 @@ function colorPageElements() {
 		});
 		counter += 1
 	});
+	$('.loading i').css({'color': colors[randomnumber]});
 }
 
 // Colors the border-bottom CSS property of the main form elements
@@ -211,6 +225,7 @@ function showAddForm() {
 		e.preventDefault();
 		var target = $(e.target);
 		if (target.is('#add-gif-submit')) {
+			$('.loading-wrapper').toggleClass('hidden');
 			$(this).children('form').submit();
 		} else if (target.is('form, input, h1')) {
 			// Nothing
@@ -221,23 +236,71 @@ function showAddForm() {
 	});
 }
 
+function gifGrabber() {
+	$('.gifgrabber-btn').on('click', function() {
+		gifGrabberAjax();
+		$(this).toggleClass('red-btn-selected');
+		$('.gifgrabber-form-wrapper').toggleClass('hidden');
+		setTimeout(function() {
+			colorMainForm();
+		}, 1);
+	});
+	$('.gifgrabber-form-wrapper').on('click', function(e) {
+		e.preventDefault();
+		var target = $(e.target);
+		if (target.is('.gifgrabber-submit')) {
+			// Nothing
+		}
+		else if (target.is('form, input, h1, select')) {
+			// Nothing
+		} else {
+			$(this).toggleClass('hidden');
+			$('.gifgrabber-btn').toggleClass('red-btn-selected');
+		}
+	});
+}
+
+// Handles AJAX call when GifGrabber form is submitted
+function gifGrabberAjax() {
+	$('.gifgrabber-submit').on('click', function(e) {
+		e.preventDefault();
+		var subreddit = $(this).siblings('.subreddit-field').val();
+		var maxSize = $(this).siblings('.max-size').val()
+		ajaxCSRF();
+		$.ajax({
+			url: '/u/gifgrabber/',
+			type: 'POST',
+			data: {
+				'subreddit': subreddit,
+				'max_size': maxSize
+			},
+			success: function(json) {
+				console.log(json['gifs']);
+			},
+			error: function(xhr, errmsg, err) {
+				console.log('Error!');
+				console.log(errmsg);
+				console.log(xhr.status + ': ' + xhr.responseText);
+			}
+		});
+	});
+}
+
 // Adds HTML element containing full GIF and lays it on top of thumbnail
 function hoverGifs() {
 	$('.gif-grid-element').on({
 		mouseenter: function() {
 			var gif = $(this).find('.img-wrapper');
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
-			var gifUrl = $(this).children('.gif-url').val();
+			var gifUrl = $(this).children('.display-url').val();
 			// Check what kind of URL we have
 			var isGfycat = gifUrl.includes('gfycat');
 			var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
 			var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 			var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
 			if (isGifv || isMp4 || isWebm || isGfycat) {
-				console.log('Mp4, Gifv, Gfycat, or Webm file');
 				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop></video></div>'
 			} else {
-				console.log('Normal GIF file');
 				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
 			}
 
@@ -502,56 +565,8 @@ function deleteProfile() {
 		$(this).parents('.edit-profile-delete-wrapper').toggleClass('hidden');
 	});
 }
-//////////////////////////////////////////////////////////////////////////////////
-// AJAX example for later reference
-function editGifAjax() {
-	$('.edit-gif-submit').on('click', function(e) {
-		console.log('Clicked!');
-		e.preventDefault();
 
-		var gifID = $(this).siblings('.tags').children('.gif-id-field').val();
-		var label = $(this).siblings('.gif-label-field').val();
-		var tagsToAdd = $(this).siblings('.tags').children('.add-tags-values').val();
-		var tagsToRemove = $(this).siblings('.tags').children('.remove-tags-values').val();
-		var parent = $(this).parents('.gif-grid-element');
-
-		ajaxCSRF();
-		$.ajax({
-			url: '/account/edit-gif/',
-			type: 'POST',
-			data: {
-				'gifID': gifID,
-				'label': label,
-				'tagsToAdd': tagsToAdd,
-				'tagsToRemove': tagsToRemove
-			},
-
-			success: function(json) {
-				if (tagsToAdd.length > 0 || tagsToRemove.length > 0) {
-					// Call function to update tag groups
-					console.log('Tags are being added or removed!');
-					// updateTaggedGroups();
-					// updateGifValues(parent, label);
-					var instances = getAllGifElements(gifID);
-					updateGifElements(instances, json['html'])
-				} else {
-					// Update GIF element that was just edited
-					console.log('Tags are not being added or removed!');
-					// updateGifValues(parent, label);
-					var instances = getAllGifElements(gifID);
-					updateGifElements(instances, json['html'])
-				}
-			},
-
-			error: function(xhr, errmsg, err) {
-				console.log('Error!');
-				console.log(errmsg);
-				console.log(xhr.status + ': ' + xhr.responseText);
-			}
-		});
-	});
-}
-
+// Credit to WearProtection.js || https://gist.github.com/broinjc
 function ajaxCSRF() {
 	 // This function gets cookie with a given name
     function getCookie(name) {

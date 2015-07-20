@@ -22,6 +22,7 @@ class Profile(models.Model):
 class Gif(models.Model):
     owner = models.ForeignKey(User)
     url = models.URLField(max_length=400)
+    display_url = models.URLField(max_length=400, default='')
     created = models.DateTimeField(default=timezone.now, auto_now=False)
     label = models.CharField(max_length=400, default='', blank=True)
     thumbnail = models.ImageField(upload_to='thumbs', default='')

@@ -46,6 +46,10 @@
         <div class="add-gif-form-button btn green-btn">
             Add GIF
         </div>
+
+        <div class="gifgrabber-btn btn inner-nav-btn red-btn">
+            GifGrabber
+        </div>
         {% endif %}
 
         {% if gifs %}
@@ -113,7 +117,6 @@
     <div class="add-gif-form hidden">
         <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
             <h1 class="title">Add a GIF</h1>
-
             {% csrf_token %}
             {{ add_form }}
             <input id="add-gif-submit" type="submit" value="Add GIF" class="btn green-btn">
@@ -183,6 +186,7 @@
                         <i class="fa fa-link copy-url animate"></i>
                         <i class="fa fa-expand gif-expand animate"></i>
                         <input type="text" class="gif-url hidden" value="{{ object.url }}">
+                        <input type="text" class="display-url hidden" value="{{ object.display_url }}">
 
                         {% if can_edit %}
                         <div class="gif-form edit-form hidden">
@@ -258,6 +262,7 @@
                     <i class="fa fa-link copy-url animate"></i>
                     <i class="fa fa-expand gif-expand animate"></i>
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
+                    <input type="text" class="display-url hidden" value="{{ object.display_url }}">
 
                     {% if can_edit %}
                     <!--Delete Button-->
@@ -323,6 +328,28 @@
         {% else %}
             <div class="welcome-msg">{{ name }} hasn't added any GIFs yet</div>
         {% endif %}
+    {% endif %}
+
+    {% if can_edit %}
+        <div class="gifgrabber-form-wrapper hidden">
+            <form class="gifgrabber-form main-form animate">
+                <h1 class="title">GifGrabber</h1>
+
+                <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
+                <div class="label">Subreddit</div>
+
+                <select class="max-size">
+                    <option value="1">1 MB</option>
+                    <option value="2">2 MB</option>
+                    <option value="5">5 MB</option>
+                    <option value="10">10 MB</option>
+                    <option value="None">None</option>
+                </select>
+                <div class="label">Max GIF Size</div>
+
+                <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
+            </form>
+        </div>
     {% endif %}
 </div>
 {% endblock content %}

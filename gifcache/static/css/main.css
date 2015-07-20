@@ -30,6 +30,49 @@ input {
 	border-radius: .25em;
 }
 
+select {
+	-webkit-appearance: none;
+	margin: .60em auto;
+	width: 75%;
+	height: 2.75em;
+	line-height: 2.75em;
+	font-size: 1.25em;
+	color: #bebebe;
+	border: none;
+	border-bottom: .3em solid #498FBD;
+	border-radius: .2em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+select:hover {
+	cursor: pointer;
+}
+
+.loading-wrapper {
+	position: absolute;
+	z-index: 11;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+}
+
+.loading {
+	display: block;
+	position: relative;
+	top: 25%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.loading i {
+	margin: .1em;
+	font-size: 7em;
+}
+
 .hidden {
 	display: none !important;
 }
@@ -148,6 +191,7 @@ input {
 }
 
 .container {
+	min-height: 78vh;
 	text-align: center;
 	overflow-x: hidden;
 }
@@ -231,6 +275,27 @@ input {
 	border-bottom: .2em solid white;
 }
 
+/* Classes for nav-link hover effects */
+.blue-border:hover {
+	border-top: .2em solid #72ADD3;
+}
+
+.red-border:hover {
+	border-top: .2em solid #ff3434;
+}
+
+.yellow-border:hover {
+	border-top: .2em solid #FFB558;
+}
+
+.purple-border:hover {
+	border-top: .2em solid #6b71ce;
+}
+
+.peach-border:hover {
+	border-top: .2em solid #ff8358;
+}
+
 .nav-logo {
 	display: inline-block;
 	position: relative;
@@ -290,10 +355,6 @@ input {
 	color: white;
 }
 
-.nav-links a:hover {
-	border-top: .2em solid white;
-}
-
 .profile-nav-link {
 	display: inline-block;
 	border-top: .2em solid #25B972;
@@ -303,7 +364,6 @@ input {
 
 .profile-nav-link:hover {
 	cursor: pointer;
-	border-top: .2em solid white;
 }
 
 .profile-nav-link:hover > .profile-nav-extra {
@@ -732,7 +792,7 @@ input {
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
-	background-color: rgba(76, 76, 76, 0.6);
+	background-color: rgba(255, 255, 255, 0.2);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .15em;
 }
@@ -823,8 +883,21 @@ input {
 }
 
 .home-about-section {
+	position: relative;
 	margin: 2em auto;
 	text-align: left;
+}
+
+.home-about-title {
+	text-align: center;
+	font-family: 'Lobster', cursive;
+	font-size: 1.9em;
+}
+
+.home-about-subtitle {
+	text-align: center;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 1.4em;
 }
 
 .code-link-wrapper {
@@ -1023,12 +1096,11 @@ input {
 .inner-nav {
 	position: relative;
 	margin: 0 auto;
-	z-index: 10;
 	margin-bottom: 1em;
 	padding: 1em;
 	background-color: #F2F2F2;
 	text-align: center;
-	max-width: 38em;
+	max-width: 44em;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1137,7 +1209,7 @@ input {
 }
 
 /* Main Add GIF Form */
-.add-gif-form {
+.add-gif-form, .gifgrabber-form-wrapper {
 	position: fixed;
 	z-index: 10;
 	top: 0;
@@ -1697,4 +1769,20 @@ input {
 	top: .1em;
 	font-size: 1.25em;
 	color: #ff3434;
+}
+
+/* GifGrabber */
+.gifgrabber-form {
+	top: 15%;
+}
+
+.gifgrabber-btn {
+	width: 5.6em;
+}
+
+.gifgrabber-submit {
+	width: 10em;
+	height: 2em !important;
+	line-height: 1.5em;
+	border: none !important;
 }

@@ -24,6 +24,7 @@
 
     <body>
 
+    <!-- Wrapper for 'sticky' footer -->
     <div class="wrapper">
         {% if title == 'Home' or title == 'Error' %}
         <div class="nav hidden">
@@ -54,6 +55,7 @@
             </div>
         </div>
         {% block content %}{% endblock %}
+        <!-- Push element for 'sticky' footer -->
         <div class="push"></div>
     </div>
 
@@ -81,6 +83,13 @@
             <a href="{% url 'registration_register' %}">SIGNUP</a>
             <a href="{% url 'home:login' %}">LOGIN</a>
             {% endif %}
+        </div>
+    </div>
+
+    <div class="loading-wrapper hidden">
+        <div class="loading">
+            <i class="fa fa-spinner fa-pulse"></i>
+            <div>Processing image, one moment please...</div>
         </div>
     </div>
 

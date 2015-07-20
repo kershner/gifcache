@@ -10,6 +10,7 @@ from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
+import praw
 import uuid
 import json
 
@@ -168,38 +169,39 @@ def add_gif(request):
             tags = request.POST['tags']
             hidden_id = request.POST['hidden_id']
             url = request.POST['url']
+            display_url = url
 
             # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
             if url.endswith('gif'):
-                formatted_url = url
+                img_procesing_url = url
             elif url.endswith('v'):
                 print 'Gifv URL'
-                formatted_url = url[:-1]
-                url = url.replace('.gifv', '.mp4')
+                img_procesing_url = url[:-1]
+                display_url = url.replace('.gifv', '.mp4')
             elif url.endswith('mp4'):
                 print 'MP4 Url'
-                formatted_url = url.replace('.mp4', '.gif')
-            elif url.endswith('.webm'):
+                img_procesing_url = url.replace('.mp4', '.gif')
+            elif url.endswith('webm'):
                 print 'Webm Url'
-                formatted_url = url.replace('.webm', '.gif')
+                img_procesing_url = url.replace('.webm', '.gif')
             elif 'gfycat' in url:
                     print 'Gfycat URL'
                     if '.mp4' in url:
                         print 'Gfycat MP4 file'
                         error = True
                         gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
-                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
                     elif '.webm' in url:
                         print 'Gfycat WebM file'
                         gfy_name = url.rsplit('/', 1)[1].replace('.webm', '')
-                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
                     else:
                         print 'Normal Gfycat URL'
                         gfy_name = url.rsplit('/', 1)[1]
-                        formatted_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        url = 'http://fat.gfycat.com/%s.mp4' % gfy_name
+                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
             else:
                 error = True
                 request.session['message'] = 'You tried to add a non-GIF file!'
@@ -209,18 +211,20 @@ def add_gif(request):
                 request.session['message'] = 'Error with image file, please try another!'
                 return redirect('/u/%s' % str(request.user.username))
             else:
-                print 'URL being saved: ', url
-                print 'Formatted URL for img processing: ', formatted_url
+                print 'Original URL: ', url
+                print 'URL for display: ', display_url
+                print 'Formatted URL for img processing: ', img_procesing_url
                 size = (150, 100)
-                img = requests.get(formatted_url)
+                img = requests.get(img_procesing_url)
                 img = StringIO(img.content)
                 img_file = Image.open(img).convert('RGB').resize(size)
+                img_file.thumbnail(size, Image.ANTIALIAS)
                 img_file.thumbnail(size, Image.ANTIALIAS)
                 img_temp = StringIO()
                 img_file.save(img_temp, 'JPEG')
 
                 u = get_object_or_404(User, id=hidden_id)
-                g = Gif(owner=u, url=url, created=timezone.now(), label=label)
+                g = Gif(owner=u, url=url, display_url=display_url, created=timezone.now(), label=label)
                 extra_hash = str(uuid.uuid4())
                 g.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
                 g.save()
@@ -394,15 +398,16 @@ def bulk_remove_tags(request):
             return redirect('/u/%s' % str(username))
 
 
-def ajax_test(request):
+def gifgrabber(request):
     if request.method == 'POST':
-        message = request.POST['message']
-        print message
-
+        subreddit = request.POST['subreddit']
+        max_size = request.POST['max_size']
+        if max_size == 'None':
+            max_size = 100
+        gifs = scrape_reddit(subreddit, max_size)
         response_data = {
-            'message': 'Data successfully sent to and returned from the server!'
+            'gifs': gifs
         }
-
         return HttpResponse(
             json.dumps(response_data),
             content_type='application/json'
@@ -412,3 +417,20 @@ def ajax_test(request):
             json.dumps({'message': 'Not a POST request!'}),
             content_type='application/json'
         )
+
+
+def scrape_reddit(sub, max_size):
+    r = praw.Reddit(user_agent='GifCache Image Grabber by billcrystals')
+    submissions = r.get_subreddit(sub).get_hot(limit=10)
+    results = []
+    for submission in submissions:
+        response = requests.get(submission.url)
+        try:
+            size = '%.2f' % (float(response.headers['content-length']) / 1048576.0)
+            if float(size) > float(max_size):
+                continue
+            else:
+                results.append('%s - %s | %s MB' % (submission.url, submission.title, size))
+        except KeyError:
+            continue
+    return results
