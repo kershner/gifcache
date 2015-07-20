@@ -79,16 +79,6 @@ function colorPageElements() {
 		});
 		counter += 1
 	});
-	$('.home-btn').each(function() {
-		if (counter > colors.length - 1 ) {
-			counter = 0;
-		}
-		var newColor = colors[counter];
-		$(this).css({
-			'border-bottom': '.18em solid ' + newColor
-		});
-		counter += 1
-	});
 	$('.nav-links a, .profile-nav-link').each(function() {
 		var classes = ['red', 'yellow', 'purple', 'peach'];
 		if (counter > classes.length - 1 ) {
