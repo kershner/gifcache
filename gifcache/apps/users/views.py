@@ -399,10 +399,7 @@ def bulk_remove_tags(request):
 def gifgrabber(request):
     if request.method == 'POST':
         subreddit = request.POST['subreddit']
-        max_size = request.POST['max_size']
-        if max_size == 'None':
-            max_size = 100
-        gifs = scrape_reddit(subreddit, max_size)
+        gifs = scrape_reddit(subreddit)
         response_data = {
             'gifs': gifs
         }
@@ -417,18 +414,12 @@ def gifgrabber(request):
         )
 
 
-def scrape_reddit(sub, max_size):
+def scrape_reddit(sub):
     r = praw.Reddit(user_agent='GifCache Image Grabber by billcrystals')
-    submissions = r.get_subreddit(sub).get_hot(limit=10)
+    submissions = r.get_subreddit(sub).get_hot(limit=25)
     results = []
     for submission in submissions:
-        response = requests.get(submission.url)
-        try:
-            size = '%.2f' % (float(response.headers['content-length']) / 1048576.0)
-            if float(size) > float(max_size):
-                continue
-            else:
-                results.append('%s - %s | %s MB' % (submission.url, submission.title, size))
-        except KeyError:
-            continue
+        url = submission.url
+        extension = url[url.rfind('.') + 1:]
+        results.append([submission.url, extension, submission.title])
     return results

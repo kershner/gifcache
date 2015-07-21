@@ -166,7 +166,7 @@
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                             <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
                             <input type="submit" class="btn red-btn" value="Delete">
-                            <div class="label gif-grid-element-delete-label" style="text-align: center;">This cannot be undone</div>
+                            <div class="label gif-grid-element-delete-label" style="text-align: center; left: 0;">This cannot be undone</div>
                         </form>
                     </div>
                 </div>
@@ -330,25 +330,26 @@
         {% endif %}
     {% endif %}
 
+    <!-- GifGrabber -->
     {% if can_edit %}
         <div class="gifgrabber-form-wrapper hidden">
-            <form class="gifgrabber-form main-form animate">
+            <div class="gifgrabber-container main-form animate">
                 <h1 class="title">GifGrabber</h1>
 
-                <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
-                <div class="label">Subreddit</div>
+                <form class="gifgrabber-form">
+                    <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
+                    <div class="label">Subreddit</div>
 
-                <select class="max-size">
-                    <option value="1">1 MB</option>
-                    <option value="2">2 MB</option>
-                    <option value="5">5 MB</option>
-                    <option value="10">10 MB</option>
-                    <option value="None">None</option>
-                </select>
-                <div class="label">Max GIF Size</div>
+                    <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
+                </form>
 
-                <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
-            </form>
+                <div class="gifgrabber-results animate hidden">
+                    <div class="grabber-results-page-title">Results</div>
+                    <div class="grabber-new-search btn blue-btn">New Search</div><div class="grabber-next-page btn green-btn">Next Page</div>
+
+                    <div class="grabber-results-grid"></div>
+                </div>
+            </div>
         </div>
     {% endif %}
 </div>

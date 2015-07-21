@@ -230,7 +230,7 @@ function gifGrabber() {
 	$('.gifgrabber-btn').on('click', function() {
 		gifGrabberAjax();
 		$(this).toggleClass('red-btn-selected');
-		$('.gifgrabber-form-wrapper').toggleClass('hidden');
+		$('.gifgrabber-form-wrapper').toggleClass('hidden');		
 		setTimeout(function() {
 			colorMainForm();
 		}, 1);
@@ -241,31 +241,57 @@ function gifGrabber() {
 		if (target.is('.gifgrabber-submit')) {
 			// Nothing
 		}
-		else if (target.is('form, input, h1, select')) {
+		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-new-search, .grabber-next-page')) {
 			// Nothing
 		} else {
 			$(this).toggleClass('hidden');
 			$('.gifgrabber-btn').toggleClass('red-btn-selected');
 		}
 	});
+	$('.grabber-new-search').on('click', function() {		
+		$('.gifgrabber-results').toggleClass('hidden');
+		$('.gifgrabber-form').toggleClass('hidden');
+		$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
+		$('.grabber-results-grid').remove();
+		var html = '<div class="grabber-results-grid"></div>';
+		$('.gifgrabber-results').append(html);
+	});
 }
 
 // Handles AJAX call when GifGrabber form is submitted
 function gifGrabberAjax() {
 	$('.gifgrabber-submit').on('click', function(e) {
+		$('.loading-wrapper').toggleClass('hidden');
 		e.preventDefault();
 		var subreddit = $(this).siblings('.subreddit-field').val();
-		var maxSize = $(this).siblings('.max-size').val()
 		ajaxCSRF();
 		$.ajax({
 			url: '/u/gifgrabber/',
 			type: 'POST',
 			data: {
-				'subreddit': subreddit,
-				'max_size': maxSize
+				'subreddit': subreddit
 			},
 			success: function(json) {
-				console.log(json['gifs']);
+				for (i=0; i<json['gifs'].length; i++) {
+					var img = '<img src="' + json['gifs'][i][0] + '">';
+					var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
+					var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';					
+					var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
+					$('.grabber-results-grid').append(html);					
+				}				
+				$('.loading-wrapper').toggleClass('hidden');				
+				$('.gifgrabber-form').toggleClass('hidden');
+				$('.gifgrabber-results').toggleClass('hidden');
+				$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
+				setTimeout(function() {
+					$('.grabber-results-grid').isotope({
+						itemSelector: '.grabber-results-element',
+						masonry: {
+							columnWidth: '.grabber-results-element',
+							isFitWidth: true
+						}
+					});
+				}, 300);
 			},
 			error: function(xhr, errmsg, err) {
 				console.log('Error!');

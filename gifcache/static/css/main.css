@@ -33,7 +33,7 @@ input {
 select {
 	-webkit-appearance: none;
 	margin: .60em auto;
-	width: 75%;
+	width: 15em;
 	height: 2.75em;
 	line-height: 2.75em;
 	font-size: 1.25em;
@@ -46,6 +46,10 @@ select {
 
 select:hover {
 	cursor: pointer;
+}
+
+.hidden {
+	display: none !important;
 }
 
 .loading-wrapper {
@@ -115,7 +119,7 @@ select:hover {
 }
 
 .main-form input {
-	max-width: 75%;
+	max-width: 15em;
 	height: 1.5em;
 	line-height: 1.5em;
 	font-size: 1.5em;
@@ -165,9 +169,10 @@ select:hover {
 }
 
 .label {
-	position: relative;
-	margin: 0;
-	left: 4em;
+	position: relative;	
+	margin: 0 auto;
+	left: -4.75em;
+	max-width: 15em;
 	bottom: .75em;
 	text-align: left;
 	color: white;
@@ -802,7 +807,7 @@ select:hover {
 .home-btn:hover {
 	transform: scale(1.1);
 	background-color: #25B972;
-	border-bottom: .19em solid #25B972;
+	border-bottom: none
 }
 
 .home-btn:active {
@@ -1776,6 +1781,14 @@ select:hover {
 }
 
 /* GifGrabber */
+.gifgrabber-container {
+	position: relative;
+}
+
+.gifgrabber-expanded {
+	max-width: 35em;
+}
+
 .gifgrabber-form {
 	top: 15%;
 }
@@ -1789,4 +1802,72 @@ select:hover {
 	height: 2em !important;
 	line-height: 1.5em;
 	border: none !important;
+}
+
+.gifgrabber-results {
+	position: relative;
+	top: 0;
+	right: 0;
+}
+
+.grabber-results-page-title {
+	position: relative;
+	margin-top: 1em;
+	text-align: center;
+	color: white;
+	font-size: 1.2em;
+}
+
+.grabber-new-search, .grabber-next-page {
+	display: inline-block;
+	position: relative;
+	margin: .5em;
+	width: 8em;
+	height: 1.75em;
+	line-height: 1.75em;
+}
+
+.grabber-results-grid {
+	position: relative;
+	margin: 0 auto;
+	padding: .1em;
+}
+
+.grabber-results-element {
+	display: inline-block;
+	position: relative;
+	margin: .2em;
+	padding: .1em;
+	width: 10em;
+	min-height: 10em;
+	background-color: #F2F2F2;
+	border-radius: .2em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.grabber-results-element img {
+	width: 8em;
+	height: 8em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.grabber-results-extension {
+	position: absolute;
+	top: .25em;
+	right: .25em;
+	width: 3em;
+	height: 2.5em;
+	line-height: 2.5em;
+	background-color: #25B972;
+	border: .15em solid white;
+	border-radius: 50%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	font-size: .75em;
+	color: white;
+}
+
+.grabber-results-title {
+	margin-top: -.1em;
+	font-size: .8em;
+	color: #4c4c4c;
 }
