@@ -691,7 +691,7 @@ select:hover {
 	margin: 0 auto;
 	width: 100%;
 	text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .home-section-grey {
@@ -893,8 +893,7 @@ select:hover {
 .home-about-section {
 	position: relative;
 	margin: 2em auto;
-	text-align: left;
-	text-shadow: rgba(0, 0, 0, 0.2);
+	text-align: left;	
 }
 
 .home-about-title {
@@ -1783,6 +1782,8 @@ select:hover {
 /* GifGrabber */
 .gifgrabber-container {
 	position: relative;
+	color: white;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .gifgrabber-expanded {
@@ -1810,14 +1811,6 @@ select:hover {
 	right: 0;
 }
 
-.grabber-results-page-title {
-	position: relative;
-	margin-top: 1em;
-	text-align: center;
-	color: white;
-	font-size: 1.2em;
-}
-
 .grabber-new-search, .grabber-next-page {
 	display: inline-block;
 	position: relative;
@@ -1837,12 +1830,18 @@ select:hover {
 	display: inline-block;
 	position: relative;
 	margin: .2em;
-	padding: .1em;
+	padding: .3em;
 	width: 10em;
 	min-height: 10em;
 	background-color: #F2F2F2;
 	border-radius: .2em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.grabber-results-title {
+	color: black;
+	text-shadow: none;
+	font-size: .8em;
 }
 
 .grabber-results-element img, .grabber-results-element video {
@@ -1866,8 +1865,40 @@ select:hover {
 	color: white;
 }
 
-.grabber-results-title {
-	margin-top: -.1em;
-	font-size: .8em;
-	color: #4c4c4c;
+/* Pagination Controls */
+.holder {
+	margin: 15px 0;
 }
+
+.holder a {
+	font-size: 12px;
+	cursor: pointer;
+	margin: 0 5px;
+	padding: .8em;
+	color: white;
+	border-radius: .5em;
+}
+
+.holder a:hover {
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.holder a.jp-previous { margin-right: 15px; }
+.holder a.jp-next { margin-left: 15px; }
+
+.holder a.jp-current, a.jp-current:hover { 
+	color: #FF4242;
+	font-weight: bold;
+}
+
+.holder a.jp-disabled, a.jp-disabled:hover {
+	color: #bbb;
+}
+
+.holder a.jp-current, a.jp-current:hover,
+.holder a.jp-disabled, a.jp-disabled:hover {
+	cursor: default; 
+	background: none;
+}
+
+.holder span { margin: 0 5px; }

@@ -241,7 +241,7 @@ function gifGrabber() {
 		if (target.is('.gifgrabber-submit')) {
 			// Nothing
 		}
-		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a')) {
+		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a')) {
 			// Nothing
 		} else {
 			$(this).toggleClass('hidden');
@@ -252,6 +252,9 @@ function gifGrabber() {
 		$('.gifgrabber-results').toggleClass('hidden');
 		$('.gifgrabber-form').toggleClass('hidden');
 		$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
+		$('.holder').empty();
+		$('#grabber-error').addClass('hidden');
+		$('#grabber-error').empty();
 		$('.grabber-results-grid').empty();
 	});
 }
@@ -259,53 +262,68 @@ function gifGrabber() {
 // Handles AJAX call when GifGrabber form is submitted
 function gifGrabberAjax() {
 	$('.gifgrabber-submit').on('click', function(e) {
-		$('.loading-wrapper').toggleClass('hidden');
-		e.preventDefault();
 		var subreddit = $(this).siblings('.subreddit-field').val();
-		ajaxCSRF();
-		$.ajax({
-			url: '/u/gifgrabber/',
-			type: 'POST',
-			data: {
-				'subreddit': subreddit
-			},
-			success: function(json) {
-				var allowed = ['.gifv', '.mp4', '.webm'];
-				for (i=0; i<json['gifs'].length; i++) {					
-					if ($.inArray(json['gifs'][i][1], allowed) > -1) {
-						var url = json['gifs'][i][0];
-						lastPeriod = url.lastIndexOf('.');
-						url = url.substring(0, lastPeriod) + '.mp4';
-						var img = '<video src="' + url + '" autoplay loop></video>';
-					} else {
-						var img = '<img src="' + json['gifs'][i][0] + '">';						
-					}
-					var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
-					var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';					
-					var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
-					$('.grabber-results-grid').append(html);					
-				}
-				$('.loading-wrapper').toggleClass('hidden');				
-				$('.gifgrabber-form').toggleClass('hidden');
-				$('.gifgrabber-results').toggleClass('hidden');
-				$('.gifgrabber-container').toggleClass('gifgrabber-expanded');				
-				$(function() {
-					$('.holder').jPages({
-						containerID: 'grabber-results',
-						perPage: 6,
-						callback: function(pages, items) {
-							items.showing.find('img, video').trigger('turnPage')
-							items.oncoming.find('img, video').trigger('turnPage')
+		if (subreddit === '') {
+			// Nothing
+		} else {	
+			$('.loading-wrapper').toggleClass('hidden');
+			e.preventDefault();		
+			ajaxCSRF();
+			$.ajax({
+				url: '/u/gifgrabber/',
+				type: 'POST',
+				data: {
+					'subreddit': subreddit
+				},
+				success: function(json) {
+					var allowed = ['.gifv', '.mp4', '.webm'];
+					for (i=0; i<json['gifs'].length; i++) {					
+						if ($.inArray(json['gifs'][i][1], allowed) > -1) {
+							var url = json['gifs'][i][0];
+							lastPeriod = url.lastIndexOf('.');
+							url = url.substring(0, lastPeriod) + '.mp4';
+							var img = '<video src="' + url + '" autoplay loop></video>';
+						} else {
+							var img = '<img src="' + json['gifs'][i][0] + '">';						
 						}
-					});
-				});
-			},
-			error: function(xhr, errmsg, err) {
-				console.log('Error!');
-				console.log(errmsg);
-				console.log(xhr.status + ': ' + xhr.responseText);
-			}
-		});
+						var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
+						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';					
+						var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
+						$('.grabber-results-grid').append(html);					
+					}
+					$('.loading-wrapper').toggleClass('hidden');			
+					$('.gifgrabber-form').toggleClass('hidden');
+					$('.gifgrabber-results').toggleClass('hidden');
+					$('.gifgrabber-container').toggleClass('gifgrabber-expanded');					
+					if (json['gifs'].length === 0) {
+						$('.grabber-results-grid').text('No GIFs found!');
+					} else {
+						$(function() {
+							$('.holder').jPages({
+								containerID: 'grabber-results',
+								perPage: 6,
+								callback: function(pages, items) {
+									items.showing.find('img, video').trigger('turnPage')
+									items.oncoming.find('img, video').trigger('turnPage')
+								}
+							});
+						});
+					}
+				},
+				error: function(xhr, errmsg, err) {
+					console.log('Error!');
+					console.log(errmsg);
+					console.log(xhr.status + ': ' + xhr.responseText);
+					$('.loading-wrapper').toggleClass('hidden');			
+					$('.gifgrabber-form').toggleClass('hidden');
+					$('.gifgrabber-results').toggleClass('hidden');
+					$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
+					var errorMsg = 'There was a problem with that subreddit, please try another';
+					$('#grabber-error').text(errorMsg);
+					$('#grabber-error').toggleClass('hidden');
+				}
+			});
+		}		
 	});
 }
 

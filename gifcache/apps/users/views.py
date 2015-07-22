@@ -400,14 +400,17 @@ def gifgrabber(request):
     print 'Hit /gifgrabber route!'
     if request.method == 'POST':
         subreddit = request.POST['subreddit']
-        gifs = scrape_reddit(subreddit)
-        response_data = {
+        try:
+            gifs = scrape_reddit(subreddit)
+            response_data = {
             'gifs': gifs
-        }
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type='application/json'
-        )
+            }
+            return HttpResponse(
+                json.dumps(response_data),
+                content_type='application/json'
+            )
+        except praw.errors.InvalidSubreddit:
+            print 'No subreddit!'
     else:
         return HttpResponse(
             json.dumps({'message': 'Not a POST request!'}),
