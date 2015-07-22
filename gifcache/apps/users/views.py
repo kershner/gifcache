@@ -397,6 +397,7 @@ def bulk_remove_tags(request):
 
 
 def gifgrabber(request):
+    print 'Hit /gifgrabber route!'
     if request.method == 'POST':
         subreddit = request.POST['subreddit']
         gifs = scrape_reddit(subreddit)
@@ -415,11 +416,15 @@ def gifgrabber(request):
 
 
 def scrape_reddit(sub):
+    allowed = ['.gif', '.gifv', '.webm', '.mp4']
     r = praw.Reddit(user_agent='GifCache Image Grabber by billcrystals')
     submissions = r.get_subreddit(sub).get_hot(limit=25)
     results = []
     for submission in submissions:
         url = submission.url
-        extension = url[url.rfind('.') + 1:]
-        results.append([submission.url, extension, submission.title])
+        extension = url[url.rfind('.'):]
+        if extension in allowed:
+            results.append([submission.url, extension, submission.title])
+        else:
+            continue
     return results

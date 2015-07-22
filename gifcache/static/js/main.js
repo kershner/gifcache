@@ -241,7 +241,7 @@ function gifGrabber() {
 		if (target.is('.gifgrabber-submit')) {
 			// Nothing
 		}
-		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-new-search, .grabber-next-page')) {
+		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a')) {
 			// Nothing
 		} else {
 			$(this).toggleClass('hidden');
@@ -252,9 +252,7 @@ function gifGrabber() {
 		$('.gifgrabber-results').toggleClass('hidden');
 		$('.gifgrabber-form').toggleClass('hidden');
 		$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
-		$('.grabber-results-grid').remove();
-		var html = '<div class="grabber-results-grid"></div>';
-		$('.gifgrabber-results').append(html);
+		$('.grabber-results-grid').empty();
 	});
 }
 
@@ -272,26 +270,35 @@ function gifGrabberAjax() {
 				'subreddit': subreddit
 			},
 			success: function(json) {
-				for (i=0; i<json['gifs'].length; i++) {
-					var img = '<img src="' + json['gifs'][i][0] + '">';
+				var allowed = ['.gifv', '.mp4', '.webm'];
+				for (i=0; i<json['gifs'].length; i++) {					
+					if ($.inArray(json['gifs'][i][1], allowed) > -1) {
+						var url = json['gifs'][i][0];
+						lastPeriod = url.lastIndexOf('.');
+						url = url.substring(0, lastPeriod) + '.mp4';
+						var img = '<video src="' + url + '" autoplay loop></video>';
+					} else {
+						var img = '<img src="' + json['gifs'][i][0] + '">';						
+					}
 					var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
 					var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';					
 					var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
 					$('.grabber-results-grid').append(html);					
-				}				
+				}
 				$('.loading-wrapper').toggleClass('hidden');				
 				$('.gifgrabber-form').toggleClass('hidden');
 				$('.gifgrabber-results').toggleClass('hidden');
-				$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
-				setTimeout(function() {
-					$('.grabber-results-grid').isotope({
-						itemSelector: '.grabber-results-element',
-						masonry: {
-							columnWidth: '.grabber-results-element',
-							isFitWidth: true
+				$('.gifgrabber-container').toggleClass('gifgrabber-expanded');				
+				$(function() {
+					$('.holder').jPages({
+						containerID: 'grabber-results',
+						perPage: 6,
+						callback: function(pages, items) {
+							items.showing.find('img, video').trigger('turnPage')
+							items.oncoming.find('img, video').trigger('turnPage')
 						}
 					});
-				}, 300);
+				});
 			},
 			error: function(xhr, errmsg, err) {
 				console.log('Error!');
