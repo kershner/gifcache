@@ -23,7 +23,7 @@ function homeFadeIn() {
 		});
 	}, 1200);
 	setTimeout(function() {
-		$('.slogan, #home-links, .home-arrow').css({
+		$('.slogan, .home-links-wrapper, .home-arrow').css({
 			'opacity': '1.0'
 		});
 	}, 1600);
@@ -34,6 +34,7 @@ function colorPageElements() {
 	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
 	var counter = randomnumber;
+	$('.loading i, .home-arrow').css({'color': colors[randomnumber]});
 	$('.tag-group').each(function() {
 		if (counter > colors.length - 1 ) {
 			counter = 0;
@@ -97,8 +98,7 @@ function colorPageElements() {
 			'background-color': color
 		});
 		counter += 1
-	});
-	$('.loading i').css({'color': colors[randomnumber]});
+	});	
 }
 
 // Colors the border-bottom CSS property of the main form elements
@@ -227,7 +227,7 @@ function showAddForm() {
 }
 
 function gifGrabber() {
-	$('.gifgrabber-btn').on('click', function() {
+	$('.gifgrabber-btn').on('click', function() {		
 		gifGrabberAjax();
 		$(this).toggleClass('red-btn-selected');
 		$('.gifgrabber-form-wrapper').toggleClass('hidden');		
@@ -238,10 +238,11 @@ function gifGrabber() {
 	$('.gifgrabber-form-wrapper').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
+		console.log(target);
 		if (target.is('.gifgrabber-submit')) {
 			// Nothing
 		}
-		else if (target.is('form, input, h1, select, .gifgrabber-results, .grabber-results-extension, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a')) {
+		else if (target.is('.gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
 			// Nothing
 		} else {
 			$(this).toggleClass('hidden');
@@ -249,24 +250,40 @@ function gifGrabber() {
 		}
 	});
 	$('.grabber-new-search').on('click', function() {		
-		$('.gifgrabber-results').toggleClass('hidden');
-		$('.gifgrabber-form').toggleClass('hidden');
-		$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
-		$('.holder').empty();
-		$('#grabber-error').addClass('hidden');
-		$('#grabber-error').empty();
-		$('.grabber-results-grid').empty();
+		gifGrabberTeardown();
 	});
+}
+
+// Hides form, loading screen, shows results page
+function gifGrabberSetup() {
+	$('#grabber-loading').addClass('hidden');
+	$('.gifgrabber-form').addClass('hidden');
+	$('.gifgrabber-container').addClass('gifgrabber-expanded');					
+	$('.gifgrabber-results').removeClass('hidden');
+}
+
+// Hides GifGrabber results, empties divs with dynamic content
+function gifGrabberTeardown() {
+	console.log('Teardown!');
+	$('.holder').empty();
+	$('#grabber-results').empty();
+	$('#grabber-error').empty();
+	$('.gifgrabber-results').addClass('hidden');
+	$('#grabber-error').addClass('hidden');	
+	$('.gifgrabber-container').removeClass('gifgrabber-expanded');	
+	$('#grabber-results').css({'min-height': '5em'});
+	$('.gifgrabber-form').removeClass('hidden');	
 }
 
 // Handles AJAX call when GifGrabber form is submitted
 function gifGrabberAjax() {
 	$('.gifgrabber-submit').on('click', function(e) {
+		gifGrabberTeardown();
 		var subreddit = $(this).siblings('.subreddit-field').val();
 		if (subreddit === '') {
 			// Nothing
 		} else {	
-			$('.loading-wrapper').toggleClass('hidden');
+			$('#grabber-loading').removeClass('hidden');
 			e.preventDefault();		
 			ajaxCSRF();
 			$.ajax({
@@ -282,26 +299,23 @@ function gifGrabberAjax() {
 							var url = json['gifs'][i][0];
 							lastPeriod = url.lastIndexOf('.');
 							url = url.substring(0, lastPeriod) + '.mp4';
-							var img = '<video src="' + url + '" autoplay loop></video>';
+							var img = '<video class="grabber-gif" src="' + url + '" autoplay loop></video>';
 						} else {
-							var img = '<img src="' + json['gifs'][i][0] + '">';						
+							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';	
 						}
 						var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
-						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';					
+						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';						
 						var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
-						$('.grabber-results-grid').append(html);					
+						$('.grabber-results-grid').append(html);						
 					}
-					$('.loading-wrapper').toggleClass('hidden');			
-					$('.gifgrabber-form').toggleClass('hidden');
-					$('.gifgrabber-results').toggleClass('hidden');
-					$('.gifgrabber-container').toggleClass('gifgrabber-expanded');					
+					gifGrabberSetup();
 					if (json['gifs'].length === 0) {
 						$('.grabber-results-grid').text('No GIFs found!');
 					} else {
 						$(function() {
 							$('.holder').jPages({
 								containerID: 'grabber-results',
-								perPage: 6,
+								perPage: 4,
 								callback: function(pages, items) {
 									items.showing.find('img, video').trigger('turnPage')
 									items.oncoming.find('img, video').trigger('turnPage')
@@ -314,13 +328,11 @@ function gifGrabberAjax() {
 					console.log('Error!');
 					console.log(errmsg);
 					console.log(xhr.status + ': ' + xhr.responseText);
-					$('.loading-wrapper').toggleClass('hidden');			
-					$('.gifgrabber-form').toggleClass('hidden');
-					$('.gifgrabber-results').toggleClass('hidden');
-					$('.gifgrabber-container').toggleClass('gifgrabber-expanded');
 					var errorMsg = 'There was a problem with that subreddit, please try another';
+					gifGrabberSetup();
+					$('#grabber-error').removeClass('hidden');
 					$('#grabber-error').text(errorMsg);
-					$('#grabber-error').toggleClass('hidden');
+					
 				}
 			});
 		}		

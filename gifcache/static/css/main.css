@@ -77,6 +77,11 @@ select:hover {
 	font-size: 7em;
 }
 
+#grabber-loading {
+	font-size: 0.75em;
+	border-radius: .2em;
+}
+
 .hidden {
 	display: none !important;
 }
@@ -119,7 +124,6 @@ select:hover {
 }
 
 .main-form input {
-	max-width: 15em;
 	height: 1.5em;
 	line-height: 1.5em;
 	font-size: 1.5em;
@@ -156,7 +160,7 @@ select:hover {
 	background-color: #25B972;
 	color: white;
 	font-size: 1.25em;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 	border: .15em solid white;
 	border-radius: .15em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -169,27 +173,22 @@ select:hover {
 }
 
 .label {
-	position: relative;	
-	margin: 0 auto;
-	left: -4.75em;
-	max-width: 15em;
+	display: block;
+	position: relative;
+	margin: 1.25em auto;
 	bottom: .75em;
-	text-align: left;
+	text-align: center;
 	color: white;
 	font-size: .75em;
 	text-shadow: 1px 1px 3px #000;
 }
 
-.gif-grid-element-delete-label {
-	left: 1.8em;
-	top: -.15em;
+.gif-grid-element-delete-label {	
 	font-size: .65em;
 	text-shadow: none;
 }
 
 .bulk-delete-label {
-	left: 5.25em;
-	top: -.15em;
 	font-size: .65em;
 	text-shadow: none;
 	color: #2a5876;
@@ -330,7 +329,7 @@ select:hover {
 .nav-logo-title {
 	font-size: 2em;
 	color: white;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .nav-logo-circle {
@@ -351,7 +350,7 @@ select:hover {
 	top: .5em;
 	font-size: 1.3em;
 	font-family: 'PT Sans', sans-serif;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .nav-links a {
@@ -397,7 +396,7 @@ select:hover {
 
 .profile-nav-extra a:hover {
 	border-top: .25em solid #25B972;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* Footer *******************************************************************/
@@ -691,7 +690,7 @@ select:hover {
 	margin: 0 auto;
 	width: 100%;
 	text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .home-section-grey {
@@ -710,7 +709,7 @@ select:hover {
 	width: 1em;
 	font-size: 4em !important;
 	color: white;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: none;
 }
 
 .error-code {
@@ -783,6 +782,15 @@ select:hover {
 	}
 }
 
+.home-links-wrapper {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 13em;
+	background-color: #4d4d4d;
+	box-shadow: inset 0px 5px 16px -5px rgba(0,0,0,0.75);
+}
+
 #home-links {
 	margin: 0 auto;
 	text-align: center;
@@ -798,9 +806,8 @@ select:hover {
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.2);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-bottom: .2em solid white;
 	border-radius: .15em;
 }
 
@@ -1038,10 +1045,10 @@ select:hover {
 	opacity: 0.9;
 	text-align: center;
 	color: white;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 	border: .2em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: .25em;
+	border-radius: .75em;
 }
 
 .profile-avatar {
@@ -1674,7 +1681,7 @@ select:hover {
 	font-size: 1em;
 	text-align: center;
 	color: white;
-	text-shadow: 1px 1px 3px #000;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 	border: .2em solid white;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -1782,12 +1789,16 @@ select:hover {
 /* GifGrabber */
 .gifgrabber-container {
 	position: relative;
+	z-index: 1;
+	top: 15%;
 	color: white;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .gifgrabber-expanded {
+	top: 1%;
 	max-width: 35em;
+	min-height: 5em;
 }
 
 .gifgrabber-form {
@@ -1829,29 +1840,36 @@ select:hover {
 .grabber-results-element {
 	display: inline-block;
 	position: relative;
+	z-index: 1;
+	vertical-align: top;
 	margin: .2em;
 	padding: .3em;
-	width: 10em;
+	width: 15em;
 	min-height: 10em;
 	background-color: #F2F2F2;
-	border-radius: .2em;
+	border-radius: .75em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .grabber-results-title {
+	position: relative;
+	z-index: 1;
 	color: black;
 	text-shadow: none;
 	font-size: .8em;
 }
 
 .grabber-results-element img, .grabber-results-element video {
-	width: 8em;
-	height: 8em;
+	position: relative;
+	z-index: 1;
+	width: 15em;
+	height: 10em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .grabber-results-extension {
 	position: absolute;
+	z-index: 2;
 	top: .25em;
 	right: .25em;
 	width: 3em;
@@ -1873,7 +1891,7 @@ select:hover {
 .holder a {
 	font-size: 12px;
 	cursor: pointer;
-	margin: 0 5px;
+	margin: 0 .1em;
 	padding: .8em;
 	color: white;
 	border-radius: .5em;
@@ -1883,8 +1901,17 @@ select:hover {
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
-.holder a.jp-previous { margin-right: 15px; }
-.holder a.jp-next { margin-left: 15px; }
+.holder a.jp-previous { margin-right: 1em;}
+.holder a.jp-next { margin-left: 1em;}
+.jp-next, .jp-previous {
+	display: block;
+}
+
+@media(min-width: 400px) {
+	.jp-next, .jp-previous {
+		display: inline-block;
+	}
+}
 
 .holder a.jp-current, a.jp-current:hover { 
 	color: #FF4242;

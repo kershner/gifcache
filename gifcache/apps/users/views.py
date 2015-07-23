@@ -79,7 +79,7 @@ def edit_profile(request, username):
     p = get_object_or_404(Profile, owner=u)
 
     avatar = p.avatar
-    if p.avatar.endswith('.gif'):
+    if p.avatar.endswith(('.gif', '.png')):
         print 'GIF Avatar'
         element = 'img'
     else:
@@ -114,14 +114,14 @@ def update_profile(request, username):
             avatar_url = request.POST['avatar_url']
             u = get_object_or_404(User, username=username)
             p = get_object_or_404(Profile, owner=u)
-            if avatar_url == '/media/avatars/default-user-image.png':
+            if avatar_url == '/static/img/default-user-image.png':
                 print 'Default Avatar'
                 u.first_name = nickname
                 u.save()
             elif avatar_url == '':
                 print 'Setting avatar to default!'
                 u.first_name = nickname
-                p.avatar = '/media/avatars/default-user-image.png'
+                p.avatar = '/static/img/default-user-image.png'
                 u.save()
                 p.save()
             else:
@@ -403,7 +403,7 @@ def gifgrabber(request):
         try:
             gifs = scrape_reddit(subreddit)
             response_data = {
-            'gifs': gifs
+                'gifs': gifs
             }
             return HttpResponse(
                 json.dumps(response_data),
