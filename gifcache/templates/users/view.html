@@ -347,8 +347,16 @@
                 <div class="gifgrabber-results animate hidden">
                     <div class="grabber-new-search btn blue-btn">New Search</div>
 
-                    <div class="holder"></div>
+                    <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post">
+                        {% csrf_token %}
+                        <input id="gifgrabber-values" name="values" type="text" class="hidden">
+                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                        <input type="submit" class="btn green-btn grabber-add-gifs-btn" value="Add Gifs">
+                    </form>
+
                     <div id="grabber-results" class="grabber-results-grid"></div>
+
+                    <div class="holder"></div>
                 </div>
 
                 <div id="grabber-loading" class="loading-wrapper hidden">

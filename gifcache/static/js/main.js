@@ -238,13 +238,12 @@ function gifGrabber() {
 	$('.gifgrabber-form-wrapper').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
-		console.log(target);
-		if (target.is('.gifgrabber-submit')) {
+		if (target.is('.gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input')) {
 			// Nothing
 		}
-		else if (target.is('.gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
+		else if (target.is('.grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
 			// Nothing
-		} else {
+		} else {			
 			$(this).toggleClass('hidden');
 			$('.gifgrabber-btn').toggleClass('red-btn-selected');
 		}
@@ -252,6 +251,52 @@ function gifGrabber() {
 	$('.grabber-new-search').on('click', function() {		
 		gifGrabberTeardown();
 	});
+	$('.grabber-add-gifs-btn').on('click', function(e) {
+		e.preventDefault();
+		updateGrabberValues();
+		if ($('#gifgrabber-values').val() === '') {
+			// Nothing
+		} else {
+			$('.loading-wrapper').toggleClass('hidden');
+			$('#grabber-add-form').submit();
+		}		
+	});
+}
+
+function clickGrabberElements(element) {
+	$(element).on('click', function(e) {
+		var innerElement = $(this).children('.grabber-results-element-inner');		
+		var isHidden = $(innerElement).hasClass('hidden');
+		var target = $(e.target);
+		if (isHidden) {
+			innerElement.toggleClass('hidden');
+		} else {
+			if (target.is('.grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div')) {
+				console.log('Clicked cancel');
+				innerElement.toggleClass('hidden');				
+				updateGrabberValues();
+			}
+		}
+	});
+}
+
+function updateGrabberValues() {
+	var valuesInput = $('#gifgrabber-values');
+	var finalValues = '';
+	valuesInput.val('');
+	$('.grabber-results-element-inner').each(function() {
+		var isHidden = $(this).hasClass('hidden');
+		if (isHidden) {
+			// Nothing
+		} else {
+			var url = $(this).siblings('.grabber-hidden-url').val();
+			var label = $(this).children('.inner-label').val();
+			var tags = $(this).children('.inner-tags').val();
+			var values = url + '-' + label + '-' + tags;
+			finalValues += values + '|';
+		}
+	});
+	valuesInput.val(finalValues);
 }
 
 // Hides form, loading screen, shows results page
@@ -293,6 +338,7 @@ function gifGrabberAjax() {
 					'subreddit': subreddit
 				},
 				success: function(json) {
+					var counter = 0;
 					var allowed = ['.gifv', '.mp4', '.webm'];
 					for (i=0; i<json['gifs'].length; i++) {					
 						if ($.inArray(json['gifs'][i][1], allowed) > -1) {
@@ -304,9 +350,21 @@ function gifGrabberAjax() {
 							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';	
 						}
 						var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
-						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';						
-						var html = '<div class="grabber-results-element">' + img + extension + title + '</div>';
-						$('.grabber-results-grid').append(html);						
+						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';
+						var hiddenUrl = '<input type="text" class="grabber-hidden-url hidden" value="' + json['gifs'][i][0] + '">';
+						
+						var innerCancel = '<div class="grabber-inner-cancel"><i class="fa fa-minus-circle"></i><div>Cancel</div></div>';
+						var innerLabelInput = '<input type="text" class="gif-label-field inner-label">';
+						var innerLabelLabel = '<div class="label">Label</div>';
+						var innerTagsInput = '<input type="text" class="gif-label-field inner-tags" placeholder="Comma Separated Tags">';
+						var innerTagsLabel = '<div class="label">Tags</div>';
+						
+						var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel + innerTagsInput + innerTagsLabel + '</div>';
+						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element">' + hiddenUrl + img + extension + title + innerHtml + '</div>';
+						$('.grabber-results-grid').append(html);
+						var elementId = '#grabber-gif-' + counter;
+						clickGrabberElements(elementId);
+						counter += 1
 					}
 					gifGrabberSetup();
 					if (json['gifs'].length === 0) {

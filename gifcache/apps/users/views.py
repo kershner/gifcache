@@ -158,82 +158,15 @@ def delete_profile(request, username):
         return render(request, 'home/login.html', context)
 
 
-def add_gif(request):
+def add_gif_route(request):
     if request.method == 'POST':
         form = AddGifForm(request.POST)
         if form.is_valid():
-            error = False
             label = request.POST['label']
-            tags = request.POST['tags']
+            tags = request.POST['tags'].strip().split(',')
             hidden_id = request.POST['hidden_id']
             url = request.POST['url']
-            display_url = url
-
-            # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
-            if url.endswith('gif'):
-                img_procesing_url = url
-            elif url.endswith('v'):
-                print 'Gifv URL'
-                img_procesing_url = url[:-1]
-                display_url = url.replace('.gifv', '.mp4')
-            elif url.endswith('mp4'):
-                print 'MP4 Url'
-                img_procesing_url = url.replace('.mp4', '.gif')
-            elif url.endswith('webm'):
-                print 'Webm Url'
-                img_procesing_url = url.replace('.webm', '.gif')
-            elif 'gfycat' in url:
-                    print 'Gfycat URL'
-                    if '.mp4' in url:
-                        print 'Gfycat MP4 file'
-                        error = True
-                        gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
-                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
-                    elif '.webm' in url:
-                        print 'Gfycat WebM file'
-                        gfy_name = url.rsplit('/', 1)[1].replace('.webm', '')
-                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
-                    else:
-                        print 'Normal Gfycat URL'
-                        gfy_name = url.rsplit('/', 1)[1]
-                        img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                        display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
-            else:
-                error = True
-                request.session['message'] = 'You tried to add a non-GIF file!'
-                return redirect('/u/%s' % str(request.user.username))
-
-            if error:
-                request.session['message'] = 'Error with image file, please try another!'
-                return redirect('/u/%s' % str(request.user.username))
-            else:
-                print 'Original URL: ', url
-                print 'URL for display: ', display_url
-                print 'Formatted URL for img processing: ', img_procesing_url
-                size = (150, 100)
-                img = requests.get(img_procesing_url)
-                img = StringIO(img.content)
-                img_file = Image.open(img).convert('RGB').resize(size)
-                img_file.thumbnail(size, Image.ANTIALIAS)
-                img_file.thumbnail(size, Image.ANTIALIAS)
-                img_temp = StringIO()
-                img_file.save(img_temp, 'JPEG')
-
-                u = get_object_or_404(User, id=hidden_id)
-                g = Gif(owner=u, url=url, display_url=display_url, created=timezone.now(), label=label)
-                extra_hash = str(uuid.uuid4())
-                g.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
-                g.save()
-
-                tags = tags.split(',')
-                for tag in tags:
-                    if str(tag) == '':
-                        pass
-                    else:
-                        g.tags.add(tag)
-                return redirect('/u/%s' % str(u.username))
+            add_gif(hidden_id, url, label, tags)
         return redirect('/u/%s' % request.user.username)
 
 
@@ -315,6 +248,93 @@ def delete_tag(request):
             gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
             for gif in gifs:
                 gif.tags.remove(current_name)
+            return redirect('/u/%s' % str(username))
+
+
+def add_gif(user_id, url, label, tags):
+    display_url = url
+    # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
+    if url.endswith('gif'):
+        img_procesing_url = url
+    elif url.endswith('v'):
+        print 'Gifv URL'
+        img_procesing_url = url[:-1]
+        display_url = url.replace('.gifv', '.mp4')
+    elif url.endswith('mp4'):
+        print 'MP4 Url'
+        img_procesing_url = url.replace('.mp4', '.gif')
+    elif url.endswith('webm'):
+        print 'Webm Url'
+        img_procesing_url = url.replace('.webm', '.gif')
+    elif 'gfycat' in url:
+            print 'Gfycat URL'
+            if '.mp4' in url:
+                print 'Gfycat MP4 file'
+                gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
+                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
+            elif '.webm' in url:
+                print 'Gfycat WebM file'
+                gfy_name = url.rsplit('/', 1)[1].replace('.webm', '')
+                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
+            else:
+                print 'Normal Gfycat URL'
+                gfy_name = url.rsplit('/', 1)[1]
+                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
+    else:
+        # Raise an exception here, will be redirected in add_gif_route
+        print 'Not a Gif URL'
+        return
+    print 'Original URL: ', url
+    print 'URL for display: ', display_url
+    print 'Formatted URL for img processing: ', img_procesing_url
+    size = (150, 100)
+    img = requests.get(img_procesing_url)
+    img = StringIO(img.content)
+    img_file = Image.open(img).convert('RGB').resize(size)
+    img_file.thumbnail(size, Image.ANTIALIAS)
+    img_file.thumbnail(size, Image.ANTIALIAS)
+    img_temp = StringIO()
+    img_file.save(img_temp, 'JPEG')
+
+    u = get_object_or_404(User, id=user_id)
+    g = Gif(owner=u, url=url, display_url=display_url, created=timezone.now(), label=label)
+    extra_hash = str(uuid.uuid4())
+    g.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
+    g.save()
+
+    for tag in tags:
+        if str(tag) == '':
+            pass
+        else:
+            g.tags.add(tag)
+
+
+def bulk_add_gifs(request):
+    print 'Hit bulk add gifs route!'
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            username = request.user.username
+            user_id = int(request.POST['user_id'])
+            values = str(request.POST['values'])
+            values = values.split('|')
+            results = []
+            for value in values:
+                value = value.replace("'", "")
+                dash1 = value.find('-')
+                dash2 = value.rfind('-')
+                url = value[:dash1]
+                label = value[dash1 + 1:dash2]
+                tags = value[dash2 + 1:].split(',')
+                tags_final = []
+                for tag in tags:
+                    tags_final.append(tag.strip())
+                results.append([url, label, tags_final])
+
+            for result in results:
+                add_gif(user_id, result[0], result[1], result[2])
             return redirect('/u/%s' % str(username))
 
 

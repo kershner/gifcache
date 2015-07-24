@@ -1837,6 +1837,62 @@ select:hover {
 	padding: .1em;
 }
 
+.grabber-results-element-inner {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.85;
+	background-color: #25B972;
+	border-radius: .7em;
+}
+
+.grabber-results-element-inner .gif-label-field {
+	width: 100%;
+	height: 1.25em;
+	line-height: 1.25em;
+	border: none;
+	font-size: 1em;
+}
+
+.inner-label {
+	margin-top: 2.25em;
+}
+
+.grabber-inner-cancel {
+	display: inline-block;
+	position: absolute;
+	z-index: 2;
+	top: .15em;
+	right: .25em;
+	padding: .25em;	
+	border-radius: .25em;
+}
+
+.grabber-inner-cancel:hover {
+	cursor: pointer;	
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.grabber-inner-cancel div, .grabber-inner-cancel i {
+	display: inline-block;
+	margin: 0 0.15em;
+}
+
+.grabber-inner-cancel i {
+	color: #ff3434;
+}
+
+.grabber-add-gifs-btn {
+	margin: 1em auto;
+	width: 80%;
+	height: 2em !important;
+	border: none !important;
+	font-size: 1.2em !important;
+}
+
 .grabber-results-element {
 	display: inline-block;
 	position: relative;
@@ -1849,6 +1905,10 @@ select:hover {
 	background-color: #F2F2F2;
 	border-radius: .75em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.grabber-results-element:hover {
+	cursor: pointer;
 }
 
 .grabber-results-title {
