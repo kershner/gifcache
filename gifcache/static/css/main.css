@@ -32,8 +32,9 @@ input {
 
 select {
 	-webkit-appearance: none;
-	margin: .60em auto;
-	width: 15em;
+	width: 90%;
+	max-width: 15em;
+	min-width: 11.5em;
 	height: 2.75em;
 	line-height: 2.75em;
 	font-size: 1.25em;
@@ -53,7 +54,7 @@ select:hover {
 }
 
 .loading-wrapper {
-	position: absolute;
+	position: fixed;
 	z-index: 11;
 	top: 0;
 	left: 0;
@@ -61,6 +62,10 @@ select:hover {
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
+}
+
+#grabber-loading {
+	position: absolute;
 }
 
 .loading {
@@ -787,8 +792,6 @@ select:hover {
 	bottom: 0;
 	width: 100%;
 	height: 13em;
-	background-color: #4d4d4d;
-	box-shadow: inset 0px 5px 16px -5px rgba(0,0,0,0.75);
 }
 
 #home-links {
@@ -1790,13 +1793,23 @@ select:hover {
 .gifgrabber-container {
 	position: relative;
 	z-index: 1;
-	top: 15%;
+	top: 5%;
 	color: white;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+.gifgrabber-title {
+	position: relative;
+	margin: 0 auto;
+	margin-bottom: -.5em;
+	top: -.8em;
+	left: 0;
+	right: 0;
+	border: none;
+}
+
 .gifgrabber-expanded {
-	top: 1%;
+	top: -5%;
 	max-width: 35em;
 	min-height: 5em;
 }
@@ -1814,6 +1827,43 @@ select:hover {
 	height: 2em !important;
 	line-height: 1.5em;
 	border: none !important;
+}
+
+.subreddit-suggestions {
+	position: relative;
+	margin-top: 2em;
+	padding-top: .25em;
+}
+
+.suggestions-title {
+	position: absolute;
+	top: -.75em;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 12em;
+	font-size: .9em;
+}
+
+.suggestion {
+	display: inline-block;
+	position: relative;
+	margin: .5em;
+	padding: .35em .75em;
+	border: .1em solid white;
+	border-radius: .25em;
+	font-size: .8em;
+}
+
+.suggestion:hover {
+	cursor: pointer;
+	background-color: white;
+	color: #4c4c4c;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.suggestion:active {
+	top: 4px;
 }
 
 .gifgrabber-results {
@@ -1887,6 +1937,7 @@ select:hover {
 
 .grabber-add-gifs-btn {
 	margin: 1em auto;
+	margin-top: .1em;
 	width: 80%;
 	height: 2em !important;
 	border: none !important;
@@ -1943,12 +1994,54 @@ select:hover {
 	color: white;
 }
 
+.grabber-selected-gifs {
+	display: inline-block;
+	position: absolute;
+	z-index: 2;
+	top: -.5em;
+	right: 0;
+	margin: .5em auto;	
+}
+
+.selected-gifs-number {
+	margin: 0 auto;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	font-size: 1.5em;
+	border: .1em solid white;
+	border-radius: 50%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.selected-gifs-blurb {
+	font-size: .65em;
+}
+
+.grabber-data {
+	display: inline-block;
+	margin: .5em;
+	padding: .5em;
+	border-radius: .25em;
+	min-width: 2.5em;
+	height: 2em;
+	line-height: 1.1em;
+	font-size: 1.5em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+	border: .1em solid white;
+}
+
+.grabber-data-label {
+	font-size: .5em;
+}
+
 /* Pagination Controls */
 .holder {
 	margin: 15px 0;
 }
 
 .holder a {
+	position: relative;
 	font-size: 12px;
 	cursor: pointer;
 	margin: 0 .1em;
@@ -1959,6 +2052,10 @@ select:hover {
 
 .holder a:hover {
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.holder a:active {
+	top: 4px;
 }
 
 .holder a.jp-previous { margin-right: 1em;}

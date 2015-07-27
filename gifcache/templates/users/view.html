@@ -334,12 +334,24 @@
     {% if can_edit %}
         <div class="gifgrabber-form-wrapper hidden">
             <div class="gifgrabber-container main-form animate">
-                <h1 class="title">GifGrabber</h1>
+                <h1 class="title gifgrabber-title">GifGrabber</h1>
                 <div id="grabber-error" class="message hidden"></div>
 
                 <form class="gifgrabber-form">
+                    <div class="subreddit-suggestions animate"></div>
+
                     <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
                     <div class="label">Subreddit</div>
+
+                    <select class="sort-field animate">
+                        <option value="hot">Hot</option>
+                        <option value="new">New</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                        <option value="all">All</option>
+                    </select>
+                    <div class="label">Submission Sort</div>
 
                     <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
                 </form>
@@ -347,7 +359,14 @@
                 <div class="gifgrabber-results animate hidden">
                     <div class="grabber-new-search btn blue-btn">New Search</div>
 
-                    <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post">
+                    <div class="grabber-selected-gifs hidden">
+                        <div class="selected-gifs-number animate"></div>
+                        <div class="selected-gifs-blurb">GIFs Selected</div>
+                    </div>
+
+                    <div class="grabber-data-container"></div>
+
+                    <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post" class="hidden">
                         {% csrf_token %}
                         <input id="gifgrabber-values" name="values" type="text" class="hidden">
                         <input type="text" value="{{ user_id }}" name="user_id" class="hidden">

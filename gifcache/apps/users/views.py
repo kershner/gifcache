@@ -420,10 +420,14 @@ def gifgrabber(request):
     print 'Hit /gifgrabber route!'
     if request.method == 'POST':
         subreddit = request.POST['subreddit']
+        sort = request.POST['sort']
         try:
-            gifs = scrape_reddit(subreddit)
+            data = scrape_reddit(subreddit, sort)
             response_data = {
-                'gifs': gifs
+                'gifs': data,
+                'number_gifs': len(data),
+                'subreddit': subreddit,
+                'sort': sort
             }
             return HttpResponse(
                 json.dumps(response_data),
@@ -438,10 +442,21 @@ def gifgrabber(request):
         )
 
 
-def scrape_reddit(sub):
+def scrape_reddit(sub, sort):
     allowed = ['.gif', '.gifv', '.webm', '.mp4']
     r = praw.Reddit(user_agent='GifCache Image Grabber by billcrystals')
-    submissions = r.get_subreddit(sub).get_hot(limit=25)
+    if sort == 'hot':
+        submissions = r.get_subreddit(sub).get_hot(limit=25)
+    elif sort == 'new':
+        submissions = r.get_subreddit(sub).get_new(limit=25)
+    elif sort == 'week':
+        submissions = r.get_subreddit(sub).get_top_from_week(limit=25)
+    elif sort == 'month':
+        submissions = r.get_subreddit(sub).get_top_from_month(limit=25)
+    elif sort == 'year':
+        submissions = r.get_subreddit(sub).get_top_from_year(limit=25)
+    else:
+        submissions = r.get_subreddit(sub).get_top_from_all(limit=25)
     results = []
     for submission in submissions:
         url = submission.url

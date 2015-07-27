@@ -6,14 +6,37 @@ $(document).ready(function () {
 	tagManager();
 	showAddForm();
 	gifGrabber();
+	gifGrabberSuggestions();
+	setInterval(function() {gifGrabberSuggestions()}, 8000);
 	hoverGifs();
 	copyUrl();
 	addTags();
 	selectTagToRemove();
 	bulkOperations();
 	showInnerNav();
-	deleteProfile();
+	deleteProfile();	
 });
+
+var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+
+// Standard Fisher-Yates shuffle algorithm
+function shuffle(array) {
+	var currentIndex = array.length, temporaryValue, randomIndex ;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+	return array;
+}
 
 // Fades in elements on the splash page
 function homeFadeIn() {
@@ -30,8 +53,7 @@ function homeFadeIn() {
 }
 
 // Picks colors and applies them to various elements on page load
-function colorPageElements() {
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+function colorPageElements() {	
 	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
 	var counter = randomnumber;
 	$('.loading i, .home-arrow').css({'color': colors[randomnumber]});
@@ -98,12 +120,11 @@ function colorPageElements() {
 			'background-color': color
 		});
 		counter += 1
-	});	
+	});
 }
 
 // Colors the border-bottom CSS property of the main form elements
 function colorMainForm() {
-	var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
 	var counter = randomnumber;
 	$('.main-form, .main-form h1').css({
@@ -122,6 +143,9 @@ function colorMainForm() {
 			'border-bottom': '.3em solid ' + color
 		});
 		counter += 1
+	});
+	$('select').css({
+		'border-bottom': '.3em solid ' + colors[counter]
 	});
 }
 
@@ -226,6 +250,7 @@ function showAddForm() {
 	});
 }
 
+// Show/Hide GifGrabber form, handles logic for the submit button
 function gifGrabber() {
 	$('.gifgrabber-btn').on('click', function() {		
 		gifGrabberAjax();
@@ -241,7 +266,7 @@ function gifGrabber() {
 		if (target.is('.gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input')) {
 			// Nothing
 		}
-		else if (target.is('.grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
+		else if (target.is('.subreddit-suggestions, .suggestion, .suggestions-title, .grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
 			// Nothing
 		} else {			
 			$(this).toggleClass('hidden');
@@ -263,6 +288,24 @@ function gifGrabber() {
 	});
 }
 
+function gifGrabberSuggestions() {
+	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops', 'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs', 'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs', 'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs', 'wastedgifs'];	
+	function clickSuggestions() {
+		$('.suggestion').on('click', function() {
+			$('.subreddit-field').val('');
+			$('.subreddit-field').val($(this).text());
+		});
+	}
+	choices = shuffle(suggestions);
+	var title = '<div class="suggestions-title">Subreddit Suggestions</div>';
+	var choice1 = '<div class="suggestion animate">' + choices[0] + '</div>';
+	var choice2 = '<div class="suggestion animate">' + choices[1] + '</div>';
+	var choice3 = '<div class="suggestion animate">' + choices[2] + '</div>';
+	var html = title + choice1 + choice2 + choice3;		
+	$('.subreddit-suggestions').empty().append(html);
+	clickSuggestions();
+}
+
 function clickGrabberElements(element) {
 	$(element).on('click', function(e) {
 		var innerElement = $(this).children('.grabber-results-element-inner');		
@@ -270,14 +313,15 @@ function clickGrabberElements(element) {
 		var target = $(e.target);
 		if (isHidden) {
 			innerElement.toggleClass('hidden');
+			updateSelectedGifs();
 		} else {
 			if (target.is('.grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div')) {
-				console.log('Clicked cancel');
 				innerElement.toggleClass('hidden');				
 				updateGrabberValues();
+				updateSelectedGifs();
 			}
-		}
-	});
+		}		
+	});	
 }
 
 function updateGrabberValues() {
@@ -297,6 +341,26 @@ function updateGrabberValues() {
 		}
 	});
 	valuesInput.val(finalValues);
+}
+
+function updateSelectedGifs() {
+	var selectedCount = 0;
+	$('.grabber-results-element-inner').each(function() {
+		var isHidden = $(this).hasClass('hidden');
+		if (isHidden) {
+			// Nothing
+		} else {			
+			selectedCount += 1
+		}
+	});
+	if (selectedCount > 0) {
+		$('.grabber-selected-gifs').removeClass('hidden');
+		$('.selected-gifs-number').text(selectedCount);
+		var color = colors[(Math.random() * (colors.length - 0 + 1) ) << 0];
+		$('.selected-gifs-number').css('background-color', color);
+	} else {
+		$('.grabber-selected-gifs').addClass('hidden');
+	}
 }
 
 // Hides form, loading screen, shows results page
@@ -324,7 +388,9 @@ function gifGrabberTeardown() {
 function gifGrabberAjax() {
 	$('.gifgrabber-submit').on('click', function(e) {
 		gifGrabberTeardown();
+		$('#grabber-add-form').addClass('hidden');
 		var subreddit = $(this).siblings('.subreddit-field').val();
+		var sort = $(this).siblings('.sort-field').val();
 		if (subreddit === '') {
 			// Nothing
 		} else {	
@@ -335,11 +401,17 @@ function gifGrabberAjax() {
 				url: '/u/gifgrabber/',
 				type: 'POST',
 				data: {
-					'subreddit': subreddit
+					'subreddit': subreddit,
+					'sort': sort
 				},
-				success: function(json) {
+				success: function(json) {					
+					var shuffledColors = shuffle(colors);
 					var counter = 0;
 					var allowed = ['.gifv', '.mp4', '.webm'];
+					var gifNumber = '<div class="grabber-data gif-number animate" style="background-color: ' + shuffledColors[0] + '">' + json['number_gifs'] + '<div class="grabber-data-label">GIFs Found</div></div>';
+					var subreddit = '<div class="grabber-data subreddit-name animate" style="background-color: ' + shuffledColors[1] + '">' + json['subreddit'] + '<div class="grabber-data-label">Subreddit</div></div>';
+					var sortType = '<div class="grabber-data sort-type animate" style="background-color: ' + shuffledColors[2] + '">' + json['sort'] + '<div class="grabber-data-label">Sort</div></div>';
+					var grabberData = '<div class="grabber-data-container">' + gifNumber + subreddit + sortType + '</div>';
 					for (i=0; i<json['gifs'].length; i++) {					
 						if ($.inArray(json['gifs'][i][1], allowed) > -1) {
 							var url = json['gifs'][i][0];
@@ -366,10 +438,12 @@ function gifGrabberAjax() {
 						clickGrabberElements(elementId);
 						counter += 1
 					}
+					$('.grabber-data-container').empty().append(grabberData);
 					gifGrabberSetup();
 					if (json['gifs'].length === 0) {
 						$('.grabber-results-grid').text('No GIFs found!');
 					} else {
+						$('#grabber-add-form').removeClass('hidden');
 						$(function() {
 							$('.holder').jPages({
 								containerID: 'grabber-results',
