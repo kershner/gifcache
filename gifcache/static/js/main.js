@@ -14,7 +14,8 @@ $(document).ready(function () {
 	selectTagToRemove();
 	bulkOperations();
 	showInnerNav();
-	deleteProfile();	
+	deleteProfile();
+	partyModeToggle();
 });
 
 var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
@@ -161,7 +162,7 @@ function gifIsotope() {
 			label: '.gif-label'
 		}
 	});
-	var labelClicked = false;
+	var labelClicked = true;
 	$('.sort-label').on('click', function() {
 		$(this).toggleClass('green-btn-selected');
 		if (labelClicked === false) {
@@ -178,7 +179,7 @@ function gifIsotope() {
 			});
 		}
 	});
-	var dateClicked = false;
+	var dateClicked = true;
 	$('.sort-date').on('click', function() {
 		$(this).toggleClass('blue-btn-selected');
 		if (dateClicked === false) {
@@ -263,7 +264,7 @@ function gifGrabber() {
 	$('.gifgrabber-form-wrapper').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
-		if (target.is('.gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input')) {
+		if (target.is('.gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input, .grabber-selected-gifs, .selected-gifs-number, .selected-gifs-blurb, .grabber-data-container, .grabber-data, .grabber-data-label, .suggestions, .gifgrabber-title-blurb')) {
 			// Nothing
 		}
 		else if (target.is('.subreddit-suggestions, .suggestion, .suggestions-title, .grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
@@ -271,6 +272,7 @@ function gifGrabber() {
 		} else {			
 			$(this).toggleClass('hidden');
 			$('.gifgrabber-btn').toggleClass('red-btn-selected');
+			gifGrabberTeardown();
 		}
 	});
 	$('.grabber-new-search').on('click', function() {		
@@ -297,13 +299,15 @@ function gifGrabberSuggestions() {
 		});
 	}
 	choices = shuffle(suggestions);
-	var title = '<div class="suggestions-title">Subreddit Suggestions</div>';
 	var choice1 = '<div class="suggestion animate">' + choices[0] + '</div>';
 	var choice2 = '<div class="suggestion animate">' + choices[1] + '</div>';
 	var choice3 = '<div class="suggestion animate">' + choices[2] + '</div>';
-	var html = title + choice1 + choice2 + choice3;		
-	$('.subreddit-suggestions').empty().append(html);
-	clickSuggestions();
+	var html = choice1 + choice2 + choice3;		
+	$('.suggestions').fadeOut('slow', function() {
+		$(this).empty();
+		$(this).append(html).fadeIn('slow');
+		clickSuggestions();
+	});
 }
 
 function clickGrabberElements(element) {
@@ -387,6 +391,8 @@ function gifGrabberTeardown() {
 // Handles AJAX call when GifGrabber form is submitted
 function gifGrabberAjax() {
 	$('.gifgrabber-submit').on('click', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
 		gifGrabberTeardown();
 		$('#grabber-add-form').addClass('hidden');
 		var subreddit = $(this).siblings('.subreddit-field').val();
@@ -394,8 +400,7 @@ function gifGrabberAjax() {
 		if (subreddit === '') {
 			// Nothing
 		} else {	
-			$('#grabber-loading').removeClass('hidden');
-			e.preventDefault();		
+			$('#grabber-loading').removeClass('hidden');				
 			ajaxCSRF();
 			$.ajax({
 				url: '/u/gifgrabber/',
@@ -748,6 +753,95 @@ function deleteProfile() {
 	});
 	$('.cancel-delete-profile').on('click', function() {
 		$(this).parents('.edit-profile-delete-wrapper').toggleClass('hidden');
+	});
+}
+
+// Hides/shows party mode wrapper, starts/stop background change interval
+function partyModeToggle() {
+	$('.party-mode-icon').on('click', function() {
+		console.log('PARTY MODE ENGAGED');
+		var partyColor = randomColor({format: 'rgb'});
+		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
+		$('.party-mode-wrapper').css('background-color', rgba);
+		$('.party-mode-wrapper').removeClass('hidden');
+		partyMode($(this).parents('.tag-group'));
+		var backgroundChange = setInterval(function() {
+			var partyColor = randomColor({format: 'rgb'});
+			var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';			
+			$('.party-mode-wrapper').css('background-color', rgba);
+		}, 1500);
+		$('.party-mode-cancel').on('click', function() {
+			console.log('PARTY MODE DISENGAGED');
+			$('.party-mode-wrapper').addClass('hidden');
+			$('.party-mode-container').empty();
+			clearInterval(backgroundChange);
+		});
+	});	
+}
+
+function partyMode(tagGroup) {
+	var html = '';
+	// Grab Display URLs from .gif-grid-elements inside .tag-group
+	$(tagGroup).children('.gif-grid-element').each(function() {
+		var url = $(this).children('.display-url').val();
+		var lastPeriod = url.lastIndexOf('.');
+		var extension = url.slice(lastPeriod + 1, url.length);
+		if (extension === 'gif') {
+			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"></div>';
+		} else if (extension === 'mp4') {
+			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video></div>';
+		}
+		html += element;
+	});
+	$('.party-mode-container').append(html);
+	$('.party-mode-container').children('.party-img-wrapper').each(function() {
+		getStartPos($(this));
+		animateDiv($(this));
+	});
+}
+
+// Gif Party Animation Functions below
+function getStartPos($target) {
+	var h = $('.party-mode-container').height(); 
+	var w = $('.party-mode-container').width();
+	$target.css({
+		'top': (Math.random() * h) + 'px',
+		'left': (Math.random() * w) + 'px'
+	});
+	$target.fadeIn(900);
+}
+
+function makeNewPosition($content) {
+	// Get viewport dimensions (remove the dimension of the div)
+	var h = $content.height() - 400;
+	var w = $content.width() - 300;
+
+	var nh = Math.floor(Math.random() * h);
+	var nw = Math.floor(Math.random() * w);
+
+	return [nh, nw];
+}
+
+function calcSpeed(prev, next) {
+	var x = Math.abs(prev[1] - next[1]);
+	var y = Math.abs(prev[0] - next[0]);
+	var greatest = x > y ? x : y;
+	var speedModifier = 0.1;
+	var speed = Math.ceil(greatest / speedModifier);
+
+	return speed;
+}
+
+function animateDiv($target) {
+	var newq = makeNewPosition($target.parent());
+	var oldq = $target.position();
+	var speed = calcSpeed([oldq.top, oldq.left], newq);
+	
+	$target.animate({
+		top: newq[0],
+		left: newq[1]
+	}, speed, function () {
+		animateDiv($target);
 	});
 }
 

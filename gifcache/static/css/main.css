@@ -181,7 +181,7 @@ select:hover {
 	display: block;
 	position: relative;
 	margin: 1.25em auto;
-	bottom: .75em;
+	bottom: .5em;
 	text-align: center;
 	color: white;
 	font-size: .75em;
@@ -224,6 +224,10 @@ select:hover {
 
 .animate-fast {
 	transition: all .2s ease-in-out;
+}
+
+.animate-slow {
+	transition: all .8s ease-in-out;
 }
 
 .animate-bg {
@@ -1662,6 +1666,101 @@ select:hover {
 	padding: .25em;
 }
 
+.tag-manager-title {
+	font-size: .8em;
+	margin-top: -.1em !important;
+	margin-bottom: ;
+}
+
+/* PARTY MODE */
+.party-mode-icon {
+	position: relative;
+	margin: 0 auto !important;
+	width: 35px;
+	height: 35px;
+}
+
+.party-mode-icon:hover {
+	cursor: pointer;
+	transform: scale(3);
+}
+
+.party-mode-icon:hover > .party-mode-icon-text {
+	opacity: 1.0;
+}
+
+.party-mode-icon:active {
+	top: 4px;
+}
+
+.party-mode-icon img {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: .15em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.party-mode-icon-text {
+	position: relative;
+	margin: 0 !important;
+	margin-bottom: -2em !important;
+	width: 100%;
+	opacity: 0;
+	top: -4.75em;
+	left: .2em;
+	font-size: .35em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.party-mode-wrapper {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.party-mode-cancel {
+	display: inline-block;
+	position: absolute;
+	z-index: 12;
+	padding: .5em;
+	top: .25em;
+	right: .25em;
+	background-color: #4c4c4c;
+	color: white;
+	border-radius: .25em;
+}
+
+.party-mode-cancel:hover {
+	cursor: pointer;
+	background-color: #ff3434;
+}
+
+.party-mode-cancel i, .party-mode-cancel div {
+	display: inline-block;
+	font-size: 1.2em;
+}
+
+.party-mode-container {
+	position: relative;
+	z-index: 11;
+	height: 60%;
+	width: 100%;
+}
+
+.party-img-wrapper {
+	position: relative;
+}
+
+.party-img-wrapper img, .party-img-wrapper video {
+	max-width: 300px;
+	border-radius: .25em;
+}
+
 .tag-manager-form form {
 	position: relative;
 	margin: 1em auto;
@@ -1799,13 +1898,28 @@ select:hover {
 }
 
 .gifgrabber-title {
+	display: inline-block;
 	position: relative;
 	margin: 0 auto;
 	margin-bottom: -.5em;
-	top: -.8em;
+	top: -.65em;
 	left: 0;
 	right: 0;
+	font-family: 'Lobster', cursive;
+	font-size: 3em;
 	border: none;
+	box-shadow: none;
+}
+
+.gifgrabber-title div {
+	display: inline-block;
+}
+
+.gifgrabber-title-blurb {
+	position: relative;
+	top: -1.65em;
+	font-family: 'PT Sans';
+	font-size: .9em;
 }
 
 .gifgrabber-expanded {
@@ -1831,8 +1945,8 @@ select:hover {
 
 .subreddit-suggestions {
 	position: relative;
-	margin-top: 2em;
 	padding-top: .25em;
+	margin-top: 1em;
 }
 
 .suggestions-title {
