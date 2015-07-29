@@ -462,7 +462,7 @@ def scrape_reddit(sub, sort):
         url = submission.url
         extension = url[url.rfind('.'):]
         if extension in allowed:
-            results.append([submission.url, extension, submission.title])
+            results.append([submission.url, extension, submission.title, submission.short_link])
         else:
             continue
     return results

@@ -189,8 +189,8 @@
 
                         <p class="gif-date">{{ object.created }}</p>
                         <p class="gif-label">{{ object.label }}</p>
-                        <i class="fa fa-link copy-url animate"></i>
-                        <i class="fa fa-expand gif-expand animate"></i>
+                        <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
+                        <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
                         <input type="text" class="gif-url hidden" value="{{ object.url }}">
                         <input type="text" class="display-url hidden" value="{{ object.display_url }}">
 
@@ -265,8 +265,8 @@
                     <!--Thumbnail / Hidden URL -->
                     <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
                     <p class="gif-label">{{ object.label }}</p>
-                    <i class="fa fa-link copy-url animate"></i>
-                    <i class="fa fa-expand gif-expand animate"></i>
+                    <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
+                    <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
                     <input type="text" class="display-url hidden" value="{{ object.display_url }}">
 
@@ -340,8 +340,9 @@
     {% if can_edit %}
         <div class="gifgrabber-form-wrapper hidden">
             <div class="gifgrabber-container main-form animate">
+                <div class="grabber-lightbox hidden"></div>
                 <div class="gifgrabber-title"><div style="font-family: 'PT Sans';">GIF</div>Grabber</div>
-                <div class="gifgrabber-title-blurb">Grab GIFs directly from your favorite subreddit</div>
+                <div class="gifgrabber-title-blurb">Grab GIFs directly from reddit</div>
 
                 <div id="grabber-error" class="message hidden"></div>
 

@@ -128,10 +128,7 @@ function colorPageElements() {
 function colorMainForm() {
 	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
 	var counter = randomnumber;
-	$('.main-form, .main-form h1').css({
-		'background-color': colors[counter]
-	});
-	$('.title').css({
+	$('.main-form, .main-form h1, .title, .suggestions-title').css({
 		'background-color': colors[counter]
 	});
 	counter += 1;
@@ -264,7 +261,7 @@ function gifGrabber() {
 	$('.gifgrabber-form-wrapper').on('click', function(e) {
 		e.preventDefault();
 		var target = $(e.target);
-		if (target.is('.gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input, .grabber-selected-gifs, .selected-gifs-number, .selected-gifs-blurb, .grabber-data-container, .grabber-data, .grabber-data-label, .suggestions, .gifgrabber-title-blurb')) {
+		if (target.is('.grabber-lightbox, .grabber-expanded, .grabber-lightbox .label, .gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input, .grabber-selected-gifs, .selected-gifs-number, .selected-gifs-blurb, .grabber-data-container, .grabber-data, .grabber-data-label, .suggestions, .gifgrabber-title-blurb')) {
 			// Nothing
 		}
 		else if (target.is('.subreddit-suggestions, .suggestion, .suggestions-title, .grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
@@ -290,6 +287,7 @@ function gifGrabber() {
 	});
 }
 
+// Fades in subreddit suggestions for GifGrabber
 function gifGrabberSuggestions() {
 	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops', 'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs', 'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs', 'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs', 'wastedgifs'];	
 	function clickSuggestions() {
@@ -310,12 +308,24 @@ function gifGrabberSuggestions() {
 	});
 }
 
+// Logic for when Grabber result is clicked (hidden fields/feedback elements updated)
 function clickGrabberElements(element) {
 	$(element).on('click', function(e) {
-		var innerElement = $(this).children('.grabber-results-element-inner');		
+		var innerElement = $(this).children('.grabber-results-element-inner');
 		var isHidden = $(innerElement).hasClass('hidden');
 		var target = $(e.target);
-		if (isHidden) {
+		if (target.is('.grabber-expand')) {
+			// Expand the GIF
+			var url = $(target).siblings('.grabber-gif').attr('src');
+			var title = $(target).siblings('.grabber-results-title').text();
+			grabberLightbox(url, title);
+		}
+		else if (target.is('.short-link, .short-link i')) {
+			// Opening short-link in new tab if icon clicked
+			var link = $(target).parent().attr('href');
+			window.open(link, '_blank');
+		}
+		else if (isHidden) {
 			innerElement.toggleClass('hidden');
 			updateSelectedGifs();
 		} else {
@@ -328,6 +338,25 @@ function clickGrabberElements(element) {
 	});	
 }
 
+function grabberLightbox(url, title) {
+	var lastPeriod = url.lastIndexOf('.');
+	var extension = url.slice(lastPeriod + 1, url.length);
+	if (extension === 'gif') {
+		var element = '<img class="grabber-expanded" src="' + url + '">';
+	} else if (extension === 'mp4') {
+		var element = '<video src="' + url + '" autoplay loop class="grabber-expanded"></video>';
+	}	
+	var title = '<div class="label grabber-lightbox-label">' + title + '</div>';
+	var html = element + title;
+	$('.grabber-lightbox').append(html);
+	$('.grabber-lightbox').removeClass('hidden');
+	$('.grabber-lightbox').on('click', function() {
+		$(this).addClass('hidden');
+		$(this).empty();
+	});
+}
+
+// Updates hidden input containing GifGrabber results to be sent to the DB
 function updateGrabberValues() {
 	var valuesInput = $('#gifgrabber-values');
 	var finalValues = '';
@@ -347,6 +376,7 @@ function updateGrabberValues() {
 	valuesInput.val(finalValues);
 }
 
+// Function to hide/update element showing how many GifGrabber results have been selected for addition to cache by user
 function updateSelectedGifs() {
 	var selectedCount = 0;
 	$('.grabber-results-element-inner').each(function() {
@@ -425,19 +455,21 @@ function gifGrabberAjax() {
 							var img = '<video class="grabber-gif" src="' + url + '" autoplay loop></video>';
 						} else {
 							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';	
-						}
+						}						
 						var extension = '<div class="grabber-results-extension">' + json['gifs'][i][1] + '</div>';
 						var title = '<div class="grabber-results-title">' + json['gifs'][i][2] + '</div>';
+						var shortLink = '<a class="short-link animate-fast" href="' + json['gifs'][i][3] + '"><i class="fa fa-reddit"></i></a>';
+						var expandIcon = '<i class="grabber-expand fa fa-expand animate"></i>'
 						var hiddenUrl = '<input type="text" class="grabber-hidden-url hidden" value="' + json['gifs'][i][0] + '">';
 						
 						var innerCancel = '<div class="grabber-inner-cancel"><i class="fa fa-minus-circle"></i><div>Cancel</div></div>';
-						var innerLabelInput = '<input type="text" class="gif-label-field inner-label">';
+						var innerLabelInput = '<input type="text" class="gif-label-field inner-label" value="' + json['gifs'][i][2] + '">';
 						var innerLabelLabel = '<div class="label">Label</div>';
 						var innerTagsInput = '<input type="text" class="gif-label-field inner-tags" placeholder="Comma Separated Tags">';
 						var innerTagsLabel = '<div class="label">Tags</div>';
 						
 						var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel + innerTagsInput + innerTagsLabel + '</div>';
-						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element">' + hiddenUrl + img + extension + title + innerHtml + '</div>';
+						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element">' + hiddenUrl + img + extension + title + shortLink + expandIcon + innerHtml + '</div>';
 						$('.grabber-results-grid').append(html);
 						var elementId = '#grabber-gif-' + counter;
 						clickGrabberElements(elementId);
@@ -795,22 +827,11 @@ function partyMode(tagGroup) {
 	});
 	$('.party-mode-container').append(html);
 	$('.party-mode-container').children('.party-img-wrapper').each(function() {
-		getStartPos($(this));
 		animateDiv($(this));
 	});
 }
 
 // Gif Party Animation Functions below
-function getStartPos($target) {
-	var h = $('.party-mode-container').height(); 
-	var w = $('.party-mode-container').width();
-	$target.css({
-		'top': (Math.random() * h) + 'px',
-		'left': (Math.random() * w) + 'px'
-	});
-	$target.fadeIn(900);
-}
-
 function makeNewPosition($content) {
 	// Get viewport dimensions (remove the dimension of the div)
 	var h = $content.height() - 400;
