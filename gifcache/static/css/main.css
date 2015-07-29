@@ -1755,12 +1755,12 @@ select:hover {
 .party-mode-container {
 	position: relative;
 	z-index: 11;
-	height: 60%;
+	height: 100%;
 	width: 100%;
 }
 
 .party-img-wrapper {
-	position: relative;
+	position: absolute;
 }
 
 .party-img-wrapper img, .party-img-wrapper video {
