@@ -10,9 +10,21 @@ from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
+import random
 import praw
 import uuid
 import json
+import os
+
+
+# Returns number of saved Nav GIFs in my static/img folder
+def get_nav_gifs():
+    gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static/img/')
+    files = []
+    for (dirpath, dirnames, filenames) in os.walk(gif_dir):
+        files.extend(filenames)
+        break
+    return len([f for f in files if f.startswith('navgif')])
 
 
 # Create your views here.
@@ -51,6 +63,9 @@ def view_profile(request, username):
         extension = p.avatar[p.avatar.rfind('.'):]
         element = 'video'
         avatar = avatar.replace(extension, '.mp4')
+
+    navgif = random.choice(xrange(get_nav_gifs()))
+
     context = {
         'username': request.user.username,
         'name': u.first_name,
@@ -65,7 +80,8 @@ def view_profile(request, username):
         'logged_in': logged_in,
         'avatar': avatar,
         'element': element,
-        'message': message
+        'message': message,
+        'navgif': navgif
     }
     return render(request, 'users/view.html', context)
 
@@ -88,13 +104,16 @@ def edit_profile(request, username):
         avatar = avatar.replace(extension, '.mp4')
         print avatar
 
+    navgif = random.choice(xrange(get_nav_gifs()))
+
     context = {
         'title': 'Edit Profile',
         'username': u.username,
         'nickname': u.first_name,
         'avatar_url': avatar,
         'element': element,
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'navgif': navgif
     }
     if request.user.is_authenticated():
         if request.user.username == username:
@@ -200,8 +219,10 @@ def edit_gif(request):
         else:
             return redirect('/u/%s' % str(username))
     else:
+        navgif = random.choice(xrange(get_nav_gifs()))
         context = {
-            'message': 'You must be logged in to edit GIFs!'
+            'message': 'You must be logged in to edit GIFs!',
+            'navgif': navgif
         }
         return render(request, 'home/login.html', context)
 
@@ -217,8 +238,10 @@ def delete_gif(request):
             g.delete()
             return redirect('/u/%s' % str(username))
     else:
+        navgif = random.choice(xrange(get_nav_gifs()))
         context = {
-            'message': 'You must be logged in to edit GIFs!'
+            'message': 'You must be logged in to edit GIFs!',
+            'navgif': navgif
         }
         return render(request, 'home/login.html', context)
 

@@ -789,7 +789,8 @@ function deleteProfile() {
 // Hides/shows party mode wrapper, starts/stop background change interval
 function partyModeToggle() {
 	$('.party-mode-icon').on('click', function() {
-		console.log('PARTY MODE ENGAGED');
+		var tagTitle = $(this).parents('.tag-group').find('.tag-title').text();
+		$('.party-mode-tag-title').text(tagTitle);
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		$('.party-mode-wrapper').css('background-color', rgba);
@@ -801,11 +802,12 @@ function partyModeToggle() {
 			$('.party-mode-wrapper').css('background-color', rgba);
 		}, 1500);
 		$('.party-mode-cancel').on('click', function() {
-			console.log('PARTY MODE DISENGAGED');
 			$('.party-mode-wrapper').addClass('hidden');
 			$('.party-mode-container').empty();
 			clearInterval(backgroundChange);
 		});
+		manualFocusGif();
+		autoFocusGif();
 	});	
 }
 
@@ -817,17 +819,76 @@ function partyMode(tagGroup) {
 		var url = $(this).children('.display-url').val();
 		var lastPeriod = url.lastIndexOf('.');
 		var extension = url.slice(lastPeriod + 1, url.length);
+		var title = $(this).children('.gif-label').text();
 		if (extension === 'gif') {
-			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"></div>';
+			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video></div>';
+			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label">' + title + '</div></div>';
 		}
 		html += element;
 	});
 	$('.party-mode-container').append(html);
 	$('.party-mode-container').children('.party-img-wrapper').each(function() {
 		animateDiv($(this));
+		$(this).draggable({
+			start: function(event, ui) {
+				$(this).stop();
+			},
+			stop: function(event, ui) {
+				animateDiv($(this));
+			}
+		});		
 	});
+}
+
+// Quick function to get random element from jQuery collection
+$.fn.random = function() {
+	return this.eq(Math.floor(Math.random() * this.length));
+}
+
+// Function to randomly 'focus' on a GIF in party mode
+function autoFocusGif() {
+	var active = $('.party-mode-wrapper').hasClass('hidden');
+	if (!active) {
+		var origDims = {
+			'width': '200px',
+			'z-index': 13
+		}
+		var randomGif = $('.party-img-wrapper').random();		
+		randomGif.addClass('party-focus');
+		randomGif.stop(true, true).animate({
+			'width': '+=25%',
+			'z-index': 20
+		}, 'slow');
+		setTimeout(function() {
+			randomGif.removeClass('party-focus');
+			randomGif.stop(true, true).animate(origDims, 'slow');
+			autoFocusGif();
+		}, 10000);
+	} else {
+		console.log('Party Mode Deactivated');
+	}
+}
+
+// Applies focus on click
+function manualFocusGif() {
+	$('.party-img-wrapper').on('click', function() {
+		var alreadyFocused = $(this).hasClass('party-focus');
+		if (alreadyFocused) {
+			$(this).removeClass('party-focus');
+			$(this).stop(true, true).animate({
+				'width': '200px',
+				'z-index': 13
+			}, 'slow');
+		} else {
+			$(this).addClass('party-focus');
+			$(this).stop(true, true).animate({
+				'width': '+=25%',
+				'z-index': 20
+			}, 'slow');
+		}
+	});
+	
 }
 
 // Gif Party Animation Functions below

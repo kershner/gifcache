@@ -37,7 +37,7 @@
             <a href="{% url 'home:home' %}">
             <div class="nav-logo pulse">
                 <div id="gif" class="nav-logo-title">GIF</div>
-                <div class="nav-logo-circle animate"></div>
+                <div class="nav-logo-circle animate">{% if navgif %}<img src="/static/img/navgif{{ navgif }}.gif">{% endif %}</div>
                 <div id="cache" class="nav-logo-title">Cache</div>
             </div>
             </a>
@@ -90,24 +90,18 @@
     </div>
 
     <div class="loading-wrapper main-loading hidden">
-        <div class="loading">
-            <i class="fa fa-spinner fa-pulse"></i>
-            <div>Processing, one moment please...</div>
-        </div>
+        <div class="loading"><i class="fa fa-spinner fa-pulse"></i><div>Processing, one moment please...</div></div>
     </div>
 
     <div class="party-mode-wrapper animate-slow hidden">
-        <div class="party-mode-cancel animate">
-            <div>Cancel Party Mode</div>
-            <i class="fa fa-times"></i>
-        </div>
-
-        <div class="party-mode-container">
-        </div>
+        <div class="party-mode-cancel animate"><div>Cancel Party Mode</div><i class="fa fa-times"></i></div>
+        <div class="party-mode-tag-title"></div>
+        <div class="party-mode-container"></div>
     </div>
 
     <!-- JavaScripts -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="{% static '/static/js/jquery-ui.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.3.2/randomColor.min.js"></script>
     <script type="text/javascript" src="{% static '/static/js/packery-mode.pkgd.min.js' %}"></script>

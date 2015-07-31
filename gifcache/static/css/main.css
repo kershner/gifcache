@@ -352,6 +352,11 @@ select:hover {
 	box-shadow: 1px 5px 15px -5px #000;
 }
 
+.nav-logo-circle img {
+	width: 100%;
+    border-radius: 50%;
+}
+
 .nav-links {
 	position: absolute;
 	right: 1em;
@@ -1734,10 +1739,22 @@ select:hover {
 .party-mode-cancel {
 	display: inline-block;
 	position: absolute;
-	z-index: 12;
+	z-index: 20;
 	padding: .5em;
 	top: .25em;
 	right: .25em;
+	background-color: #4c4c4c;
+	color: white;
+	border-radius: .25em;
+}
+
+.party-mode-tag-title {
+	display: inline-block;
+	position: absolute;
+	z-index: 20;
+	padding: .5em;
+	top: .25em;
+	left: .25em;
 	background-color: #4c4c4c;
 	color: white;
 	border-radius: .25em;
@@ -1750,6 +1767,7 @@ select:hover {
 
 .party-mode-cancel i, .party-mode-cancel div {
 	display: inline-block;
+	margin: 0 .25em;
 	font-size: 1.2em;
 }
 
@@ -1762,10 +1780,15 @@ select:hover {
 
 .party-img-wrapper {
 	position: absolute;
+	width: 200px;
+}
+
+.party-img-wrapper:hover {
+	cursor: pointer;
 }
 
 .party-img-wrapper img, .party-img-wrapper video {
-	max-width: 300px;
+	width: 100%;
 	border-radius: .25em;
 }
 
