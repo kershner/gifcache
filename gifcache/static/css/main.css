@@ -51,7 +51,7 @@ select:hover {
 	display: none !important;
 }
 
-.loading-wrapper {
+.lightbox {
 	position: fixed;
 	z-index: 11;
 	top: 0;
@@ -60,6 +60,29 @@ select:hover {
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
+}
+
+.lightbox-cancel {
+	display: inline-block;
+	position: absolute;
+	z-index: 20;
+	padding: .5em;
+	top: .25em;
+	right: .25em;
+	background-color: #4c4c4c;
+	color: white;
+	border-radius: .25em;
+}
+
+.lightbox-cancel:hover {
+	cursor: pointer;
+	background-color: #ff3434;
+}
+
+.lightbox-cancel i, .lightbox-cancel div {
+	display: inline-block;
+	margin: 0 .25em;
+	font-size: 1.2em;
 }
 
 #grabber-loading {
@@ -872,6 +895,7 @@ select:hover {
 	margin: 1em auto;
 	z-index: 1;
 	max-width: 15em;
+	height: 15em;
 	text-align: center;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1121,13 +1145,14 @@ select:hover {
 
 /* Navbar right under profile info box */
 .inner-nav {
-	position: relative;
+	display: inline-block;
+	position: relative;	
 	margin: 0 auto;
 	margin-bottom: 1em;
-	padding: 1em;
+	padding: 1em 2.5em;
 	background-color: #F2F2F2;
 	text-align: center;
-	max-width: 44em;
+	max-width: 37em;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1136,11 +1161,15 @@ select:hover {
 	position: fixed;
 	z-index: 10;
 	top: 0;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
+	left: 50%;
+	width: 100%;
 	text-align: center;
 	border-radius: 0 0 .25em .25em;
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 .inner-nav-btn {
@@ -1149,6 +1178,7 @@ select:hover {
 	padding: .3em .75em;
 	position: relative;
 	width: 5em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .inner-nav-tags:hover > .inner-tag-nav {
@@ -1193,6 +1223,7 @@ select:hover {
 	margin: .25em auto;
 	padding: .3em .75em;
 	width: 6em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .bulk-gif-button {
@@ -1200,6 +1231,7 @@ select:hover {
 	margin: .25em auto;
 	padding: .3em .75em;
 	width: 6em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 #bulk-operations {
@@ -1233,6 +1265,74 @@ select:hover {
 	font-size: 1em;
 	line-height: 1em;
 	width: 60%;
+}
+
+.nav-settings-icon {
+	display: inline-block;
+	position: absolute;
+	z-index: 7;
+	top: .01em;
+	right: .25em;
+	border-radius: 50%;
+	font-size: 1.8em;
+	color: #4c97c7;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.nav-settings-icon:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+}
+
+.nav-settings-icon:hover > .nav-settings {
+	display: block !important;
+}
+
+.nav-settings {
+	position: absolute;
+	top: 1.15em;
+	right: -.1em;
+	width: 5em;
+	height: 2.25em;
+	background-color: #F2F2F2;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.nav-setting-icon {
+	position: relative;
+	display: inline-block;
+	margin: .25em auto;
+	padding: .35em;
+	font-size: .8em;
+	color: white;
+	line-height: 1.5em;
+	height: 1.5em;
+	width: 1.5em;
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: .25em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.nav-setting-icon:hover {
+	cursor: pointer;
+	color: #25B972;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nav-setting-icon:active {
+	top: 4px;
+}
+
+.nav-setting-icon i {
+	display: block;
+	margin: 0;
+}
+
+.nav-setting-icon .label {
+	margin: 0;
+	margin-top: -.3em;
+	font-size: .4em;
 }
 
 /* Main Add GIF Form */
@@ -1347,6 +1447,10 @@ select:hover {
 	margin: 0;	
 	display: inline-block;
 	font-size: 1.25em;	
+}
+
+.gif-grid i:active {
+	margin-top: 8px;
 }
 
 .gif-grid-icon {
@@ -1659,6 +1763,33 @@ select:hover {
 	width: 100%;
 }
 
+.tag-manager-section {
+	position: relative;
+	padding: .5em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .25em;
+}
+
+.display-section {
+	padding-top: .3em !important;
+	height: 3em;
+}
+
+.tag-manager-section-title {
+	position: absolute;
+	position: absolute;
+	top: -1.8em;
+	font-size: .75em;
+}
+
+.tasks-title {
+	left: .5em;
+}
+
+.display-title {
+	right: .5em;
+}
+
 .tag-manager-options {
 	position: absolute;
 	margin: 0 auto;
@@ -1680,21 +1811,47 @@ select:hover {
 }
 
 .tag-manager-title {
+	padding: .3em .6em !important;
+	top: -2.1em;
 	font-size: .8em;
-	margin-top: -.1em !important;
-	margin-bottom: ;
+	border: .2em solid white;
+	border-radius: .25em;
+}
+
+.display-grid-icon {	
+	display: inline-block !important;
+	position: relative;
+	margin: 0 0.15em !important;
+	top: 0.18em;
+	font-size: 2.2em !important;
+	vertical-align: top;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.display-grid-icon:hover {
+	cursor: pointer;
+	z-index: 3;
+	transform: scale(1.1);
+	color: #ff3535;
+}
+
+.display-grid-icon:active {
+	top: 8px;
 }
 
 /* PARTY MODE */
 .party-mode-icon {
+	display: inline-block !important;
 	position: relative;
 	margin: 0 auto !important;
+	vertical-align: top;
 	width: 35px;
 	height: 35px;
 }
 
 .party-mode-icon:hover {
 	cursor: pointer;
+	z-index: 3;
 	transform: scale(3);
 }
 
@@ -1726,28 +1883,6 @@ select:hover {
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-.party-mode-wrapper {
-	position: fixed;
-	z-index: 10;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
-}
-
-.party-mode-cancel {
-	display: inline-block;
-	position: absolute;
-	z-index: 20;
-	padding: .5em;
-	top: .25em;
-	right: .25em;
-	background-color: #4c4c4c;
-	color: white;
-	border-radius: .25em;
-}
-
 .party-mode-tag-title {
 	display: inline-block;
 	position: absolute;
@@ -1758,17 +1893,6 @@ select:hover {
 	background-color: #4c4c4c;
 	color: white;
 	border-radius: .25em;
-}
-
-.party-mode-cancel:hover {
-	cursor: pointer;
-	background-color: #ff3434;
-}
-
-.party-mode-cancel i, .party-mode-cancel div {
-	display: inline-block;
-	margin: 0 .25em;
-	font-size: 1.2em;
 }
 
 .party-mode-container {
@@ -1787,9 +1911,30 @@ select:hover {
 	cursor: pointer;
 }
 
-.party-img-wrapper img, .party-img-wrapper video {
+.party-img-wrapper img, .party-img-wrapper video,
+.grid-img-wrapper img, .grid-img-wrapper video {
 	width: 100%;
 	border-radius: .25em;
+}
+
+/* Grid View */
+.grid-view-container {
+	position: relative;
+	margin: 0 auto;
+	top: 20%;
+	width: 100%;
+	height: 80%;
+}
+
+.grid-img-wrapper {
+	position: relative;
+	width: 10em;
+	margin: 1em;
+}
+
+.grid-img-wrapper:hover {
+	transform: scale(3);
+	z-index: 20;
 }
 
 .tag-manager-form form {
@@ -2057,8 +2202,10 @@ select:hover {
 }
 
 .grabber-lightbox-label {
+	margin-top: .25em;
 	padding: 1em;
 	background-color: rgba(0, 0, 0, 0.9);
+	border-radius: 0 0 .25em .25em;
 }
 
 .grabber-results-element-inner {

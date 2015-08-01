@@ -2,6 +2,8 @@ $(document).ready(function () {
 	homeFadeIn();
 	colorPageElements();
 	colorMainForm();
+	colorProfile();
+	reColorProfile();
 	gifIsotope();
 	tagManager();
 	showAddForm();
@@ -15,10 +17,58 @@ $(document).ready(function () {
 	bulkOperations();
 	showInnerNav();
 	deleteProfile();
+	gridView();
 	partyModeToggle();
 });
 
-var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+
+// Setup/Teardown of grid view
+function gridView() {
+	$('.display-grid-icon').on('click', function() {
+		var html = '<div class="lightbox grid-wrapper">' +
+					'<div class="lightbox-cancel animate"><div>Cancel Grid View</div>' +
+					'<i class="fa fa-times"></i></div>' +
+					'<div class="grid-view-container"></div>';
+					'</div>';
+		$('body').append(html);
+		populateGrid($(this));
+		$('.lightbox-cancel').on('click', function() {
+			$('.lightbox').remove();
+		});
+	});
+}
+
+function populateGrid(icon) {
+	var tagGroup = $(icon).parents('.tag-group');
+	var title = tagGroup.find('.tag-title').text();
+	var html = '';
+	$(tagGroup).find('.gif-grid-element').each(function() {		
+		var url = $(this).children('.display-url').val();
+		var lastPeriod = url.lastIndexOf('.');
+		var extension = url.slice(lastPeriod + 1, url.length);
+		var title = $(this).children('.gif-label').text();
+		if (title.length < 1) {
+			var labelClass = 'hidden';
+		} else {
+			var labelClass = '';
+		}
+		if (extension === 'gif') {
+			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+		} else if (extension === 'mp4') {
+			var element = '<div class="grid-img-wrapper animate-fast"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+		}
+		html += element;
+	});
+	$('.grid-view-container').append(html);
+	$('.grid-view-container').isotope({
+		itemSelector: '.grid-img-wrapper',
+		percentPosition: true,
+		masonry: {
+			columnWidth: '.grid-img-wrapper'
+		}
+	});
+}
 
 // Standard Fisher-Yates shuffle algorithm
 function shuffle(array) {
@@ -52,49 +102,23 @@ function homeFadeIn() {
 
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {	
-	var randomnumber = (Math.random() * (colors.length - 0 + 1) ) << 0
+	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 	var counter = randomnumber;
-	$('.loading i, .home-arrow').css({'color': colors[randomnumber]});
-	$('.tag-group').each(function() {
-		if (counter > colors.length - 1 ) {
-			counter = 0;
-		}
-		var color = colors[counter];
-		$(this).css({
-			'background-color': color
-		});
-		$(this).find('.tag-manager-options-title').css({
-			'background-color': color
-		});
-		$(this).find('.tag-title').css('background-color', color);
-		$(this).find('.tag-settings-icon').css('background-color', color);
-		$(this).find('.tag-manager-options').css('background-color', color);
-		$(this).find('.tag-manager-form form').each(function(){
-			$(this).css('background-color', color);
-		});
-		counter += 1
-	});
+	$('.loading i, .home-arrow').css({'color': COLORS[randomnumber]});	
 	$('.nav-logo-circle').css({
-		'background-color': colors[randomnumber]
-	});
-	var profileInfoColor = colors[Math.floor(Math.random() * colors.length)];
-	$('.profile-info').css({
-		'background-color': profileInfoColor
-	});
-	$('.profile-avatar img, .profile-avatar video').css({
-		'background-color': profileInfoColor
-	});
+		'background-color': COLORS[randomnumber]
+	});	
 	$('.bulk-option').each(function() {
-		var bulkOptionColor = colors[Math.floor(Math.random() * colors.length)];
+		var bulkOptionColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 		$(this).css({
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
 	$('.home-section, .home-whatsnew-version').each(function() {
-		if (counter > colors.length - 1 ) {
+		if (counter > COLORS.length - 1 ) {
 			counter = 0;
 		}
-		var homeColor = colors[counter];
+		var homeColor = COLORS[counter];
 		$(this).css({
 			'background-color': homeColor
 		});
@@ -110,10 +134,10 @@ function colorPageElements() {
 		counter += 1
 	});
 	$('.startup-icon').each(function() {
-		if (counter > colors.length - 1 ) {
+		if (counter > COLORS.length - 1 ) {
 			counter = 0;
 		}
-		var color = colors[counter];
+		var color = COLORS[counter];
 		$(this).css({
 			'background-color': color
 		});
@@ -123,25 +147,65 @@ function colorPageElements() {
 
 // Colors the border-bottom CSS property of the main form elements
 function colorMainForm() {
-	var randomnumber = (Math.random() * (colors.length - 1) ) << 0
+	var randomnumber = (Math.random() * (COLORS.length - 1) ) << 0
 	var counter = randomnumber;
 	$('.main-form, .main-form h1, .title, .suggestions-title').css({
-		'background-color': colors[counter]
+		'background-color': COLORS[counter]
 	});
 	counter += 1;
 	$('.main-field').each(function() {
-		if (counter > colors.length - 1 ) {
+		if (counter > COLORS.length - 1 ) {
 			counter = 0;
 		}
-		var color = colors[counter];
+		var color = COLORS[counter];
 		$(this).css({
 			'border-bottom': '.3em solid ' + color
 		});
 		counter += 1
 	});
 	$('select').css({
-		'border-bottom': '.3em solid ' + colors[counter]
+		'border-bottom': '.3em solid ' + COLORS[counter]
 	});
+}
+
+function colorProfile() {
+	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+	var counter = randomnumber;
+	var profileInfoColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+	$('.profile-info').css({
+		'background-color': profileInfoColor
+	});
+	$('.profile-avatar img, .profile-avatar video').css({
+		'background-color': profileInfoColor
+	});
+	$('.tag-group').each(function() {
+		if (counter > COLORS.length - 1 ) {
+			counter = 0;
+		}
+		var color = COLORS[counter];
+		$(this).css({
+			'background-color': color
+		});		
+		$(this).find('.tag-manager-options .title, .tag-manager-section-title').css({
+			'background-color': color
+		});
+		$(this).find('.tag-manager-options-title').css({
+			'background-color': color
+		});
+		$(this).find('.tag-title').css('background-color', color);
+		$(this).find('.tag-settings-icon').css('background-color', color);
+		$(this).find('.tag-manager-options').css('background-color', color);
+		$(this).find('.tag-manager-form form').each(function(){
+			$(this).css('background-color', color);
+		});
+		counter += 1
+	});
+}
+
+function reColorProfile() {
+	$('.color-btn').on('click', function() {
+		colorProfile();
+	})
 }
 
 // Handles the Isotope grids and sorting
@@ -234,7 +298,13 @@ function showAddForm() {
 		e.preventDefault();
 		var target = $(e.target);
 		if (target.is('#add-gif-submit')) {
-			$('.loading-wrapper').toggleClass('hidden');
+			var html = '<div class="lightbox loading-wrapper main-loading hidden">' +
+						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
+						'<div>Processing, one moment please...</div></div>' +
+						'</div>';
+			$('body').append(html);
+			colorPageElements();
+			$('.main-loading').toggleClass('hidden');
 			$(this).children('form').submit();
 		} else if (target.is('form, input, h1')) {
 			// Nothing
@@ -250,7 +320,7 @@ function gifGrabber() {
 	$('.gifgrabber-btn').on('click', function() {		
 		gifGrabberAjax();
 		$(this).toggleClass('red-btn-selected');
-		$('.gifgrabber-form-wrapper').toggleClass('hidden');		
+		$('.gifgrabber-form-wrapper').toggleClass('hidden');	
 		setTimeout(function() {
 			colorMainForm();
 		}, 1);
@@ -264,18 +334,24 @@ function gifGrabber() {
 		} else {
 			$(this).toggleClass('hidden');
 			$('.gifgrabber-btn').toggleClass('red-btn-selected');
-			gifGrabberTeardown();
 		}
 	});
 	$('.grabber-new-search').on('click', function() {		
 		gifGrabberTeardown();
 	});
+	// Submit
 	$('.grabber-add-gifs-btn').on('click', function(e) {
 		e.preventDefault();
 		updateGrabberValues();
 		if ($('#gifgrabber-values').val() === '') {
 			// Nothing
 		} else {
+			var html = '<div class="lightbox loading-wrapper main-loading hidden">' +
+						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
+						'<div>Processing, one moment please...</div></div>' +
+						'</div>';
+			$('body').append(html);
+			colorPageElements();
 			$('.main-loading').toggleClass('hidden');
 			$('#grabber-add-form').submit();
 		}		
@@ -386,7 +462,7 @@ function updateSelectedGifs() {
 	if (selectedCount > 0) {
 		$('.grabber-selected-gifs').removeClass('hidden');
 		$('.selected-gifs-number').text(selectedCount);
-		var color = colors[(Math.random() * (colors.length - 0 + 1) ) << 0];
+		var color = COLORS[(Math.random() * (COLORS.length - 0 + 1) ) << 0];
 		$('.selected-gifs-number').css('background-color', color);
 	} else {
 		$('.grabber-selected-gifs').addClass('hidden');
@@ -395,7 +471,7 @@ function updateSelectedGifs() {
 
 // Hides form, loading screen, shows results page
 function gifGrabberSetup() {
-	$('#grabber-loading').addClass('hidden');
+	$('#grabber-loading').remove();
 	$('.gifgrabber-form').addClass('hidden');
 	$('.gifgrabber-container').addClass('gifgrabber-expanded');					
 	$('.gifgrabber-results').removeClass('hidden');
@@ -426,7 +502,13 @@ function gifGrabberAjax() {
 		if (subreddit === '') {
 			// Nothing
 		} else {	
-			$('#grabber-loading').removeClass('hidden');				
+			var html = '<div id="grabber-loading" class="lightbox hidden">' +
+						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' + 
+						'<div>Processing, one moment please...</div>' +
+						'</div></div>';
+			$('.gifgrabber-container').append(html);
+			colorPageElements();
+			$('#grabber-loading').removeClass('hidden');			
 			ajaxCSRF();
 			$.ajax({
 				url: '/u/gifgrabber/',
@@ -436,7 +518,7 @@ function gifGrabberAjax() {
 					'sort': sort
 				},
 				success: function(json) {					
-					var shuffledColors = shuffle(colors);
+					var shuffledColors = shuffle(COLORS);
 					var counter = 0;
 					var allowed = ['.gifv', '.mp4', '.webm'];
 					var gifNumber = '<div class="grabber-data gif-number animate" style="background-color: ' + shuffledColors[0] + '">' + json['number_gifs'] + '<div class="grabber-data-label">GIFs Found</div></div>';
@@ -574,8 +656,7 @@ function clickGifElements(logged_in) {
 		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
 
 		if ($(this).parent().hasClass('focused')) {
-			var colors = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-			var color  = colors[Math.floor(Math.random() * colors.length)];
+			var color  = COLORS[Math.floor(Math.random() * COLORS.length)];
 			$(this).parent().css({
 				'background-color': color
 			});
@@ -789,10 +870,16 @@ function deleteProfile() {
 // Hides/shows party mode wrapper, starts/stop background change interval
 function partyModeToggle() {
 	$('.party-mode-icon').on('click', function() {
-		var tagTitle = $(this).parents('.tag-group').find('.tag-title').text();
-		$('.party-mode-tag-title').text(tagTitle);
+		var tagTitle = $(this).parents('.tag-group').find('.tag-title').text();		
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
+		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
+					'<div class="lightbox-cancel animate"><div>Cancel Party Mode</div>' +
+					'<i class="fa fa-times"></i></div><div class="party-mode-tag-title"></div>' + 
+					'<div class="party-mode-container"></div>' + 
+					'</div>';
+		$('body').append(html);
+		$('.party-mode-tag-title').text(tagTitle);
 		$('.party-mode-wrapper').css('background-color', rgba);
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));
@@ -801,9 +888,8 @@ function partyModeToggle() {
 			var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';			
 			$('.party-mode-wrapper').css('background-color', rgba);
 		}, 1500);
-		$('.party-mode-cancel').on('click', function() {
-			$('.party-mode-wrapper').addClass('hidden');
-			$('.party-mode-container').empty();
+		$('.lightbox-cancel').on('click', function() {
+			$('.party-mode-wrapper').remove();
 			clearInterval(backgroundChange);
 		});
 		manualFocusGif();
@@ -820,10 +906,15 @@ function partyMode(tagGroup) {
 		var lastPeriod = url.lastIndexOf('.');
 		var extension = url.slice(lastPeriod + 1, url.length);
 		var title = $(this).children('.gif-label').text();
+		if (title.length < 1) {
+			var labelClass = 'hidden';
+		} else {
+			var labelClass = '';
+		}
 		if (extension === 'gif') {
-			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label">' + title + '</div></div>';
+			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label">' + title + '</div></div>';
+			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		}
 		html += element;
 	});

@@ -341,7 +341,7 @@ def bulk_add_gifs(request):
         if request.method == 'POST':
             username = request.user.username
             user_id = int(request.POST['user_id'])
-            values = str(request.POST['values'])
+            values = unicode(request.POST['values'])
             values = values.split('|')
             results = []
             for value in values:

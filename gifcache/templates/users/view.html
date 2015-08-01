@@ -29,8 +29,14 @@
         {% endif %}
     </div>
 
+    <br>
+
     {% if gifs or can_edit %}
-    <div class="inner-nav animate-bg">
+    {% if logged_in %}
+    <div class="inner-nav animate-bg" style="max-width: 37em;">
+    {% else %}
+    <div class="inner-nav animate-bg" style="max-width: 15em;">
+    {% endif %}
         {% if tags %}
         <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
             Tags
@@ -100,7 +106,7 @@
         </div>
         {% endif %}
 
-        <div class="sort btn inner-nav-btn peach-btn">Sort
+        <div class="sort btn inner-nav-btn peach-btn animate-fast">Sort
             <div class="sort-options hidden">
                 <div class="sort-label btn green-btn">Label</div>
                 <div class="sort-date btn blue-btn">Date</div>
@@ -108,7 +114,22 @@
             </div>
         </div>
 
-        <a class="top" href="#top" style="color: white;"><div class="top btn inner-nav-btn purple-btn">Top</div></a>
+        <div class="nav-settings-icon animate-fast">
+            <i class="fa fa-cog"></i>
+            <div class="nav-settings hidden">
+                <a class="top" href="#top" style="color: white;">
+                <div class="nav-setting-icon animate-fast">
+                    <i class="fa fa-arrow-circle-up"></i>
+                    <div class="label">Top</div>
+                </div>
+                </a>
+
+                <div class="nav-setting-icon color-btn animate-fast">
+                    <i class="fa fa-paint-brush"></i>
+                    <div class="label">Colors</div>
+                </div>
+            </div>
+        </div>
         {% endif %}
     </div>
     {% endif %}
@@ -140,14 +161,22 @@
 
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
-                        <div class="tag-manager-title">Tag Options</div>
+                        <div class="title tag-manager-title animate-bg">Tag Options</div>
                         {% if can_edit %}
-                        <div class="rename btn green-btn">Rename</div>
-                        <div class="delete btn red-btn">Delete</div>
+                        <div class="tag-manager-section" style="margin-top: 1.25em;">
+                            <div class="tag-manager-section-title tasks-title animate">Tasks</div>
+                            <div class="rename btn green-btn">Rename</div>
+                            <div class="delete btn red-btn">Delete</div>
+                        </div>
                         {% endif %}
-                        <div class="party-mode-icon animate">
-                            <img src="/static/img/disco_kid.gif">
-                            <div class="party-mode-icon-text animate">Party Mode</div>
+                        <div class="tag-manager-section display-section" style="margin-bottom: .05em;">
+                            <div class="tag-manager-section-title display-title animate">Display</div>
+                            <div class="party-mode-icon animate">
+                                <img src="/static/img/disco_kid.gif">
+                                <div class="party-mode-icon-text animate">Party Mode</div>
+                            </div>
+
+                            <i class="display-grid-icon fa fa-th-large animate-fast"></i>
                         </div>
                     </div>
 
@@ -387,10 +416,6 @@
                     </form>
 
                     <div id="grabber-results" class="grabber-results-grid"></div>
-                </div>
-
-                <div id="grabber-loading" class="loading-wrapper hidden">
-                    <div class="loading"><i class="fa fa-spinner fa-pulse"></i><div>Processing, one moment please...</div></div>
                 </div>
             </div>
         </div>
