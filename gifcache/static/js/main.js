@@ -9,7 +9,6 @@ $(document).ready(function () {
 	showAddForm();
 	gifGrabber();
 	gifGrabberSuggestions();
-	setInterval(function() {gifGrabberSuggestions()}, 8000);
 	hoverGifs();
 	copyUrl();
 	addTags();
@@ -316,24 +315,52 @@ function gifGrabber() {
 }
 
 // Fades in subreddit suggestions for GifGrabber
-function gifGrabberSuggestions() {
-	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops', 'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs', 'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs', 'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs', 'wastedgifs'];	
+function gifGrabberSuggestions() {	
+	var alreadyExists = $('.subreddit-suggestions').length;
+	if (alreadyExists) {
+		// Nothing
+	} else {
+		var container = '<div class="subreddit-suggestions animate">' +
+						'<div class="suggestions-title">Subreddit Suggestions</div>' +
+						'<div class="suggestions"></div></div>';
+		$('.gifgrabber-form').prepend(container);
+	}	
 	function clickSuggestions() {
 		$('.suggestion').on('click', function() {
 			$('.subreddit-field').val('');
 			$('.subreddit-field').val($(this).text());
 		});
 	}
-	choices = shuffle(suggestions);
-	var choice1 = '<div class="suggestion animate">' + choices[0] + '</div>';
-	var choice2 = '<div class="suggestion animate">' + choices[1] + '</div>';
-	var choice3 = '<div class="suggestion animate">' + choices[2] + '</div>';
-	var html = choice1 + choice2 + choice3;		
+	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops', 
+						'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs', 
+						'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs', 
+						'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs', 
+						'wastedgifs'];
+	choices = shuffle(suggestions);	
+	var choice1 = '<div class="suggestion animate-fast">' + choices[0] + '</div>';
+	var choice2 = '<div class="suggestion animate-fast">' + choices[1] + '</div>';
+	var choice3 = '<div class="suggestion animate-fast">' + choices[2] + '</div>';
+	var containerEnd = '</div></div>';
+	var html = choice1 + choice2 + choice3;	
 	$('.suggestions').fadeOut('slow', function() {
-		$(this).empty();
-		$(this).append(html).fadeIn('slow');
+		$(this).empty();		
+		$(this).append(html);
+		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		var counter = randomnumber;
+		$('.suggestion').each(function() {		
+			if (counter > COLORS.length - 1 ) {
+				counter = 0;
+			}
+			var color = COLORS[counter];
+			$(this).css('background-color', color);
+			counter += 1
+		});
+		$(this).fadeIn('slow');
 		clickSuggestions();
-	});
+	});	
+	setTimeout(function() {		
+		gifGrabberSuggestions();
+	}, 8000);
 }
 
 // Logic for when Grabber result is clicked (hidden fields/feedback elements updated)
@@ -667,6 +694,10 @@ function bulkOperations() {
 			grabBulkValues();
 		});
 	});
+	var html = '<div class="bulk-selected-gifs pulse hidden">' +
+		'<div class="bulk-selected-gifs-number animate"></div>' +
+		'</div>';
+	$('#bulk-operations').prepend(html);
 }
 
 // Shows/hides various bulk task forms
@@ -689,6 +720,7 @@ function showBulkOptions() {
 function bulkSelect() {
 	$('.bulk-wrapper').on('click', function() {
 		$(this).children('i').toggleClass('fa-circle-o, fa-circle');
+		updateBulkValue();
 	});
 }
 
@@ -706,6 +738,27 @@ function grabBulkValues() {
 	$('#bulk-operations').find('.bulk-values').each(function(){
 		$(this).val(ids.join());
 	});
+}
+
+// Updates visual feedback for how many GIFs selected for bulk operations
+function updateBulkValue() {	
+	var selected = 0;
+	$('.bulk-wrapper').each(function() {
+		if ($(this).children('i').hasClass('fa-circle')) {
+			selected += 1
+		} else {
+			// Nothing
+		}
+	});
+	if (selected > 0) {
+		// Show selected GIFs
+		$('.bulk-selected-gifs').removeClass('hidden');
+	} else {
+		$('.bulk-selected-gifs').addClass('hidden');
+	}
+	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0;
+	$('.bulk-selected-gifs-number').css('background-color', COLORS[randomnumber]);
+	$('.bulk-selected-gifs-number').text(selected);
 }
 
 // Records tag ID in text field, applies CSS class for UX feedback
@@ -829,11 +882,14 @@ function gridView() {
 	$('.display-grid-icon').on('click', function() {
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-cancel animate"><div>Cancel Grid View</div>' +
-					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' +
-					'<div class="grid-view-container"></div>';
+					'<div class="lightbox-tag-title"></div><div class="lightbox-cancel animate">' + 
+					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
+					'<div class="lightbox-title pulse"><div class="lobster">Grid</div><div class="pt">View</div></div>' +
+					'<div class="grid-view-wrapper"><div class="grid-view-container"></div></div>' +
 					'</div>';
 		$('body').append(html);
+		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
 		$('.lightbox-tag-title').text(tagTitle);
 		populateGrid($(this));
 		$('.lightbox-cancel').on('click', function() {
@@ -842,6 +898,7 @@ function gridView() {
 	});
 }
 
+// Grabs images from tag-group div, adds them to generated HTML
 function populateGrid(icon) {
 	var tagGroup = $(icon).parents('.tag-group');
 	var title = tagGroup.find('.tag-title').text();
@@ -857,18 +914,21 @@ function populateGrid(icon) {
 			var labelClass = '';
 		}
 		if (extension === 'gif') {
-			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + 
+							url + '" class="animate"><div class="label grabber-lightbox-label' + 
+							labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="grid-img-wrapper animate-fast"><video src="' + url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+			var element = '<div class="grid-img-wrapper animate-fast"><video src="' +
+							url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' +
+							labelClass + '">' + title + '</div></div>';
 		}
 		html += element;
 	});
 	$('.grid-view-container').append(html);
 	$('.grid-view-container').isotope({
 		itemSelector: '.grid-img-wrapper',
-		percentPosition: true,
 		masonry: {
-			columnWidth: '.grid-img-wrapper'
+			columnWidth: '.grid-img-wrapper',
 		}
 	});
 }
@@ -882,9 +942,12 @@ function partyModeToggle() {
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
 					'<div class="lightbox-cancel animate"><div>Cancel Party Mode</div>' +
 					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' + 
+					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
 					'<div class="party-mode-container"></div>' + 
 					'</div>';
 		$('body').append(html);
+		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
 		$('.lightbox-tag-title').text(tagTitle);
 		$('.party-mode-wrapper').css('background-color', rgba);
 		$('.party-mode-wrapper').removeClass('hidden');

@@ -62,6 +62,20 @@ select:hover {
 	color: white;
 }
 
+.lightbox-title {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 3.2em;
+}
+
+.lightbox-title div {
+	display: inline-block;
+}
+
 .lightbox-cancel {
 	display: inline-block;
 	position: absolute;
@@ -113,6 +127,7 @@ select:hover {
 .loading i {
 	margin: .1em;
 	font-size: 7em;
+	color: #72ADD3;
 }
 
 #grabber-loading {
@@ -662,7 +677,7 @@ select:hover {
 
 .bulk-btn {
 	display: inline-block;
-	margin: .25em auto;
+	margin: .45em auto;
 	width: 25%;
 	min-width: 7em;
 	height: 2em;
@@ -846,7 +861,6 @@ select:hover {
 	display: inline-block;
 	position: relative;
 	margin: 1em .25em;
-	opacity: 0.9;
 	width: 40%;
 	max-width: 12em;
 	line-height: 2em;
@@ -1251,7 +1265,7 @@ select:hover {
 	position: absolute;
 	z-index: 6;
 	margin: 0 auto;
-	top: 4.25em;
+	margin-top: 1em;
 	left: 0;
 	right: 0;
 	padding: .5em;
@@ -1317,12 +1331,12 @@ select:hover {
 	display: inline-block;
 	margin: .25em auto;
 	padding: .35em;
-	font-size: .8em;
-	color: white;
 	line-height: 1.5em;
 	height: 1.5em;
 	width: 1.5em;
+	font-size: .8em;
 	color: white;
+	background-color: #72ADD3;	
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
@@ -1918,12 +1932,32 @@ select:hover {
 }
 
 /* Grid View */
-.grid-view-container {
+.grid-view-wrapper {
 	position: relative;
 	margin: 0 auto;
-	top: 20%;
-	width: 80%;
-	height: 80%;
+	padding: 5em;
+	max-width: 80%;
+	max-height: 82%;
+	min-height: 82%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+div.grid-view-wrapper::-webkit-scrollbar {
+    width: 3px;
+}
+
+div.grid-view-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+div.grid-view-wrapper::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px #45c788;
+}
+
+.grid-view-container {
+	position: relative;
+	margin: 0 auto;	
 }
 
 .grid-img-wrapper {
@@ -1933,7 +1967,7 @@ select:hover {
 }
 
 .grid-img-wrapper:hover {
-	transform: scale(3);
+	transform: scale(2);
 	z-index: 20;
 }
 
@@ -2148,16 +2182,14 @@ select:hover {
 	position: relative;
 	margin: .5em;
 	padding: .35em .75em;
-	border: .1em solid white;
-	border-radius: .25em;
+	border: .2em solid white;
+	border-radius: .4em;
 	font-size: .8em;
 }
 
 .suggestion:hover {
 	cursor: pointer;
-	background-color: white;
-	color: #4c4c4c;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	transform: scale(1.2);
 }
 
 .suggestion:active {
@@ -2341,7 +2373,7 @@ select:hover {
 	top: .3em;
 }
 
-.grabber-selected-gifs {
+.grabber-selected-gifs, .bulk-selected-gifs {
 	display: inline-block;
 	position: absolute;
 	z-index: 2;
@@ -2350,12 +2382,13 @@ select:hover {
 	margin: .5em auto;	
 }
 
-.selected-gifs-number {
+.selected-gifs-number, .bulk-selected-gifs-number  {
 	margin: 0 auto;
 	width: 1.5em;
 	height: 1.5em;
 	line-height: 1.5em;
 	font-size: 1.5em;
+	color: white;
 	border: .1em solid white;
 	border-radius: 50%;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -2363,6 +2396,18 @@ select:hover {
 
 .selected-gifs-blurb {
 	font-size: .65em;
+}
+
+.bulk-selected-gifs {
+	right: 0.6em;
+	top: -.2em;
+}
+
+.bulk-selected-gifs-number {	
+	width: 1.25em;
+	height: 1.25em;
+	line-height: 1.25em;
+	font-size: 1.5em;
 }
 
 .grabber-data {
@@ -2375,7 +2420,7 @@ select:hover {
 	line-height: 1.1em;
 	font-size: 1.5em;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-	border: .1em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .grabber-data-label {
