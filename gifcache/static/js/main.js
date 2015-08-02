@@ -21,55 +21,6 @@ $(document).ready(function () {
 	partyModeToggle();
 });
 
-var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-
-// Setup/Teardown of grid view
-function gridView() {
-	$('.display-grid-icon').on('click', function() {
-		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-cancel animate"><div>Cancel Grid View</div>' +
-					'<i class="fa fa-times"></i></div>' +
-					'<div class="grid-view-container"></div>';
-					'</div>';
-		$('body').append(html);
-		populateGrid($(this));
-		$('.lightbox-cancel').on('click', function() {
-			$('.lightbox').remove();
-		});
-	});
-}
-
-function populateGrid(icon) {
-	var tagGroup = $(icon).parents('.tag-group');
-	var title = tagGroup.find('.tag-title').text();
-	var html = '';
-	$(tagGroup).find('.gif-grid-element').each(function() {		
-		var url = $(this).children('.display-url').val();
-		var lastPeriod = url.lastIndexOf('.');
-		var extension = url.slice(lastPeriod + 1, url.length);
-		var title = $(this).children('.gif-label').text();
-		if (title.length < 1) {
-			var labelClass = 'hidden';
-		} else {
-			var labelClass = '';
-		}
-		if (extension === 'gif') {
-			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
-		} else if (extension === 'mp4') {
-			var element = '<div class="grid-img-wrapper animate-fast"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
-		}
-		html += element;
-	});
-	$('.grid-view-container').append(html);
-	$('.grid-view-container').isotope({
-		itemSelector: '.grid-img-wrapper',
-		percentPosition: true,
-		masonry: {
-			columnWidth: '.grid-img-wrapper'
-		}
-	});
-}
-
 // Standard Fisher-Yates shuffle algorithm
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
@@ -100,11 +51,15 @@ function homeFadeIn() {
 	}, 1600);
 }
 
+var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+var HOME_COLORS = ['#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {	
 	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 	var counter = randomnumber;
-	$('.loading i, .home-arrow').css({'color': COLORS[randomnumber]});	
+	$('.loading i').css({'color': COLORS[randomnumber]});	
 	$('.nav-logo-circle').css({
 		'background-color': COLORS[randomnumber]
 	});	
@@ -115,10 +70,10 @@ function colorPageElements() {
 		});
 	});
 	$('.home-section, .home-whatsnew-version').each(function() {
-		if (counter > COLORS.length - 1 ) {
+		if (counter > HOME_COLORS.length - 1 ) {
 			counter = 0;
 		}
-		var homeColor = COLORS[counter];
+		var homeColor = HOME_COLORS[counter];
 		$(this).css({
 			'background-color': homeColor
 		});
@@ -147,10 +102,10 @@ function colorPageElements() {
 
 // Colors the border-bottom CSS property of the main form elements
 function colorMainForm() {
-	var randomnumber = (Math.random() * (COLORS.length - 1) ) << 0
+	var randomnumber = (Math.random() * (GIF_COLORS.length - 1) ) << 0
 	var counter = randomnumber;
 	$('.main-form, .main-form h1, .title, .suggestions-title').css({
-		'background-color': COLORS[counter]
+		'background-color': GIF_COLORS[counter]
 	});
 	counter += 1;
 	$('.main-field').each(function() {
@@ -178,6 +133,11 @@ function colorProfile() {
 	$('.profile-avatar img, .profile-avatar video').css({
 		'background-color': profileInfoColor
 	});
+	$('.nav-setting-icon').each(function() {
+		var rand = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		var color = COLORS[rand];
+		$(this).css('background-color', color);
+	});
 	$('.tag-group').each(function() {
 		if (counter > COLORS.length - 1 ) {
 			counter = 0;
@@ -186,10 +146,7 @@ function colorProfile() {
 		$(this).css({
 			'background-color': color
 		});		
-		$(this).find('.tag-manager-options .title, .tag-manager-section-title').css({
-			'background-color': color
-		});
-		$(this).find('.tag-manager-options-title').css({
+		$(this).find('.tag-manager-options .title, .tag-manager-section-title, .tag-manager-options-title').css({
 			'background-color': color
 		});
 		$(this).find('.tag-title').css('background-color', color);
@@ -274,12 +231,12 @@ function tagManager() {
 		$(this).toggleClass('tag-settings-icon-clicked');
 	});
 	$('.rename').on('click', function() {
-		var form = $(this).parent().siblings('.tag-manager-form').children('.rename-tag-form');
+		var form = $(this).parents('.tag-manager-options').siblings('.tag-manager-form').children('.rename-tag-form');
 		form.toggleClass('hidden');
 		$(this).toggleClass('green-btn-selected');
 	});
 	$('.delete').on('click', function() {
-		var form2 = $(this).parent().siblings('.tag-manager-form').children('.delete-tag-form');
+		var form2 = $(this).parents('.tag-manager-options').siblings('.tag-manager-form').children('.delete-tag-form');
 		form2.toggleClass('hidden');
 		$(this).toggleClass('red-btn-selected');
 	});
@@ -416,7 +373,7 @@ function grabberLightbox(url, title) {
 	if (extension === 'gif') {
 		var element = '<img class="grabber-expanded" src="' + url + '">';
 	} else if (extension === 'mp4') {
-		var element = '<video src="' + url + '" autoplay loop class="grabber-expanded"></video>';
+		var element = '<video src="' + url + '" autoplay loop class="grabber-expanded" poster="../static/img/preload.gif"></video>';
 	}	
 	var title = '<div class="label grabber-lightbox-label">' + title + '</div>';
 	var html = element + title;
@@ -530,7 +487,7 @@ function gifGrabberAjax() {
 							var url = json['gifs'][i][0];
 							lastPeriod = url.lastIndexOf('.');
 							url = url.substring(0, lastPeriod) + '.mp4';
-							var img = '<video class="grabber-gif" src="' + url + '" autoplay loop></video>';
+							var img = '<video class="grabber-gif" src="' + url + '" autoplay loop poster="../static/img/preload.gif"></video>';
 						} else {
 							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';	
 						}						
@@ -603,7 +560,7 @@ function hoverGifs() {
 			var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 			var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
 			if (isGifv || isMp4 || isWebm || isGfycat) {
-				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop></video></div>'
+				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
 			} else {
 				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
 			}
@@ -656,7 +613,7 @@ function clickGifElements(logged_in) {
 		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
 
 		if ($(this).parent().hasClass('focused')) {
-			var color  = COLORS[Math.floor(Math.random() * COLORS.length)];
+			var color  = GIF_COLORS[Math.floor(Math.random() * GIF_COLORS.length)];
 			$(this).parent().css({
 				'background-color': color
 			});
@@ -867,19 +824,68 @@ function deleteProfile() {
 	});
 }
 
+// Setup/Teardown of grid view
+function gridView() {
+	$('.display-grid-icon').on('click', function() {
+		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
+		var html = '<div class="lightbox grid-wrapper">' +
+					'<div class="lightbox-cancel animate"><div>Cancel Grid View</div>' +
+					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' +
+					'<div class="grid-view-container"></div>';
+					'</div>';
+		$('body').append(html);
+		$('.lightbox-tag-title').text(tagTitle);
+		populateGrid($(this));
+		$('.lightbox-cancel').on('click', function() {
+			$('.lightbox').remove();
+		});
+	});
+}
+
+function populateGrid(icon) {
+	var tagGroup = $(icon).parents('.tag-group');
+	var title = tagGroup.find('.tag-title').text();
+	var html = '';
+	$(tagGroup).find('.gif-grid-element').each(function() {		
+		var url = $(this).children('.display-url').val();
+		var lastPeriod = url.lastIndexOf('.');
+		var extension = url.slice(lastPeriod + 1, url.length);
+		var title = $(this).children('.gif-label').text();
+		if (title.length < 1) {
+			var labelClass = 'hidden';
+		} else {
+			var labelClass = '';
+		}
+		if (extension === 'gif') {
+			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+		} else if (extension === 'mp4') {
+			var element = '<div class="grid-img-wrapper animate-fast"><video src="' + url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+		}
+		html += element;
+	});
+	$('.grid-view-container').append(html);
+	$('.grid-view-container').isotope({
+		itemSelector: '.grid-img-wrapper',
+		percentPosition: true,
+		masonry: {
+			columnWidth: '.grid-img-wrapper'
+		}
+	});
+}
+
 // Hides/shows party mode wrapper, starts/stop background change interval
 function partyModeToggle() {
 	$('.party-mode-icon').on('click', function() {
-		var tagTitle = $(this).parents('.tag-group').find('.tag-title').text();		
+		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
 					'<div class="lightbox-cancel animate"><div>Cancel Party Mode</div>' +
-					'<i class="fa fa-times"></i></div><div class="party-mode-tag-title"></div>' + 
+					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' + 
 					'<div class="party-mode-container"></div>' + 
 					'</div>';
 		$('body').append(html);
-		$('.party-mode-tag-title').text(tagTitle);
+		$('.lightbox-tag-title').text(tagTitle);
 		$('.party-mode-wrapper').css('background-color', rgba);
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));
@@ -914,7 +920,7 @@ function partyMode(tagGroup) {
 		if (extension === 'gif') {
 			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		}
 		html += element;
 	});

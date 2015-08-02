@@ -35,10 +35,10 @@
     {% if logged_in %}
     <div class="inner-nav animate-bg" style="max-width: 37em;">
     {% else %}
-    <div class="inner-nav animate-bg" style="max-width: 15em;">
+    <div class="inner-nav animate-bg" style="max-width: 22em;">
     {% endif %}
         {% if tags %}
-        <div class="inner-nav-tags btn inner-nav-btn yellow-btn">
+        <div class="inner-nav-tags btn inner-nav-btn purple-btn">
             Tags
             <div class="inner-tag-nav hidden">
                 {% for tag in tags %}
@@ -52,11 +52,10 @@
         <div class="add-gif-form-button btn green-btn">
             Add GIF
         </div>
-
+        {% endif %}
         <div class="gifgrabber-btn btn inner-nav-btn red-btn">
             Gif<div class="lobster">Grabber</div>
         </div>
-        {% endif %}
 
         {% if gifs %}
         {% if can_edit %}
@@ -161,7 +160,7 @@
 
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
-                        <div class="title tag-manager-title animate-bg">Tag Options</div>
+                        <div class="tag-title tag-manager-title animate-bg">Tag Options</div>
                         {% if can_edit %}
                         <div class="tag-manager-section" style="margin-top: 1.25em;">
                             <div class="tag-manager-section-title tasks-title animate">Tasks</div>
@@ -359,66 +358,68 @@
     </div>
     {% else %}
         {% if can_edit %}
-            <div class="welcome-msg">Welcome to your GifCache!</div>
+        <div class="welcome-msg">Welcome to your GifCache!</div>
         {% else %}
-            <div class="welcome-msg">{{ name }} hasn't added any GIFs yet</div>
+        <div class="welcome-msg">{{ name }} hasn't added any GIFs yet</div>
         {% endif %}
     {% endif %}
 
     <!-- GifGrabber -->
-    {% if can_edit %}
-        <div class="gifgrabber-form-wrapper hidden">
-            <div class="gifgrabber-container main-form animate">
-                <div class="grabber-lightbox hidden"></div>
-                <div class="gifgrabber-title"><div style="font-family: 'PT Sans';">GIF</div>Grabber</div>
-                <div class="gifgrabber-title-blurb">Grab GIFs directly from reddit</div>
+    <div class="gifgrabber-form-wrapper hidden">
+        <div class="gifgrabber-container main-form animate">
+            <div class="grabber-lightbox hidden"></div>
+            <div class="gifgrabber-title"><div style="font-family: 'PT Sans';">GIF</div>Grabber</div>
+            <div class="gifgrabber-title-blurb">Grab GIFs directly from reddit</div>
 
-                <div id="grabber-error" class="message hidden"></div>
+            <div id="grabber-error" class="message hidden"></div>
 
-                <form class="gifgrabber-form">
-                    <div class="subreddit-suggestions animate">
-                        <div class="suggestions-title">Subreddit Suggestions</div>
-                        <div class="suggestions"></div>
-                    </div>
+            <form class="gifgrabber-form">
+                <div class="subreddit-suggestions animate">
+                    <div class="suggestions-title">Subreddit Suggestions</div>
+                    <div class="suggestions"></div>
+                </div>
 
-                    <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
-                    <div class="label">Subreddit</div>
+                <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
+                <div class="label">Subreddit</div>
 
-                    <select class="sort-field animate">
-                        <option value="hot">Hot</option>
-                        <option value="new">New</option>
-                        <option value="week">Week</option>
-                        <option value="month">Month</option>
-                        <option value="year">Year</option>
-                        <option value="all">All</option>
-                    </select>
-                    <div class="label">Submission Sort</div>
+                <select class="sort-field animate">
+                    <option value="hot">Hot</option>
+                    <option value="new">New</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                    <option value="all">All</option>
+                </select>
+                <div class="label">Submission Sort</div>
 
-                    <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
+                <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
+            </form>
+
+            <div class="gifgrabber-results animate hidden">
+                <div class="grabber-new-search btn blue-btn">New Search</div>
+
+                <div class="grabber-selected-gifs pulse hidden">
+                    <div class="selected-gifs-number animate"></div>
+                    <div class="selected-gifs-blurb">GIFs Selected</div>
+                </div>
+
+                <div class="grabber-data-container"></div>
+
+                <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post" class="hidden">
+                    {% csrf_token %}
+                    <input id="gifgrabber-values" name="values" type="text" class="hidden">
+                    <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
+                    {% if can_edit %}
+                    <input type="submit" class="btn green-btn grabber-add-gifs-btn" value="Add Gifs">
+                    {% else %}
+                    <input type="submit" class="btn green-btn inactive-grabber-add-gifs-btn" value="Log In to Add GIFs!">
+                    {% endif %}
+                    <div class="holder"></div>
                 </form>
 
-                <div class="gifgrabber-results animate hidden">
-                    <div class="grabber-new-search btn blue-btn">New Search</div>
-
-                    <div class="grabber-selected-gifs pulse hidden">
-                        <div class="selected-gifs-number animate"></div>
-                        <div class="selected-gifs-blurb">GIFs Selected</div>
-                    </div>
-
-                    <div class="grabber-data-container"></div>
-
-                    <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post" class="hidden">
-                        {% csrf_token %}
-                        <input id="gifgrabber-values" name="values" type="text" class="hidden">
-                        <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
-                        <input type="submit" class="btn green-btn grabber-add-gifs-btn" value="Add Gifs">
-                        <div class="holder"></div>
-                    </form>
-
-                    <div id="grabber-results" class="grabber-results-grid"></div>
-                </div>
+                <div id="grabber-results" class="grabber-results-grid"></div>
             </div>
         </div>
-    {% endif %}
+    </div>
 </div>
 {% endblock content %}

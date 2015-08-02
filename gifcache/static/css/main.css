@@ -85,6 +85,18 @@ select:hover {
 	font-size: 1.2em;
 }
 
+.lightbox-tag-title {
+	display: inline-block;
+	position: absolute;
+	z-index: 20;
+	padding: .5em;
+	top: .25em;
+	left: .25em;
+	background-color: #4c4c4c;
+	color: white;
+	border-radius: .25em;
+}
+
 #grabber-loading {
 	position: absolute;
 }
@@ -834,13 +846,14 @@ select:hover {
 	display: inline-block;
 	position: relative;
 	margin: 1em .25em;
+	opacity: 0.9;
 	width: 40%;
 	max-width: 12em;
 	line-height: 2em;
 	font-size: 1.75em;
 	font-family: 'PT Sans', sans-serif;
 	color: white;
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: #25b972;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .15em;
 }
@@ -1309,15 +1322,14 @@ select:hover {
 	line-height: 1.5em;
 	height: 1.5em;
 	width: 1.5em;
-	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .nav-setting-icon:hover {
 	cursor: pointer;
-	color: #25B972;
-	background-color: rgba(0, 0, 0, 0.8);
+	transform: scale(1.2);
 }
 
 .nav-setting-icon:active {
@@ -1883,18 +1895,6 @@ select:hover {
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-.party-mode-tag-title {
-	display: inline-block;
-	position: absolute;
-	z-index: 20;
-	padding: .5em;
-	top: .25em;
-	left: .25em;
-	background-color: #4c4c4c;
-	color: white;
-	border-radius: .25em;
-}
-
 .party-mode-container {
 	position: relative;
 	z-index: 11;
@@ -1922,7 +1922,7 @@ select:hover {
 	position: relative;
 	margin: 0 auto;
 	top: 20%;
-	width: 100%;
+	width: 80%;
 	height: 80%;
 }
 
@@ -2256,13 +2256,17 @@ select:hover {
 	color: #ff3434;
 }
 
-.grabber-add-gifs-btn {
+.grabber-add-gifs-btn, .inactive-grabber-add-gifs-btn {
 	margin: 1em auto;
 	margin-top: .1em;
 	width: 80%;
 	height: 2em !important;
 	border: none !important;
 	font-size: 1.2em !important;
+}
+
+.inactive-grabber-add-gifs-btn {
+	opacity: 0.4;
 }
 
 .grabber-results-element {
