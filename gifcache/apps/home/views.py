@@ -25,7 +25,7 @@ def get_nav_gifs():
     return len([f for f in files if f.startswith('navgif')])
 
 
-# Create your views here.
+# Create your views here.vicon
 def error403(request):
     home_gif = random.choice(xrange(get_home_gifs()))
     context = {

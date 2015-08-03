@@ -535,7 +535,7 @@ function gifGrabberAjax() {
 						var innerTagsLabel = '<div class="label">Tags</div>';
 						
 						var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel + innerTagsInput + innerTagsLabel + '</div>';
-						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element">' + hiddenUrl + img + extension + title + shortLink + expandIcon + innerHtml + '</div>';
+						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element animate-fast">' + hiddenUrl + img + extension + title + shortLink + expandIcon + innerHtml + '</div>';
 						$('.grabber-results-grid').append(html);
 						var elementId = '#grabber-gif-' + counter;
 						clickGrabberElements(elementId);
@@ -882,8 +882,11 @@ function gridView() {
 	$('.display-grid-icon').on('click', function() {
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-tag-title"></div><div class="lightbox-cancel animate">' + 
+					'<div class="lightbox-tag-title"></div><div class="lightbox-cancel lightbox-control animate-fast">' + 
 					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
+					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="1">' + 
+					'<div class="lightbox-control-label">GIF Size</div></div>' +
+					'<div class="grid-refresh lightbox-control animate-fast"><i class="fa fa-refresh"></i><div class="lightbox-control-label">Refresh Grid</div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Grid</div><div class="pt">View</div></div>' +
 					'<div class="grid-view-wrapper"><div class="grid-view-container"></div></div>' +
 					'</div>';
@@ -919,17 +922,43 @@ function populateGrid(icon) {
 							labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
 			var element = '<div class="grid-img-wrapper animate-fast"><video src="' +
-							url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' +
+							url + '" autoplay loop class="animate" poster="../static/img/preload.gif">' + 
+							'</video><div class="label grabber-lightbox-label' +
 							labelClass + '">' + title + '</div></div>';
 		}
 		html += element;
 	});
 	$('.grid-view-container').append(html);
-	$('.grid-view-container').isotope({
+	var grid = $('.grid-view-container').isotope({
 		itemSelector: '.grid-img-wrapper',
 		masonry: {
 			columnWidth: '.grid-img-wrapper',
+			isFitWidth: true
 		}
+	});
+	gridSlider(grid);
+	gridRefresh(grid);
+}
+
+function gridSlider(grid) {
+	$('#grid-slider').on('input', function() {		
+		var scaleValue = $(this).val();
+		var imgGrid = $(this).parent().siblings('.grid-view-wrapper').children('.grid-view-container');
+		imgGrid.children('.grid-img-wrapper').each(function() {
+			// $(this).css('transform', 'scale(' + scaleValue + ')');
+			$(this).css({
+				'width': scaleValue + 'em'
+			});
+		});
+	});
+	$('#grid-slider').on('change', function() {
+		grid.isotope('layout');
+	});
+}
+
+function gridRefresh(grid) {
+	$('.grid-refresh').on('click', function() {
+		grid.isotope('layout');
 	});
 }
 
@@ -940,7 +969,7 @@ function partyModeToggle() {
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
-					'<div class="lightbox-cancel animate"><div>Cancel Party Mode</div>' +
+					'<div class="lightbox-cancel lightbox-control animate-fast"><div>Cancel Party Mode</div>' +
 					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' + 
 					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
 					'<div class="party-mode-container"></div>' + 
@@ -981,9 +1010,13 @@ function partyMode(tagGroup) {
 			var labelClass = '';
 		}
 		if (extension === 'gif') {
-			var element = '<div class="party-img-wrapper"><img src="' + url + '" class="animate"><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+			var element = '<div class="party-img-wrapper"><img src="' + url + 
+						'" class="animate"><div class="label grabber-lightbox-label' + 
+						labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="party-img-wrapper"><video src="' + url + '" autoplay loop class="animate" poster="../static/img/preload.gif"></video><div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
+			var element = '<div class="party-img-wrapper"><video src="' + url + 
+						'" autoplay loop class="animate" poster="../static/img/preload.gif"></video>' +
+						'<div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		}
 		html += element;
 	});

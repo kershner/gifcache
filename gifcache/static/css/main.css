@@ -55,7 +55,7 @@ select:hover {
 }
 .lightbox-title {
 	display: inline-block;
-	position: absolute;
+	position: absolute;	
 	left: 0;
 	right: 0;
 	margin: 0 auto;
@@ -67,18 +67,11 @@ select:hover {
 }
 .lightbox-cancel {
 	display: inline-block;
-	position: absolute;
+	position: absolute !important;
 	z-index: 20;
 	padding: .5em;
 	top: .25em;
 	right: .25em;
-	background-color: #4c4c4c;
-	color: white;
-	border-radius: .25em;
-}
-.lightbox-cancel:hover {
-	cursor: pointer;
-	background-color: #ff3434;
 }
 .lightbox-cancel i, .lightbox-cancel div {
 	display: inline-block;
@@ -95,6 +88,26 @@ select:hover {
 	background-color: #4c4c4c;
 	color: white;
 	border-radius: .25em;
+}
+.lightbox-control {
+	position: absolute;
+	z-index: 12;
+	right: .5em;
+	padding: .5em;
+	background-color: #333333;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);	
+	border-radius: .25em;
+}
+.lightbox-control:hover {
+	cursor: pointer;
+	background-color: #45C788;
+}
+.lightbox-control:active {
+	margin-top: 4px;
+}
+.lightbox-control-label {
+	text-align: center;
+	font-size: .8em;
 }
 #grabber-loading {
 	position: absolute;
@@ -1014,7 +1027,8 @@ select:hover {
 	z-index: 10;
 	top: 0;
 	left: 50%;
-	width: 100%;
+	min-width: 15em;
+	width: 70%;
 	text-align: center;
 	border-radius: 0 0 .25em .25em;
 	-webkit-transform: translateX(-50%);
@@ -1585,7 +1599,7 @@ select:hover {
 	cursor: pointer;
 	z-index: 3;
 	transform: scale(1.1);
-	color: #ff3535;
+	color: #21a465;
 }
 .display-grid-icon:active {
 	top: 8px;
@@ -1651,7 +1665,7 @@ select:hover {
 	position: relative;
 	margin: 0 auto;
 	padding: 5em;
-	max-width: 80%;
+	max-width: 90%;
 	max-height: 82%;
 	min-height: 82%;
 	overflow-y: auto;
@@ -1668,7 +1682,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {
 }
 .grid-view-container {
 	position: relative;
-	margin: 0 auto;	
+	margin: 0 auto;
 }
 .grid-img-wrapper {
 	position: relative;
@@ -1676,8 +1690,18 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {
 	margin: 1em;
 }
 .grid-img-wrapper:hover {
-	transform: scale(2);
+	transform: scale(2) !important;
 	z-index: 20;
+}
+.grid-size-slider {	
+	top: 3.75em;
+}
+.grid-refresh {
+	top: 9em;
+	text-align: center;
+}
+.grid-refresh i {
+	font-size: 2em;	
 }
 .tag-manager-form form {
 	position: relative;
@@ -1979,7 +2003,12 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 .grabber-results-element:hover {
+	z-index: 2;
 	cursor: pointer;
+	transform: scale(1.1);
+}
+.grabber-results-element:active {
+	top: 4px;
 }
 .grabber-results-title {
 	position: relative;
