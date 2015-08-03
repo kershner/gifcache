@@ -5,3 +5,6 @@ credentials.py
 settings.py
 packery-mode.pkgd.min.js
 /static_prod/
+/static/js/jPages.min.js
+/static/js/jquery-ui.min.js
+/static/js/packery-mode.pkgd.min.js
