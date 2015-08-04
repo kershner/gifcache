@@ -62,6 +62,7 @@ select:hover {cursor: pointer;}
 	padding: .5em;
 	top: .25em;
 	right: .25em;
+	background-color: rgba(255, 78, 78, 0.6) !important;
 }
 .lightbox-cancel i, .lightbox-cancel div {
 	display: inline-block;
@@ -75,7 +76,7 @@ select:hover {cursor: pointer;}
 	padding: .5em;
 	top: .25em;
 	left: .25em;
-	background-color: #4c4c4c;
+	font-size: 2em;
 	color: white;
 	border-radius: .25em;
 }
@@ -90,7 +91,7 @@ select:hover {cursor: pointer;}
 }
 .lightbox-control:hover {
 	cursor: pointer;
-	background-color: #45C788;
+	background-color: #45C788 !important;
 }
 .lightbox-control:active {margin-top: 4px;}
 .lightbox-control-label {
@@ -126,6 +127,7 @@ select:hover {cursor: pointer;}
 .lobster {
 	display: inline-block;
 	font-family: 'Lobster', cursive;
+	color: #45C788;
 }
 .errorlist li {
 	list-style-type: none;
@@ -1134,7 +1136,7 @@ select:hover {cursor: pointer;}
 	border-radius: .5em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
-.tag-title {
+.tag-title {	
 	position: absolute;
 	padding: .15em .5em;
 	top: -1.1em;
@@ -1145,6 +1147,12 @@ select:hover {cursor: pointer;}
 	border-radius: .25em;
 	border: .1em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.gif-count {
+	position: relative;
+	margin: 0 !important;
+	margin-top: .75em !important;
+	font-size: .8em;
 }
 .tag-settings-icon {
 	position: absolute;

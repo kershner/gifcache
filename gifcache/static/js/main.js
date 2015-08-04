@@ -882,7 +882,7 @@ function gridView() {
 	$('.display-grid-icon').on('click', function() {
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-tag-title"></div><div class="lightbox-cancel lightbox-control animate-fast">' + 
+					'<div class="lightbox-tag-title lobster"></div><div class="lightbox-control lightbox-cancel animate-fast">' + 
 					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
 					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="1">' + 
 					'<div class="lightbox-control-label">GIF Size</div></div>' +
@@ -892,8 +892,9 @@ function gridView() {
 					'</div>';
 		$('body').append(html);
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		var randomnumber1 = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
-		$('.lightbox-tag-title').text(tagTitle);
+		$('.lightbox-tag-title').text(tagTitle).css('color', COLORS[randomnumber1]);
 		populateGrid($(this));
 		$('.lightbox-cancel').on('click', function() {
 			$('.lightbox').remove();
@@ -969,15 +970,16 @@ function partyModeToggle() {
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
-					'<div class="lightbox-cancel lightbox-control animate-fast"><div>Cancel Party Mode</div>' +
-					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title"></div>' + 
+					'<div class="lightbox-control lightbox-cancel animate-fast"><div>Cancel Party Mode</div>' +
+					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster"></div>' + 
 					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
 					'<div class="party-mode-container"></div>' + 
 					'</div>';
 		$('body').append(html);
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+		var randomnumber1 = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
-		$('.lightbox-tag-title').text(tagTitle);
+		$('.lightbox-tag-title').text(tagTitle).css('color', COLORS[randomnumber1]);
 		$('.party-mode-wrapper').css('background-color', rgba);
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));

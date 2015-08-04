@@ -50,7 +50,7 @@ def view_profile(request, username):
     tagged_gifs = []
     for tag in tags:
         temp_gifs = gifs.filter(tags__name__in=[str(tag)])
-        tagged_gifs.append([tag.name, temp_gifs])
+        tagged_gifs.append([tag.name, temp_gifs, len(temp_gifs)])
 
     add_gif_form = AddGifForm(initial={
         'hidden_id': u.id

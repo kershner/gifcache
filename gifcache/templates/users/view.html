@@ -54,7 +54,7 @@
         </div>
         {% endif %}
         <div class="gifgrabber-btn btn inner-nav-btn red-btn">
-            Gif<div class="lobster">Grabber</div>
+            Gif<div class="lobster" style="color: white;">Grabber</div>
         </div>
 
         {% if gifs %}
@@ -155,14 +155,14 @@
             <div class="tag-group animate-bg">
                 <a class="anchor" name="{{ entry.0 }}"></a>
                 <div class="tag-title animate-bg">{{ entry.0 }}</div>
-
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
 
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
                         <div class="tag-title tag-manager-title animate-bg">Tag Options</div>
+                        <div class="gif-count">{{ entry.2 }} GIFs</div>
                         {% if can_edit %}
-                        <div class="tag-manager-section" style="margin-top: 1.25em;">
+                        <div class="tag-manager-section" style="margin-top: .25em;">
                             <div class="tag-manager-section-title tasks-title animate">Tasks</div>
                             <div class="rename btn green-btn">Rename</div>
                             <div class="delete btn red-btn">Delete</div>
