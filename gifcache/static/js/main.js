@@ -18,6 +18,7 @@ $(document).ready(function () {
 	deleteProfile();
 	gridView();
 	partyModeToggle();
+	clickValidate();
 });
 
 // Standard Fisher-Yates shuffle algorithm
@@ -133,9 +134,11 @@ function colorProfile() {
 		'background-color': profileInfoColor
 	});
 	$('.nav-setting-icon').each(function() {
-		var rand = (Math.random() * (COLORS.length - 0 + 1) ) << 0
-		var color = COLORS[rand];
-		$(this).css('background-color', color);
+		if (counter > COLORS.length - 1 ) {
+			counter = 0;
+		}
+		$(this).css('background-color', COLORS[counter]);
+		counter += 1
 	});
 	$('.tag-group').each(function() {
 		if (counter > COLORS.length - 1 ) {
@@ -149,7 +152,7 @@ function colorProfile() {
 			'background-color': color
 		});
 		$(this).find('.tag-title').css('background-color', color);
-		$(this).find('.tag-settings-icon').css('background-color', color);
+		$(this).find('.tag-settings-icon, .gif-count').css('background-color', color);
 		$(this).find('.tag-manager-options').css('background-color', color);
 		$(this).find('.tag-manager-form form').each(function(){
 			$(this).css('background-color', color);
@@ -285,7 +288,7 @@ function gifGrabber() {
 		e.preventDefault();
 		var target = $(e.target);
 		// Defining elements that can be clicked on
-		if (target.is('.grabber-lightbox, .grabber-expanded, .grabber-lightbox, .label, .gifgrabber-submit, div.grabber-results-element-inner, div.label, div.input, .grabber-selected-gifs, .selected-gifs-number, .selected-gifs-blurb, .grabber-data-container, .grabber-data, .grabber-data-label, .suggestions, .gifgrabber-title-blurb, .subreddit-suggestions, .suggestion, .suggestions-title, .grabber-add-gifs-btn, .grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div, .gifgrabber-container, i, form, input, h1, select, .gifgrabber-results, #grabber-results, .grabber-results-extension, .grabber-results-title, .grabber-results-size, .grabber-results-element, .grabber-results-element img, .grabber-results-element video, .grabber-new-search, .holder, a, .message')) {
+		if (!target.is('.gifgrabber-form-wrapper')) {
 			// Nothing
 		} else {
 			$(this).toggleClass('hidden');
@@ -881,10 +884,15 @@ function deleteProfile() {
 function gridView() {
 	$('.display-grid-icon').on('click', function() {
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
+		var totalGifs = 0;
+		$(this).parents('.tag-group').children('.gif-grid-element').each(function() {
+			totalGifs += 1;
+		});
 		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-tag-title lobster"></div><div class="lightbox-control lightbox-cancel animate-fast">' + 
+					'<div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' + 
+					'<div class="lightbox-control lightbox-cancel animate-fast">' + 
 					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
-					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="1">' + 
+					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="10">' + 
 					'<div class="lightbox-control-label">GIF Size</div></div>' +
 					'<div class="grid-refresh lightbox-control animate-fast"><i class="fa fa-refresh"></i><div class="lightbox-control-label">Refresh Grid</div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Grid</div><div class="pt">View</div></div>' +
@@ -894,7 +902,8 @@ function gridView() {
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		var randomnumber1 = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
-		$('.lightbox-tag-title').text(tagTitle).css('color', COLORS[randomnumber1]);
+		$('.lightbox-tag-title').css('color', COLORS[randomnumber1]);
+		$('.lightbox-gif-count').css('color', 'white');
 		populateGrid($(this));
 		$('.lightbox-cancel').on('click', function() {
 			$('.lightbox').remove();
@@ -966,12 +975,16 @@ function gridRefresh(grid) {
 // Hides/shows party mode wrapper, starts/stop background change interval
 function partyModeToggle() {
 	$('.party-mode-icon').on('click', function() {
+		var totalGifs = 0;
+		$(this).parents('.tag-group').children('.gif-grid-element').each(function() {
+			totalGifs += 1;
+		});
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
 					'<div class="lightbox-control lightbox-cancel animate-fast"><div>Cancel Party Mode</div>' +
-					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster"></div>' + 
+					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' + 
 					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
 					'<div class="party-mode-container"></div>' + 
 					'</div>';
@@ -979,7 +992,8 @@ function partyModeToggle() {
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		var randomnumber1 = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		$('.lightbox-title .lobster').css('color', COLORS[randomnumber]);
-		$('.lightbox-tag-title').text(tagTitle).css('color', COLORS[randomnumber1]);
+		$('.lightbox-gif-count').css('color', 'white');
+		$('.lightbox-tag-title').css('color', COLORS[randomnumber1]);
 		$('.party-mode-wrapper').css('background-color', rgba);
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));
@@ -1119,6 +1133,59 @@ function animateDiv($target) {
 	}, speed, function () {
 		animateDiv($target);
 	});
+}
+
+function clickValidate() {
+	$('.validate-btn').on('click', function(e) {
+		var pageTitle = $('title').text();
+		var hyphen = pageTitle.lastIndexOf('-');
+		var username = pageTitle.slice(0, hyphen - 1);
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		validationSetup();
+		ajaxCSRF();
+		$.ajax({
+			url: '/u/validate/',
+			type: 'POST',
+			data: {
+				'username': username
+			},
+			success: function(json) {
+				validationResults(json);
+			},
+			error: function(xhr, errmsg, err) {
+				console.log('Error!');
+				console.log(errmsg);
+				console.log(xhr.status + ': ' + xhr.responseText);
+			}
+		});
+	});
+}
+
+function validationSetup() {
+	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' + 
+				'<div id="validation-loading" class="lightbox">' +
+				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' + 
+				'<div>Validating your Cache, one moment please...</div>' +
+				'</div></div></div></div>';
+	$('body').append(html);	
+}
+
+function validationResults(data) {
+	$('#validation-loading').remove();
+	$('.validation-wrapper').on('click', function(e) {
+		var target = $(e.target);
+		if (!target.is('.validation-wrapper')) {
+			// Nothing
+		} else {
+			validationTeardown();
+		}		
+	});
+	console.log(data);
+}
+
+function validationTeardown() {
+	$('.validation-wrapper').remove();
 }
 
 // Credit to WearProtection.js || https://gist.github.com/broinjc

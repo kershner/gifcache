@@ -72,13 +72,20 @@ select:hover {cursor: pointer;}
 .lightbox-tag-title {
 	display: inline-block;
 	position: absolute;
-	z-index: 20;
+	z-index: 11;
 	padding: .5em;
 	top: .25em;
 	left: .25em;
 	font-size: 2em;
 	color: white;
 	border-radius: .25em;
+}
+.lightbox-gif-count {
+	position: relative;
+	margin-top: -.1em;
+	font-family: 'PT Sans';
+	text-align: center;
+	font-size: .65em;
 }
 .lightbox-control {
 	position: absolute;
@@ -98,7 +105,6 @@ select:hover {cursor: pointer;}
 	text-align: center;
 	font-size: .8em;
 }
-#grabber-loading {position: absolute;}
 .loading {
 	display: block;
 	position: relative;
@@ -112,7 +118,8 @@ select:hover {cursor: pointer;}
 	font-size: 7em;
 	color: #72ADD3;
 }
-#grabber-loading {
+#grabber-loading, #validation-loading {
+	position: absolute;
 	font-size: 0.75em;
 	border-radius: .2em;
 }
@@ -1054,7 +1061,7 @@ select:hover {cursor: pointer;}
 	top: 1.15em;
 	right: -.1em;
 	width: 5em;
-	height: 2.25em;
+	min-height: 2em;
 	background-color: #F2F2F2;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
@@ -1088,7 +1095,7 @@ select:hover {cursor: pointer;}
 	font-size: .4em;
 }
 /* Main Add GIF Form */
-.add-gif-form, .gifgrabber-form-wrapper {
+.add-gif-form, .gifgrabber-form-wrapper, .validation-wrapper {
 	position: fixed;
 	z-index: 10;
 	top: 0;
@@ -1149,10 +1156,18 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 .gif-count {
-	position: relative;
-	margin: 0 !important;
-	margin-top: .75em !important;
+	position: absolute;
+	padding: 0.25em;
 	font-size: .8em;
+	top: -1.2em;
+	right: 3.25em;
+	height: 1.5em;
+	line-height: 1.5em;
+	width: 1.5em;
+	border-radius: 50%;
+	border: .2em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	color: white;
 }
 .tag-settings-icon {
 	position: absolute;
@@ -1960,3 +1975,9 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	background: none;
 }
 .holder span { margin: 0 5px;}
+/* Cache Validator */
+.validation-container {
+	min-height: 10em;
+	min-width: 10em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}

@@ -81,7 +81,8 @@ def view_profile(request, username):
         'avatar': avatar,
         'element': element,
         'message': message,
-        'navgif': navgif
+        'navgif': navgif,
+        'title': username
     }
     return render(request, 'users/view.html', context)
 
@@ -463,6 +464,59 @@ def gifgrabber(request):
             json.dumps({'message': 'Not a POST request!'}),
             content_type='application/json'
         )
+
+
+def validate(request):
+    print 'Hit /validate route!'
+    if request.method == 'POST':
+        username = request.POST['username']
+        results = validate_cache(username)
+        response_data = {
+            '404s': results['404s'],
+            'timeouts': results['timeouts'],
+            'dupes': results['dupes']
+        }
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
+    else:
+        return HttpResponse(
+            json.dumps({'confirm': 'Not a POST request!'}),
+            content_type='application/json'
+        )
+
+
+def validate_cache(username):
+    u = get_object_or_404(User, username=username)
+    gifs = Gif.objects.filter(owner=u)
+    connect_timeout = 3
+    read_timeout = 1.0
+    url_uniques = []
+    url_dupes = []
+    url_404s = []
+    url_timeouts = []
+    for gif in gifs:
+        if gif.url in url_uniques:
+            url_dupes.append([gif.id, gif.url, gif.label])
+        else:
+            url_uniques.append(gif.url)
+            try:
+                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout))
+                if r.status_code in [404, 500]:
+                    url_404s.append([gif.id, gif.url, gif.label])
+            except requests.exceptions.ConnectTimeout as e:
+                print 'Connection timed out'
+                url_timeouts.append([gif.id, gif.url, gif.label])
+            except requests.exceptions.ReadTimeout as e:
+                print 'Too long between bytes'
+                url_timeouts.append([gif.id, gif.url, gif.label])
+    results = {
+        'dupes': url_dupes,
+        '404s': url_404s,
+        'timeouts': url_timeouts
+    }
+    return results
 
 
 def scrape_reddit(sub, sort):

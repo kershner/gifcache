@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^(?P<username>[\w.@+-]+)/update-profile/$', views.update_profile, name='update-profile'),
     url(r'^(?P<username>[\w.@+-]+)/delete-profile/$', views.delete_profile, name='delete-profile'),
     url(r'^gifgrabber/$', views.gifgrabber, name='gifgrabber'),
+    url(r'^validate/$', views.validate, name='validate'),
 ]
