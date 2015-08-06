@@ -105,13 +105,15 @@
         </div>
         {% endif %}
 
-        <div class="sort btn inner-nav-btn peach-btn animate-fast">Sort
+        {% if tags %}
+        <div class="sort btn inner-nav-btn peach-btn animate-fast">Sort Tags
             <div class="sort-options hidden">
-                <div class="sort-label btn green-btn">Label</div>
-                <div class="sort-date btn blue-btn">Date</div>
-                <div class="sort-random btn purple-btn">Randomize</div>
+                <div class="tag-sort-title btn green-btn">Title</div>
+                <div class="tag-sort-date btn blue-btn">Date</div>
+                <div class="tag-sort-random btn purple-btn">Randomize</div>
             </div>
         </div>
+        {% endif %}
 
         <div class="nav-settings-icon animate-fast">
             <i class="fa fa-cog"></i>
@@ -126,6 +128,11 @@
                 <div class="nav-setting-icon color-btn animate-fast">
                     <i class="fa fa-paint-brush"></i>
                     <div class="label">Colors</div>
+                </div>
+
+                <div class="tag-group-refresh nav-setting-icon animate-fast">
+                    <i class="fa fa-refresh"></i>
+                    <div class="label">Grid</div>
                 </div>
 
                 <div class="validate-btn nav-setting-icon animate-fast">
@@ -168,13 +175,13 @@
                     <div class="tag-manager-options">
                         <div class="tag-title tag-manager-title animate-bg">Tag Options</div>
                         {% if can_edit %}
-                        <div class="tag-manager-section" style="margin-top: .25em;">
+                        <div class="tag-manager-section" style="margin-top: 1.25em;">
                             <div class="tag-manager-section-title tasks-title animate">Tasks</div>
                             <div class="rename btn green-btn">Rename</div>
                             <div class="delete btn red-btn">Delete</div>
                         </div>
                         {% endif %}
-                        <div class="tag-manager-section display-section" style="margin-bottom: .05em;">
+                        <div class="tag-manager-section display-section">
                             <div class="tag-manager-section-title display-title animate">Display</div>
                             <div class="party-mode-icon animate">
                                 <img src="/static/img/disco_kid.gif">
@@ -182,6 +189,16 @@
                             </div>
 
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                        </div>
+
+                        <div class="tag-manager-section" style="margin-bottom: .05em;">
+                            <div class="tag-manager-section-title tasks-title animate">Sort</div>
+
+                            <div class="tag-sort-options">
+                                <div class="sort-label btn green-btn">Label</div>
+                                <div class="sort-date btn blue-btn">Date</div>
+                                <div class="sort-random btn purple-btn">Random</div>
+                            </div>
                         </div>
                     </div>
 
@@ -302,6 +319,16 @@
                             </div>
 
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                        </div>
+
+                        <div class="tag-manager-section" style="margin-bottom: .05em;">
+                            <div class="tag-manager-section-title tasks-title animate">Sort</div>
+
+                            <div class="tag-sort-options">
+                                <div class="sort-label btn green-btn">Label</div>
+                                <div class="sort-date btn blue-btn">Date</div>
+                                <div class="sort-random btn purple-btn">Random</div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -341,13 +341,15 @@ select:hover {cursor: pointer;}
 	margin: 0 .25em;
 	color: white;
 }
+
+.nav-links a:hover {text-shadow: none;}
 .profile-nav-link {
 	display: inline-block;
 	border-top: .2em solid #25B972;
 	color: white;
 	height: 4em;
 }
-.profile-nav-link:hover {cursor: pointer;}
+.profile-nav-link:hover {cursor: pointer; text-shadow: none;}
 .profile-nav-link:hover > .profile-nav-extra {
 	display: block;
 	text-shadow: none;
@@ -368,10 +370,11 @@ select:hover {cursor: pointer;}
 .profile-nav-extra a {
 	display: block;
 	margin: .25em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 .profile-nav-extra a:hover {
 	border-top: .25em solid #25B972;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+	text-shadow: none;
 }
 /* Footer *******************************************************************/
 .wrapper {
@@ -948,6 +951,7 @@ select:hover {cursor: pointer;}
 }
 .inner-nav-fixed {
 	position: fixed;
+	padding: .5em 2em;
 	z-index: 10;
 	top: 0;
 	left: 50%;
@@ -1064,7 +1068,7 @@ select:hover {cursor: pointer;}
 	min-height: 2em;
 	background-color: #F2F2F2;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: .25em;
+	border-radius: .15em;
 }
 .nav-setting-icon {
 	position: relative;
@@ -1428,6 +1432,7 @@ select:hover {cursor: pointer;}
 	padding: .5em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
+	min-height: 3em;
 }
 .display-section {
 	padding-top: .3em !important;
@@ -1482,6 +1487,18 @@ select:hover {cursor: pointer;}
 	color: #21a465;
 }
 .display-grid-icon:active {top: 8px;}
+.tag-sort-options {
+	margin: 0 !important;
+}
+.tag-sort-options div {
+	display: inline-block;
+	margin: .45em auto;
+	padding: .5em;
+	height: .5em;
+	line-height: .5em;
+	width: 4em;
+	font-size: .7em;
+}
 /* PARTY MODE */
 .party-mode-icon {
 	display: inline-block !important;
@@ -1690,6 +1707,8 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	top: -.65em;
 	left: 0;
 	right: 0;
+	text-align: center;
+	color: white;
 	font-family: 'Lobster', cursive;
 	font-size: 3em;
 	border: none;

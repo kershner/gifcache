@@ -169,6 +169,7 @@ function reColorProfile() {
 
 // Handles the Isotope grids and sorting
 function gifIsotope() {
+	// Grids within tag groups and sorting options
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
 		masonry: {
@@ -182,6 +183,8 @@ function gifIsotope() {
 	var labelClicked = false;
 	$('.sort-label').on('click', function() {
 		$(this).toggleClass('green-btn-selected');
+		$('.tag-sort-title').removeClass('green-btn-selected');
+		$('.sort-date, .tag-sort-date').removeClass('blue-btn-selected');
 		if (labelClicked === false) {
 			labelClicked = true;
 			grid.isotope({
@@ -199,6 +202,8 @@ function gifIsotope() {
 	var dateClicked = true;
 	$('.sort-date').on('click', function() {
 		$(this).toggleClass('blue-btn-selected');
+		$('.tag-sort-date').removeClass('blue-btn-selected');
+		$('.sort-label, .tag-sort-title').removeClass('green-btn-selected');
 		if (dateClicked === false) {
 			dateClicked = true;
 			grid.isotope({
@@ -214,15 +219,68 @@ function gifIsotope() {
 		}
 	});
 	$('.sort-random').on('click', function() {
-		console.log('Shuffling grids!');
+		$('.sort-label, .tag-sort-title').removeClass('green-btn-selected');
+		$('.sort-date, .tag-sort-date').removeClass('blue-btn-selected');
 		grid.isotope('shuffle');
 	});
+
+	// Grid of tag groups and sorting options
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',
 		layoutMode: 'packery',
 		packery: {
 			gutter: 10
+		},
+		percentPosition: true,
+		getSortData: {
+			title: '.tag-title'
 		}
+	});
+	var titleClicked = false;
+	$('.tag-sort-title').on('click', function() {
+		$(this).toggleClass('green-btn-selected');
+		$('.sort-label').removeClass('green-btn-selected');
+		$('.tag-sort-date, .sort-date').removeClass('blue-btn-selected');
+		if (titleClicked === false) {
+			titleClicked = true;
+			taggedGrid.isotope({
+				sortBy: 'title',
+				sortAscending: true
+			});
+		} else {
+			titleClicked = false;
+			taggedGrid.isotope({
+				sortBy: 'title',
+				sortAscending: false
+			});
+		}
+	});
+	var tagDateClicked = true;
+	$('.tag-sort-date').on('click', function() {
+		$(this).toggleClass('blue-btn-selected');
+		$('.sort-date').removeClass('blue-btn-selected');
+		$('.tag-sort-title, .sort-title').removeClass('green-btn-selected');
+		if (tagDateClicked === false) {
+			tagDateClicked = true;
+			taggedGrid.isotope({
+				sortBy: 'original-order',
+				sortAscending: true
+			});
+		} else {
+			tagDateClicked = false;
+			taggedGrid.isotope({
+				sortBy: 'original-order',
+				sortAscending: false
+			});
+		}
+	});
+	$('.tag-sort-random').on('click', function() {
+		$('.tag-sort-title, .sort-title').removeClass('green-btn-selected');
+		$('.tag-sort-date, .sort-date').removeClass('blue-btn-selected');
+		taggedGrid.isotope('shuffle');
+	});
+	$('.tag-group-refresh').on('click', function() {
+		taggedGrid.isotope('layout');
 	});
 }
 
@@ -1163,7 +1221,7 @@ function clickValidate() {
 }
 
 function validationSetup() {
-	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' + 
+	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' + 				
 				'<div id="validation-loading" class="lightbox">' +
 				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' + 
 				'<div>Validating your Cache, one moment please...</div>' +
@@ -1171,7 +1229,7 @@ function validationSetup() {
 	$('body').append(html);	
 }
 
-function validationResults(data) {
+function validationResults(data) {	
 	$('#validation-loading').remove();
 	$('.validation-wrapper').on('click', function(e) {
 		var target = $(e.target);
