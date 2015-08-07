@@ -1129,7 +1129,7 @@ select:hover {cursor: pointer;}
 /* Gif Grids */
 #grids {margin-bottom: 2em;}
 .expanded-grids {min-height: 47em;}
-#all-gif-grid {
+#all-gif-grid, #tagged-gif-grid {
 	margin: 0 auto !important;
 	width: 100%;
 }
@@ -1141,7 +1141,7 @@ select:hover {cursor: pointer;}
 .tag-group {
 	display: inline-block;
 	position: relative;
-	margin: .5em auto;
+	margin: 1em;
 	padding: 1em;
 	border: .2em solid white;
 	border-radius: .5em;

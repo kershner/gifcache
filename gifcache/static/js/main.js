@@ -227,11 +227,9 @@ function gifIsotope() {
 	// Grid of tag groups and sorting options
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',
-		layoutMode: 'packery',
-		packery: {
-			gutter: 10
+		masonry: {
+			isFitWidth: true
 		},
-		percentPosition: true,
 		getSortData: {
 			title: '.tag-title'
 		}
