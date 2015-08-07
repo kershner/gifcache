@@ -173,7 +173,7 @@ function gifIsotope() {
 	var grid = $('.tag-group').isotope({
 		itemSelector: '.gif-grid-element',
 		masonry: {
-			columnWidth: '.gif-grid-element',
+			columnWidth: 100,
 			isFitWidth: true
 		},
 		getSortData: {

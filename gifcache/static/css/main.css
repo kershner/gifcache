@@ -1254,7 +1254,7 @@ select:hover {cursor: pointer;}
 	z-index: 5;
 	margin: .25em;
 	padding: .5em;
-	width: 10em;
+	width: 11em;
 	min-height: 8em;
 	background-color: #e6e6e6;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
