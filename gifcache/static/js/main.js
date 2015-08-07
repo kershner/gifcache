@@ -56,13 +56,13 @@ var HOME_COLORS = ['#498FBD', '#ff6767', '#585ec7', '#FF8359'];
 var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
 
 // Picks colors and applies them to various elements on page load
-function colorPageElements() {	
+function colorPageElements() {
 	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 	var counter = randomnumber;
-	$('.loading i').css({'color': COLORS[randomnumber]});	
+	$('.loading i').css({'color': COLORS[randomnumber]});
 	$('.nav-logo-circle').css({
 		'background-color': COLORS[randomnumber]
-	});	
+	});
 	$('.bulk-option').each(function() {
 		var bulkOptionColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 		$(this).css({
@@ -147,7 +147,7 @@ function colorProfile() {
 		var color = COLORS[counter];
 		$(this).css({
 			'background-color': color
-		});		
+		});
 		$(this).find('.tag-manager-options .title, .tag-manager-section-title, .tag-manager-options-title').css({
 			'background-color': color
 		});
@@ -227,7 +227,8 @@ function gifIsotope() {
 	// Grid of tag groups and sorting options
 	var taggedGrid = $('#tagged-gif-grid').isotope({
 		itemSelector: '.tag-group',
-		masonry: {
+		layoutMode: 'packery',
+		packery: {
 			isFitWidth: true
 		},
 		getSortData: {
@@ -332,10 +333,10 @@ function showAddForm() {
 
 // Show/Hide GifGrabber form, handles logic for the submit button
 function gifGrabber() {
-	$('.gifgrabber-btn').on('click', function() {		
+	$('.gifgrabber-btn').on('click', function() {
 		gifGrabberAjax();
 		$(this).toggleClass('red-btn-selected');
-		$('.gifgrabber-form-wrapper').toggleClass('hidden');	
+		$('.gifgrabber-form-wrapper').toggleClass('hidden');
 		setTimeout(function() {
 			colorMainForm();
 		}, 1);
@@ -351,7 +352,7 @@ function gifGrabber() {
 			$('.gifgrabber-btn').toggleClass('red-btn-selected');
 		}
 	});
-	$('.grabber-new-search').on('click', function() {		
+	$('.grabber-new-search').on('click', function() {
 		gifGrabberTeardown();
 	});
 	// Submit
@@ -369,12 +370,12 @@ function gifGrabber() {
 			colorPageElements();
 			$('.main-loading').toggleClass('hidden');
 			$('#grabber-add-form').submit();
-		}		
+		}
 	});
 }
 
 // Fades in subreddit suggestions for GifGrabber
-function gifGrabberSuggestions() {	
+function gifGrabberSuggestions() {
 	var alreadyExists = $('.subreddit-suggestions').length;
 	if (alreadyExists) {
 		// Nothing
@@ -383,30 +384,30 @@ function gifGrabberSuggestions() {
 						'<div class="suggestions-title">Subreddit Suggestions</div>' +
 						'<div class="suggestions"></div></div>';
 		$('.gifgrabber-form').prepend(container);
-	}	
+	}
 	function clickSuggestions() {
 		$('.suggestion').on('click', function() {
 			$('.subreddit-field').val('');
 			$('.subreddit-field').val($(this).text());
 		});
 	}
-	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops', 
-						'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs', 
-						'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs', 
-						'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs', 
+	var suggestions = ['gifs', 'gifrequests', 'makemeagif', 'physicsgifs', 'perfectloops',
+						'reactiongifs', 'mechanical_gifs', 'surrealgifs', 'spacegifs',
+						'interestinggifs', 'highqualitygifs', 'naturegifs', 'behindthegifs',
+						'educationalgifs', 'michaelbaygifs', 'gifextra', 'combinedgifs',
 						'wastedgifs'];
-	choices = shuffle(suggestions);	
+	choices = shuffle(suggestions);
 	var choice1 = '<div class="suggestion animate-fast">' + choices[0] + '</div>';
 	var choice2 = '<div class="suggestion animate-fast">' + choices[1] + '</div>';
 	var choice3 = '<div class="suggestion animate-fast">' + choices[2] + '</div>';
 	var containerEnd = '</div></div>';
-	var html = choice1 + choice2 + choice3;	
+	var html = choice1 + choice2 + choice3;
 	$('.suggestions').fadeOut('slow', function() {
-		$(this).empty();		
+		$(this).empty();
 		$(this).append(html);
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
 		var counter = randomnumber;
-		$('.suggestion').each(function() {		
+		$('.suggestion').each(function() {
 			if (counter > COLORS.length - 1 ) {
 				counter = 0;
 			}
@@ -416,8 +417,8 @@ function gifGrabberSuggestions() {
 		});
 		$(this).fadeIn('slow');
 		clickSuggestions();
-	});	
-	setTimeout(function() {		
+	});
+	setTimeout(function() {
 		gifGrabberSuggestions();
 	}, 8000);
 }
@@ -444,12 +445,12 @@ function clickGrabberElements(element) {
 			updateSelectedGifs();
 		} else {
 			if (target.is('.grabber-inner-cancel, .grabber-inner-cancel i, .grabber-inner-cancel div')) {
-				innerElement.toggleClass('hidden');				
+				innerElement.toggleClass('hidden');
 				updateGrabberValues();
 				updateSelectedGifs();
 			}
-		}		
-	});	
+		}
+	});
 }
 
 // 'Expands' gif results from Grabber
@@ -460,7 +461,7 @@ function grabberLightbox(url, title) {
 		var element = '<img class="grabber-expanded" src="' + url + '">';
 	} else if (extension === 'mp4') {
 		var element = '<video src="' + url + '" autoplay loop class="grabber-expanded" poster="../static/img/preload.gif"></video>';
-	}	
+	}
 	var title = '<div class="label grabber-lightbox-label">' + title + '</div>';
 	var html = element + title;
 	$('.grabber-lightbox').append(html);
@@ -498,7 +499,7 @@ function updateSelectedGifs() {
 		var isHidden = $(this).hasClass('hidden');
 		if (isHidden) {
 			// Nothing
-		} else {			
+		} else {
 			selectedCount += 1
 		}
 	});
@@ -516,7 +517,7 @@ function updateSelectedGifs() {
 function gifGrabberSetup() {
 	$('#grabber-loading').remove();
 	$('.gifgrabber-form').addClass('hidden');
-	$('.gifgrabber-container').addClass('gifgrabber-expanded');					
+	$('.gifgrabber-container').addClass('gifgrabber-expanded');
 	$('.gifgrabber-results').removeClass('hidden');
 }
 
@@ -527,10 +528,10 @@ function gifGrabberTeardown() {
 	$('#grabber-results').empty();
 	$('#grabber-error').empty();
 	$('.gifgrabber-results').addClass('hidden');
-	$('#grabber-error').addClass('hidden');	
-	$('.gifgrabber-container').removeClass('gifgrabber-expanded');	
+	$('#grabber-error').addClass('hidden');
+	$('.gifgrabber-container').removeClass('gifgrabber-expanded');
 	$('#grabber-results').css({'min-height': '5em'});
-	$('.gifgrabber-form').removeClass('hidden');	
+	$('.gifgrabber-form').removeClass('hidden');
 }
 
 // Handles AJAX call when GifGrabber form is submitted
@@ -544,14 +545,14 @@ function gifGrabberAjax() {
 		var sort = $(this).siblings('.sort-field').val();
 		if (subreddit === '') {
 			// Nothing
-		} else {	
+		} else {
 			var html = '<div id="grabber-loading" class="lightbox hidden">' +
-						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' + 
+						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
 						'<div>Processing, one moment please...</div>' +
 						'</div></div>';
 			$('.gifgrabber-container').append(html);
 			colorPageElements();
-			$('#grabber-loading').removeClass('hidden');			
+			$('#grabber-loading').removeClass('hidden');
 			ajaxCSRF();
 			$.ajax({
 				url: '/u/gifgrabber/',
@@ -560,7 +561,7 @@ function gifGrabberAjax() {
 					'subreddit': subreddit,
 					'sort': sort
 				},
-				success: function(json) {					
+				success: function(json) {
 					var shuffledColors = shuffle(COLORS);
 					var counter = 0;
 					var allowed = ['.gifv', '.mp4', '.webm'];
@@ -568,15 +569,15 @@ function gifGrabberAjax() {
 					var subreddit = '<div class="grabber-data subreddit-name animate" style="background-color: ' + shuffledColors[1] + '">' + json['subreddit'] + '<div class="grabber-data-label">Subreddit</div></div>';
 					var sortType = '<div class="grabber-data sort-type animate" style="background-color: ' + shuffledColors[2] + '">' + json['sort'] + '<div class="grabber-data-label">Sort</div></div>';
 					var grabberData = '<div class="grabber-data-container">' + gifNumber + subreddit + sortType + '</div>';
-					for (i=0; i<json['gifs'].length; i++) {					
+					for (i=0; i<json['gifs'].length; i++) {
 						if ($.inArray(json['gifs'][i][1], allowed) > -1) {
 							var url = json['gifs'][i][0];
 							lastPeriod = url.lastIndexOf('.');
 							url = url.substring(0, lastPeriod) + '.mp4';
 							var img = '<video class="grabber-gif" src="' + url + '" autoplay loop poster="../static/img/preload.gif"></video>';
 						} else {
-							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';	
-						}						
+							var img = '<img class="grabber-gif" src="' + json['gifs'][i][0] + '">';
+						}
 						var titleText = json['gifs'][i][2];
 						if (titleText.length > 40) {
 							titleText = titleText.slice(0, 40) + '...';
@@ -586,13 +587,13 @@ function gifGrabberAjax() {
 						var shortLink = '<a class="short-link animate-fast" href="' + json['gifs'][i][3] + '"><i class="fa fa-reddit"></i></a>';
 						var expandIcon = '<i class="grabber-expand fa fa-expand animate-fast"></i>'
 						var hiddenUrl = '<input type="text" class="grabber-hidden-url hidden" value="' + json['gifs'][i][0] + '">';
-						
+
 						var innerCancel = '<div class="grabber-inner-cancel"><i class="fa fa-minus-circle"></i><div>Cancel</div></div>';
 						var innerLabelInput = '<input type="text" class="gif-label-field inner-label" value="' + json['gifs'][i][2] + '">';
 						var innerLabelLabel = '<div class="label">Label</div>';
 						var innerTagsInput = '<input type="text" class="gif-label-field inner-tags" placeholder="Comma Separated Tags">';
 						var innerTagsLabel = '<div class="label">Tags</div>';
-						
+
 						var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel + innerTagsInput + innerTagsLabel + '</div>';
 						var html = '<div id="grabber-gif-' + counter + '" class="grabber-results-element animate-fast">' + hiddenUrl + img + extension + title + shortLink + expandIcon + innerHtml + '</div>';
 						$('.grabber-results-grid').append(html);
@@ -626,10 +627,10 @@ function gifGrabberAjax() {
 					gifGrabberSetup();
 					$('#grabber-error').removeClass('hidden');
 					$('#grabber-error').text(errorMsg);
-					
+
 				}
 			});
-		}		
+		}
 	});
 }
 
@@ -800,7 +801,7 @@ function grabBulkValues() {
 }
 
 // Updates visual feedback for how many GIFs selected for bulk operations
-function updateBulkValue() {	
+function updateBulkValue() {
 	var selected = 0;
 	$('.bulk-wrapper').each(function() {
 		if ($(this).children('i').hasClass('fa-circle')) {
@@ -945,10 +946,10 @@ function gridView() {
 			totalGifs += 1;
 		});
 		var html = '<div class="lightbox grid-wrapper">' +
-					'<div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' + 
-					'<div class="lightbox-control lightbox-cancel animate-fast">' + 
+					'<div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' +
+					'<div class="lightbox-control lightbox-cancel animate-fast">' +
 					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
-					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="10">' + 
+					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="10">' +
 					'<div class="lightbox-control-label">GIF Size</div></div>' +
 					'<div class="grid-refresh lightbox-control animate-fast"><i class="fa fa-refresh"></i><div class="lightbox-control-label">Refresh Grid</div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Grid</div><div class="pt">View</div></div>' +
@@ -972,7 +973,7 @@ function populateGrid(icon) {
 	var tagGroup = $(icon).parents('.tag-group');
 	var title = tagGroup.find('.tag-title').text();
 	var html = '';
-	$(tagGroup).find('.gif-grid-element').each(function() {		
+	$(tagGroup).find('.gif-grid-element').each(function() {
 		var url = $(this).children('.display-url').val();
 		var lastPeriod = url.lastIndexOf('.');
 		var extension = url.slice(lastPeriod + 1, url.length);
@@ -983,12 +984,12 @@ function populateGrid(icon) {
 			var labelClass = '';
 		}
 		if (extension === 'gif') {
-			var element = '<div class="grid-img-wrapper animate-fast"><img src="' + 
-							url + '" class="animate"><div class="label grabber-lightbox-label' + 
+			var element = '<div class="grid-img-wrapper animate-fast"><img src="' +
+							url + '" class="animate"><div class="label grabber-lightbox-label' +
 							labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
 			var element = '<div class="grid-img-wrapper animate-fast"><video src="' +
-							url + '" autoplay loop class="animate" poster="../static/img/preload.gif">' + 
+							url + '" autoplay loop class="animate" poster="../static/img/preload.gif">' +
 							'</video><div class="label grabber-lightbox-label' +
 							labelClass + '">' + title + '</div></div>';
 		}
@@ -1007,7 +1008,7 @@ function populateGrid(icon) {
 }
 
 function gridSlider(grid) {
-	$('#grid-slider').on('input', function() {		
+	$('#grid-slider').on('input', function() {
 		var scaleValue = $(this).val();
 		var imgGrid = $(this).parent().siblings('.grid-view-wrapper').children('.grid-view-container');
 		imgGrid.children('.grid-img-wrapper').each(function() {
@@ -1038,11 +1039,11 @@ function partyModeToggle() {
 		var tagTitle = $(this).parents('.tag-group').children('.tag-title').text();
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
-		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' + 
+		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' +
 					'<div class="lightbox-control lightbox-cancel animate-fast"><div>Cancel Party Mode</div>' +
-					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' + 
+					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
-					'<div class="party-mode-container"></div>' + 
+					'<div class="party-mode-container"></div>' +
 					'</div>';
 		$('body').append(html);
 		var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
@@ -1055,7 +1056,7 @@ function partyModeToggle() {
 		partyMode($(this).parents('.tag-group'));
 		var backgroundChange = setInterval(function() {
 			var partyColor = randomColor({format: 'rgb'});
-			var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';			
+			var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 			$('.party-mode-wrapper').css('background-color', rgba);
 		}, 1500);
 		$('.lightbox-cancel').on('click', function() {
@@ -1064,7 +1065,7 @@ function partyModeToggle() {
 		});
 		manualFocusGif();
 		autoFocusGif();
-	});	
+	});
 }
 
 // Grabs images from tag group, appends them to the party mode wrapper
@@ -1082,11 +1083,11 @@ function partyMode(tagGroup) {
 			var labelClass = '';
 		}
 		if (extension === 'gif') {
-			var element = '<div class="party-img-wrapper"><img src="' + url + 
-						'" class="animate"><div class="label grabber-lightbox-label' + 
+			var element = '<div class="party-img-wrapper"><img src="' + url +
+						'" class="animate"><div class="label grabber-lightbox-label' +
 						labelClass + '">' + title + '</div></div>';
 		} else if (extension === 'mp4') {
-			var element = '<div class="party-img-wrapper"><video src="' + url + 
+			var element = '<div class="party-img-wrapper"><video src="' + url +
 						'" autoplay loop class="animate" poster="../static/img/preload.gif"></video>' +
 						'<div class="label grabber-lightbox-label' + labelClass + '">' + title + '</div></div>';
 		}
@@ -1102,7 +1103,7 @@ function partyMode(tagGroup) {
 			stop: function(event, ui) {
 				animateDiv($(this));
 			}
-		});		
+		});
 	});
 }
 
@@ -1119,7 +1120,7 @@ function autoFocusGif() {
 			'width': '200px',
 			'z-index': 13
 		}
-		var randomGif = $('.party-img-wrapper').random();		
+		var randomGif = $('.party-img-wrapper').random();
 		randomGif.addClass('party-focus');
 		randomGif.stop(true, true).animate({
 			'width': '+=25%',
@@ -1153,7 +1154,7 @@ function manualFocusGif() {
 			}, 'slow');
 		}
 	});
-	
+
 }
 
 // Gif Party Animation Functions below
@@ -1182,7 +1183,7 @@ function animateDiv($target) {
 	var newq = makeNewPosition($target.parent());
 	var oldq = $target.position();
 	var speed = calcSpeed([oldq.top, oldq.left], newq);
-	
+
 	$target.animate({
 		top: newq[0],
 		left: newq[1]
@@ -1219,15 +1220,15 @@ function clickValidate() {
 }
 
 function validationSetup() {
-	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' + 				
+	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' +
 				'<div id="validation-loading" class="lightbox">' +
-				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' + 
+				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
 				'<div>Validating your Cache, one moment please...</div>' +
 				'</div></div></div></div>';
-	$('body').append(html);	
+	$('body').append(html);
 }
 
-function validationResults(data) {	
+function validationResults(data) {
 	$('#validation-loading').remove();
 	$('.validation-wrapper').on('click', function(e) {
 		var target = $(e.target);
@@ -1235,7 +1236,7 @@ function validationResults(data) {
 			// Nothing
 		} else {
 			validationTeardown();
-		}		
+		}
 	});
 	console.log(data);
 }
