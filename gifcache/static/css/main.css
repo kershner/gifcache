@@ -542,15 +542,15 @@ select:hover {cursor: pointer;}
 /* Home Page Styles *********************************************************/
 .levitate {
 	-webkit-animation: levitate 4s infinite;}
-.grow {-webkit-animation: grow 2s 1}
+.grow {-webkit-animation: grow 3s 1}
 .pulse {-webkit-animation: pulse 3s infinite;}
 .spin {-webkit-animation: spin 25s infinite;}
 @-webkit-keyframes grow {
 	0% {
-		font-size: 0;
+		-webkit-transform: scale(0);
 	}
 	100% {
-		font-size: 1em;
+		-webkit-transform: scale(1);
 	}
 }
 @-webkit-keyframes levitate {
@@ -647,6 +647,7 @@ select:hover {cursor: pointer;}
 	border: .05em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: 50%;
+	font-size: 1em;
 }
 .slogan {
 	position: relative;
