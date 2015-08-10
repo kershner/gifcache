@@ -369,6 +369,7 @@ def bulk_delete(request):
             username = request.user.username
             user_id = request.POST['user_id']
             bulk_ids = request.POST['bulk_values'].split(',')
+            print bulk_ids
             if str(bulk_ids[0]) == '':
                 print 'Trying to bulk delete 0 GIFs, redirecting...'
                 return redirect('/u/%s' % str(username))
@@ -381,8 +382,11 @@ def bulk_delete(request):
                         unique_ids.append(entry)
                 u = get_object_or_404(User, pk=user_id)
                 for gif in unique_ids:
-                    g = Gif(pk=int(gif), owner=u)
-                    g.delete()
+                    if str(gif) == '':
+                        continue
+                    else:
+                        g = Gif(pk=int(gif), owner=u)
+                        g.delete()
                 return redirect('/u/%s' % str(username))
 
 
@@ -474,7 +478,6 @@ def validate(request):
         results = validate_cache(username)
         response_data = {
             '404s': results['404s'],
-            'timeouts': results['timeouts'],
             'dupes': results['dupes']
         }
         return HttpResponse(
@@ -498,7 +501,6 @@ def validate_cache(username):
 
     dupes = []
     not_found = []
-    timeouts = []
     # Getting list of duplicate URLs
     for gif in gifs:
         if gif.url in unique_urls:
@@ -507,24 +509,22 @@ def validate_cache(username):
             unique_urls.append(gif.url)
     # Checking each GIF object against list of dupe URLs
     for gif in gifs:
+        tags = [str(tag) for tag in gif.tags.names()]
         if gif.url in dupe_urls:
-            dupes.append([gif.id, gif.url, gif.label])
+            dupes.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
         else:
             try:
-                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout))
-                if r.status_code in [404, 500]:
-                    not_found.append([gif.id, gif.url, gif.label])
+                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout), allow_redirects=False)
+                if r.status_code in [404, 500, 302]:
+                    not_found.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
             except requests.exceptions.ConnectTimeout as e:
                 print 'Connection timed out'
-                timeouts.append([gif.id, gif.url, gif.label])
             except requests.exceptions.ReadTimeout as e:
                 print 'Too long between bytes'
-                timeouts.append([gif.id, gif.url, gif.label])
 
     results = {
         'dupes': sorted(dupes, key=itemgetter(1)),
-        '404s': not_found,
-        'timeouts': timeouts
+        '404s': not_found
     }
     return results
 

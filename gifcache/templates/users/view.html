@@ -478,5 +478,21 @@
             </div>
         </div>
     </div>
+
+    <div class="validation-wrapper hidden">
+        <div class="validation-container main-form">
+            <form id="validation-form" method="post" action="{% url 'users:bulk-delete' %}">
+                {% csrf_token %}
+                <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
+                <input type="text" name="username" value="{{ username }}" class="hidden">
+                <input id="validation-values" type="text" name="bulk_values" value="" class="hidden">
+                {% if can_edit %}
+                <input type="submit" id="validate-submit" class="btn red-btn validation-submit hidden" value="Delete Selected GIFs">
+                {% else %}
+                <div class="btn red-btn validation-submit inactive-grabber-add-gifs-btn">Please Log In</div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock content %}

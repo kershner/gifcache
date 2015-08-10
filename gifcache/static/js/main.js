@@ -1221,18 +1221,28 @@ function clickValidate() {
 }
 
 function validationSetup() {
-	var html = '<div class="validation-wrapper"><div class="validation-container main-form">' +
-				'<div id="validation-loading" class="lightbox">' +
+	var html = 	'<div id="validation-loading" class="lightbox">' +
 				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
 				'<div>Validating your Cache, one moment please...</div>' +
-				'</div></div></div></div>';
-	$('body').append(html);
+				'</div></div>';
+	$('.validation-container').append(html);
+	$('.validation-wrapper').removeClass('hidden');
+	$('#validate-submit').on('click', function(e) {
+		e.preventDefault();
+		updateValidateValues();
+		$('#validation-form').submit();
+	});
+}
+
+function validationTeardown() {
+	$('.validation-wrapper').addClass('hidden');
+	$('.validation-title, .validation-results').remove();
+	$('#validate-submit').addClass('hidden');
 }
 
 function validationResults(data) {
-	console.log(data);
-	var validationTitle = '<div class="validation-title">Validate <div>Cache</div></div><div class="validation-results"></div>';
-	$('.validation-container').append(validationTitle);
+	var validationTitle = '<div class="validation-title">Validate <div>Cache</div></div><div class="validation-results"></div>';	
+	$('.validation-container').prepend(validationTitle);
 	$('#validation-loading').remove();
 	$('.validation-wrapper').on('click', function(e) {
 		var target = $(e.target);
@@ -1242,42 +1252,97 @@ function validationResults(data) {
 			validationTeardown();
 		}
 	});	
+	// Dupe logic
 	var dupes = data['dupes'];
 	if (dupes.length > 0) {
-		console.log('Dupes Exist!');
-		console.log(dupes);
 		var dupesHtml = '';
 		for (i=0; i<dupes.length; i++) {
 			var url = dupes[i][1];
 			var lastPeriod = url.lastIndexOf('.');
 			var extension = url.slice(lastPeriod + 1, url.length);
+			var tags = [];
+			for (j=0; j<dupes[i][3].length; j++) {
+				var tag = dupes[i][3][j];
+				tags.push(tag);
+			}
 			if (extension === 'gif') {
 				var image = '<div class="img-wrapper"><img src="' + url + '"></div>';
 			} else if (extension === 'gifv') {
 				url = url.substring(0, lastPeriod) + '.mp4';
 				var image = '<div class="img-wrapper"><video src="' + url + '" preload autoplay loop poster="../static/img/preload.gif"></video></div>';
 			}
-			var element = '<div class="validation-result"><div class="validation-id">' + dupes[i][0] + 
-						'</div>' + image + '<div class="validation-label">' + dupes[i][2] + '</div></div>'
+			if (tags.length > 0) {
+				var tagsElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + tags + '</div></div>';
+			} else {
+				var tagsElement = '';
+			}
+			var element = '<div class="validation-result animate-fast"><div class="validation-result-inner-wrapper hidden"></div>' +
+						'<div class="validation-id hidden">' + dupes[i][0] + 
+						'</div>' + image + '<div class="validation-label">' + dupes[i][2] + 
+						'</div>' + tagsElement + '</div>';
 			dupesHtml += element
-		}		
-		$('.validation-results').append(dupesHtml);
+		}
+		var finalHtml = '<div class="tag-manager-section"><div class="validation-results-section-title">Duplicates</div>' + dupesHtml + '</div>';
+		$('.validation-results').append(finalHtml);
+	} else {
+		var finalHtml = '<div class="tag-manager-section"><div class="validation-results-section-title">' +
+					 'Duplicates</div><div class="no-results">None of your GIFs are duplicates</div>';
+		$('.validation-results').append(finalHtml);
 	}
-	var timeouts = data['timeouts'];
-	if (timeouts.length > 0) {
-		console.log('Timeouts Exist!');
-		console.log(dupes);
-	}
+	// 404 Logic
 	var notFounds = data['404s'];
 	if (notFounds.length > 0) {
-		console.log('404s Exist!');
-		console.log(notFounds);	
+		var notFoundsHtml = '';
+		for (i=0; i<notFounds.length; i++) {
+			var label = notFounds[i][2];
+			var image = '<div class="img-wrapper" style="max-width: 200px;"><img src="' + notFounds[i][4] +'"></div>';
+			var tags = [];
+			for (j=0; j<notFounds[i][3].length; j++) {
+				var tag = notFounds[i][3][j];
+				tags.push(tag);
+			}
+			if (tags.length > 0) {
+				var tagsElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + tags + '</div></div>';
+			} else {
+				var tagsElement = '';
+			}
+			var element = '<div class="validation-result animate-fast"><div class="validation-result-inner-wrapper hidden"></div>' +
+						'<div class="validation-id hidden">' + notFounds[i][0] +
+						'</div>' + image + '<div class="validation-label">' + label +
+						'</div>' + tagsElement + '</div>';
+			notFoundsHtml += element
+		}
+		var finalHtml = '<div class="tag-manager-section"><div class="validation-results-section-title">404s</div>' + notFoundsHtml + '</div>';
+		$('.validation-results').append(finalHtml);
+	} else {
+		var finalHtml = '<div class="tag-manager-section"><div class="validation-results-section-title">' +
+					 '404s</div><div class="no-results">None of your GIFs 404\'d</div>';
+		$('.validation-results').append(finalHtml);
 	}
-
+	$('.validation-result').on('click', function() {
+		$('#validate-submit').removeClass('hidden');
+		var innerWrapper = $(this).children('.validation-result-inner-wrapper');
+		innerWrapper.toggleClass('hidden');
+		innerWrapper.on('click', function() {
+			$(this).toggleClass('hidden');
+		});
+	});
 }
 
-function validationTeardown() {
-	$('.validation-wrapper').remove();
+function updateValidateValues() {
+	var valuesInput = $('#validation-values');
+	valuesInput.val('');
+	var values = '';
+	$('.validation-result').each(function() {
+		var wrapper = $(this).children('.validation-result-inner-wrapper');
+		if (wrapper.hasClass('hidden')) {
+			// Nothing
+		} else {
+			var resultId = $(this).children('.validation-id').text();
+			values += resultId + ',';
+		}
+	});
+	valuesInput.val(values);
 }
 
 // Credit to WearProtection.js || https://gist.github.com/broinjc
