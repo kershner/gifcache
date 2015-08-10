@@ -514,9 +514,15 @@ def validate_cache(username):
             dupes.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
         else:
             try:
-                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout), allow_redirects=False)
-                if r.status_code in [404, 500, 302]:
+                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout))
+                if r.status_code in [404, 500]:
                     not_found.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
+                # Checking for imgur 'removed' image
+                try:
+                    if r.headers['Content-Length'] == '503':
+                        not_found.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
+                except KeyError:
+                    continue
             except requests.exceptions.ConnectTimeout as e:
                 print 'Connection timed out'
             except requests.exceptions.ReadTimeout as e:
