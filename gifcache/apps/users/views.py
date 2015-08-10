@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from ..home.forms import LoginForm
 from django.utils import timezone
 from .models import Gif, Profile
+from operator import itemgetter
 from cStringIO import StringIO
 from .forms import AddGifForm
 from taggit.models import Tag
@@ -492,29 +493,38 @@ def validate_cache(username):
     gifs = Gif.objects.filter(owner=u)
     connect_timeout = 3
     read_timeout = 1.0
-    url_uniques = []
-    url_dupes = []
-    url_404s = []
-    url_timeouts = []
+    unique_urls = []
+    dupe_urls = []
+
+    dupes = []
+    not_found = []
+    timeouts = []
+    # Getting list of duplicate URLs
     for gif in gifs:
-        if gif.url in url_uniques:
-            url_dupes.append([gif.id, gif.url, gif.label])
+        if gif.url in unique_urls:
+            dupe_urls.append(gif.url)
         else:
-            url_uniques.append(gif.url)
+            unique_urls.append(gif.url)
+    # Checking each GIF object against list of dupe URLs
+    for gif in gifs:
+        if gif.url in dupe_urls:
+            dupes.append([gif.id, gif.url, gif.label])
+        else:
             try:
                 r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout))
                 if r.status_code in [404, 500]:
-                    url_404s.append([gif.id, gif.url, gif.label])
+                    not_found.append([gif.id, gif.url, gif.label])
             except requests.exceptions.ConnectTimeout as e:
                 print 'Connection timed out'
-                url_timeouts.append([gif.id, gif.url, gif.label])
+                timeouts.append([gif.id, gif.url, gif.label])
             except requests.exceptions.ReadTimeout as e:
                 print 'Too long between bytes'
-                url_timeouts.append([gif.id, gif.url, gif.label])
+                timeouts.append([gif.id, gif.url, gif.label])
+
     results = {
-        'dupes': url_dupes,
-        '404s': url_404s,
-        'timeouts': url_timeouts
+        'dupes': sorted(dupes, key=itemgetter(1)),
+        '404s': not_found,
+        'timeouts': timeouts
     }
     return results
 

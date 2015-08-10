@@ -7,8 +7,7 @@ $(document).ready(function () {
 	gifIsotope();
 	tagManager();
 	showAddForm();
-	gifGrabber();
-	gifGrabberSuggestions();
+	gifGrabber();	
 	hoverGifs();
 	copyUrl();
 	addTags();
@@ -333,6 +332,7 @@ function showAddForm() {
 
 // Show/Hide GifGrabber form, handles logic for the submit button
 function gifGrabber() {
+	gifGrabberSuggestions();
 	$('.gifgrabber-btn').on('click', function() {
 		gifGrabberAjax();
 		$(this).toggleClass('red-btn-selected');
@@ -1192,6 +1192,7 @@ function animateDiv($target) {
 	});
 }
 
+// Initializes Cache validation process
 function clickValidate() {
 	$('.validate-btn').on('click', function(e) {
 		var pageTitle = $('title').text();
@@ -1229,6 +1230,9 @@ function validationSetup() {
 }
 
 function validationResults(data) {
+	console.log(data);
+	var validationTitle = '<div class="validation-title">Validate <div>Cache</div></div><div class="validation-results"></div>';
+	$('.validation-container').append(validationTitle);
 	$('#validation-loading').remove();
 	$('.validation-wrapper').on('click', function(e) {
 		var target = $(e.target);
@@ -1237,8 +1241,39 @@ function validationResults(data) {
 		} else {
 			validationTeardown();
 		}
-	});
-	console.log(data);
+	});	
+	var dupes = data['dupes'];
+	if (dupes.length > 0) {
+		console.log('Dupes Exist!');
+		console.log(dupes);
+		var dupesHtml = '';
+		for (i=0; i<dupes.length; i++) {
+			var url = dupes[i][1];
+			var lastPeriod = url.lastIndexOf('.');
+			var extension = url.slice(lastPeriod + 1, url.length);
+			if (extension === 'gif') {
+				var image = '<div class="img-wrapper"><img src="' + url + '"></div>';
+			} else if (extension === 'gifv') {
+				url = url.substring(0, lastPeriod) + '.mp4';
+				var image = '<div class="img-wrapper"><video src="' + url + '" preload autoplay loop poster="../static/img/preload.gif"></video></div>';
+			}
+			var element = '<div class="validation-result"><div class="validation-id">' + dupes[i][0] + 
+						'</div>' + image + '<div class="validation-label">' + dupes[i][2] + '</div></div>'
+			dupesHtml += element
+		}		
+		$('.validation-results').append(dupesHtml);
+	}
+	var timeouts = data['timeouts'];
+	if (timeouts.length > 0) {
+		console.log('Timeouts Exist!');
+		console.log(dupes);
+	}
+	var notFounds = data['404s'];
+	if (notFounds.length > 0) {
+		console.log('404s Exist!');
+		console.log(notFounds);	
+	}
+
 }
 
 function validationTeardown() {

@@ -2001,3 +2001,28 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	min-width: 10em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
+.validation-title {
+	margin-top: -.8em;
+	text-align: center;
+	color: white;
+	font-size: 2em;
+}
+.validation-title div {
+	display: inline-block;
+	margin-left: -.2em;
+	font-family: 'Lobster';	
+}
+.validation-results {
+	padding: .25em;
+	width: 100%;
+	min-height: 10em;
+}
+.validation-results-section {
+
+}
+.validation-result {
+	display: inline-block;
+	margin: .75em;
+	max-width: 10em;
+	border: 1px solid red;
+}
