@@ -53,7 +53,7 @@
 
         <!-- Add GIF button -->
         {% if can_edit %}
-        <div class="add-gif-form-button btn green-btn">
+        <div class="add-gif-form-button inner-nav-btn btn green-btn">
             Add GIF
         </div>
         {% endif %}
@@ -64,7 +64,7 @@
         <!-- Bulk Tasks -->
         {% if gifs %}
         {% if can_edit %}
-        <div class="bulk-gif-button btn blue-btn">
+        <div class="bulk-gif-button inner-nav-btn btn blue-btn">
             Bulk Tasks
         </div>
 
@@ -168,6 +168,7 @@
     {% endif %}
 
     {% if gifs %}
+    <!-- Beginning of GIF Grids -->
     <div id="grids">
         <!-- Tagged GIFs Grid -->
         <div id="tagged-gif-grid" class="gif-grid">
@@ -248,7 +249,7 @@
 
                     <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
 
-                    <p class="gif-date">{{ object.created }}</p>
+                    <p class="gif-date hidden">{{ object.created }}</p>
                     <p class="gif-label">{{ object.label }}</p>
                     <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
@@ -479,8 +480,9 @@
         </div>
     </div>
 
+    <!-- Gif Validator -->
     <div class="validation-wrapper hidden">
-        <div class="validation-container main-form">
+        <div class="validation-container main-form animate">
             <form id="validation-form" method="post" action="{% url 'users:bulk-delete' %}">
                 {% csrf_token %}
                 <input type="text" name="user_id" value="{{ user_id }}" class="hidden">

@@ -494,7 +494,7 @@ def validate(request):
 def validate_cache(username):
     u = get_object_or_404(User, username=username)
     gifs = Gif.objects.filter(owner=u)
-    connect_timeout = 3
+    connect_timeout = 5
     read_timeout = 1.0
     unique_urls = []
     dupe_urls = []

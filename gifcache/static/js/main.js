@@ -56,7 +56,7 @@ var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
 
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {
-	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0
+	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0;
 	var counter = randomnumber;
 	$('.loading i').css({'color': COLORS[randomnumber]});
 	$('.nav-logo-circle').css({
@@ -68,7 +68,7 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
-	$('.home-section, .home-whatsnew-version').each(function() {
+	$('.home-section').each(function() {
 		if (counter > HOME_COLORS.length - 1 ) {
 			counter = 0;
 		}
@@ -97,6 +97,10 @@ function colorPageElements() {
 		});
 		counter += 1
 	});
+	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0;
+	$('.home-whatsnew-title, .home-plug-link').css('color', COLORS[randomnumber]);
+	$('.home-whatsnew-notes').css('border-top', '.1em solid ' + COLORS[randomnumber]);
+	$('.home-whatsnew-version').css('background-color', COLORS[randomnumber]);
 }
 
 // Colors the border-bottom CSS property of the main form elements
@@ -1241,6 +1245,7 @@ function validationTeardown() {
 }
 
 function validationResults(data) {
+	$('.validation-container').addClass('validation-expanded');
 	var validationTitle = '<div class="validation-title">Validate <div>Cache</div></div><div class="validation-results"></div>';	
 	$('.validation-container').prepend(validationTitle);
 	$('#validation-loading').remove();

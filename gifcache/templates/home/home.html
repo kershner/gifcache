@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="home-section animate-bg" style="height: 100vh; padding-top: 2em;">
+<div id="landing-page" class="home-section animate-bg" style="height: 100vh; padding-top: 2em;">
     <div id="main-logo">
         <div class="main-logo-gif transparent pulse animate">GIF</div>
         <div class="main-logo-img grow"><img src="/static/img/homegif{{ home_gif }}.gif"></div>
@@ -117,11 +117,6 @@
             <div>- Added party mode for all tag groups</div>
             <div>- Chrome extension coming soon!</div>
         </div>
-    </div>
-
-    <div class="home-plug">
-        <div class="home-plug-title">View more of my projects</div>
-        <a href="http://www.kershner.org"><div class="home-plug-link animate">kershner.org</div></a>
     </div>
 </div>
 {% endblock %}
