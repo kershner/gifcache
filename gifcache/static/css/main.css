@@ -971,8 +971,9 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .15em;
 }
-.nav-setting-icon {
+.nav-setting-icon {	
 	display: inline-block;
+	position: relative;
 	margin: .25em auto;
 	padding: .35em;
 	line-height: 1.5em;
@@ -1655,6 +1656,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 }
 .inactive-grabber-add-gifs-btn {opacity: 0.4;}
 .grabber-results-element {
+	display: inline-block;
 	position: relative;
 	z-index: 1;
 	vertical-align: top;
@@ -1740,6 +1742,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	height: 1.25em;
 	line-height: 1.25em;
 	font-size: 1.5em;
+	color: white;
 }
 .grabber-data {
 	display: inline-block;
@@ -1759,6 +1762,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 .holder a {
 	font-size: 12px;
 	cursor: pointer;
+	color: white;
 	padding: .8em;
 	border-radius: .5em;
 }
@@ -1789,7 +1793,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	top: 15%;
 	left: 0;
 	right: 0;
-	height: 10em;
+	height: 13em;
 	overflow-y: auto;
 	color: white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -1810,7 +1814,6 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	font-family: 'Lobster';	
 }
 .validation-results {
-	padding: .25em;
 	width: 100%;
 	min-height: 10em;
 	text-align: center;

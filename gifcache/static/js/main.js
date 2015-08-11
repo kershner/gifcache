@@ -317,13 +317,8 @@ function showAddForm() {
 		e.preventDefault();
 		var target = $(e.target);
 		if (target.is('#add-gif-submit')) {
-			var html = '<div class="lightbox loading-wrapper main-loading hidden">' +
-						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
-						'<div>Processing, one moment please...</div></div>' +
-						'</div>';
-			$('body').append(html);
 			colorPageElements();
-			$('.main-loading').toggleClass('hidden');
+			loadingScreen();
 			$(this).children('form').submit();
 		} else if (target.is('form, input, h1')) {
 			// Nothing
@@ -332,6 +327,33 @@ function showAddForm() {
 			$('.add-gif-form-button').toggleClass('green-btn-selected');
 		}
 	});
+}
+
+function loadingScreen() {
+	var counter = 1;
+	var blurbs = [
+		'Processing, one moment please...',
+		'Processing...',
+		'Just a moment...',
+		'Almost done...'
+	];
+	var html = '<div class="lightbox loading-wrapper main-loading hidden">' +
+				'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
+				'<div id="loading-blurb" class="animate">Processing, one moment please...</div></div>' +
+				'</div>';
+	$('body').append(html);	
+	$('.main-loading').toggleClass('hidden');
+	setInterval(function() {
+		counter += 1
+		if (counter > blurbs.length) {
+			counter = 0;
+		}
+		$('#loading-blurb').css('opacity', 0.0);
+		setTimeout(function() {
+			$('#loading-blurb').text(blurbs[counter]);
+			$('#loading-blurb').css('opacity', 1.0);
+		}, 800);		
+	}, 6000);
 }
 
 // Show/Hide GifGrabber form, handles logic for the submit button
@@ -366,13 +388,7 @@ function gifGrabber() {
 		if ($('#gifgrabber-values').val() === '') {
 			// Nothing
 		} else {
-			var html = '<div class="lightbox loading-wrapper main-loading hidden">' +
-						'<div class="loading"><i class="fa fa-spinner fa-pulse"></i>' +
-						'<div>Processing, one moment please...</div></div>' +
-						'</div>';
-			$('body').append(html);
-			colorPageElements();
-			$('.main-loading').toggleClass('hidden');
+			loadingScreen();
 			$('#grabber-add-form').submit();
 		}
 	});
@@ -762,6 +778,9 @@ function bulkOperations() {
 		'<div class="bulk-selected-gifs-number animate"></div>' +
 		'</div>';
 	$('#bulk-operations').prepend(html);
+	$('.bulk-option .submit').on('click', function() {
+		loadingScreen();
+	});
 }
 
 // Shows/hides various bulk task forms
@@ -1234,6 +1253,7 @@ function validationSetup() {
 	$('#validate-submit').on('click', function(e) {
 		e.preventDefault();
 		updateValidateValues();
+		loadingScreen();
 		$('#validation-form').submit();
 	});
 }
@@ -1245,7 +1265,9 @@ function validationTeardown() {
 }
 
 function validationResults(data) {
-	$('.validation-container').addClass('validation-expanded');
+	if (data['dupes'].length > 0 || data['404s'].length > 0) {
+		$('.validation-container').addClass('validation-expanded');
+	}
 	var validationTitle = '<div class="validation-title">Validate <div>Cache</div></div><div class="validation-results"></div>';	
 	$('.validation-container').prepend(validationTitle);
 	$('#validation-loading').remove();
