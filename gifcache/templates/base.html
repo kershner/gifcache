@@ -3,21 +3,16 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!-- Favicon -->
         <link rel="icon" type="image/png" href="{% static '/static/img/favicon.png' %}">
-
         <!-- CSS -->
         <link rel="stylesheet" href="{% static '/static/css/main.css' %}">
-
         <!-- Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
         {% if title %}
         <title>{{ title }} - GifCache</title>
         {% else %}
@@ -26,7 +21,6 @@
     </head>
 
     <body>
-
     <!-- Wrapper for 'sticky' footer -->
     <div class="wrapper">
         {% if title == 'Home' or title == 'Error' %}

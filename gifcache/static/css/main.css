@@ -143,7 +143,6 @@ select:hover {cursor: pointer;}
 .main-form {
 	position: relative;
 	margin: 1em auto;
-	margin-top: 3em;
 	padding: 1em;
 	padding-top: 2em;
 	max-width: 25em;
@@ -694,11 +693,11 @@ select:hover {cursor: pointer;}
 }
 .home-btn {
 	display: inline-block;
-	margin: -.2em .75em;
+	margin: -.2em .5em;
 	width: 3.5em;
 	line-height: 2em;
 	color: white;
-	font-size: 2.5em;
+	font-size: 2em;
 	border-bottom: .12em solid white;
 }
 .home-btn:hover {
@@ -1170,7 +1169,7 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: 1em;
 }
-.gif-grid-element:hover {
+.gif-desktop:hover {
 	z-index: 7;
 	transform: scale(1.2);
 }
@@ -1196,7 +1195,7 @@ select:hover {cursor: pointer;}
 	transform: scale(3);
 }
 .focused {
-	z-index: 6;
+	z-index: 7;
 	transform: scale(1.2);
 }
 .gif-grid-element .img-wrapper {

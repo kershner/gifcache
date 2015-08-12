@@ -3,15 +3,11 @@
 {% if errors %}
 <div class="message">{{ errors }}</div>
 {% endif %}
-
-
-<form action="" method="post" class="main-form animate">
+<form action="" method="post" class="main-form animate" style="margin-top: 3em;">
     <h1 class="title">Sign Up!</h1>
-
     <div class="main-text" style="margin-bottom: 1em;">
         GifCache is free and we won't use your information for anything.
     </div>
-
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="btn green-btn main-submit">

@@ -29,9 +29,7 @@
         <a href="/u/{{ username }}/edit-profile"><div class="btn blue-btn">Edit</div></a>
         {% endif %}
     </div>
-
     <br>
-
     <!-- Profile Navbar -->
     {% if gifs or can_edit %}
     {% if logged_in %}
@@ -50,7 +48,6 @@
             </div>
         </div>
         {% endif %}
-
         <!-- Add GIF button -->
         {% if can_edit %}
         <div class="add-gif-form-button inner-nav-btn btn green-btn">
@@ -60,13 +57,10 @@
         <div class="gifgrabber-btn btn inner-nav-btn red-btn">
             Gif<div class="lobster" style="color: white;">Grabber</div>
         </div>
-
         <!-- Bulk Tasks -->
         {% if gifs %}
         {% if can_edit %}
-        <div class="bulk-gif-button inner-nav-btn btn blue-btn">
-            Bulk Tasks
-        </div>
+        <div class="bulk-gif-button inner-nav-btn btn blue-btn">Bulk Tasks</div>
 
         <div id="bulk-operations" class="hidden">
             <div id="bulk-delete-btn" class="btn bulk-btn red-btn">Delete GIFs</div>
@@ -86,7 +80,6 @@
 
             <div id="bulk-operations-add-tags" class="bulk-option hidden">
                 <p>Add Tags to GIFs</p>
-
                 <form action="{% url 'users:bulk-add-tags' %}" method="post">
                     {% csrf_token %}
                     <input type="text" name='tags' placeholder="Comma Separated Tags">
@@ -98,7 +91,6 @@
 
             <div id="bulk-operations-remove-tags" class="bulk-option hidden">
                 <p>Remove Tags From GIFs</p>
-
                 <form action="{% url 'users:bulk-remove-tags' %}" method="post">
                     {% csrf_token %}
                     <input type="text" name='tags' placeholder="Comma Separated Tags">
@@ -109,7 +101,6 @@
             </div>
         </div>
         {% endif %}
-
         {% if tags %}
         <!-- Tag Sort -->
         <div class="sort btn inner-nav-btn peach-btn">Sort Tags
@@ -120,7 +111,6 @@
             </div>
         </div>
         {% endif %}
-
         <!-- Settings / Extra Options -->
         <div class="nav-settings-icon animate-fast">
             <i class="fa fa-cog"></i>
@@ -138,20 +128,17 @@
                 </div>
 
                 <div class="tag-group-refresh nav-setting-icon animate-fast">
-                    <i class="fa fa-refresh"></i>
-                    <div class="label">Grid</div>
+                    <i class="fa fa-refresh"></i><div class="label">Grid</div>
                 </div>
 
                 <div class="validate-btn nav-setting-icon animate-fast">
-                    <i class="fa fa-check-circle"></i>
-                    <div class="label">Validate</div>
+                    <i class="fa fa-check-circle"></i><div class="label">Validate</div>
                 </div>
             </div>
         </div>
         {% endif %}
     </div>
     {% endif %}
-
     {% if can_edit %}
     <div class="add-gif-form hidden">
         <form class="main-form animate" action="{% url 'users:add-gif' %}" method="post">
@@ -162,11 +149,9 @@
         </form>
     </div>
     {% endif %}
-
     {% if message %}
     <div class="message">{{ message }}</div>
     {% endif %}
-
     {% if gifs %}
     <!-- Beginning of GIF Grids -->
     <div id="grids">
@@ -176,10 +161,8 @@
             <div class="tag-group animate-bg">
                 <a class="anchor" name="{{ entry.0 }}"></a>
                 <div class="tag-title animate-bg">{{ entry.0 }}</div>
-
                 <div class="gif-count animate-fast">{{ entry.2 }}</div>
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
-
                 <!-- Tag Manager -->
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
@@ -197,13 +180,11 @@
                                 <img src="/static/img/disco_kid.gif">
                                 <div class="party-mode-icon-text animate">Party Mode</div>
                             </div>
-
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
                         </div>
 
                         <div class="tag-manager-section" style="margin-bottom: .05em;">
                             <div class="tag-manager-section-title tasks-title animate">Sort</div>
-
                             <div class="tag-sort-options">
                                 <div class="sort-label btn green-btn">Label</div>
                                 <div class="sort-date btn blue-btn">Date</div>
@@ -216,7 +197,6 @@
                         {% if can_edit %}
                         <form class="rename-tag-form hidden" action="{% url 'users:rename-tag' %}" method="post">
                             <div class="tag-manager-options-title">Rename Tag</div>
-
                             {% csrf_token %}
                             <input type="text" name="new_name" value="{{ entry.0 }}">
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
@@ -228,7 +208,6 @@
 
                         <form class="delete-tag-form hidden" action="{% url 'users:delete-tag' %}" method="post">
                             <div class="tag-manager-options-title">Delete Tag</div>
-
                             {% csrf_token %}
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                             <input type="text" name="user_id" value="{{ user_id }}" class="hidden">
@@ -248,7 +227,6 @@
                     </div>
 
                     <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
-
                     <p class="gif-date hidden">{{ object.created }}</p>
                     <p class="gif-label">{{ object.label }}</p>
                     <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
@@ -311,15 +289,12 @@
             </div>
             {% endfor %}
         </div>
-
         <!--All GIFs Grid-->
         <div id="all-gif-grid" class="gif-grid">
             <div class="tag-group animate-bg">
                 <div class="tag-title">all GIFs</div>
-
                 <div class="gif-count animate-fast">{{ gif_number }}</div>
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
-
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
                         <div class="tag-title tag-manager-title animate-bg">Options</div>
@@ -329,13 +304,11 @@
                                 <img src="/static/img/disco_kid.gif">
                                 <div class="party-mode-icon-text animate">Party Mode</div>
                             </div>
-
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
                         </div>
 
                         <div class="tag-manager-section" style="margin-bottom: .05em;">
                             <div class="tag-manager-section-title tasks-title">Sort</div>
-
                             <div class="tag-sort-options">
                                 <div class="sort-label btn green-btn">Label</div>
                                 <div class="sort-date btn blue-btn">Date</div>
@@ -352,7 +325,6 @@
                         <i class="fa fa-circle-o"></i>
                         <input type="text" value="{{ object.id }}" class="hidden">
                     </div>
-
                     <!-- Thumbnail / Hidden URL -->
                     <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
                     <p class="gif-label">{{ object.label }}</p>
@@ -360,7 +332,6 @@
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
                     <input type="text" class="display-url hidden" value="{{ object.display_url }}">
-
                     {% if can_edit %}
                     <!-- Delete Button -->
                     <div class="gif-form edit-form hidden">
@@ -372,7 +343,6 @@
                                 <div class="label gif-grid-element-delete-label">This cannot be undone</div>
                             </form>
                         </div>
-
                         <form action="{% url 'users:edit-gif' %}" method="post" class="edit-form">
                             <!-- GIF Label -->
                             {% csrf_token %}
@@ -380,11 +350,9 @@
                                 <div class="gif-form-title" style="left: .5em;">label</div>
                                 <input class="gif-label-field" type="text" name="label" value="{{ object.label }}" placeholder="Label">
                             </div>
-
                             <!-- Tags -->
                             <div class="tags gif-form-section">
                                 <div class="gif-form-title" style="right: .5em;">tags</div>
-
                                 {% for tag in object.tags.all %}
                                 <div class="tag">
                                     <div class="tag-name">{{ tag.name }}</div>
@@ -392,24 +360,20 @@
                                     <input class="remove-tag-input hidden" type="text" value=" ">
                                 </div>
                                 {% endfor %}
-
                                 <div class="add-tags">
                                     <div class="tags-to-be-added hidden">
                                         <div class="tags-to-be-added-title">Tags to be Added</div>
                                     </div>
-
                                     <div class="add-tags-title btn green-btn">
                                         <i class="fa fa-tag"></i>
                                         Add Tags
                                         <input type="text" value="0" class="add-tags-input hidden">
                                     </div>
                                 </div>
-
                                 <input class="add-tags-values hidden" type="text" name="tags_to_add" value="">
                                 <input class="remove-tags-values hidden" type="text" name="tags_to_remove" value="">
                                 <input class="gif-id-field hidden" type="text" name="gif_id" value="{{ object.id }}" placeholder="GIF ID">
                             </div>
-
                             <input type="submit" value="Apply" class="edit-gif-submit btn blue-btn">
                         </form>
                     </div>
@@ -426,20 +390,17 @@
         <div class="welcome-msg">{{ name }} hasn't added any GIFs yet</div>
         {% endif %}
     {% endif %}
-
     <!-- GifGrabber -->
     <div class="gifgrabber-form-wrapper hidden">
         <div class="gifgrabber-container main-form animate">
             <div class="grabber-lightbox hidden"></div>
             <div class="gifgrabber-title"><div style="font-family: 'PT Sans';">GIF</div>Grabber</div>
             <div class="gifgrabber-title-blurb">Grab GIFs directly from reddit</div>
-
             <div id="grabber-error" class="message hidden"></div>
 
             <form class="gifgrabber-form">
                 <input class="main-field subreddit-field animate" type="text" name="subreddit" maxlength="40" placeholder="/r/">
                 <div class="label">Subreddit</div>
-
                 <select class="sort-field animate">
                     <option value="hot">Hot</option>
                     <option value="new">New</option>
@@ -449,20 +410,16 @@
                     <option value="all">All</option>
                 </select>
                 <div class="label">Submission Sort</div>
-
                 <input type="submit" value="Grab GIFs" class="btn green-btn gifgrabber-submit">
             </form>
 
             <div class="gifgrabber-results animate hidden">
                 <div class="grabber-new-search btn blue-btn">New Search</div>
-
                 <div class="grabber-selected-gifs pulse hidden">
                     <div class="selected-gifs-number animate"></div>
                     <div class="selected-gifs-blurb">GIFs Selected</div>
                 </div>
-
                 <div class="grabber-data-container"></div>
-
                 <form id="grabber-add-form" action="{% url 'users:bulk-add-gifs' %}" method="post" class="hidden">
                     {% csrf_token %}
                     <input id="gifgrabber-values" name="values" type="text" class="hidden">
@@ -474,12 +431,10 @@
                     {% endif %}
                     <div class="holder"></div>
                 </form>
-
                 <div id="grabber-results" class="grabber-results-grid"></div>
             </div>
         </div>
     </div>
-
     <!-- Gif Validator -->
     <div class="validation-wrapper hidden">
         <div class="validation-container main-form animate">
