@@ -18,18 +18,23 @@ $(document).ready(function () {
 	gridView();
 	partyModeToggle();
 	clickValidate();
-	mobileAccess();
+	clickMenus();
 });
 
-// Attaches click handlers to all 'hover' nav elements
-// So they can be accessed on mobile devices
-function mobileAccess() {
-	$('.nav-links-small').on('tap', function() {
-		$(this).blur();
-		$(this).children('.small-nav-container').toggleClass('hidden');
+// Shows additional menus after clicking certain elements
+function clickMenus() {
+	$('.profile-nav-link').on('click', function() {
+		$(this).children('.profile-nav-extra').toggleClass('hidden');
 	});
-	$('.nav-settings-icon').on('tap', function(e) {
-		$(this).blur();
+	$('.nav-links-small').on('click', function(e) {
+		var target = $(e.target);
+		if (!target.is('.small-nav-icon')) {
+			// Nothing
+		} else {
+			$(this).children('.small-nav-container').toggleClass('hidden');
+		}		
+	});
+	$('.nav-settings-icon').on('click', function(e) {
 		var target = $(e.target);
 		if (!target.is('i.fa.fa-cog')) {
 			// Nothing
@@ -37,8 +42,7 @@ function mobileAccess() {
 			$(this).children('.nav-settings').toggleClass('hidden');
 		}
 	});
-	$('.inner-nav-tags').on('tap', function(e) {
-		$(this).blur();
+	$('.inner-nav-tags').on('click', function(e) {
 		var target = $(e.target);
 		if (!target.is('.inner-nav-tags.btn')) {
 			// Nothing
@@ -47,8 +51,7 @@ function mobileAccess() {
 			$(this).children('.inner-tag-nav').toggleClass('hidden');
 		}		
 	});
-	$('.sort').on('tap', function(e) {
-		$(this).blur();
+	$('.sort').on('click', function(e) {
 		var target = $(e.target);
 		if (!target.is('.sort.btn')) {
 			// Nothing

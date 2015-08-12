@@ -354,12 +354,7 @@ select:hover {cursor: pointer;}
 	height: 4em;
 }
 .profile-nav-link:hover {cursor: pointer; text-shadow: none;}
-.profile-nav-link:hover > .profile-nav-extra {
-	display: block;
-	text-shadow: none;
-}
 .profile-nav-extra {
-	display: none;
 	position: absolute;
 	padding: .75em;
 	top: 2.75em;
@@ -390,8 +385,7 @@ select:hover {cursor: pointer;}
 	margin: .5em auto;
 	max-width: 5;
 }
-.nav-links-small:hover {cursor: pointer;}
-.nav-links-small:hover > .small-nav-container {display: block !important;}
+.small-nav-icon:hover {cursor: pointer; transform: scale(1.3);}
 .nav-links-small i {
 	color: white;
 	text-shadow: none;
@@ -924,7 +918,6 @@ select:hover {cursor: pointer;}
 	width: 5em;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
-.inner-nav-tags:hover > .inner-tag-nav {display: block !important;}
 .inner-tag-nav, .sort-options {
 	position: absolute;
 	z-index: 7;
@@ -935,7 +928,6 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-radius: .25em;
 }
-.sort:hover > .sort-options {display: block !important;}
 .sort-options {
 	width: 6em;
 	text-align: left;
@@ -995,7 +987,6 @@ select:hover {cursor: pointer;}
 	cursor: pointer;
 	transform: scale(1.2);
 }
-.nav-settings-icon:hover > .nav-settings {display: block !important;}
 .nav-settings {
 	position: absolute;
 	top: 1.15em;
