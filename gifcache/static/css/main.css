@@ -143,6 +143,7 @@ select:hover {cursor: pointer;}
 .main-form {
 	position: relative;
 	margin: 1em auto;
+	margin-top: 3em;
 	padding: 1em;
 	padding-top: 2em;
 	max-width: 25em;
@@ -171,6 +172,10 @@ select:hover {cursor: pointer;}
 	font-size: 1.2em;
 	color: white;
 	text-shadow: 1px 1px 3px #000;
+}
+.main-text {
+	color: white;
+	text-align: center;
 }
 .no-labels label {display: none;}
 .main-form .main-submit {
@@ -328,6 +333,7 @@ select:hover {cursor: pointer;}
     border-radius: 50%;
 }
 .nav-links {
+	display: none;
 	position: absolute;
 	right: 1em;
 	top: .5em;
@@ -340,7 +346,6 @@ select:hover {cursor: pointer;}
 	margin: 0 .25em;
 	color: white;
 }
-
 .nav-links a:hover {text-shadow: none;}
 .profile-nav-link {
 	display: inline-block;
@@ -375,6 +380,35 @@ select:hover {cursor: pointer;}
 	border-top: .25em solid #25B972;
 	text-shadow: none;
 }
+.nav-links-small {display: block;}
+@media(min-width: 440px) {
+	.nav-links-small {display: none !important;}
+	.nav-links {display: block;}
+}
+.nav-links-small a {
+	display: block;
+	margin: .5em auto;
+	max-width: 5;
+}
+.nav-links-small:hover {cursor: pointer;}
+.nav-links-small:hover > .small-nav-container {display: block !important;}
+.nav-links-small i {
+	color: white;
+	text-shadow: none;
+}
+.small-nav-container {
+	position: absolute;
+	padding: .25em;
+	top: 1em;
+	right: 0;
+	height: 4.25em;
+	background-color: #25B972;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-radius: .1em;
+	border: .18em solid white;
+}
+.small-nav-container .profile-nav-extra {top: 5.25em;}
+.small-nav-extra {height: 6.25em;}
 /* Footer *******************************************************************/
 .wrapper {
 	margin: 0 auto -10em;
@@ -666,12 +700,11 @@ select:hover {cursor: pointer;}
 }
 .home-btn {
 	display: inline-block;
-	margin: .1em .75em;
+	margin: -.2em .75em;
 	width: 3.5em;
 	line-height: 2em;
 	color: white;
-	font-size: 1.75em;
-	font-family: 'PT Sans', sans-serif;
+	font-size: 2.5em;
 	border-bottom: .12em solid white;
 }
 .home-btn:hover {

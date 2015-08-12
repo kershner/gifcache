@@ -18,7 +18,46 @@ $(document).ready(function () {
 	gridView();
 	partyModeToggle();
 	clickValidate();
+	mobileAccess();
 });
+
+// Attaches click handlers to all 'hover' nav elements
+// So they can be accessed on mobile devices
+function mobileAccess() {
+	$('.nav-links-small').on('tap', function() {
+		$(this).blur();
+		$(this).children('.small-nav-container').toggleClass('hidden');
+	});
+	$('.nav-settings-icon').on('tap', function(e) {
+		$(this).blur();
+		var target = $(e.target);
+		if (!target.is('i.fa.fa-cog')) {
+			// Nothing
+		} else {
+			$(this).children('.nav-settings').toggleClass('hidden');
+		}
+	});
+	$('.inner-nav-tags').on('tap', function(e) {
+		$(this).blur();
+		var target = $(e.target);
+		if (!target.is('.inner-nav-tags.btn')) {
+			// Nothing
+		} else {
+			$(this).toggleClass('purple-btn-selected');
+			$(this).children('.inner-tag-nav').toggleClass('hidden');
+		}		
+	});
+	$('.sort').on('tap', function(e) {
+		$(this).blur();
+		var target = $(e.target);
+		if (!target.is('.sort.btn')) {
+			// Nothing
+		} else {
+			$(this).toggleClass('peach-btn-selected');
+			$(this).children('.sort-options').toggleClass('hidden');
+		}		
+	});
+}
 
 // Standard Fisher-Yates shuffle algorithm
 function shuffle(array) {
@@ -671,7 +710,6 @@ function hoverGifs() {
 			} else {
 				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
 			}
-
 			if ($(this).hasClass('focused') || gif.hasClass('expanded')) {
 				gifExpand($(this));
 			} else {

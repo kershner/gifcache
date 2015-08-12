@@ -42,6 +42,28 @@
             </div>
             </a>
 
+            <div class="nav-links nav-links-small">
+                <i class="fa fa-bars"></i>
+                {% if logged_in %}
+                <div class="small-nav-container hidden">
+                {% else %}
+                <div class="small-nav-container small-nav-extra hidden">
+                {% endif %}
+                    <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
+                    {% if logged_in %}
+                    <div class="profile-nav-link animate-fast">PROFILE
+                        <div class="profile-nav-extra">
+                            <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+                            <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'registration_register' %}" class="animate-fast">SIGNUP</a>
+                    <a href="{% url 'home:login' %}" class="animate-fast">LOGIN</a>
+                    {% endif %}
+                </div>
+            </div>
+
             <div class="nav-links">
                 <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
                 {% if logged_in %}
@@ -98,9 +120,7 @@
     <script type="text/javascript" src="{% static '/static/js/jPages.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/static/js/main.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            clickGifElements('{{ logged_in }}');
-        });
+        $(document).ready(function () {clickGifElements('{{ logged_in }}');});
     </script>
     </body>
 </html>
