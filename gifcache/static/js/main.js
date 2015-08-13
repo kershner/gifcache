@@ -769,7 +769,6 @@ function clickGifElements(logged_in) {
 		var parent = $(this).parent();		
 		// If mobile, hover won't work so do the image append on 'click'
 		if (isMobile) {
-			$('body').prepend('<h1>MOBILE DEVICE</h1>');
 			parent.toggleClass('tapped');
 			if (parent.hasClass('tapped')) {				
 				// Being selected, add the image element
@@ -787,7 +786,8 @@ function clickGifElements(logged_in) {
 					var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
 				}
 				thumbnail.css({
-					'opacity': 0.0
+					'opacity': 0.0,
+					'visibility': hidden
 					});
 				$(parent).prepend(html);
 				gifExpand($(parent));
@@ -796,7 +796,8 @@ function clickGifElements(logged_in) {
 				$(parent).children('.img-wrapper').remove();
 				var thumbnail = $(parent).children('.gif-grid-thumbnail');
 				thumbnail.css({
-					'opacity': 1.0
+					'opacity': 1.0,
+					'visibility': visible
 				});
 				gifExpand($(parent));
 			}
