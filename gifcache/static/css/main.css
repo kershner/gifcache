@@ -64,7 +64,7 @@ select:hover {cursor: pointer;}
 	right: .25em;
 	background-color: rgba(255, 78, 78, 0.6) !important;
 }
-.lightbox-cancel i, .lightbox-cancel div {
+.lightbox-cancel i {
 	display: inline-block;
 	margin: 0 .25em;
 	font-size: 1.2em;
@@ -72,11 +72,11 @@ select:hover {cursor: pointer;}
 .lightbox-tag-title {
 	display: inline-block;
 	position: absolute;
-	z-index: 11;
-	padding: .5em;
-	top: .25em;
-	left: .25em;
+	top: 1.7em;
+	left: 0;
+	right: 0;
 	font-size: 2em;
+	text-align: center;
 	color: white;
 	border-radius: .25em;
 }
@@ -88,7 +88,8 @@ select:hover {cursor: pointer;}
 	font-size: .65em;
 }
 .lightbox-control {
-	position: absolute;
+	display: inline-block;
+	margin: 0 .25em;
 	z-index: 12;
 	right: .5em;
 	padding: .5em;
@@ -838,7 +839,7 @@ select:hover {cursor: pointer;}
 	left: .75em;
 	text-indent: -.75em;
 }
-.extra-login-links {text-align: center;}
+.extra-login-links {text-align: center; padding-bottom: 1em;}
 /* Profile View Styles *********************************************************/
 /* Box with profile info */
 .profile-info {
@@ -981,6 +982,10 @@ select:hover {cursor: pointer;}
 	font-size: 1.8em;
 	color: #4c97c7;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.nav-settings-icon-selected {
+	color: #357dab;
+	text-shadow: none;
 }
 .nav-settings-icon:hover {
 	cursor: pointer;
@@ -1415,10 +1420,9 @@ select:hover {cursor: pointer;}
 .grid-view-wrapper {
 	position: relative;
 	margin: 0 auto;
-	padding: 5em;
-	max-width: 90%;
-	max-height: 82%;
-	min-height: 82%;
+	padding: .5em;
+	max-height: 90%;
+	min-height: 90%;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -1426,19 +1430,27 @@ div.grid-view-wrapper::-webkit-scrollbar {width: 3px;}
 div.grid-view-wrapper::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);}
 div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6px #45c788;}
 .grid-view-container {
-	position: relative;
 	margin: 0 auto;
-}
-.grid-img-wrapper {
-	position: relative;
-	width: 10em;
-	margin: 1em;
+	top: 10em;
 }
 .grid-img-wrapper:hover {
 	transform: scale(2) !important;
 	z-index: 20;
 }
+.grid-controls {
+	position: absolute;
+	margin: 0 auto;
+	z-index: 1;
+	top: 8em;
+	width: 100%;
+	text-align: center;
+}
+.grid-controls .lightbox-control {
+	height: 3em;
+    vertical-align: top;
+}
 .grid-size-slider {	top: 3.75em;}
+#grid-slider {height: 1em;}
 .grid-refresh {
 	top: 9em;
 	text-align: center;
@@ -1563,7 +1575,6 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: -5%;
 	max-width: 35em;
 	max-height: 80%;
 	overflow: auto;
@@ -1671,7 +1682,6 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 .grabber-inner-cancel i {color: #ff3434;}
 .grabber-add-gifs-btn, .inactive-grabber-add-gifs-btn {
 	margin: 1em auto;
-	margin-top: .1em;
 	width: 80%;
 	height: 2em !important;
 	border: none !important;
@@ -1769,8 +1779,8 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 }
 .grabber-data {
 	display: inline-block;
-	margin: .5em;
-	padding: .5em;
+	margin: .25em;
+	padding: .15em;
 	border-radius: .25em;
 	min-width: 2.5em;
 	height: 2em;
@@ -1786,19 +1796,12 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	font-size: 12px;
 	cursor: pointer;
 	color: white;
-	padding: .8em;
+	padding: .6em;
 	border-radius: .5em;
 }
 .holder a:hover {box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);}
 .holder a:active {top: 4px;}
-.holder a.jp-previous { margin-right: 1em;}
-.holder a.jp-next { margin-left: 1em;}
-.jp-next, .jp-previous {display: block;}
-@media(min-width: 400px) {
-	.jp-next, .jp-previous {
-		display: inline-block;
-	}
-}
+.jp-next, .jp-previous {display: inline-block;}
 .holder a.jp-current, a.jp-current:hover {
 	color: #FF4242;
 	font-weight: bold;

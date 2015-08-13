@@ -40,6 +40,7 @@ function clickMenus() {
 			// Nothing
 		} else {
 			$(this).children('.nav-settings').toggleClass('hidden');
+			$(this).toggleClass('nav-settings-icon-selected');
 		}
 	});
 	$('.inner-nav-tags').on('click', function(e) {
@@ -768,6 +769,7 @@ function clickGifElements(logged_in) {
 		var parent = $(this).parent();		
 		// If mobile, hover won't work so do the image append on 'click'
 		if (isMobile) {
+			$('body').prepend('<h1>MOBILE DEVICE</h1>');
 			parent.toggleClass('tapped');
 			if (parent.hasClass('tapped')) {				
 				// Being selected, add the image element
@@ -1069,10 +1071,10 @@ function gridView() {
 		var html = '<div class="lightbox grid-wrapper">' +
 					'<div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' +
 					'<div class="lightbox-control lightbox-cancel animate-fast">' +
-					'<div>Cancel Grid View</div><i class="fa fa-times"></i></div>' +
+					'<i class="fa fa-times"></i></div><div class="grid-controls">' +
 					'<div class="grid-size-slider lightbox-control animate-fast"><input id="grid-slider" type="range" value="10" min="10" max="50" step="10">' +
 					'<div class="lightbox-control-label">GIF Size</div></div>' +
-					'<div class="grid-refresh lightbox-control animate-fast"><i class="fa fa-refresh"></i><div class="lightbox-control-label">Refresh Grid</div></div>' +
+					'<div class="grid-refresh lightbox-control animate-fast"><i class="fa fa-refresh"></i><div class="lightbox-control-label">Refresh Grid</div></div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Grid</div><div class="pt">View</div></div>' +
 					'<div class="grid-view-wrapper"><div class="grid-view-container"></div></div>' +
 					'</div>';
@@ -1132,8 +1134,9 @@ function gridSlider(grid) {
 	$('#grid-slider').on('input', function() {
 		var scaleValue = $(this).val();
 		var imgGrid = $(this).parent().siblings('.grid-view-wrapper').children('.grid-view-container');
+		var imgGrid = $(this).parents('.grid-controls').siblings('.grid-view-wrapper').children('.grid-view-container');
+		console.log(imgGrid);
 		imgGrid.children('.grid-img-wrapper').each(function() {
-			// $(this).css('transform', 'scale(' + scaleValue + ')');
 			$(this).css({
 				'width': scaleValue + 'em'
 			});
@@ -1161,7 +1164,7 @@ function partyModeToggle() {
 		var partyColor = randomColor({format: 'rgb'});
 		var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
 		var html = '<div class="lightbox party-mode-wrapper animate-slow hidden">' +
-					'<div class="lightbox-control lightbox-cancel animate-fast"><div>Cancel Party Mode</div>' +
+					'<div class="lightbox-control lightbox-cancel animate-fast">' +
 					'<i class="fa fa-times"></i></div><div class="lightbox-tag-title lobster">' + tagTitle + '<div class="lightbox-gif-count">' + totalGifs + ' GIFs</div></div>' +
 					'<div class="lightbox-title pulse"><div class="lobster">Party</div><div class="pt">Mode</div></div>' +
 					'<div class="party-mode-container"></div>' +
