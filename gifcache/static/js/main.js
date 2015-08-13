@@ -769,17 +769,17 @@ function clickGifElements(logged_in) {
 		var parent = $(this).parent();		
 		// If mobile, hover won't work so do the image append on 'click'
 		if (isMobile) {
+			var gif = $(parent).find('.img-wrapper');
+			var thumbnail = $(parent).children('.gif-grid-thumbnail');
+			var gifUrl = $(parent).children('.display-url').val();
 			parent.toggleClass('tapped');
 			if (parent.hasClass('tapped')) {				
-				// Being selected, add the image element
-				var gif = $(parent).find('.img-wrapper');
-				var thumbnail = $(parent).children('.gif-grid-thumbnail');
-				var gifUrl = $(parent).children('.display-url').val();
 				// Check what kind of URL we have
 				var isGfycat = gifUrl.includes('gfycat');
 				var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
 				var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 				var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
+				// Being selected, add the image element
 				if (isGifv || isMp4 || isWebm || isGfycat) {
 					var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
 				} else {
@@ -787,69 +787,71 @@ function clickGifElements(logged_in) {
 				}
 				thumbnail.css({
 					'opacity': 0.0,
-					'visibility': hidden
-					});
-				$(parent).prepend(html);
-				gifExpand($(parent));
-			} else {
-				// Already selected, remove the image element		
-				$(parent).children('.img-wrapper').remove();
-				var thumbnail = $(parent).children('.gif-grid-thumbnail');
-				thumbnail.css({
-					'opacity': 1.0,
-					'visibility': visible
+					'visibility': 'hidden'
 				});
-				gifExpand($(parent));
+				$(parent).prepend(html);
+				$(parent).find('.img-wrapper').on('click', function(e) {
+					parent.removeClass('tapped');
+					parent.children('.gif-form .edit-form').addClass('hidden');
+					parent.children('.img-wrapper').remove();
+					thumbnail.css({
+						'opacity': 1.0,
+						'visibility': 'visible'
+					});
+					toggleFocus(parent, logged_in);
+				});
 			}
 		}
-		if (logged_in === 'True') {
-			$(this).parent().toggleClass('focused');
-			if ($(this).parent().hasClass('focused')) {
-    		    $(this).parent().css({
-    		        'top': '-=150px'
-    		    });
-    		} else {
-    		   $(this).parent().css({
-    		        'top': '+=150px'
-    		    });
-    		}
-		} else {
-			$(this).parent().toggleClass('focused');
-		}
-		var div = $(this).parent().find('.gif-form-title').children(div);
-		div.toggleClass('focused');
-		$(this).parent().children('.gif-form.edit-form').toggleClass('hidden');
-
-		if ($(this).parent().hasClass('focused')) {
-			var color  = GIF_COLORS[Math.floor(Math.random() * GIF_COLORS.length)];
-			$(this).parent().css({
-				'background-color': color
-			});
-			$(this).parent().find('.gif-form-title').css({
-				'background-color': color
-			});
-			$(this).parent().find('.gif-label').css({
-				'color': 'white'
-			});
-		} else {
-			$(this).parent().css({
-				'border': 'none',
-				'background-color': '#e6e6e6'
-			});
-			$(this).parent().find('.gif-label').css({
-				'color': '#4c4c4c'
-			});
-		}
+		toggleFocus(parent, logged_in);
 	});
 }
 
+function toggleFocus(parent, logged_in) {
+	console.log('TOGGLING FOCUS');
+	// Adding some extra positoning for logged-in menus
+	if (logged_in === 'True') {
+		parent.toggleClass('focused');
+		if (parent.hasClass('focused')) {
+			parent.css({
+				'top': '-=150px'
+			});
+		} else {
+			parent.css({
+				'top': '+=150px'
+			});
+		}
+	} else {
+		parent.toggleClass('focused');
+	}
+	parent.children('.gif-form.edit-form').toggleClass('hidden');
+	if (parent.hasClass('focused')) {
+		var color  = GIF_COLORS[Math.floor(Math.random() * GIF_COLORS.length)];
+		parent.css({
+			'background-color': color
+		});
+		parent.find('.gif-form-title').css({
+			'background-color': color
+		});
+		parent.find('.gif-label').css({
+			'color': 'white'
+		});
+	} else {
+		parent.css({
+			'border': 'none',
+			'background-color': '#e6e6e6'
+		});
+		parent.find('.gif-label').css({
+			'color': '#4c4c4c'
+		});
+	}
+}
+
 // Scales up GIF once expand icon is clicked
-function gifExpand(parent) {	
+function gifExpand(parent, logged_in) {	
 	$(parent).find('.gif-expand').on('click', function(e) {
 		$(this).siblings('.img-wrapper').toggleClass('expanded');
 	});
 	$(parent).find('.img-wrapper').on('click', function(e) {
-		e.preventDefault();
 		$(this).toggleClass('expanded');
 	});
 }
