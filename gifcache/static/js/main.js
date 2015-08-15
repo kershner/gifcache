@@ -125,15 +125,21 @@ function colorPageElements() {
 			'border-top': '.15em solid ' + bulkOptionColor
 		});
 	});
+	var numLoops = 1;
+	var secondColor = '';
 	$('.home-section').each(function() {
 		if (counter > HOME_COLORS.length - 1 ) {
 			counter = 0;
-		}
+		}		
 		var homeColor = HOME_COLORS[counter];
 		$(this).css({
 			'background-color': homeColor
 		});
+		if (numLoops === 2) {
+			secondColor = homeColor;
+		}
 		counter += 1
+		numLoops += 1
 	});
 	$('.nav-links a, .profile-nav-link').each(function() {
 		var classes = ['red', 'yellow', 'purple', 'peach'];
@@ -155,9 +161,9 @@ function colorPageElements() {
 		counter += 1
 	});
 	var randomnumber = (Math.random() * (COLORS.length - 0 + 1) ) << 0;
-	$('.home-whatsnew-title, .home-plug-link').css('color', COLORS[randomnumber]);
-	$('.home-whatsnew-notes').css('border-top', '.1em solid ' + COLORS[randomnumber]);
-	$('.home-whatsnew-version').css('background-color', COLORS[randomnumber]);
+	$('.home-whatsnew-title, .home-plug-link').css('color', secondColor);
+	$('.home-whatsnew-notes').css('border-top', '.1em solid ' + secondColor);
+	$('.home-whatsnew-version').css('background-color', secondColor);
 }
 
 // Colors the border-bottom CSS property of the main form elements
@@ -735,15 +741,18 @@ function hoverGifs() {
 			var gif = $(this).find('.img-wrapper');
 			var thumbnail = $(this).children('.gif-grid-thumbnail');
 			var gifUrl = $(this).children('.display-url').val();
+			var lastPeriod = gifUrl.lastIndexOf('.');
+			var extension = gifUrl.slice(lastPeriod + 1, gifUrl.length);
 			// Check what kind of URL we have
 			var isGfycat = gifUrl.includes('gfycat');
 			var isGifv = gifUrl.lastIndexOf('.gifv') == gifUrl.length - '.gifv'.length;
 			var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 			var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
-			if (isGifv || isMp4 || isWebm || isGfycat) {
-				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
-			} else {
+			if (extension === 'gif') {
 				var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
+			}
+			else if (isGifv || isMp4 || isWebm || isGfycat) {
+				var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
 			}
 			if ($(this).hasClass('focused') || gif.hasClass('expanded')) {
 				gifExpand($(this));
@@ -781,6 +790,8 @@ function clickGifElements(logged_in) {
 			var gif = $(parent).find('.img-wrapper');
 			var thumbnail = $(parent).children('.gif-grid-thumbnail');
 			var gifUrl = $(parent).children('.display-url').val();
+			var lastPeriod = gifUrl.lastIndexOf('.');
+			var extension = gifUrl.slice(lastPeriod + 1, gifUrl.length);
 			parent.toggleClass('tapped');
 			if (parent.hasClass('tapped')) {
 				// Check what kind of URL we have
@@ -789,10 +800,11 @@ function clickGifElements(logged_in) {
 				var isMp4 = gifUrl.lastIndexOf('.mp4') == gifUrl.length - '.mp4'.length;
 				var isWebm = gifUrl.lastIndexOf('.webm') == gifUrl.length - '.webm'.length;
 				// Being selected, add the image element
-				if (isGifv || isMp4 || isWebm || isGfycat) {
-					var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
-				} else {
+				if (extension === 'gif') {
 					var html = '<div class="img-wrapper animate"><img src="' + gifUrl + '"></div>'
+				}
+				else if (isGifv || isMp4 || isWebm || isGfycat) {
+					var html = '<div class="img-wrapper animate"><video src="' + gifUrl + '" autoplay loop poster="../static/img/preload.gif"></video></div>'
 				}
 				thumbnail.css({
 					'opacity': 0.0,
@@ -1175,6 +1187,37 @@ function gridRefresh(grid) {
 	});
 }
 
+// Gif Party Animation Functions below
+function makeNewPosition($content) {
+	// Get viewport dimensions (remove the dimension of the div)
+	var h = $content.height() - 400;
+	var w = $content.width() - 300;
+	var nh = Math.floor(Math.random() * h);
+	var nw = Math.floor(Math.random() * w);
+	return [nh, nw];
+}
+
+function calcSpeed(prev, next) {
+	var x = Math.abs(prev[1] - next[1]);
+	var y = Math.abs(prev[0] - next[0]);
+	var greatest = x > y ? x : y;
+	var speedModifier = 0.1;
+	var speed = Math.ceil(greatest / speedModifier);
+	return speed;
+}
+
+function animateDiv($target) {
+	var newq = makeNewPosition($target.parent());
+	var oldq = $target.position();
+	var speed = calcSpeed([oldq.top, oldq.left], newq);
+	$target.animate({
+		top: newq[0],
+		left: newq[1]
+	}, speed, function () {
+		animateDiv($target);
+	});
+}
+
 // Hides/shows party mode wrapper, starts/stop background change interval
 function partyModeToggle() {
 	$('.party-mode-icon').on('click', function() {
@@ -1201,9 +1244,8 @@ function partyModeToggle() {
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));
 		var backgroundChange = setInterval(function() {
-			var partyColor = randomColor({format: 'rgb'});
-			var rgba = partyColor.slice(0, 3) + 'a' + partyColor.slice(3, partyColor.length - 1) + ', 0.8)';
-			$('.party-mode-wrapper').css('background-color', rgba);
+			var partyColor = randomColor({format: 'rgb'});			
+			$('.party-mode-wrapper').css('background-color', partyColor);
 		}, 1500);
 		$('.lightbox-cancel').on('click', function() {
 			$('.party-mode-wrapper').remove();
@@ -1254,10 +1296,9 @@ function partyMode(tagGroup) {
 }
 
 // Quick function to get random element from jQuery collection
-// Possibly not needed anymore, commenting out until problem arises
-// $.fn.random = function() {
-// 	return this.eq(Math.floor(Math.random() * this.length));
-// }
+$.fn.random = function() {
+	return this.eq(Math.floor(Math.random() * this.length));
+}
 
 // Function to randomly 'focus' on a GIF in party mode
 function autoFocusGif() {
@@ -1269,13 +1310,13 @@ function autoFocusGif() {
 		}
 		var randomGif = $('.party-img-wrapper').random();
 		randomGif.addClass('party-focus');
-		randomGif.stop(true, true).animate({
+		randomGif.stop().animate({
 			'width': '+=25%',
 			'z-index': 20
-		}, 'slow');
+		}, 'slow', function() {animateDiv($(this))});
 		setTimeout(function() {
 			randomGif.removeClass('party-focus');
-			randomGif.stop(true, true).animate(origDims, 'slow');
+			randomGif.stop().animate(origDims, 'slow', function() {animateDiv($(this))});			
 			autoFocusGif();
 		}, 10000);
 	} else {
@@ -1289,50 +1330,19 @@ function manualFocusGif() {
 		var alreadyFocused = $(this).hasClass('party-focus');
 		if (alreadyFocused) {
 			$(this).removeClass('party-focus');
-			$(this).stop(true, true).animate({
+			$(this).stop().animate({
 				'width': '200px',
 				'z-index': 13
-			}, 'slow');
+			}, 'slow', function() {animateDiv($(this))});
 		} else {
 			$(this).addClass('party-focus');
-			$(this).stop(true, true).animate({
+			$(this).stop().animate({
 				'width': '+=25%',
 				'z-index': 20
-			}, 'slow');
+			}, 'slow', function() {animateDiv($(this))});
 		}
 	});
 
-}
-
-// Gif Party Animation Functions below
-function makeNewPosition($content) {
-	// Get viewport dimensions (remove the dimension of the div)
-	var h = $content.height() - 400;
-	var w = $content.width() - 300;
-	var nh = Math.floor(Math.random() * h);
-	var nw = Math.floor(Math.random() * w);
-	return [nh, nw];
-}
-
-function calcSpeed(prev, next) {
-	var x = Math.abs(prev[1] - next[1]);
-	var y = Math.abs(prev[0] - next[0]);
-	var greatest = x > y ? x : y;
-	var speedModifier = 0.1;
-	var speed = Math.ceil(greatest / speedModifier);
-	return speed;
-}
-
-function animateDiv($target) {
-	var newq = makeNewPosition($target.parent());
-	var oldq = $target.position();
-	var speed = calcSpeed([oldq.top, oldq.left], newq);
-	$target.animate({
-		top: newq[0],
-		left: newq[1]
-	}, speed, function () {
-		animateDiv($target);
-	});
 }
 
 // Initializes Cache validation process

@@ -79,7 +79,7 @@
     </div>
 
     <div class="footer">
-        <a href="{% url 'home:home' %}">
+        <a href="{% url 'home:home' %}" class="animate-fast">
             <div class="footer-logo">
                 <div class="footer-gif">GIF</div>
                 <div class="footer-cache">Cache</div>
@@ -90,17 +90,17 @@
             <p>Problems? Feedback?</p>
             <div>
                 <i class="fa fa-paper-plane"></i>
-                <a href="mailto:tylerkershner@gmail.com">Contact Me</a>
+                <a href="mailto:tylerkershner@gmail.com" class="animate-fast">Contact Me</a>
             </div>
         </div>
 
         <div class="footer-nav-links">
             {% if logged_in %}
-            <a href="/u/{{ username }}">My Profile</a>
-            <a href="{% url 'home:logout' %}">Logout</a>
+            <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+            <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
             {% else %}
-            <a href="{% url 'registration_register' %}">SIGNUP</a>
-            <a href="{% url 'home:login' %}">LOGIN</a>
+            <a href="{% url 'registration_register' %}" class="animate-fast">SIGNUP</a>
+            <a href="{% url 'home:login' %}" class="animate-fast">LOGIN</a>
             {% endif %}
         </div>
     </div>
