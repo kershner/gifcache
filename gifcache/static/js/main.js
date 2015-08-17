@@ -19,6 +19,7 @@ $(document).ready(function () {
 	gridView();
 	partyModeToggle();
 	clickValidate();
+	checkCookie();
 });
 
 // Fisher-Yates shuffle algorithm
@@ -1370,6 +1371,22 @@ function clickValidate() {
 				console.log(xhr.status + ': ' + xhr.responseText);
 			}
 		});
+	});
+}
+
+function checkCookie() {
+	$.ajax({
+		url: 'http://www.gifcache.com/cookie',
+		type: 'GET',
+		data: {},
+		success: function(json) {
+			console.log(json);
+		},
+		error: function(xhr, errmsg, err) {
+				console.log('Error!');
+				console.log(errmsg);
+				console.log(xhr.status + ': ' + xhr.responseText);
+		}
 	});
 }
 

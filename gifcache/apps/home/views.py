@@ -95,7 +95,7 @@ def logout_view(request):
         'home_gif': random.choice(xrange(get_home_gifs()))
     }
     response = render(request, 'home/home.html', context)
-    response.set_cookie('logged_in', False)
+    response.delete_cookie('logged_in')
     return response
 
 
@@ -155,7 +155,7 @@ def check_username(request):
 
 
 def check_cookie(request):
-    if request.COOKIES['logged_in'] == 'True':
+    if 'logged_in' in request.COOKIES:
         response_data = {
             'message': 'User is logged in!'
         }
