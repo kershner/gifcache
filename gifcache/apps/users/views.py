@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
+from ..home.views import check_cookie
 from django.http import HttpResponse
 from ..home.forms import LoginForm
 from django.utils import timezone
@@ -89,6 +90,7 @@ def view_profile(request, username):
 
 
 def edit_profile(request, username):
+    check_cookie(request)
     logged_in = False
     if request.user.is_authenticated():
         logged_in = True

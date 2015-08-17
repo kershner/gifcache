@@ -1,7 +1,11 @@
+from registration.backends.default.views import RegistrationView
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from .forms import LoginForm
+from django.contrib.auth.models import User
+from .forms import LoginForm, SignupForm
+from django.http import HttpResponse
 import random
+import json
 import os
 
 
@@ -25,7 +29,6 @@ def get_nav_gifs():
     return len([f for f in files if f.startswith('navgif')])
 
 
-# Create your views here.vicon
 def error403(request):
     home_gif = random.choice(xrange(get_home_gifs()))
     context = {
@@ -91,7 +94,9 @@ def logout_view(request):
         'message': 'You have been succesfully logged out!',
         'home_gif': random.choice(xrange(get_home_gifs()))
     }
-    return render(request, 'home/home.html', context)
+    response = render(request, 'home/home.html', context)
+    response.set_cookie('logged_in', False)
+    return response
 
 
 def authenticate_user(request):
@@ -102,7 +107,9 @@ def authenticate_user(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            return redirect('/u/%s' % str(user.username))
+            response = redirect('/u/%s' % str(user.username))
+            response.set_cookie('logged_in', True)
+            return response
         else:
             context = {
                 'title': 'Login',
@@ -119,3 +126,48 @@ def authenticate_user(request):
             'navgif': navgif
         }
         return render(request, 'home/login.html', context)
+
+
+def check_username(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        if User.objects.filter(username=username).exists():
+            print 'Username exists!'
+            form = SignupForm(request.POST)
+            error = 'The username %s is already taken, please try another!' % username
+            context = {
+                'form': form,
+                'error': error
+            }
+            return render(request, 'registration/registration_form.html', context)
+        else:
+            print 'Unique Username!'
+            form = SignupForm(request.POST)
+            if form.is_valid():
+                new_registration = RegistrationView()
+                new_registration.register(request, form)
+                return render(request, 'registration/registration_complete.html')
+    else:
+        context = {
+            'form': SignupForm()
+        }
+        return render(request, 'registration/registration_form.html', context)
+
+
+def check_cookie(request):
+    if request.COOKIES['logged_in'] == 'True':
+        response_data = {
+            'message': 'User is logged in!'
+        }
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
+    else:
+        response_data = {
+            'message': 'User is not logged in!'
+        }
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
