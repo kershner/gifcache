@@ -1,6 +1,6 @@
 from registration.backends.default.views import RegistrationView
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .forms import LoginForm, SignupForm
 from django.http import HttpResponse
@@ -106,9 +106,11 @@ def authenticate_user(request):
     navgif = random.choice(xrange(get_nav_gifs()))
     if user is not None:
         if user.is_active:
+            u = get_object_or_404(User, username=username)
             login(request, user)
             response = redirect('/u/%s' % str(user.username))
             response.set_cookie('logged_in', True)
+            response.set_cookie('user_id', u.id)
             return response
         else:
             context = {

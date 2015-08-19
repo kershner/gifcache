@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from ..home.views import check_cookie
@@ -339,6 +340,7 @@ def add_gif(user_id, url, label, tags):
             g.tags.add(tag)
 
 
+@csrf_exempt
 def bulk_add_gifs(request):
     print 'Hit bulk add gifs route!'
     if request.user.is_authenticated():
