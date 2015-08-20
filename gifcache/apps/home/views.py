@@ -96,6 +96,7 @@ def logout_view(request):
     }
     response = render(request, 'home/home.html', context)
     response.delete_cookie('logged_in')
+    response.delete_cookie('username')
     return response
 
 
@@ -106,11 +107,10 @@ def authenticate_user(request):
     navgif = random.choice(xrange(get_nav_gifs()))
     if user is not None:
         if user.is_active:
-            u = get_object_or_404(User, username=username)
             login(request, user)
             response = redirect('/u/%s' % str(user.username))
             response.set_cookie('logged_in', True)
-            response.set_cookie('user_id', u.id)
+            response.set_cookie('username', username)
             return response
         else:
             context = {
