@@ -131,7 +131,7 @@ function colorPageElements() {
 	$('.home-section').each(function() {
 		if (counter > HOME_COLORS.length - 1 ) {
 			counter = 0;
-		}		
+		}
 		var homeColor = HOME_COLORS[counter];
 		$(this).css({
 			'background-color': homeColor
@@ -570,7 +570,7 @@ function updateGrabberValues() {
 			var url = $(this).siblings('.grabber-hidden-url').val();
 			var label = $(this).children('.inner-label').val();
 			var tags = $(this).children('.inner-tags').val();
-			var values = url + '-' + label + '-' + tags;
+			var values = url + '*' + label + '*' + tags;
 			finalValues += values + '|';
 		}
 	});
@@ -1245,7 +1245,7 @@ function partyModeToggle() {
 		$('.party-mode-wrapper').removeClass('hidden');
 		partyMode($(this).parents('.tag-group'));
 		var backgroundChange = setInterval(function() {
-			var partyColor = randomColor({format: 'rgb'});			
+			var partyColor = randomColor({format: 'rgb'});
 			$('.party-mode-wrapper').css('background-color', partyColor);
 		}, 1500);
 		$('.lightbox-cancel').on('click', function() {
@@ -1317,7 +1317,7 @@ function autoFocusGif() {
 		}, 'slow', function() {animateDiv($(this))});
 		setTimeout(function() {
 			randomGif.removeClass('party-focus');
-			randomGif.stop().animate(origDims, 'slow', function() {animateDiv($(this))});			
+			randomGif.stop().animate(origDims, 'slow', function() {animateDiv($(this))});
 			autoFocusGif();
 		}, 10000);
 	} else {

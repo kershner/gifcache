@@ -280,6 +280,7 @@ def delete_tag(request):
 
 
 def add_gif(user_id, url, label, tags):
+    print url
     display_url = url
     # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
     if url.endswith('gif'):
@@ -352,8 +353,8 @@ def bulk_add_gifs(request):
             results = []
             for value in values:
                 value = value.replace("'", "")
-                dash1 = value.find('-')
-                dash2 = value.rfind('-')
+                dash1 = value.find('*')
+                dash2 = value.rfind('*')
                 url = value[:dash1]
                 label = value[dash1 + 1:dash2]
                 tags = value[dash2 + 1:].split(',')
