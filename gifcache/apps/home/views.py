@@ -2,6 +2,7 @@ from registration.backends.default.views import RegistrationView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from ..users.models import Profile
 from .forms import LoginForm, SignupForm
 from django.http import HttpResponse
 import random
@@ -98,6 +99,7 @@ def logout_view(request):
     response.delete_cookie('logged_in')
     response.delete_cookie('username')
     response.delete_cookie('user_id')
+    response.delete_cookie('avatar')
     return response
 
 
@@ -109,11 +111,13 @@ def authenticate_user(request):
     if user is not None:
         if user.is_active:
             u = get_object_or_404(User, username=username)
+            p = get_object_or_404(Profile, owner=u)
             login(request, user)
             response = redirect('/u/%s' % str(user.username))
             response.set_cookie('logged_in', True)
             response.set_cookie('username', username)
             response.set_cookie('user_id', u.id)
+            response.set_cookie('avatar', p.avatar)
             return response
         else:
             context = {
