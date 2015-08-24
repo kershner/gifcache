@@ -303,7 +303,7 @@ select:hover {cursor: pointer;}
 	position: absolute;
 	z-index: 2;
 	top: -0.1em;
-	left: 0.35em;
+	left: 0.6em;
 	font-family: 'PT Sans', sans-serif;
 }
 #cache {
@@ -641,6 +641,18 @@ select:hover {cursor: pointer;}
 	margin: 0 auto;
 	font-family: 'Lobster', cursive;
 }
+.landing-shade {
+	position: absolute;	
+	left: 0;	
+	height: 33vh;
+	width: 100%;
+}
+.lighter {	
+	bottom: 33vh;
+}
+.darker {
+	bottom: 0;
+}
 #main-logo {
 	position: relative;
 	margin: 0 auto;
@@ -652,7 +664,7 @@ select:hover {cursor: pointer;}
 	position: absolute;
 	z-index: 1;
 	top: 3.4em;
-	left: .8em;
+	left: .95em;
 	font-family: 'PT Sans', sans-serif;
 }
 .main-logo-cache {
@@ -672,6 +684,7 @@ select:hover {cursor: pointer;}
 	font-size: 1em;
 }
 .slogan {
+    position: relative;
     padding: .25em;
 	text-align: center;
 	font-size: 1.2em;
@@ -690,6 +703,7 @@ select:hover {cursor: pointer;}
 	}
 }
 .home-links-wrapper {
+	position: relative;
 	width: 100%;
 	height: 13em;
 }
