@@ -561,6 +561,8 @@ def scrape_reddit(sub, sort):
         extension = url[url.rfind('.'):]
         if extension in allowed:
             results.append([submission.url, extension, submission.title, submission.short_link])
+        elif 'gfycat' in submission.url:
+            results.append([submission.url, extension, submission.title, submission.short_link])
         else:
             continue
     return results

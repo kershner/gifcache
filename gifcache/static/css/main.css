@@ -302,9 +302,10 @@ select:hover {cursor: pointer;}
 #gif {
 	position: absolute;
 	z-index: 2;
-	top: -0.1em;
+	top: -0.12em;
 	left: 0.6em;
 	font-family: 'PT Sans', sans-serif;
+	font-weight: 800;
 }
 #cache {
 	position: absolute;
@@ -434,6 +435,7 @@ select:hover {cursor: pointer;}
 	position: relative;
 	left: .15em;
 	font-family: 'PT Sans', sans-serif;
+	font-weight: 800;
 }
 .footer-cache {font-family: 'Lobster', cursive;}
 .footer-problems {margin: 0;}
@@ -642,13 +644,17 @@ select:hover {cursor: pointer;}
 	font-family: 'Lobster', cursive;
 }
 .landing-shade {
-	position: absolute;	
+	position: absolute;
+	opacity: 0.0;
 	left: 0;	
-	height: 33vh;
+	height: 33.33vh;
 	width: 100%;
 }
-.lighter {	
-	bottom: 33vh;
+.lightest {
+	bottom: 66.66vh;
+}
+.lighter {
+	bottom: 33.33vh;
 }
 .darker {
 	bottom: 0;
@@ -656,6 +662,7 @@ select:hover {cursor: pointer;}
 #main-logo {
 	position: relative;
 	margin: 0 auto;
+	top: .15em;
 	width: 5.25em;
 	font-size: 16vw;
 }
@@ -663,9 +670,10 @@ select:hover {cursor: pointer;}
 	display: inline-block;
 	position: absolute;
 	z-index: 1;
-	top: 3.4em;
+	top: 3.35em;
 	left: .95em;
 	font-family: 'PT Sans', sans-serif;
+	font-weight: 800;
 }
 .main-logo-cache {
 	display: inline-block;
@@ -686,6 +694,7 @@ select:hover {cursor: pointer;}
 .slogan {
     position: relative;
     padding: .25em;
+    top: .5em;
 	text-align: center;
 	font-size: 1.2em;
 }
@@ -704,8 +713,8 @@ select:hover {cursor: pointer;}
 }
 .home-links-wrapper {
 	position: relative;
+	top: 2em;
 	width: 100%;
-	height: 13em;
 }
 .home-btn {
 	display: inline-block;
@@ -750,13 +759,14 @@ select:hover {cursor: pointer;}
 	font-size: 1.2em;
 }
 .startup-bs-img {
+	position: relative;
 	margin: 1em auto;
 	z-index: 1;
 	max-width: 15em;
 	height: 15em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
-.startup-bs-img:hover {transform: scale(1.75);}
+.startup-bs-img:hover {transform: scale(1.75); z-index: 2;}
 .startup-bs-img img {width: 100%;}
 .home-demo {
 	margin: 1em auto;
@@ -811,47 +821,12 @@ select:hover {cursor: pointer;}
 .mini-logo-gif {
 	display: inline-block;
 	font-family: 'PT Sans', sans-serif;
+	font-weight: 800;
 }
 .mini-logo-cache {
 	display: inline-block;
 	right: .05em;
 	font-family: 'Lobster', cursive;
-}
-.home-whatsnew {
-	position: relative;
-	margin: 0 auto;
-	padding: 2em;
-	min-height: 10em;
-	max-width: 25em;
-	text-align: center;
-}
-.home-whatsnew-title {
-	font-family: 'Lobster', cursive;
-	font-size: 4em;
-}
-.home-whatsnew-version {
-	margin: 0 auto;
-	width: 3em;
-	height: 3em;
-	line-height: 3em;
-	color: white;
-	font-size: 2em;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
-	border-radius: 50%;
-}
-.home-whatsnew-date {
-	margin: .75em;
-	font-size: 1.75em;
-}
-.home-whatsnew-notes {
-	padding-top: .5em;
-	text-align: left;
-}
-.home-whatsnew-notes div {
-	position: relative;
-	left: .75em;
-	text-indent: -.75em;
 }
 .extra-login-links {text-align: center; padding-bottom: 1em;}
 /* Profile View Styles *********************************************************/
@@ -1010,7 +985,7 @@ select:hover {cursor: pointer;}
 .desktop-hover:hover > .nav-settings {display: block !important}
 .nav-settings {
 	position: absolute;
-	top: 1.15em;
+	top: .9em;
 	right: -.1em;
 	width: 5em;
 	background-color: #F2F2F2;
@@ -1489,9 +1464,11 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 .grid-refresh i {font-size: 2em;}
 .tag-manager-form form {
 	position: relative;
-	top: 9em;
+	margin: 1em auto;
+	top: 8em;
 	padding: 1em;
 	width: 75%;
+	min-width: 10em;
 	max-width: 20em;
 	border-radius: .25em;
 	border: .2em solid white;
@@ -1807,11 +1784,12 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	line-height: 1.25em;
 	font-size: 1.5em;
 	color: white;
+	background-color: #25B972;
 }
 .grabber-data {
 	display: inline-block;
 	margin: .25em;
-	padding: .15em;
+	padding: .4em;
 	border-radius: .25em;
 	min-width: 2.5em;
 	height: 2em;
