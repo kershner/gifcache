@@ -49,6 +49,7 @@ function shuffle(array) {
 // Credit to StackOverflow user Pimp Trizkit
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 function shadeColor2(color, percent) {
+    console.log('Color passed to shadeColor2 function: ' + color)
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
@@ -101,6 +102,10 @@ function clickMenus() {
 	}
 }
 
+var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
+var HOME_COLORS = ['#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+
 // Fades in elements on the splash page
 function homeFadeIn() {
 	setTimeout(function() {
@@ -128,11 +133,39 @@ function homeFadeIn() {
 			'opacity': '1.0'
 		});
 	}, 1425);
+	landingColorShuffle();
 }
 
-var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
-var HOME_COLORS = ['#498FBD', '#ff6767', '#585ec7', '#FF8359'];
-var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+function landingColorShuffle() {
+    var randomnumber = (Math.random() * (COLORS.length -1) ) << 0;
+    var counter = randomnumber;
+    setInterval(function() {
+        if (counter > COLORS.length - 1) {
+            counter = 0;
+        }
+        console.log(counter);
+        var color = COLORS[counter];
+        console.log(color);
+        var shade1 = shadeColor2(color, -0.15);
+	    var shade2 = shadeColor2(color, -0.3);
+        setTimeout(function() {
+    		$('.lightest').css({
+    			'background-color': color
+    		});
+    	}, 475);
+    	setTimeout(function() {
+    		$('.lighter').css({
+    			'background-color': shade1
+    		});
+    	}, 900);
+    	setTimeout(function() {
+    		$('.darker').css({
+    			'background-color': shade2
+    		});
+    	}, 1300);
+    	counter += 1
+    }, 3000);
+}
 
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {
