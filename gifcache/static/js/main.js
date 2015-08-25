@@ -49,7 +49,6 @@ function shuffle(array) {
 // Credit to StackOverflow user Pimp Trizkit
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 function shadeColor2(color, percent) {
-    console.log('Color passed to shadeColor2 function: ' + color)
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
@@ -118,6 +117,7 @@ function homeFadeIn() {
 			'opacity': '1.0'
 		});
 	}, 1600);
+	landingColorShuffle();
 	setTimeout(function() {
 		$('.lightest').css({
 			'opacity': '1.0'
@@ -132,8 +132,7 @@ function homeFadeIn() {
 		$('.darker').css({
 			'opacity': '1.0'
 		});
-	}, 1425);
-	landingColorShuffle();
+	}, 1425);	
 }
 
 function landingColorShuffle() {
@@ -143,9 +142,7 @@ function landingColorShuffle() {
         if (counter > COLORS.length - 1) {
             counter = 0;
         }
-        console.log(counter);
         var color = COLORS[counter];
-        console.log(color);
         var shade1 = shadeColor2(color, -0.15);
 	    var shade2 = shadeColor2(color, -0.3);
         setTimeout(function() {
@@ -165,6 +162,40 @@ function landingColorShuffle() {
     	}, 1300);
     	counter += 1
     }, 3000);
+    setInterval(function() {
+    	shrinkGrowImage();
+    }, 8000);
+}
+
+function shrinkGrowImage() {
+	// Function to return correct vendor prefix for CSS animation
+	function whichAnimationEvent(){
+		var t,
+		el = document.createElement("fakeelement");
+		var animations = {
+			"animation"      : "animationend",
+			"OAnimation"     : "oAnimationEnd",
+			"MozAnimation"   : "animationend",
+			"WebkitAnimation": "webkitAnimationEnd"
+		}
+		for (t in animations) {
+			if (el.style[t] !== undefined){
+			return animations[t];
+			}
+		}
+	}
+	var animationEvent = whichAnimationEvent();
+	var element = $('.main-logo-img');
+	var baseUrl = 'http://www.gifcache.com/static/img/';
+	element.addClass('shrink').removeClass('grow');
+	// Uses previous function to determine the end of a CSS animation keyframe
+	element.one(animationEvent, function(e) {
+		// 17 comes from 18 (total number of Home GIFs - 1)
+		var randomnumber = (Math.random() * (17) ) << 0;
+		var gif = baseUrl + randomnumber + '.gif';
+		$(this).css('transform', 'scale(0)').children('img').attr('src', gif);
+		$(this).addClass('grow').removeClass('shrink').css('transform', 'scale(1)');
+	});
 }
 
 // Picks colors and applies them to various elements on page load

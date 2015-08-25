@@ -571,16 +571,60 @@ select:hover {cursor: pointer;}
 }
 /* Home Page Styles *********************************************************/
 .levitate {
-	-webkit-animation: levitate 4s infinite;}
-.grow {-webkit-animation: grow 3s 1}
-.pulse {-webkit-animation: pulse 3s infinite;}
-.spin {-webkit-animation: spin 25s infinite;}
+	-webkit-animation: levitate 4s infinite;
+	-ms-animation: levitate 4s infinite;
+	animation: levitate 4s infinite;
+}
+.grow {
+	-webkit-animation: grow 3s 1;
+	-ms-animation: grow 3s 1;
+	animation: grow 3s 1;
+}
+.shrink {
+	-webkit-animation: shrink 3s 1;
+	-ms-animation: shrink 3s 1;
+	animation: shrink 3s 1;
+}
+.pulse {
+	-webkit-animation: pulse 3s infinite;
+	-ms-animation: pulse 3s infinite;
+	animation: pulse 3s infinite;
+}
+.spin {
+	-webkit-animation: spin 25s infinite;
+	-ms-animation: spin 25s infinite;
+	animation: spin 25s infinite;
+}
 @-webkit-keyframes grow {
 	0% {
 		-webkit-transform: scale(0);
 	}
 	100% {
 		-webkit-transform: scale(1);
+	}
+}
+@keyframes grow {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@-webkit-keyframes shrink {
+	0% {
+		-webkit-transform: scale(1);
+	}
+	100% {
+		-webkit-transform: scale(0);
+	}
+}
+@keyframes shrink {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
 	}
 }
 @-webkit-keyframes levitate {
@@ -594,6 +638,17 @@ select:hover {cursor: pointer;}
 		-webkit-transform: translateY(-20px);
 	}
 }
+@keyframes levitate {
+	0% {
+		transform: translateY(-20px);
+	}
+	50% {
+		transform: translateY(0px);
+	}
+	100% {
+		transform: translateY(-20px);
+	}
+}
 @-webkit-keyframes pulse {
 	0% {
 		-webkit-transform: scale(1);
@@ -605,12 +660,31 @@ select:hover {cursor: pointer;}
 		-webkit-transform: translateY(1);
 	}
 }
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: translateY(1);
+	}
+}
 @-webkit-keyframes spin {
 	0%  {
 		-webkit-transform: rotate(0deg);
 	}
 	100% {
 		-webkit-transform: rotate(360deg);
+	}
+}
+@keyframes spin {
+	0%  {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }
 .home-section {
@@ -763,7 +837,6 @@ select:hover {cursor: pointer;}
 	margin: 1em auto;
 	z-index: 1;
 	max-width: 15em;
-	height: 15em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 .startup-bs-img:hover {transform: scale(1.75); z-index: 2;}
