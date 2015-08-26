@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_delete, post_save, pre_save
+from django.db.models.signals import pre_delete, post_save
 from boto.s3.connection import S3Connection, Bucket, Key
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import get_object_or_404
