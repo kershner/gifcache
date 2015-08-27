@@ -324,7 +324,6 @@ def add_gif(user_id, url, label, tags):
     img = StringIO(img.content)
     img_file = Image.open(img).convert('RGB').resize(size)
     img_file.thumbnail(size, Image.ANTIALIAS)
-    img_file.thumbnail(size, Image.ANTIALIAS)
     img_temp = StringIO()
     img_file.save(img_temp, 'JPEG')
 

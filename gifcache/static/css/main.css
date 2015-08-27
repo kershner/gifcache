@@ -832,6 +832,13 @@ select:hover {cursor: pointer;}
 .startup-bs-blurb {
 	font-size: 1.2em;
 }
+.preload {
+	position: absolute;
+	opacity: 0;
+	z-index: 1;
+	top: 0;
+	left: 0;
+}
 .startup-bs-img {
 	position: relative;
 	margin: 1em auto;
@@ -893,6 +900,9 @@ select:hover {cursor: pointer;}
 	height: 100%;
 	max-width: 80%;
 }
+.inner #gif4 {
+	position: relative;
+}
 .new-btn {
 	position: relative;
 	margin: .25em auto;
@@ -918,6 +928,7 @@ select:hover {cursor: pointer;}
 }
 .feature-img {
 	display: inline-block;
+	position: relative;
 	margin: 1.5em auto;
 	max-width: 25em;
 	max-height: 25em;
