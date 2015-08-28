@@ -57,15 +57,15 @@ function homeFadeIn() {
 function profileFadeIn() {
 	setTimeout(function() {
 		$('.profile-info').css('opacity', '1.0');
-	}, 200);
+	}, 100);
 	setTimeout(function() {
 		$('.inner-nav').css('opacity', '1.0');
-	}, 350);
+	}, 150);
 	setTimeout(function() {
 		$('.tag-group').each(function() {
 			$(this).css('opacity', '1.0');
 		});
-	}, 500);
+	}, 200);
 }
 
 // Displays landing-page gifs once they have loaded
