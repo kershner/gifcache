@@ -54,42 +54,32 @@ function homeFadeIn() {
 	}, 700);
 }
 
-// Loads in landing-page gifs when viewport his certain elements
+function profileFadeIn() {
+	setTimeout(function() {
+		$('.profile-info').css('opacity', '1.0');
+	}, 200);
+	setTimeout(function() {
+		$('.inner-nav').css('opacity', '1.0');
+	}, 350);
+	setTimeout(function() {
+		$('.tag-group').each(function() {
+			$(this).css('opacity', '1.0');
+		});
+	}, 500);
+}
+
+// Displays landing-page gifs once they have loaded
 // Cuts down on initial bandwidth load
 function lazyGifs() {
-	$(document).scroll(function() {
-		if ($('.startup-icon').visible()) {
-			$('#gif1 .preload').attr('src', '/static/img/gifcache_gif1.gif').load(function() {
-				$(this).css('opacity', '1');
-				$('#gif2 .preload').attr('src', '/static/img/gifcache_gif2.gif').load(function() {
-					$(this).css('opacity', '1');
-					$('#gif3 .preload').attr('src', '/static/img/gifcache_gif3.gif').load(function() {
-						$(this).css('opacity', '1');
-					});
-				});
-			});
-		}
-		if ($('.home-demo').visible()) {
-			$('#gif4 .preload').attr('src', '/static/img/gifcache_gif4.gif').load(function() {
-				$(this).css('opacity', '1');
-			});
-		}
-		if ($('.chrome-extension-section .code-link-wrapper').visible()) {
-			$('#gif5 .preload').attr('src', '/static/img/gifcache_gif5.gif').load(function() {
-				$(this).css('opacity', '1');
-			});
-		}
-		if ($('#gif5').visible()) {
-			$('#gif6 .preload').attr('src', '/static/img/gifcache_gif6.gif').load(function() {
-				$(this).css('opacity', '1');
-			});
-		}
-		if ($('#gif6').visible()) {
-			$('#gif7 .preload').attr('src', '/static/img/gifcache_gif7.gif').load(function() {
-				$(this).css('opacity', '1');
-			});
-		}
-	});
+	var counter = 1;
+	for (i=0; i<=7; i++) {
+		var selector = '#gif' + counter + ' .preload';
+		var url = '/static/img/gifcache_gif' + counter + '.gif';
+		$(selector).attr('src', url).load(function() {
+			$(this).css('opacity', '1');
+		});
+		counter += 1;
+	}
 }
 
 // Colors three 'shade' divs placed inside certain containers
@@ -233,6 +223,7 @@ function colorPageElements() {
 	$('.home-whatsnew-title, .home-plug-link').css('color', secondColor);
 	$('.home-whatsnew-notes').css('border-top', '.1em solid ' + secondColor);
 	$('.home-whatsnew-version').css('background-color', secondColor);
+	profileFadeIn();
 	colorMainForm();
 	colorProfile();
 }

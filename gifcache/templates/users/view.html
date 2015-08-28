@@ -33,9 +33,9 @@
     <!-- Profile Navbar -->
     {% if gifs or can_edit %}
     {% if logged_in %}
-    <div class="inner-nav animate-bg" style="max-width: 37em;">
+    <div class="inner-nav animate-opacity" style="max-width: 37em;">
     {% else %}
-    <div class="inner-nav animate-bg" style="max-width: 22em;">
+    <div class="inner-nav animate-opacity" style="max-width: 22em;">
     {% endif %}
         <!-- Tag Nav -->
         {% if tags %}
@@ -158,7 +158,7 @@
         <!-- Tagged GIFs Grid -->
         <div id="tagged-gif-grid" class="gif-grid">
             {% for entry in tagged_gifs %}
-            <div class="tag-group animate-bg">
+            <div class="tag-group animate-opacity animate-bg">
                 <a class="anchor" name="{{ entry.0 }}"></a>
                 <div class="tag-title animate-bg">{{ entry.0 }}</div>
                 <div class="gif-count animate-fast">{{ entry.2 }}</div>
@@ -220,7 +220,7 @@
 
                 {% for object in entry.1 %}
                 <!-- Gif Grid Element -->
-                <div class="gif-grid-element animate-fast">
+                <div class="gif-grid-element animate-bg-fast">
                     <div class="bulk-wrapper hidden">
                         <i class="fa fa-circle-o"></i>
                         <input type="text" value="{{ object.id }}" class="hidden">
@@ -320,7 +320,7 @@
 
                 <!-- GIF Grid Element -->
                 {% for object in gifs %}
-                <div class="gif-grid-element animate-fast">
+                <div class="gif-grid-element animate-bg-fast">
                     <div class="bulk-wrapper hidden">
                         <i class="fa fa-circle-o"></i>
                         <input type="text" value="{{ object.id }}" class="hidden">

@@ -242,6 +242,8 @@ select:hover {cursor: pointer;}
 .animate-fast {transition: all .2s ease-in-out;}
 .animate-slow {transition: all .8s ease-in-out;}
 .animate-bg {transition: background-color .4s ease-in-out;}
+.animate-bg-fast {transition: background-color .2s ease-in-out;}
+.animate-opacity {transition: opacity .4s ease-in-out;}
 /* Responsive images/videos */
 .img-wrapper {max-width: 150px;}
 .img-wrapper img, .img-wrapper video {
@@ -998,6 +1000,7 @@ select:hover {cursor: pointer;}
 .profile-info {
 	position: relative;
 	display: inline-block;
+	opacity: 0.0;
 	margin: 1em auto;
 	margin-top: 5em;
 	padding: 2em;
@@ -1040,6 +1043,7 @@ select:hover {cursor: pointer;}
 .inner-nav {
 	display: inline-block;
 	position: relative;
+	opacity: 0.0;
 	margin-bottom: 1em;
 	padding: 1em 2.5em;
 	background-color: #F2F2F2;
@@ -1220,6 +1224,7 @@ select:hover {cursor: pointer;}
 }
 .tag-group {
 	display: inline-block;
+	opacity: 0.0;
 	margin: 1em;
 	padding: 1em;
 	border: .2em solid white;
