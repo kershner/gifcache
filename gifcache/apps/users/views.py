@@ -20,7 +20,7 @@ import json
 import os
 
 
-# Returns number of saved Nav GIFs in my static/img folder
+# Returns number of saved nav gifs in static/img folder
 def get_nav_gifs():
     gif_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static/img/')
     files = []
@@ -30,7 +30,7 @@ def get_nav_gifs():
     return len([f for f in files if f.startswith('navgif')])
 
 
-# Create your views here.
+# Main profile view
 def view_profile(request, username):
     logged_in = False
     if request.user.is_authenticated():
@@ -55,9 +55,7 @@ def view_profile(request, username):
         temp_gifs = gifs.filter(tags__name__in=[str(tag)])
         tagged_gifs.append([tag.name, temp_gifs, len(temp_gifs)])
 
-    add_gif_form = AddGifForm(initial={
-        'hidden_id': u.id
-    })
+    add_gif_form = AddGifForm(initial={'hidden_id': u.id})
 
     avatar = p.avatar
     if p.avatar.endswith(('gif', 'png')):
@@ -101,13 +99,11 @@ def edit_profile(request, username):
 
     avatar = p.avatar
     if p.avatar.endswith(('.gif', '.png')):
-        print 'GIF Avatar'
         element = 'img'
     else:
         extension = p.avatar[p.avatar.rfind('.'):]
         element = 'video'
         avatar = avatar.replace(extension, '.mp4')
-        print avatar
 
     navgif = random.choice(xrange(get_nav_gifs()))
 
@@ -158,9 +154,7 @@ def update_profile(request, username):
             request.session['message'] = 'Your profile was successfully updated!'
             return redirect('/u/%s' % str(username))
         else:
-            context = {
-                'message': 'You are trying to edit another user\'s profile!'
-            }
+            context = {'message': 'You are trying to edit another user\'s profile!'}
             return render(request, 'home/login.html', context)
     else:
         return redirect('/u/%s' % str(username))
@@ -182,6 +176,7 @@ def delete_profile(request, username):
         return render(request, 'home/login.html', context)
 
 
+# Grabs variables from POST, sends to add_gif()
 def add_gif_route(request):
     if request.method == 'POST':
         form = AddGifForm(request.POST)
@@ -280,45 +275,27 @@ def delete_tag(request):
 
 
 def add_gif(user_id, url, label, tags):
-    print url
     display_url = url
     # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
     if url.endswith('gif'):
         img_procesing_url = url
     elif url.endswith('v'):
-        print 'Gifv URL'
         img_procesing_url = url[:-1]
         display_url = url.replace('.gifv', '.mp4')
     elif url.endswith('mp4'):
-        print 'MP4 Url'
         img_procesing_url = url.replace('.mp4', '.gif')
     elif url.endswith('webm'):
-        print 'Webm Url'
         img_procesing_url = url.replace('.webm', '.gif')
     elif 'gfycat' in url:
-            print 'Gfycat URL'
-            if '.mp4' in url:
-                print 'Gfycat MP4 file'
-                gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
-                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
-            elif '.webm' in url:
-                print 'Gfycat WebM file'
-                gfy_name = url.rsplit('/', 1)[1].replace('.webm', '')
-                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
-            else:
-                print 'Normal Gfycat URL'
-                gfy_name = url.rsplit('/', 1)[1]
-                img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
-                display_url = 'http://giant.gfycat.com/%s.mp4' % gfy_name
+            gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
+            img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
+            display_url = requests.get('http://gfycat.com/cajax/get/%s' % gfy_name).json()['gfyItem']['mp4Url']
     else:
         # Raise an exception here, will be redirected in add_gif_route
         print 'Not a Gif URL'
         return
-    print 'Original URL: ', url
-    print 'URL for display: ', display_url
-    print 'Formatted URL for img processing: ', img_procesing_url
+
+    # Creating thumbnail
     size = (150, 100)
     img = requests.get(img_procesing_url)
     img = StringIO(img.content)
