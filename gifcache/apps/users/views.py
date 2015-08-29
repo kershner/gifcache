@@ -500,7 +500,11 @@ def validate_cache(username):
             dupes.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
         else:
             try:
-                r = requests.get(url=gif.url, timeout=(connect_timeout, read_timeout))
+                # Some gfycat urls stored without http schema, adding it here for requests
+                url = gif.url
+                if 'http://' not in url:
+                    url = 'http://' + url
+                r = requests.get(url=url, timeout=(connect_timeout, read_timeout))
                 if r.status_code in [404, 500]:
                     not_found.append([gif.id, gif.url, gif.label, tags, gif.thumbnail.url])
                 # Checking for imgur 'removed' image
