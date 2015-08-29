@@ -231,6 +231,7 @@ function colorPageElements() {
 	profileFadeIn();
 	colorMainForm();
 	colorProfile();
+	reColorProfile();
 }
 
 // Colors the border-bottom CSS property of the main form elements
@@ -293,7 +294,6 @@ function colorProfile() {
 		});
 		counter += 1
 	});
-	reColorProfile();
 }
 
 // Called when the 'shufle colors' button is clicked
