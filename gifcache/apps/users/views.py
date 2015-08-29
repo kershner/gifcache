@@ -278,15 +278,20 @@ def add_gif(user_id, url, label, tags):
     display_url = url
     # Logic to format URL for later processing in case it's abnormal (Gfycat, Gifv etc)
     if url.endswith('gif'):
+        # Normal GIF Url
         img_procesing_url = url
     elif url.endswith('v'):
+        # GifV url
         img_procesing_url = url[:-1]
         display_url = url.replace('.gifv', '.mp4')
     elif url.endswith('mp4'):
+        # MP4 Url
         img_procesing_url = url.replace('.mp4', '.gif')
     elif url.endswith('webm'):
+        # Webm Url
         img_procesing_url = url.replace('.webm', '.gif')
     elif 'gfycat' in url:
+            # Gfycat Url
             gfy_name = url.rsplit('/', 1)[1].replace('.mp4', '')
             img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
             display_url = requests.get('http://gfycat.com/cajax/get/%s' % gfy_name).json()['gfyItem']['mp4Url']

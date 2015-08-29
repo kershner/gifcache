@@ -66,6 +66,11 @@ function profileFadeIn() {
 			$(this).css('opacity', '1.0');
 		});
 	}, 200);
+	setTimeout(function() {
+		$('.welcome-msg').each(function() {
+			$(this).css('opacity', '1.2');
+		});
+	}, 200);
 }
 
 // Displays landing-page gifs once they have loaded
