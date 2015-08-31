@@ -851,7 +851,7 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 .startup-bs-img:hover {transform: scale(1.75); z-index: 2;}
-.startup-bs-img img {width: 100%;}
+.startup-bs-img video {width: 100%;}
 .home-demo {
 	margin: 1em auto;
 	max-width: 20em;
@@ -937,7 +937,7 @@ select:hover {cursor: pointer;}
 	max-height: 25em;
 	text-align: center;
 }
-.feature-img img {
+.feature-img video {
 	width: 100%;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);

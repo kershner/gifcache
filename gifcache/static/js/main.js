@@ -26,7 +26,6 @@ var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
 
 // Fades in elements on the splash page
 function homeFadeIn() {
-    lazyGifs();
     landingColorShuffle();
     setTimeout(function() {
         $('.main-logo-gif, .main-logo-cache').css({
@@ -53,21 +52,6 @@ function homeFadeIn() {
             opacity: '1.0'
         });
     }, 700);
-}
-
-// Displays landing-page gifs once they have loaded
-// Cuts down on initial bandwidth load
-function lazyGifs() {
-    var counter = 1;
-    var i = 0;
-    for (i; i<=7; i+=1) {
-        var selector = '#gif' + counter + ' .preload';
-        var url = '/static/img/gifcache_gif' + counter + '.gif';
-        $(selector).attr('src', url).load(function() {
-            $(this).css('opacity', '1');
-        });
-        counter += 1;
-    }
 }
 
 // Colors three 'shade' divs placed inside certain containers
