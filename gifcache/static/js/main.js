@@ -1,5 +1,6 @@
 $(document).ready(function () {
     "use strict";
+    checkiOS();
     homeFadeIn();
     clickMenus();
     colorPageElements();
@@ -23,6 +24,24 @@ $(document).ready(function () {
 var COLORS = ['#25B972', '#498FBD', '#ff6767', '#FFA533', '#585ec7', '#FF8359'];
 var HOME_COLORS = ['#498FBD', '#ff6767', '#585ec7', '#FF8359'];
 var GIF_COLORS = ['#25B972', '#498FBD', '#ff6767', '#585ec7', '#FF8359'];
+
+// iOS is extremely restrictive with MP4 playback, so I swap all MP4s for GIFs
+// on the landing page
+function checkiOS() {
+    var iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
+    if (iOS) {
+        $('.feature-img').each(function() {
+            $(this).css('width', '15em');
+        });
+        var counter = 1;
+        $('.img-swap').each(function() {
+            var html = '<img src="/static/img/gifcache_gif' + counter + '.gif">';
+            $(this).children('video').remove()
+            $(this).append(html);
+            counter += 1;
+        });
+    }
+}
 
 // Fades in elements on the splash page
 function homeFadeIn() {
