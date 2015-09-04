@@ -261,6 +261,7 @@ select:hover {cursor: pointer;}
 	font-family: 'PT Sans', sans-serif;
 	color: white;
 	text-align: center;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 	border-bottom: .4em solid #4b96c7;
 	border-radius: .25em;

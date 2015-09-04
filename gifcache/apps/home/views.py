@@ -128,7 +128,8 @@ def authenticate_user(request):
             context = {
                 'title': 'Login',
                 'form': LoginForm(),
-                'message': 'This account has been deactivated, please create a new one.',
+                'message': 'This account either does not exist, or has not yet been activated. Check your email for '
+                           'an activation link if you have already created an account.',
                 'navgif': navgif
             }
             return render(request, 'home/login.html', context)
