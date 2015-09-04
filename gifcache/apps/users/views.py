@@ -13,11 +13,16 @@ from .forms import AddGifForm
 from taggit.models import Tag
 from PIL import Image
 import requests
+import logging
 import random
 import praw
 import uuid
 import json
 import os
+
+
+# Log everything, and send it to stderr.
+logging.basicConfig(level=logging.DEBUG)
 
 
 # Returns number of saved nav gifs in static/img folder
@@ -45,36 +50,36 @@ def view_profile(request, username):
         message = request.session['message']
         request.session['message'] = None
 
-    u = get_object_or_404(User, username=username)
-    p = get_object_or_404(Profile, owner=u)
-    gifs = Gif.objects.filter(owner=u)
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(Profile, owner=user)
+    gifs = Gif.objects.filter(owner=user)
 
-    tags = list(set(Tag.objects.filter(gif__owner=u)))
+    tags = list(set(Tag.objects.filter(gif__owner=user)))
     tagged_gifs = []
     for tag in tags:
         temp_gifs = gifs.filter(tags__name__in=[str(tag)])
         tagged_gifs.append([tag.name, temp_gifs, len(temp_gifs)])
 
-    add_gif_form = AddGifForm(initial={'hidden_id': u.id})
+    add_gif_form = AddGifForm(initial={'hidden_id': user.id})
 
-    avatar = p.avatar
-    if p.avatar.endswith(('gif', 'png')):
+    avatar = profile.avatar
+    if profile.avatar.endswith('gif') or profile.avatar == '':
         element = 'img'
-    else:
-        extension = p.avatar[p.avatar.rfind('.'):]
+    elif profile.avatar.endswith(('mp4', 'webm')):
         element = 'video'
-        avatar = avatar.replace(extension, '.mp4')
+    else:
+        element = 'img'
 
     navgif = random.choice(xrange(get_nav_gifs()))
 
     context = {
         'username': request.user.username,
-        'name': u.first_name,
+        'name': user.first_name,
         'add_form': add_gif_form,
         'gifs': gifs,
         'tagged_gifs': tagged_gifs,
         'tags': tags,
-        'user_id': u.id,
+        'user_id': user.id,
         'gif_number': len(gifs),
         'tag_number': len(tags),
         'can_edit': can_edit,
@@ -94,23 +99,23 @@ def edit_profile(request, username):
     if request.user.is_authenticated():
         logged_in = True
 
-    u = get_object_or_404(User, username=username)
-    p = get_object_or_404(Profile, owner=u)
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(Profile, owner=user)
 
-    avatar = p.avatar
-    if p.avatar.endswith(('.gif', '.png')):
+    avatar = profile.avatar
+    if profile.avatar.endswith('gif') or profile.avatar == '':
         element = 'img'
-    else:
-        extension = p.avatar[p.avatar.rfind('.'):]
+    elif profile.avatar.endswith(('mp4', 'webm')):
         element = 'video'
-        avatar = avatar.replace(extension, '.mp4')
+    else:
+        element = 'img'
 
     navgif = random.choice(xrange(get_nav_gifs()))
 
     context = {
         'title': 'Edit Profile',
-        'username': u.username,
-        'nickname': u.first_name,
+        'username': user.username,
+        'nickname': user.first_name,
         'avatar_url': avatar,
         'element': element,
         'logged_in': logged_in,
@@ -132,24 +137,23 @@ def update_profile(request, username):
         if request.user.username == username:
             nickname = request.POST['nickname']
             avatar_url = request.POST['avatar_url']
-            u = get_object_or_404(User, username=username)
-            p = get_object_or_404(Profile, owner=u)
-            if avatar_url == '/static/img/default-user-image.png':
-                print 'Default Avatar'
-                u.first_name = nickname
-                u.save()
-            elif avatar_url == '':
-                print 'Setting avatar to default!'
-                u.first_name = nickname
-                p.avatar = '/static/img/default-user-image.png'
-                u.save()
-                p.save()
+            # Checking for valid avatar URLs
+            if avatar_url.endswith(('gif', 'mp4', 'webm')):
+                avatar_url = avatar_url
+            elif avatar_url.endswith('gifv'):
+                avatar_url = avatar_url.replace('gifv', 'mp4')
+            elif 'gfycat' in avatar_url:
+                gfy_name = avatar_url.rsplit('/', 1)[1]
+                avatar_url = requests.get('http://gfycat.com/cajax/get/%s' % gfy_name).json()['gfyItem']['mp4Url']
             else:
-                print 'Updating avatar!'
-                u.first_name = nickname
-                p.avatar = avatar_url
-                u.save()
-                p.save()
+                avatar_url = ''
+
+            user = get_object_or_404(User, username=username)
+            profile = get_object_or_404(Profile, owner=user)
+            user.first_name = nickname
+            profile.avatar = avatar_url
+            user.save()
+            profile.save()
 
             request.session['message'] = 'Your profile was successfully updated!'
             return redirect('/u/%s' % str(username))
@@ -162,10 +166,10 @@ def update_profile(request, username):
 
 def delete_profile(request, username):
     if request.user.username == username:
-        u = get_object_or_404(User, username=username)
-        p = get_object_or_404(Profile, owner=u)
-        p.delete()
-        u.delete()
+        user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, owner=user)
+        profile.delete()
+        user.delete()
         return redirect('/')
     else:
         context = {
@@ -195,25 +199,24 @@ def edit_gif(request):
         if request.method == 'POST':
             label = request.POST['label']
             tags_to_add = request.POST['tags_to_add']
-            tags_to_remove = request.POST['tags_to_remove'].replace(' ', '').split(',')
+            tags_to_remove = request.POST['tags_to_remove'].split(',')
             gif_id = request.POST['gif_id']
 
-            u = get_object_or_404(User, username=username)
-            g = get_object_or_404(Gif, pk=gif_id, owner=u)
-            Gif.objects.filter(pk=gif_id, owner=u).update(label=label)
-            active_tags = Tag.objects.filter(gif__owner=u, gif__pk=gif_id)
+            user = get_object_or_404(User, username=username)
+            gif = get_object_or_404(Gif, pk=gif_id, owner=user)
+            Gif.objects.filter(pk=gif_id, owner=user).update(label=label)
+            active_tags = Tag.objects.filter(gif__owner=user, gif__pk=gif_id)
 
             if tags_to_add:
                 tags = tags_to_add.split(',')
                 for tag in tags:
-                    g.tags.add(tag)
+                    gif.tags.add(tag)
 
             if not str(tags_to_remove[0]) == '':
                 for tag in active_tags:
                     for i in tags_to_remove:
                         if str(tag.name) == str(i):
-                            print tag.name, 'tag is being removed'
-                            g.tags.remove(tag)
+                            gif.tags.remove(tag)
 
             return redirect('/u/%s' % str(username))
         else:
@@ -230,12 +233,11 @@ def edit_gif(request):
 def delete_gif(request):
     if request.user.is_authenticated():
         username = request.user.username
-        print username
         if request.method == 'POST':
             gif_id = request.POST['gif_id']
-            u = get_object_or_404(User, username=username)
-            g = Gif(pk=gif_id, owner=u)
-            g.delete()
+            user = get_object_or_404(User, username=username)
+            gif = Gif(pk=gif_id, owner=user)
+            gif.delete()
             return redirect('/u/%s' % str(username))
     else:
         navgif = random.choice(xrange(get_nav_gifs()))
@@ -253,8 +255,8 @@ def rename_tag(request):
             user_id = request.POST['user_id']
             current_name = request.POST['current_name']
             new_name = request.POST['new_name']
-            u = get_object_or_404(User, pk=user_id)
-            gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
+            user = get_object_or_404(User, pk=user_id)
+            gifs = Gif.objects.filter(owner=user, tags__name__in=[current_name])
             for gif in gifs:
                 gif.tags.remove(current_name)
                 gif.tags.add(new_name)
@@ -267,8 +269,8 @@ def delete_tag(request):
             username = request.user.username
             user_id = request.POST['user_id']
             current_name = request.POST['current_name']
-            u = get_object_or_404(User, pk=user_id)
-            gifs = Gif.objects.filter(owner=u, tags__name__in=[current_name])
+            user = get_object_or_404(User, pk=user_id)
+            gifs = Gif.objects.filter(owner=user, tags__name__in=[current_name])
             for gif in gifs:
                 gif.tags.remove(current_name)
             return redirect('/u/%s' % str(username))
@@ -296,8 +298,8 @@ def add_gif(user_id, url, label, tags):
             img_procesing_url = 'http://thumbs.gfycat.com/%s-thumb100.jpg' % gfy_name
             display_url = requests.get('http://gfycat.com/cajax/get/%s' % gfy_name).json()['gfyItem']['mp4Url']
     else:
+        # Not a GIF url
         # Raise an exception here, will be redirected in add_gif_route
-        print 'Not a Gif URL'
         return
 
     # Creating thumbnail
@@ -309,22 +311,21 @@ def add_gif(user_id, url, label, tags):
     img_temp = StringIO()
     img_file.save(img_temp, 'JPEG')
 
-    u = get_object_or_404(User, id=user_id)
-    g = Gif(owner=u, url=url, display_url=display_url, created=timezone.now(), label=label)
+    user = get_object_or_404(User, id=user_id)
+    gif = Gif(owner=user, url=url, display_url=display_url, created=timezone.now(), label=label)
     extra_hash = str(uuid.uuid4())
-    g.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
-    g.save()
+    gif.thumbnail.save(url + '-' + extra_hash + '.jpg', ContentFile(img_temp.getvalue()))
+    gif.save()
 
     for tag in tags:
         if str(tag) == '':
             pass
         else:
-            g.tags.add(tag)
+            gif.tags.add(tag)
 
 
 @csrf_exempt
 def bulk_add_gifs(request):
-    print 'Hit bulk add gifs route!'
     if request.user.is_authenticated():
         if request.method == 'POST':
             username = request.user.username
@@ -355,9 +356,8 @@ def bulk_delete(request):
             username = request.user.username
             user_id = request.POST['user_id']
             bulk_ids = request.POST['bulk_values'].split(',')
-            print bulk_ids
             if str(bulk_ids[0]) == '':
-                print 'Trying to bulk delete 0 GIFs, redirecting...'
+                logging.debug('Trying to bulk delete 0 GIFs, redirecting...')
                 return redirect('/u/%s' % str(username))
             else:
                 unique_ids = []
@@ -366,13 +366,13 @@ def bulk_delete(request):
                         pass
                     else:
                         unique_ids.append(entry)
-                u = get_object_or_404(User, pk=user_id)
+                user = get_object_or_404(User, pk=user_id)
                 for gif in unique_ids:
                     if str(gif) == '':
                         continue
                     else:
-                        g = Gif(pk=int(gif), owner=u)
-                        g.delete()
+                        gif = Gif(pk=int(gif), owner=user)
+                        gif.delete()
                 return redirect('/u/%s' % str(username))
 
 
@@ -384,7 +384,7 @@ def bulk_add_tags(request):
             tags = request.POST['tags'].split(',')
             bulk_ids = request.POST['bulk_values'].split(',')
 
-            u = get_object_or_404(User, pk=user_id)
+            user = get_object_or_404(User, pk=user_id)
 
             unique_ids = []
             for entry in bulk_ids:
@@ -394,12 +394,12 @@ def bulk_add_tags(request):
                     unique_ids.append(entry)
 
             for gif in unique_ids:
-                g = Gif(pk=int(gif), owner=u)
+                gif = Gif(pk=int(gif), owner=user)
                 for tag in tags:
                     if str(tag) == '':
                         pass
                     else:
-                        g.tags.add(tag)
+                        gif.tags.add(tag)
             return redirect('/u/%s' % str(username))
 
 
@@ -408,10 +408,10 @@ def bulk_remove_tags(request):
         if request.method == 'POST':
             username = request.user.username
             user_id = request.POST['user_id']
-            tags = str(request.POST['tags']).replace(' ', '').split(',')
+            tags = str(request.POST['tags']).split(',')
             bulk_ids = request.POST['bulk_values'].split(',')
 
-            u = get_object_or_404(User, pk=user_id)
+            user = get_object_or_404(User, pk=user_id)
 
             unique_ids = []
             for entry in bulk_ids:
@@ -420,19 +420,18 @@ def bulk_remove_tags(request):
                 else:
                     unique_ids.append(entry)
 
-            for gif in unique_ids:
-                g = Gif(pk=int(gif), owner=u)
-                active_tags = Tag.objects.filter(gif__owner=u, gif__pk=int(gif))
+            for entry in unique_ids:
+                gif = Gif(pk=int(entry), owner=user)
+                active_tags = Tag.objects.filter(gif__owner=user, gif__pk=int(entry))
                 for tag in active_tags:
                     for i in tags:
                         if str(tag.name) == str(i):
-                            print tag.name, 'tag is being removed'
-                            g.tags.remove(tag)
+                            gif.tags.remove(tag)
             return redirect('/u/%s' % str(username))
 
 
 def gifgrabber(request):
-    print 'Hit /gifgrabber route!'
+    logging.debug('Hit /gifgrabber route!')
     if request.method == 'POST':
         subreddit = request.POST['subreddit']
         sort = request.POST['sort']
@@ -449,7 +448,7 @@ def gifgrabber(request):
                 content_type='application/json'
             )
         except praw.errors.InvalidSubreddit:
-            print 'No subreddit!'
+            logging.debug('No subreddit!')
     else:
         return HttpResponse(
             json.dumps({'message': 'Not a POST request!'}),
@@ -458,7 +457,7 @@ def gifgrabber(request):
 
 
 def validate(request):
-    print 'Hit /validate route!'
+    logging.debug('Hit /validate route!')
     if request.method == 'POST':
         username = request.POST['username']
         results = validate_cache(username)
@@ -478,8 +477,8 @@ def validate(request):
 
 
 def validate_cache(username):
-    u = get_object_or_404(User, username=username)
-    gifs = Gif.objects.filter(owner=u)
+    user = get_object_or_404(User, username=username)
+    gifs = Gif.objects.filter(owner=user)
     connect_timeout = 5
     read_timeout = 1.0
     unique_urls = []
@@ -515,9 +514,9 @@ def validate_cache(username):
                 except KeyError:
                     continue
             except requests.exceptions.ConnectTimeout as e:
-                print 'Connection timed out'
+                logging.exception('Connection timed out')
             except requests.exceptions.ReadTimeout as e:
-                print 'Too long between bytes'
+                logging.exception('Too long between bytes')
 
     results = {
         'dupes': sorted(dupes, key=itemgetter(1)),

@@ -4,7 +4,9 @@
     <!-- Profile Info -->
     <div class="profile-info animate">
         <div class="profile-avatar">
-            {% if element == 'img' %}
+            {% if avatar == '' %}
+                <img src="/static/img/default-user-image.png">
+            {% elif element == 'img' %}
                 <img src="{{ avatar }}">
             {% elif element == 'video' %}
                 <video src="{{ avatar }}" autoplay loop></video>

@@ -5,9 +5,14 @@ from django.contrib.auth.models import User
 from ..users.models import Profile
 from .forms import LoginForm, SignupForm
 from django.http import HttpResponse
+import logging
 import random
 import json
 import os
+
+
+# Log everything, and send it to stderr.
+logging.basicConfig(level=logging.DEBUG)
 
 
 # Returns number of saved Home GIFs in my static/img folder
@@ -141,7 +146,7 @@ def check_username(request):
     if request.method == 'POST':
         username = request.POST['username']
         if User.objects.filter(username=username).exists():
-            print 'Username exists!'
+            logging.debug('Username exists!')
             form = SignupForm(request.POST)
             error = 'The username %s is already taken, please try another!' % username
             context = {
@@ -150,7 +155,7 @@ def check_username(request):
             }
             return render(request, 'registration/registration_form.html', context)
         else:
-            print 'Unique Username!'
+            logging.debug('Unique Username!')
             form = SignupForm(request.POST)
             if form.is_valid():
                 new_registration = RegistrationView()

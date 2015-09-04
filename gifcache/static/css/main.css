@@ -1039,7 +1039,7 @@ select:hover {cursor: pointer;}
 	display: inline-block;
 	padding: .5em;
 }
-.stat-number {font-size: 3em;}
+.stat-number {font-size: 2em;}
 .stat-desc {font-size: 1.5em;}
 /* Navbar right under profile info box */
 .inner-nav {
@@ -1115,7 +1115,7 @@ select:hover {cursor: pointer;}
 	padding: .5em;
 	width: 60%;
 	max-width: 30em;
-	min-width: 15em;
+	min-width: 25em;
 	background-color: #F2F2F2;
 	border-radius: .25em;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);

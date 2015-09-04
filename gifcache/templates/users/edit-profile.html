@@ -18,14 +18,16 @@
 
     <div class="edit-profile-avatar">
         <div class="img-wrapper">
-        {% if element == 'img' %}
+        {% if avatar_url == '' %}
+            <img src="/static/img/default-user-image.png">
+        {% elif element == 'img' %}
             <img src="{{ avatar_url }}">
         {% elif element == 'video' %}
             <video src="{{ avatar_url }}" autoplay loop></video>
         {% endif %}
         </div>
         <input type="text" name="avatar_url" value="{{ avatar_url }}" class="main-field animate">
-        <div class="label">Avatar (URL)</div>
+        <div class="label">Avatar<br>gif/gifv/mp4/webm/gfycat URL</div>
     </div>
 
     <input type="submit" class="btn green-btn main-submit" value="Submit">
