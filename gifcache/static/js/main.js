@@ -55,6 +55,9 @@ function homeFadeIn() {
         });
     }, 1200);
     setTimeout(function() {
+        colorLetters('.main-logo-cache', 3500, '#FFFFFF');
+    }, 1400);
+    setTimeout(function() {
         $('.slogan, .home-links-wrapper, .home-arrow').css({
             opacity: '1.0'
         });
@@ -1230,7 +1233,7 @@ function addTagSubmit(element) {
         if (tag.length > 0) {
             $(this).siblings('.tags-to-be-added').removeClass('hidden');
             var currentVal = $('.add-tags-values').val();
-            var html =  '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' + 
+            var html =  '<div class="tag-to-be-added"><i class="fa fa-trash-o delete-tag"></i><div class="tag-to-be-added-value">' +
                         tag + '</div></div>';
             $(this).siblings('.tags-to-be-added').append(html);
             $(this).siblings('.add-tag-field').val('');
