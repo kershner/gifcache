@@ -186,3 +186,10 @@ def check_cookie(request):
             json.dumps(response_data),
             content_type='application/json'
         )
+
+
+def test(request):
+    context = {
+        'title': 'Test'
+    }
+    return render(request, 'home/test.html', context)

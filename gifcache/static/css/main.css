@@ -35,6 +35,7 @@ select {
 }
 select:hover {cursor: pointer;}
 .hidden {display: none !important;}
+.shown {display: inline-block !important;}
 .lightbox {
 	position: fixed;
 	z-index: 11;
@@ -1048,7 +1049,8 @@ select:hover {cursor: pointer;}
 	position: relative;
 	opacity: 0.0;
 	margin-bottom: 1em;
-	padding: 1em 2.5em;
+	padding: .5em 1em;
+	padding-bottom: .5em;
 	background-color: #F2F2F2;
 	text-align: center;
 	max-width: 37em;
@@ -1057,7 +1059,7 @@ select:hover {cursor: pointer;}
 }
 .inner-nav-fixed {
 	position: fixed;
-	padding: .5em 2em;
+	padding: .5em .25em;
 	z-index: 10;
 	top: 0;
 	left: 50%;
@@ -1070,6 +1072,37 @@ select:hover {cursor: pointer;}
 	-ms-transform: translateX(-50%);
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
+}
+.inner-nav-profile-info {
+	display: none;
+	position: relative;
+	top: -.25em;
+	padding: .25em .5em;
+	padding-left: 1.5em;
+	height: 1.25em;
+	line-height: 2em;
+	border-radius: .25em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.inner-nav-avatar {
+	display: inline-block;
+	position: absolute;
+	left: -.75em;
+	bottom: -.6em;
+}
+.inner-nav-avatar img, .inner-nav-avatar video {
+	height: 1.75em;
+	width: 1.75em;
+	border-radius: 50%;
+	border: .1em solid white;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.inner-nav-name {
+	display: inline-block;
+	position: relative;
+	height: 1em;
+	line-height: 1em;
+	bottom: .5em;
 }
 .inner-nav-btn {
 	display: inline-block;
@@ -1137,13 +1170,20 @@ select:hover {cursor: pointer;}
 }
 .nav-settings-icon {
 	position: absolute;
-	z-index: 7;
-	top: .01em;
-	right: .25em;
-	border-radius: 50%;
-	font-size: 1.8em;
-	color: #4c97c7;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    right: -0.25em;
+    top: -0.5em;
+    z-index: 7;
+    border-radius: 50%;
+    font-size: 1.8em;
+    color: #4c97c7;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.inner-nav-fixed .nav-settings-icon {
+	display: inline-block;
+	position: relative;
+	margin-bottom: -.2em;
+	top: -.25em;
+	left: .1em;
 }
 .nav-settings-icon-selected {
 	color: #357dab;
@@ -1167,6 +1207,7 @@ select:hover {cursor: pointer;}
 	display: inline-block;
 	position: relative;
 	margin: .25em auto;
+	margin-bottom: -1em;
 	padding: .35em;
 	line-height: 1.5em;
 	height: 1.5em;

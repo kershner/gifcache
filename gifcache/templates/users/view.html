@@ -39,6 +39,45 @@
     {% else %}
     <div class="inner-nav animate-opacity" style="max-width: 22em;">
     {% endif %}
+        <!-- Inner Nav Profile Info -->
+        <div class="inner-nav-profile-info">
+            <div class="inner-nav-avatar">
+                {% if avatar == '' %}
+                <img src="/static/img/default-user-image.png">
+                {% elif element == 'img' %}
+                    <img src="{{ avatar }}">
+                {% elif element == 'video' %}
+                    <video src="{{ avatar }}" autoplay loop></video>
+                {% endif %}
+            </div>
+            <div class="inner-nav-name">{{ name }}</div>
+        </div>
+        <!-- Settings / Extra Options -->
+        <div class="nav-settings-icon animate-fast">
+            <i class="fa fa-cog"></i>
+            <div class="nav-settings hidden">
+                <a class="top" href="#top" style="color: white;">
+                <div class="nav-setting-icon animate-fast">
+                    <i class="fa fa-arrow-circle-up"></i>
+                    <div class="label">Top</div>
+                </div>
+                </a>
+
+                <div class="nav-setting-icon color-btn animate-fast">
+                    <i class="fa fa-paint-brush"></i>
+                    <div class="label">Colors</div>
+                </div>
+
+                <div class="tag-group-refresh nav-setting-icon animate-fast">
+                    <i class="fa fa-refresh"></i><div class="label">Grid</div>
+                </div>
+
+                <div class="validate-btn nav-setting-icon animate-fast">
+                    <i class="fa fa-check-circle"></i><div class="label">Validate</div>
+                </div>
+            </div>
+        </div>
+        <br id="inner-nav-break" class="hidden">
         <!-- Tag Nav -->
         {% if tags %}
         <div class="inner-nav-tags btn inner-nav-btn purple-btn">
@@ -113,31 +152,6 @@
             </div>
         </div>
         {% endif %}
-        <!-- Settings / Extra Options -->
-        <div class="nav-settings-icon animate-fast">
-            <i class="fa fa-cog"></i>
-            <div class="nav-settings hidden">
-                <a class="top" href="#top" style="color: white;">
-                <div class="nav-setting-icon animate-fast">
-                    <i class="fa fa-arrow-circle-up"></i>
-                    <div class="label">Top</div>
-                </div>
-                </a>
-
-                <div class="nav-setting-icon color-btn animate-fast">
-                    <i class="fa fa-paint-brush"></i>
-                    <div class="label">Colors</div>
-                </div>
-
-                <div class="tag-group-refresh nav-setting-icon animate-fast">
-                    <i class="fa fa-refresh"></i><div class="label">Grid</div>
-                </div>
-
-                <div class="validate-btn nav-setting-icon animate-fast">
-                    <i class="fa fa-check-circle"></i><div class="label">Validate</div>
-                </div>
-            </div>
-        </div>
         {% endif %}
     </div>
     {% endif %}
