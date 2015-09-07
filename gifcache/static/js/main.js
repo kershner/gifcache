@@ -1689,7 +1689,7 @@ function validationResults(data) {
                 notFoundsTags.push(tag);
             }
             if (notFoundsTags.length > 0) {
-                notFoundsTagElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + tags + '</div></div>';
+                notFoundsTagElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + notFoundsTags + '</div></div>';
             }
             notFoundsElement =  '<div class="validation-result animate-fast"><div class="validation-result-inner-wrapper hidden"></div>' +
                                 '<div class="validation-id hidden">' + notFounds[i][0] +
