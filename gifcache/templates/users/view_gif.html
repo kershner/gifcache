@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if gif %}
+<img src="{{ gif.url }}">
+{% else %}
+<div class="message animate">Gif not found!</div>
+{% endif %}
+
+{% endblock %}

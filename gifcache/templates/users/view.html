@@ -34,7 +34,7 @@
     <br>
     <!-- Profile Navbar -->
     {% if gifs or can_edit %}
-    {% if logged_in %}
+    {% if user.is_authenticated %}
     <div class="inner-nav animate-opacity" style="max-width: 37em;">
     {% else %}
     <div class="inner-nav animate-opacity" style="max-width: 22em;">
@@ -177,8 +177,11 @@
             <div class="tag-group tag-group-animate animate-opacity">
                 <a class="anchor" name="{{ entry.0 }}"></a>
                 <div class="tag-title animate-bg">{{ entry.0 }}</div>
-                <div class="gif-count animate-fast">{{ entry.2 }}</div>
+                <div class="gif-count animate-bg">{{ entry.2 }}</div>
+                <a href="/u/{{ username }}/view/tag/{{ entry.0 }}" class="share-tag-icon animate-bg"><div><i class="fa fa-share-square-o"></i></div></a>
+                <div class="share-tag-tooltip tooltip animate-fast">Share this tag<i class="fa fa-caret-down"></i></div>
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
+                <div class="tag-settings-tooltip tooltip animate-fast">Tag Settings<i class="fa fa-caret-down"></i></div>
                 <!-- Tag Manager -->
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
@@ -241,12 +244,20 @@
                         <i class="fa fa-circle-o"></i>
                         <input type="text" value="{{ object.id }}" class="hidden">
                     </div>
-
+                    <!-- Thumbnail / Hidden URL -->
                     <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
                     <p class="gif-date hidden">{{ object.created }}</p>
                     <p class="gif-label">{{ object.label }}</p>
+
                     <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
+                    <div class="show-url-tooltip tooltip animate-fast">Show URL<i class="fa fa-caret-down"></i></div>
+
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
+                    <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
+
+                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+                    <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
+
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
                     <input type="text" class="display-url hidden" value="{{ object.display_url }}">
 
@@ -311,6 +322,7 @@
                 <div class="tag-title animate-bg">all GIFs</div>
                 <div class="gif-count animate-fast">{{ gif_number }}</div>
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
+                <div class="tag-settings-tooltip tooltip animate-fast">Tag Settings<i class="fa fa-caret-down"></i></div>
                 <div class="tag-manager hidden">
                     <div class="tag-manager-options">
                         <div class="tag-title tag-manager-title animate-bg">Options</div>
@@ -341,10 +353,19 @@
                         <input type="text" value="{{ object.id }}" class="hidden">
                     </div>
                     <!-- Thumbnail / Hidden URL -->
-                    <img class="gif-grid-thumbnail animate" src="{{object.thumbnail.url}}">
+                    <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
+                    <p class="gif-date hidden">{{ object.created }}</p>
                     <p class="gif-label">{{ object.label }}</p>
+
                     <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
+                    <div class="show-url-tooltip tooltip animate-fast">Show URL<i class="fa fa-caret-down"></i></div>
+
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
+                    <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
+
+                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+                    <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
+
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
                     <input type="text" class="display-url hidden" value="{{ object.display_url }}">
                     {% if can_edit %}

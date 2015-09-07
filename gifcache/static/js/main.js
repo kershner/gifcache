@@ -317,6 +317,8 @@ function profileColorWave() {
     colorWave('.colorwave-gifgrabber', 5000, '#FFFFFF');
     colorWave('.profile-name', 7000, '#FFFFFF');
     colorWave('.inner-nav-name', 7000, '#4d4d4d');
+    colorWave('.viewer-name', 7000, '#4d4d4d');
+    colorWave('.viewer-tag-title', 7000, '#4d4d4d');
     colorProfile();
 }
 
@@ -344,8 +346,7 @@ function colorProfile() {
             'background-color': color
         });
         $(this).find('.tag-title').css('background-color', color);
-        $(this).find('.tag-settings-icon, .gif-count').css('background-color', color);
-        $(this).find('.tag-manager-options').css('background-color', color);
+        $(this).find('.tag-settings-icon, .gif-count, .tag-manager-options, .share-tag-icon').css('background-color', color);
         $(this).find('.tag-manager-form form').each(function(){
             $(this).css('background-color', color);
         });

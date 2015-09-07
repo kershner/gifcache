@@ -13,7 +13,7 @@
 
     <h1 class="title">Edit Profile</h1>
     {% csrf_token %}
-    <input type="text" maxlength="40" name="nickname" value="{{ nickname }}" class="main-field animate">
+    <input type="text" maxlength="20" name="nickname" value="{{ nickname }}" class="main-field animate">
     <div class="label">Nickname</div>
 
     <div class="edit-profile-avatar">
@@ -32,4 +32,12 @@
 
     <input type="submit" class="btn green-btn main-submit" value="Submit">
 </form>
+
+<br>
+<div style="text-align: center;">
+    <a href="/u/{{ username }}">
+    <div class="back-to-cache btn green-btn">
+        <i class="fa fa-long-arrow-left"></i>Back to Cache
+    </div>
+</div>
 {% endblock content %}

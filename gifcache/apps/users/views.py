@@ -22,7 +22,7 @@ import os
 
 
 # Log everything, and send it to stderr.
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 # Returns number of saved nav gifs in static/img folder
@@ -35,12 +35,42 @@ def get_nav_gifs():
     return len([f for f in files if f.startswith('navgif')])
 
 
+def view_tag(request, username, tag):
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(Profile, owner=user)
+    gifs = Gif.objects.filter(owner=user, tags__name__in=[tag])
+    if profile.avatar.endswith('gif') or profile.avatar == '':
+        element = 'img'
+    elif profile.avatar.endswith(('mp4', 'webm')):
+        element = 'video'
+    else:
+        element = 'img'
+    context = {
+        'username': username,
+        'title': '%s - View Tag - %s' % (user.first_name, tag),
+        'name': user.first_name,
+        'avatar': profile.avatar,
+        'element': element,
+        'tag': tag,
+        'tag_number': len(list(set(Tag.objects.filter(gif__owner=user)))),
+        'gifs': gifs,
+        'gif_number': len(gifs)
+    }
+    return render(request, 'users/view_tag.html', context)
+
+
+def view_gif(request, username, gif_id):
+    user = get_object_or_404(User, username=username)
+    gif = Gif.objects.filter(id=gif_id)[0]
+    context = {
+        'title': '%s - View Gif' % user.first_name,
+        'gif': gif
+    }
+    return render(request, 'users/view_gif.html', context)
+
+
 # Main profile view
 def view_profile(request, username):
-    logged_in = False
-    if request.user.is_authenticated():
-        logged_in = True
-
     can_edit = False
     if request.user.username == username:
         can_edit = True
@@ -73,7 +103,7 @@ def view_profile(request, username):
     navgif = random.choice(xrange(get_nav_gifs()))
 
     context = {
-        'username': request.user.username,
+        'username': username,
         'name': user.first_name,
         'add_form': add_gif_form,
         'gifs': gifs,
@@ -83,7 +113,6 @@ def view_profile(request, username):
         'gif_number': len(gifs),
         'tag_number': len(tags),
         'can_edit': can_edit,
-        'logged_in': logged_in,
         'avatar': avatar,
         'element': element,
         'message': message,

@@ -38,13 +38,13 @@
 
             <div class="nav-links nav-links-small">
                 <i class="small-nav-icon fa fa-bars animate-fast"></i>
-                {% if logged_in %}
+                {% if user.is_authenticated %}
                 <div class="small-nav-container hidden">
                 {% else %}
                 <div class="small-nav-container small-nav-extra hidden">
                 {% endif %}
                     <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
-                    {% if logged_in %}
+                    {% if user.is_authenticated %}
                     <div class="profile-nav-link animate-fast">PROFILE
                         <div class="profile-nav-extra hidden">
                             <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
@@ -60,7 +60,7 @@
 
             <div class="nav-links">
                 <a href="{% url 'home:home' %}" class="animate-fast">HOME</a>
-                {% if logged_in %}
+                {% if user.is_authenticated %}
                 <div class="profile-nav-link animate-fast">PROFILE
                     <div class="profile-nav-extra hidden">
                         <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
@@ -95,7 +95,7 @@
         </div>
 
         <div class="footer-nav-links">
-            {% if logged_in %}
+            {% if user.is_authenticated %}
             <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
             <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
             {% else %}

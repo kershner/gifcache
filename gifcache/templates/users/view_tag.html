@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if gifs %}
+<!--GIFs Grid-->
+<div id="tag-viewer-grid" class="gif-grid">
+    <div class="viewer-tag-title animate-bg">{{ tag }}</div>
+    <div class="viewer-blurb">Send this URL to a friend!</div>
+    <div class="tag-group tag-group-animate animate-opacity animate-bg">
+        <div class="gif-count animate-fast">{{ gif_number }}</div>
+        <i class="fa fa-cog tag-settings-icon animate-fast"></i>
+        <div class="tag-settings-tooltip tooltip animate-fast">Tag Settings<i class="fa fa-caret-down"></i></div>
+        <div class="tag-manager hidden">
+            <div class="tag-manager-options">
+                <div class="tag-title tag-manager-title animate-bg">Options</div>
+                <div class="tag-manager-section display-section" style="margin-bottom: .05em;">
+                    <div class="tag-manager-section-title display-title animate">Display</div>
+                    <div class="party-mode-icon animate">
+                        <img src="/static/img/disco_kid.gif">
+                        <div class="party-mode-icon-text animate">Party Mode</div>
+                    </div>
+                    <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                </div>
+
+                <div class="tag-manager-section" style="margin-bottom: .05em;">
+                    <div class="tag-manager-section-title tasks-title">Sort</div>
+                    <div class="tag-sort-options">
+                        <div class="sort-label btn green-btn">Label</div>
+                        <div class="sort-date btn blue-btn">Date</div>
+                        <div class="sort-random btn purple-btn">Random</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- GIF Grid Element -->
+        {% for object in gifs %}
+        <div class="gif-grid-element animate-bg-fast">
+            <div class="bulk-wrapper hidden">
+                <i class="fa fa-circle-o"></i>
+                <input type="text" value="{{ object.id }}" class="hidden">
+            </div>
+            <!-- Thumbnail / Hidden URL -->
+            <img class="gif-grid-thumbnail animate" src="{{ object.thumbnail.url }}">
+            <p class="gif-date hidden">{{ object.created }}</p>
+            <p class="gif-label">{{ object.label }}</p>
+
+            <i class="fa fa-link gif-grid-icon copy-url animate-fast"></i>
+            <div class="show-url-tooltip tooltip animate-fast">Show URL<i class="fa fa-caret-down"></i></div>
+
+            <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
+            <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
+
+            <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+            <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
+
+            <input type="text" class="gif-url hidden" value="{{ object.url }}">
+            <input type="text" class="display-url hidden" value="{{ object.display_url }}">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+    <div class="message animate">{{ name}} doesn't have any gifs tagged with {{ tag }}</div>
+{% endif %}
+
+<div class="profile-info-wrapper">
+    <div class="viewer-profile-info animate">
+        <div class="profile-avatar">
+            {% if avatar == '' %}
+                <img src="/static/img/default-user-image.png">
+            {% elif element == 'img' %}
+                <img src="{{ avatar }}">
+            {% elif element == 'video' %}
+                <video src="{{ avatar }}" autoplay loop></video>
+            {% endif %}
+        </div>
+
+        <div class="viewer-name">{{ name }}</div>
+
+        <div class="profile-stats">
+            <div id="tag-nav" class="stat">
+                <div class="stat-number">{{ tag_number }}</div>
+                <div class="stat-desc">tags</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number">{{ gif_number }}</div>
+                <div class="stat-desc">GIFs</div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <a href="/u/{{ username }}">
+    <div class="back-to-cache btn green-btn">
+        <i class="fa fa-long-arrow-left"></i>{{ name }}'s Cache
+    </div>
+    </a>
+</div>
+{% endblock %}

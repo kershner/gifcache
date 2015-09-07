@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^(?P<username>[\w.@+-]+)/edit-profile/$', views.edit_profile, name='edit-profile'),
     url(r'^(?P<username>[\w.@+-]+)/update-profile/$', views.update_profile, name='update-profile'),
     url(r'^(?P<username>[\w.@+-]+)/delete-profile/$', views.delete_profile, name='delete-profile'),
+    url(r'^(?P<username>[\w.@+-]+)/view/tag/(?P<tag>[\w .@+-]+)$', views.view_tag, name='view-tag'),
+    url(r'^(?P<username>[\w.@+-]+)/view/gif/(?P<gif_id>\d+)$', views.view_gif, name='view-gif'),
     url(r'^gifgrabber/$', views.gifgrabber, name='gifgrabber'),
     url(r'^validate/$', views.validate, name='validate'),
 ]

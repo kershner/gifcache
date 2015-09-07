@@ -1287,14 +1287,64 @@ select:hover {cursor: pointer;}
 }
 .tag-title {
 	position: absolute;
+	z-index: 1;
 	padding: .15em .5em;
 	top: -1.1em;
 	background-color: #F2F2F2;
+	font-family: 'PT Sans';
 	font-size: 1.25em;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 	border-radius: .25em;
 	border: .1em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.tooltip {
+	position: relative;
+	opacity: 0;
+	padding: .25em;
+	font-family: 'PT Sans';
+	color: white;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: .25em;
+}
+.tooltip i {
+	position: absolute;
+	left: .25em;
+	bottom: -.6em;
+	color: rgba(0,0,0,0.7);
+}
+.share-tag-tooltip {
+	position: absolute;
+	z-index: 3;
+	left: -.1em;
+	top: -3.25em;
+}
+.share-tag-icon {
+	position: absolute;
+	z-index: 2;
+	padding: .25em;
+	padding-bottom: 0.45em;
+	top: -1.4em;
+	left: -.2em;
+	height: 1em;
+	line-height: 1em;
+	color: white;
+	font-size: .8em;
+	border: .2em solid white;
+	border-radius: .35em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.share-tag-icon:active {margin-top: 4px;}
+.share-tag-icon:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, .8) !important;
+}
+.share-tag-icon:hover + .share-tag-tooltip {
+	opacity: 1.0;
+}
+.share-tag-icon i:active {
+	margin-top: 0px !important;
 }
 .gif-count {
 	position: absolute;
@@ -1309,6 +1359,12 @@ select:hover {cursor: pointer;}
 	border: .2em solid white;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
+.tag-settings-tooltip {
+	position: absolute;
+	right: -3.75em;
+	top: -3.15em;
+	z-index: 3;
+}
 .tag-settings-icon {
 	position: absolute;
 	z-index: 3;
@@ -1322,6 +1378,9 @@ select:hover {cursor: pointer;}
 .tag-settings-icon:hover {
 	cursor: pointer;
 	transform: scale(1.2);
+}
+.tag-settings-icon:hover + .tag-settings-tooltip {
+	opacity: 1.0;
 }
 .tag-settings-icon-clicked {
 	z-index: 9;
@@ -1339,20 +1398,27 @@ select:hover {cursor: pointer;}
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 /* Icons inside each Gif thumbnail */
-.copy-url, .gif-expand {
+.copy-url, .gif-expand, .share-gif-icon {
 	position: absolute;
 	width: 1em;
 	height: 1em;
 	z-index: 2;
-	right: 0.75em;
-	top: 4.6em;
+	right: 0.25em;
+	top: 5em;
 	text-shadow: 1px 1px 3px #000;
 }
-.gif-expand {left: 0.75em;}
-.gif-expand:hover, .copy-url:hover {
+.gif-expand {left: 0.25em;}
+.share-gif-icon {top: .25em; left: .25em; color: white;}
+.copy-url:hover + .show-url-tooltip {opacity: 1.0;}
+.show-url-tooltip {position: absolute; top: 4em; right: -2.75em;}
+.expand-gif-tooltip {position: absolute; top: 4em; left: .5em;}
+.gif-expand:hover, .copy-url:hover, .share-gif-icon:hover {
 	cursor: pointer;
 	transform: scale(1.2);
 }
+.share-gif-icon:hover + .share-gif-tooltip {opacity: 1.0;}
+.share-gif-tooltip {position: absolute; top: -1.85em;}
+.gif-expand:hover + .expand-gif-tooltip {opacity: 1.0};
 .delete-form {margin-bottom: 2em;}
 /* Hidden div inside Gif elements, activated when bulk options seleced */
 .bulk-wrapper {
@@ -2128,4 +2194,88 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 .validation-submit {
 	font-size: 1em !important;
 	width: 11em;
+}
+/* Viewer Page Styles */
+#tag-viewer-grid {
+	margin-top: 3em;
+	text-align: center;
+}
+@media (min-width: 0) {
+	.viewer-tag-title {
+		margin-top: -.5em;
+		font-size: 6vh;
+	}
+	.viewer-profile-info  {
+		margin-top: 3em;
+		height: 12em;
+		min-width: 10em;
+	}
+	.viewer-profile-info .profile-avatar {
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+	}
+	.viewer-profile-info .viewer-name {
+		margin-top: 2.5em;
+	}
+}
+@media (min-width: 500px) {
+	.viewer-tag-title {
+		margin-top: -.3em;
+		font-size: 6em;
+	}
+	.viewer-profile-info  {
+		margin: 0 auto;
+		height: 7em;
+		min-width: 15em;
+	}
+	.viewer-profile-info .profile-avatar {
+		top: -0.6em;
+		left: -16.5em;
+	}
+	.viewer-profile-info .viewer-name {
+		margin: 0;
+	}
+}
+.viewer-tag-title {
+	font-family: 'Lobster';
+	text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+}
+.viewer-blurb {
+	margin: .65em;
+}
+.profile-info-wrapper {
+	text-align: center;
+}
+.viewer-profile-info {
+	display: inline-block;
+	position: relative;
+	border-radius: .35em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+.viewer-profile-info .viewer-name {
+	position: relative;
+	top: -0.25em;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 2em;
+	height: 1.75em;
+	line-height: 1.75em;
+}
+.viewer-profile-info .profile-stats {
+	position: relative;
+    margin-top: -1.5em;
+    font-size: .8em;
+    text-align: center;
+}
+.back-to-cache {
+	display: inline-block;
+	margin: 2em auto;
+	padding: .25em .5em;
+	height: 2em;
+	line-height: 2em;
+	font-size: 1.25em;
+}
+.back-to-cache i {
+	display: inline-block;
+	margin: 0 .5em;
 }
