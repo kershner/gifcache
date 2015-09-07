@@ -50,7 +50,7 @@ function homeFadeIn() {
     colorWave('.mini-logo-cache', 3500, '#FFFFFF');
     colorWave('.colorwave-extension', 8000, '#FFFFFF');
     setTimeout(function() {
-        $('.main-logo-gif, .main-logo-cache').css({
+        $('.main-logo-gif, .main-logo-cache, .message').css({
             opacity: '1.0'
         });
     }, 1200);
@@ -81,43 +81,43 @@ function homeFadeIn() {
 
 // Colors each letter of an element in succession and then returns each to white
 function colorWave(element, postpone, defaultColor) {
-	var finalHtml = '';
-	var text = $(element).text();
-	for (i=0; i<text.length; i++) {
-		var tempHtml = '<span class="colorwave animate">' + text[i] + '</span>';
-		finalHtml += tempHtml;
-	}
-	$(element).empty().append(finalHtml);
-	colorLetters(element, postpone, defaultColor);
-	setInterval(function() {
-		colorLetters(element, postpone, defaultColor);
-	}, postpone);
+    var finalHtml = '';
+    var text = $(element).text();
+    for (i=0; i<text.length; i++) {
+        var tempHtml = '<span class="colorwave animate">' + text[i] + '</span>';
+        finalHtml += tempHtml;
+    }
+    $(element).empty().append(finalHtml);
+    colorLetters(element, postpone, defaultColor);
+    setInterval(function() {
+        colorLetters(element, postpone, defaultColor);
+    }, postpone);
 }
 
 function colorLetters(element, postpone, defaultColor) {
-	var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
-	var counter = randomnumber;
-	var delay = 100;
-	var newPostpone = postpone / 5;
-	$(element).find('.colorwave').each(function() {
-		if (counter >= COLORS.length) {
+    var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
+    var counter = randomnumber;
+    var delay = 100;
+    var newPostpone = postpone / 5;
+    $(element).find('.colorwave').each(function() {
+        if (counter >= COLORS.length) {
             counter = 0;
         }
         $(this).animate({'color': COLORS[counter]}, delay);
-		delay += 75;
-		counter += 1;
-	});
-	setTimeout(function() {
-		removeColor(element, defaultColor);
-	}, newPostpone);
+        delay += 75;
+        counter += 1;
+    });
+    setTimeout(function() {
+        removeColor(element, defaultColor);
+    }, newPostpone);
 }
 
 function removeColor(element, defaultColor) {
-	var delay = 100;
-	$(element).find('.colorwave').each(function() {
-		$(this).animate({'color': defaultColor}, delay);
-		delay += 75;
-	});
+    var delay = 100;
+    $(element).find('.colorwave').each(function() {
+        $(this).animate({'color': defaultColor}, delay);
+        delay += 75;
+    });
 }
 
 // Colors three 'shade' divs placed inside certain containers
@@ -187,7 +187,6 @@ function shrinkGrowImage() {
 
 // Picks colors and applies them to various elements on page load
 function colorPageElements() {
-    colorWave('.title', 5000, '#FFFFFF');
     var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
     var counter = randomnumber;
     $('.loading i').css({'color': COLORS[randomnumber]});
@@ -261,13 +260,12 @@ function colorPageElements() {
     colorWave('.colorwave-speed', 3250, $('#feature-speed').css('color'));
     colorWave('.colorwave-dailygifs', 3250, $('#feature-dailygifs').css('color'));
     colorWave('.colorwave-validation', 5250, $('#feature-validation').css('color'));
-    colorWave('.inner-nav-name', 4000, '#4d4d4d');
     $('.home-whatsnew-title, .home-plug-link').css('color', secondColor);
     $('.home-whatsnew-notes').css('border-top', '.1em solid ' + secondColor);
     $('.home-whatsnew-version').css('background-color', secondColor);
     profileFadeIn();
     colorMainForm();
-    colorProfile();
+    profileColorWave();
     reColorProfile();
 }
 
@@ -285,8 +283,8 @@ function profileFadeIn() {
         });
     }, 200);
     setTimeout(function() {
-        $('.welcome-msg').each(function() {
-            $(this).css('opacity', '1.2');
+        $('.welcome-msg, .notification, .message').each(function() {
+            $(this).css('opacity', '1');
         });
     }, 200);
 }
@@ -314,9 +312,16 @@ function colorMainForm() {
     });
 }
 
+function profileColorWave() {
+    colorWave('.title', 5000, '#FFFFFF');
+    colorWave('.colorwave-gifgrabber', 5000, '#FFFFFF');
+    colorWave('.profile-name', 7000, '#FFFFFF');
+    colorWave('.inner-nav-name', 7000, '#4d4d4d');
+    colorProfile();
+}
+
 // Colors elements of the profile view page
 function colorProfile() {
-    colorWave('.profile-name', 7000, '#FFFFFF');
     var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
     var counter = randomnumber;
     var profileInfoColor = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -1651,7 +1656,7 @@ function validationResults(data) {
                 image = '<div class="img-wrapper"><video src="' + url + '" preload autoplay loop poster="../static/img/preload.gif"></video></div>';
             }
             if (dupesTags.length > 0) {
-                tagsElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + tags + '</div></div>';
+                tagsElement = '<div class="validation-result-tags"><i class="fa fa-tags"></i>' + '<div>' + dupesTags + '</div></div>';
             } else {
                 tagsElement = '';
             }

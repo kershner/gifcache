@@ -245,6 +245,9 @@ select:hover {cursor: pointer;}
 .animate-bg {transition: background-color .4s ease-in-out;}
 .animate-bg-fast {transition: background-color .2s ease-in-out;}
 .animate-opacity {transition: opacity .4s ease-in-out;}
+.tag-group-animate {
+	transition: background-color .4s ease-in-out, opacity .4s ease-in-out;
+}
 /* Responsive images/videos */
 .img-wrapper {max-width: 150px;}
 .img-wrapper img, .img-wrapper video {
@@ -256,6 +259,7 @@ select:hover {cursor: pointer;}
 .message {
 	margin: 1em auto;
 	padding: 1em;
+	opacity: 0.0;
 	width: 40%;
 	min-width: 15em;
 	background-color: #72ADD3;
@@ -1008,6 +1012,7 @@ select:hover {cursor: pointer;}
 	margin: 1em auto;
 	margin-top: 5em;
 	padding: 2em;
+	padding-bottom: 1em;
 	color: white;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 	border: .2em solid white;
@@ -1036,6 +1041,10 @@ select:hover {cursor: pointer;}
 	font-size: 2em;
 	height: 1.75em;
 	line-height: 1.75em;
+}
+.profile-stats {
+	position: relative;
+	margin-top: 1em;
 }
 .stat {
 	display: inline-block;
