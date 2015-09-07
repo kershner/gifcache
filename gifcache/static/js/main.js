@@ -841,59 +841,62 @@ function gifGrabberResults(json) {
                             '<div class="grabber-data sort-type animate" style="background-color: ' + shuffledColors[2] + '">' +
                             json.sort + '<div class="grabber-data-label">Sort</div></div></div>';
     $('.grabber-data-container').empty().append(grabberDataHtml);
-    // Loop through data, create containers for GIFs/titles etc, append to grid
-    for (i=0; i<json.gifs.length; i++) {
-        var url = json.gifs[i][0];
-        var ext = json.gifs[i][1];
-        var img = '';
-        if (ext.length > 5) {
-            ext = ext.slice(0, 5);
-        }
-        if ($.inArray(ext, allowed) > -1) {
-            if (ext === '.webm') {
-                newExt = '.webm';
-            } else {
-                newExt = '.mp4';
-            }
-            lastPeriod = url.lastIndexOf('.');
-            url = url.substring(0, lastPeriod) + newExt;
-            img = '<video class="grabber-gif" src="' + url + '" autoplay loop poster="../static/img/preload.gif"></video>';
-        } else if (url.indexOf('gfycat') > -1) {
-            var lastForwardSlash = url.lastIndexOf('/');
-            var gfyname = url.slice(lastForwardSlash + 1, url.length);
-            ext = 'gfycat';
-            img = '<video class="grabber-gif" src="" autoplay loop poster="../static/img/preload.gif"></video>';
-            getGfyMp4(counter, gfyname);
-        } else {
-            img = '<img class="grabber-gif" src="' + json.gifs[i][0] + '">';
-        }
-        var titleText = json.gifs[i][2];
-        if (titleText.length > 40) {
-            titleText = titleText.slice(0, 40) + '...';
-        }
-        var extension = '<div class="grabber-results-extension">' + ext + '</div>';
-        var title = '<div class="grabber-results-title">' + titleText + '</div>';
-        var shortLink = '<a class="short-link animate-fast" href="' + json.gifs[i][3] + '"><i class="fa fa-reddit"></i></a>';
-        var expandIcon = '<i class="grabber-expand fa fa-expand animate-fast"></i>';
-        var hiddenUrl = '<input type="text" class="grabber-hidden-url hidden" value="' + json.gifs[i][0] + '">';
-        var innerCancel = '<div class="grabber-inner-cancel"><i class="fa fa-minus-circle"></i><div>Cancel</div></div>';
-        var innerLabelInput = '<input type="text" class="gif-label-field inner-label" value="' + json.gifs[i][2] + '">';
-        var innerLabelLabel = '<div class="label">Label</div>';
-        var innerTagsInput = '<input type="text" class="gif-label-field inner-tags" placeholder="Comma Separated Tags">';
-        var innerTagsLabel = '<div class="label">Tags</div>';
-        var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel +
-                        innerTagsInput + innerTagsLabel + '</div>';
-        var html =  '<div id="grabber-gif-' + counter + '" class="grabber-results-element animate-fast">' + hiddenUrl + img +
-                    extension + title + shortLink + expandIcon + innerHtml + '</div>';
-        $('.grabber-results-grid').append(html);
-        var elementId = '#grabber-gif-' + counter;
-        clickGrabberElements(elementId);
-        counter += 1;
-    }
     gifGrabberSetup();
-    if (json.gifs.length === 0) {
+    if (typeof(json.gifs) === 'undefined') {
+        $('.grabber-results-grid').text('Subreddit not found');
+    }
+    else if (json.gifs.length === 0) {
         $('.grabber-results-grid').text('No GIFs found!');
     } else {
+        // Loop through data, create containers for GIFs/titles etc, append to grid
+        for (i=0; i<json.gifs.length; i++) {
+            var url = json.gifs[i][0];
+            var ext = json.gifs[i][1];
+            var img = '';
+            if (ext.length > 5) {
+                ext = ext.slice(0, 5);
+            }
+            if ($.inArray(ext, allowed) > -1) {
+                if (ext === '.webm') {
+                    newExt = '.webm';
+                } else {
+                    newExt = '.mp4';
+                }
+                lastPeriod = url.lastIndexOf('.');
+                url = url.substring(0, lastPeriod) + newExt;
+                img = '<video class="grabber-gif" src="' + url + '" autoplay loop poster="../static/img/preload.gif"></video>';
+            } else if (url.indexOf('gfycat') > -1) {
+                var lastForwardSlash = url.lastIndexOf('/');
+                var gfyname = url.slice(lastForwardSlash + 1, url.length);
+                ext = 'gfycat';
+                img = '<video class="grabber-gif" src="" autoplay loop poster="../static/img/preload.gif"></video>';
+                getGfyMp4(counter, gfyname);
+            } else {
+                img = '<img class="grabber-gif" src="' + json.gifs[i][0] + '">';
+            }
+            var titleText = json.gifs[i][2];
+            if (titleText.length > 40) {
+                titleText = titleText.slice(0, 40) + '...';
+            }
+            var extension = '<div class="grabber-results-extension">' + ext + '</div>';
+            var title = '<div class="grabber-results-title">' + titleText + '</div>';
+            var shortLink = '<a class="short-link animate-fast" href="' + json.gifs[i][3] + '"><i class="fa fa-reddit"></i></a>';
+            var expandIcon = '<i class="grabber-expand fa fa-expand animate-fast"></i>';
+            var hiddenUrl = '<input type="text" class="grabber-hidden-url hidden" value="' + json.gifs[i][0] + '">';
+            var innerCancel = '<div class="grabber-inner-cancel"><i class="fa fa-minus-circle"></i><div>Cancel</div></div>';
+            var innerLabelInput = '<input type="text" class="gif-label-field inner-label" value="' + json.gifs[i][2] + '">';
+            var innerLabelLabel = '<div class="label">Label</div>';
+            var innerTagsInput = '<input type="text" class="gif-label-field inner-tags" placeholder="Comma Separated Tags">';
+            var innerTagsLabel = '<div class="label">Tags</div>';
+            var innerHtml = '<div class="grabber-results-element-inner hidden">' + innerCancel + innerLabelInput + innerLabelLabel +
+                            innerTagsInput + innerTagsLabel + '</div>';
+            var html =  '<div id="grabber-gif-' + counter + '" class="grabber-results-element animate-fast">' + hiddenUrl + img +
+                        extension + title + shortLink + expandIcon + innerHtml + '</div>';
+            $('.grabber-results-grid').append(html);
+            var elementId = '#grabber-gif-' + counter;
+            clickGrabberElements(elementId);
+            counter += 1;
+        }
         $('#grabber-add-form').removeClass('hidden');
         $(function() {
             $('.holder').jPages({
