@@ -2251,7 +2251,6 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 }
 .viewer-input {
 	opacity: 0.0;
-	margin-top: 1.25em;
 	margin-bottom: -.25em;
 	width: 18em;
 }
@@ -2275,10 +2274,11 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	width: 100%;
 }
 #viewer-slider {
-	opacity: 0.0;
-	position: relative;
-	z-index: 1;
-	margin-top: 2em;
+    opacity: 0.0;
+    position: relative;
+    z-index: 1;
+    margin-bottom: -.75em;
+    width: 70%;
 }
 .viewer-slider-label {
 	opacity: 0.0;
@@ -2295,9 +2295,7 @@ input[type=range] {
 	width: 300px;
 }
 input[type=range]::-webkit-slider-runnable-track {
-	height: .1em;
-	background: #45C788;
-	border: none;
+    border: none;
 }
 input[type=range]::-webkit-slider-thumb {
 	-webkit-appearance: none;
@@ -2313,15 +2311,12 @@ input[type=range]::-webkit-slider-thumb:hover {
 	cursor: pointer;
 }
 .viewer-label {
-	position: absolute;
-	padding: .5em 0;
+	position: relative;
+	margin-top: .75em;
 	width: 100%;
 	bottom: 0;
 	text-align: center;
-	color: white;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-	background-color: rgba(0, 0, 0, 0.8);
-	border-radius: 0 0 .2em .2em;
+	font-size: 6vw;
 }
 .profile-info-wrapper {
 	opacity: 0.0;

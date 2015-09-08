@@ -279,6 +279,7 @@ function profileColorWave() {
     colorWave('.inner-nav-name', '#4d4d4d');
     colorWave('.viewer-name', '#4d4d4d');
     colorWave('.viewer-tag-title', '#4d4d4d');
+    colorWave('.viewer-label', '#4d4d4d');
     colorProfile();
 }
 

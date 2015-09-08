@@ -2,18 +2,17 @@
 {% block content %}
 
 {% if gif %}
-<input class="viewer-input animate" type="text" value="{{ url }}" style="margin-top: 2em;">
+{% if gif.label %}
+<div class="viewer-label">{{ gif.label }}</div>
+{% endif %}
+<input class="viewer-input animate" type="text" value="{{ url }}">
 <div class="viewer-blurb animate">Send this URL to a friend!</div>
 <input class="animate" id="viewer-slider" type="range" value="50" min="30" max="80" step="10">
-<div class="viewer-slider-label animate">Gif Size</div>
 <div class="viewer-img-wrapper animate">
 {% if gif_element == 'img' %}
 <img src="{{ gif.url }}">
 {% elif gif_element == 'video' %}
 <video src="{{ gif.display_url }}" autoplay loop></video>
-{% endif %}
-{% if gif.label %}
-<div class="viewer-label">{{ gif.label }}</div>
 {% endif %}
 </div>
 {% else %}
