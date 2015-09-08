@@ -4,8 +4,9 @@
 {% if gifs %}
 <!--GIFs Grid-->
 <div id="tag-viewer-grid" class="gif-grid">
-    <div class="viewer-tag-title animate-bg">{{ tag }}</div>
-    <div class="viewer-blurb">Send this URL to a friend!</div>
+    <div class="viewer-tag-title animate">{{ tag }}</div>
+    <input class="viewer-input animate" type="text" value="{{ url }}">
+    <div class="viewer-blurb animate">Send this URL to a friend!</div>
     <div class="tag-group tag-group-animate animate-opacity animate-bg">
         <div class="gif-count animate-fast">{{ gif_number }}</div>
         <i class="fa fa-cog tag-settings-icon animate-fast"></i>
@@ -20,6 +21,7 @@
                         <div class="party-mode-icon-text animate">Party Mode</div>
                     </div>
                     <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                    <div class="grid-view-tooltip tooltip animate-fast">Grid View<i class="fa fa-caret-down"></i></div>
                 </div>
 
                 <div class="tag-manager-section" style="margin-bottom: .05em;">
@@ -50,7 +52,7 @@
             <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
             <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
 
-            <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+            <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/gifs/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
             <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
 
             <input type="text" class="gif-url hidden" value="{{ object.url }}">
@@ -63,7 +65,7 @@
     <div class="message animate">{{ name}} doesn't have any gifs tagged with {{ tag }}</div>
 {% endif %}
 
-<div class="profile-info-wrapper">
+<div class="profile-info-wrapper animate">
     <div class="viewer-profile-info animate">
         <div class="profile-avatar">
             {% if avatar == '' %}

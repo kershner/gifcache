@@ -18,6 +18,7 @@ $(document).ready(function () {
     gridView();
     partyModeToggle();
     clickValidate();
+    viewerResize();
 });
 
 // Global color variables
@@ -46,9 +47,9 @@ function checkiOS() {
 // Fades in elements on the splash page
 function homeFadeIn() {
     landingColorShuffle();
-    colorWave('.main-logo-cache', 3500, '#FFFFFF');
-    colorWave('.mini-logo-cache', 3500, '#FFFFFF');
-    colorWave('.colorwave-extension', 8000, '#FFFFFF');
+    colorWave('.main-logo-cache', '#FFFFFF');
+    colorWave('.mini-logo-cache', '#FFFFFF');
+    colorWave('.colorwave-extension', '#FFFFFF');
     setTimeout(function() {
         $('.main-logo-gif, .main-logo-cache, .message').css({
             opacity: '1.0'
@@ -77,47 +78,6 @@ function homeFadeIn() {
             opacity: '1.0'
         });
     }, 700);
-}
-
-// Colors each letter of an element in succession and then returns each to white
-function colorWave(element, postpone, defaultColor) {
-    var finalHtml = '';
-    var text = $(element).text();
-    for (i=0; i<text.length; i++) {
-        var tempHtml = '<span class="colorwave animate">' + text[i] + '</span>';
-        finalHtml += tempHtml;
-    }
-    $(element).empty().append(finalHtml);
-    colorLetters(element, postpone, defaultColor);
-    setInterval(function() {
-        colorLetters(element, postpone, defaultColor);
-    }, postpone);
-}
-
-function colorLetters(element, postpone, defaultColor) {
-    var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
-    var counter = randomnumber;
-    var delay = 100;
-    var newPostpone = postpone / 5;
-    $(element).find('.colorwave').each(function() {
-        if (counter >= COLORS.length) {
-            counter = 0;
-        }
-        $(this).animate({'color': COLORS[counter]}, delay);
-        delay += 75;
-        counter += 1;
-    });
-    setTimeout(function() {
-        removeColor(element, defaultColor);
-    }, newPostpone);
-}
-
-function removeColor(element, defaultColor) {
-    var delay = 100;
-    $(element).find('.colorwave').each(function() {
-        $(this).animate({'color': defaultColor}, delay);
-        delay += 75;
-    });
 }
 
 // Colors three 'shade' divs placed inside certain containers
@@ -257,9 +217,9 @@ function colorPageElements() {
         });
         counter += 1;
     });
-    colorWave('.colorwave-speed', 3250, $('#feature-speed').css('color'));
-    colorWave('.colorwave-dailygifs', 3250, $('#feature-dailygifs').css('color'));
-    colorWave('.colorwave-validation', 5250, $('#feature-validation').css('color'));
+    colorWave('.colorwave-speed', $('#feature-speed').css('color'));
+    colorWave('.colorwave-dailygifs', $('#feature-dailygifs').css('color'));
+    colorWave('.colorwave-validation', $('#feature-validation').css('color'));
     $('.home-whatsnew-title, .home-plug-link').css('color', secondColor);
     $('.home-whatsnew-notes').css('border-top', '.1em solid ' + secondColor);
     $('.home-whatsnew-version').css('background-color', secondColor);
@@ -272,10 +232,10 @@ function colorPageElements() {
 // Subtle fade-in of elements on profile view page
 function profileFadeIn() {
     setTimeout(function() {
-        $('.profile-info').css('opacity', '1.0');
+        $('.profile-info, .viewer-tag-title').css('opacity', '1.0');
     }, 100);
     setTimeout(function() {
-        $('.inner-nav').css('opacity', '1.0');
+        $('.inner-nav, .viewer-input, .viewer-blurb').css('opacity', '1.0');
     }, 150);
     setTimeout(function() {
         $('.tag-group').each(function() {
@@ -283,7 +243,7 @@ function profileFadeIn() {
         });
     }, 200);
     setTimeout(function() {
-        $('.welcome-msg, .notification, .message').each(function() {
+        $('.welcome-msg, .notification, .message, .profile-info-wrapper, #viewer-slider, .viewer-slider-label, .viewer-img-wrapper').each(function() {
             $(this).css('opacity', '1');
         });
     }, 200);
@@ -313,13 +273,57 @@ function colorMainForm() {
 }
 
 function profileColorWave() {
-    colorWave('.title', 5000, '#FFFFFF');
-    colorWave('.colorwave-gifgrabber', 5000, '#FFFFFF');
-    colorWave('.profile-name', 7000, '#FFFFFF');
-    colorWave('.inner-nav-name', 7000, '#4d4d4d');
-    colorWave('.viewer-name', 7000, '#4d4d4d');
-    colorWave('.viewer-tag-title', 7000, '#4d4d4d');
+    colorWave('.profile-name', '#FFFFFF');
+    colorWave('.title', '#FFFFFF');
+    colorWave('.colorwave-gifgrabber', '#FFFFFF');
+    colorWave('.inner-nav-name', '#4d4d4d');
+    colorWave('.viewer-name', '#4d4d4d');
+    colorWave('.viewer-tag-title', '#4d4d4d');
     colorProfile();
+}
+
+// Colors each letter of an element in succession and then returns each to white
+function colorWave(element, defaultColor) {
+    var finalHtml = '';
+    var text = $(element).text();
+    var postpone = text.length * 500;
+    if (postpone < 5000) {
+        postpone = 5000;
+    }
+    for (i=0; i<text.length; i++) {
+        var tempHtml = '<span class="colorwave animate">' + text[i] + '</span>';
+        finalHtml += tempHtml;
+    }
+    $(element).empty().append(finalHtml);
+    colorLetters(element, postpone, defaultColor);
+    setInterval(function() {
+        colorLetters(element, postpone, defaultColor);
+    }, postpone);
+}
+
+function colorLetters(element, postpone, defaultColor) {
+    var randomnumber = (Math.random() * (COLORS.length + 1)) << 0;
+    var counter = randomnumber;
+    var delay = 100;
+    var newPostpone = postpone / 5;
+    $(element).find('.colorwave').each(function() {
+        if (counter >= COLORS.length) {
+            counter = 0;
+        }$(this).animate({'color': COLORS[counter]}, delay);
+        delay += 75;
+        counter += 1;
+    });
+    setTimeout(function() {
+        removeColor(element, defaultColor);
+    }, newPostpone);
+}
+
+function removeColor(element, defaultColor) {
+    var delay = 100;
+    $(element).find('.colorwave').each(function() {
+        $(this).animate({'color': defaultColor}, delay);
+        delay += 75;
+    });
 }
 
 // Colors elements of the profile view page
@@ -1733,6 +1737,17 @@ function updateValidateValues() {
         }
     });
     valuesInput.val(values);
+}
+
+// Binds css scaling to range element on viewer page
+function viewerResize() {
+    $('#viewer-slider').on('input', function() {
+        var scaleValue = $(this).val();
+        var img = $(this).siblings('.viewer-img-wrapper');
+        $(img).css({
+            'width': scaleValue + 'em'
+        });
+    });
 }
 
 /***********************************************

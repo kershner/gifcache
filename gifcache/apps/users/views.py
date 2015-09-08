@@ -22,7 +22,19 @@ import os
 
 
 # Log everything, and send it to stderr.
-# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
+
+
+# Returns HTML element type to use for displaying given url
+def which_element(url):
+    if url.endswith(('mp4', 'webm')):
+        return 'video'
+    elif url.endswith('gifv'):
+        return 'gifv'
+    elif 'gfycat' in url:
+        return 'gfycat'
+    else:
+        return 'img'
 
 
 # Returns number of saved nav gifs in static/img folder
@@ -33,40 +45,6 @@ def get_nav_gifs():
         files.extend(filenames)
         break
     return len([f for f in files if f.startswith('navgif')])
-
-
-def view_tag(request, username, tag):
-    user = get_object_or_404(User, username=username)
-    profile = get_object_or_404(Profile, owner=user)
-    gifs = Gif.objects.filter(owner=user, tags__name__in=[tag])
-    if profile.avatar.endswith('gif') or profile.avatar == '':
-        element = 'img'
-    elif profile.avatar.endswith(('mp4', 'webm')):
-        element = 'video'
-    else:
-        element = 'img'
-    context = {
-        'username': username,
-        'title': '%s - View Tag - %s' % (user.first_name, tag),
-        'name': user.first_name,
-        'avatar': profile.avatar,
-        'element': element,
-        'tag': tag,
-        'tag_number': len(list(set(Tag.objects.filter(gif__owner=user)))),
-        'gifs': gifs,
-        'gif_number': len(gifs)
-    }
-    return render(request, 'users/view_tag.html', context)
-
-
-def view_gif(request, username, gif_id):
-    user = get_object_or_404(User, username=username)
-    gif = Gif.objects.filter(id=gif_id)[0]
-    context = {
-        'title': '%s - View Gif' % user.first_name,
-        'gif': gif
-    }
-    return render(request, 'users/view_gif.html', context)
 
 
 # Main profile view
@@ -93,12 +71,7 @@ def view_profile(request, username):
     add_gif_form = AddGifForm(initial={'hidden_id': user.id})
 
     avatar = profile.avatar
-    if profile.avatar.endswith('gif') or profile.avatar == '':
-        element = 'img'
-    elif profile.avatar.endswith(('mp4', 'webm')):
-        element = 'video'
-    else:
-        element = 'img'
+    element = which_element(profile.avatar)
 
     navgif = random.choice(xrange(get_nav_gifs()))
 
@@ -122,6 +95,52 @@ def view_profile(request, username):
     return render(request, 'users/view.html', context)
 
 
+# Per-user viewer for tag name
+def view_tag(request, username, tag):
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(Profile, owner=user)
+    gifs = Gif.objects.filter(owner=user, tags__name__in=[tag])
+    total_gifs = len(Gif.objects.filter(owner=user))
+    element = which_element(profile.avatar)
+    context = {
+        'navgif': random.choice(xrange(get_nav_gifs())),
+        'username': username,
+        'title': '%s - View Tag - %s' % (user.first_name, tag),
+        'name': user.first_name,
+        'avatar': profile.avatar,
+        'element': element,
+        'tag': tag,
+        'tag_number': len(list(set(Tag.objects.filter(gif__owner=user)))),
+        'gifs': gifs,
+        'gif_number': total_gifs,
+        'url': 'gifcache.com/u/%s/tags/%s' % (username, tag)
+    }
+    return render(request, 'users/view_tag.html', context)
+
+
+# Per-user viewer for gif ID
+def view_gif(request, username, gif_id):
+    user = get_object_or_404(User, username=username)
+    gif = Gif.objects.filter(id=gif_id)[0]
+    profile = get_object_or_404(Profile, owner=user)
+    total_gifs = len(Gif.objects.filter(owner=user))
+    avatar_element = which_element(profile.avatar)
+    context = {
+        'navgif': random.choice(xrange(get_nav_gifs())),
+        'username': username,
+        'title': '%s - View Gif' % user.first_name,
+        'name': user.first_name,
+        'avatar': profile.avatar,
+        'avatar_element': avatar_element,
+        'gif': gif,
+        'gif_element': which_element(gif.display_url),
+        'tag_number': len(list(set(Tag.objects.filter(gif__owner=user)))),
+        'gif_number': total_gifs,
+        'url': 'gifcache.com/u/%s/gifs/%d' % (username, gif.id)
+    }
+    return render(request, 'users/view_gif.html', context)
+
+
 def edit_profile(request, username):
     check_cookie(request)
     logged_in = False
@@ -132,12 +151,7 @@ def edit_profile(request, username):
     profile = get_object_or_404(Profile, owner=user)
 
     avatar = profile.avatar
-    if profile.avatar.endswith('gif') or profile.avatar == '':
-        element = 'img'
-    elif profile.avatar.endswith(('mp4', 'webm')):
-        element = 'video'
-    else:
-        element = 'img'
+    element = which_element(profile.avatar)
 
     navgif = random.choice(xrange(get_nav_gifs()))
 

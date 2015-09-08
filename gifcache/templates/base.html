@@ -47,7 +47,7 @@
                     {% if user.is_authenticated %}
                     <div class="profile-nav-link animate-fast">PROFILE
                         <div class="profile-nav-extra hidden">
-                            <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+                            <a href="/u/{{ user.username }}" class="animate-fast">My Profile</a>
                             <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                 {% if user.is_authenticated %}
                 <div class="profile-nav-link animate-fast">PROFILE
                     <div class="profile-nav-extra hidden">
-                        <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+                        <a href="/u/{{ user.username }}" class="animate-fast">My Profile</a>
                         <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
         <div class="footer-nav-links">
             {% if user.is_authenticated %}
-            <a href="/u/{{ username }}" class="animate-fast">My Profile</a>
+            <a href="/u/{{ user.username }}" class="animate-fast">My Profile</a>
             <a href="{% url 'home:logout' %}" class="animate-fast">Logout</a>
             {% else %}
             <a href="{% url 'registration_register' %}" class="animate-fast">SIGNUP</a>

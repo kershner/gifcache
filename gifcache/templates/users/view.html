@@ -123,7 +123,7 @@
                 <p>Add Tags to GIFs</p>
                 <form action="{% url 'users:bulk-add-tags' %}" method="post">
                     {% csrf_token %}
-                    <input type="text" name='tags' placeholder="Comma Separated Tags">
+                    <input type="text" name='tags' placeholder="Comma Separated Tags" maxlength="40">
                     <input class="bulk-values hidden" type="text" value="0" name='bulk_values' placeholder="GIF IDs">
                     <input type="text" value="{{ user_id }}" name="user_id" class="hidden">
                     <input type="submit" class="submit btn blue-btn" value="Submit">
@@ -178,7 +178,7 @@
                 <a class="anchor" name="{{ entry.0 }}"></a>
                 <div class="tag-title animate-bg">{{ entry.0 }}</div>
                 <div class="gif-count animate-bg">{{ entry.2 }}</div>
-                <a href="/u/{{ username }}/view/tag/{{ entry.0 }}" class="share-tag-icon animate-bg"><div><i class="fa fa-share-square-o"></i></div></a>
+                <a href="/u/{{ username }}/tags/{{ entry.0 }}" class="share-tag-icon animate-bg"><div><i class="fa fa-share-square-o"></i></div></a>
                 <div class="share-tag-tooltip tooltip animate-fast">Share this tag<i class="fa fa-caret-down"></i></div>
                 <i class="fa fa-cog tag-settings-icon animate-fast"></i>
                 <div class="tag-settings-tooltip tooltip animate-fast">Tag Settings<i class="fa fa-caret-down"></i></div>
@@ -200,6 +200,7 @@
                                 <div class="party-mode-icon-text animate">Party Mode</div>
                             </div>
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                            <div class="grid-view-tooltip tooltip animate-fast">Grid View<i class="fa fa-caret-down"></i></div>
                         </div>
 
                         <div class="tag-manager-section" style="margin-bottom: .05em;">
@@ -217,7 +218,7 @@
                         <form class="rename-tag-form hidden" action="{% url 'users:rename-tag' %}" method="post">
                             <div class="tag-manager-options-title">Rename Tag</div>
                             {% csrf_token %}
-                            <input type="text" name="new_name" value="{{ entry.0 }}">
+                            <input type="text" name="new_name" value="{{ entry.0 }}" maxlength="20">
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
                             <input type="text" name="current_name" value="{{ entry.0 }}" class="hidden">
@@ -255,7 +256,7 @@
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
                     <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
 
-                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/gifs/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
                     <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
 
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
@@ -333,6 +334,7 @@
                                 <div class="party-mode-icon-text animate">Party Mode</div>
                             </div>
                             <i class="display-grid-icon fa fa-th-large animate-fast"></i>
+                            <div class="grid-view-tooltip tooltip animate-fast">Grid View<i class="fa fa-caret-down"></i></div>
                         </div>
 
                         <div class="tag-manager-section" style="margin-bottom: .05em;">
@@ -363,7 +365,7 @@
                     <i class="fa fa-expand gif-grid-icon gif-expand animate-fast"></i>
                     <div class="expand-gif-tooltip tooltip animate-fast">Expand<i class="fa fa-caret-down"></i></div>
 
-                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/view/gif/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
+                    <a class="gif-grid-icon share-gif-icon animate-fast" href="/u/{{ username }}/gifs/{{ object.id }}"><i class="fa fa-share-square-o"></i></a>
                     <div class="share-gif-tooltip tooltip animate-fast">Share this gif<i class="fa fa-caret-down"></i></div>
 
                     <input type="text" class="gif-url hidden" value="{{ object.url }}">
