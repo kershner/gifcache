@@ -48,6 +48,7 @@ function checkiOS() {
 function homeFadeIn() {
     landingColorShuffle();
     colorWave('.colorwave-extension', '#FFFFFF');
+    colorWave('.mini-logo-cache', '#FFFFFF');
     setTimeout(function() {
         $('.main-logo-gif, .main-logo-cache, .message').css({
             opacity: '1.0'
