@@ -47,8 +47,6 @@ function checkiOS() {
 // Fades in elements on the splash page
 function homeFadeIn() {
     landingColorShuffle();
-    colorWave('.main-logo-cache', '#FFFFFF');
-    colorWave('.mini-logo-cache', '#FFFFFF');
     colorWave('.colorwave-extension', '#FFFFFF');
     setTimeout(function() {
         $('.main-logo-gif, .main-logo-cache, .message').css({
@@ -56,7 +54,8 @@ function homeFadeIn() {
         });
     }, 1200);
     setTimeout(function() {
-        colorLetters('.main-logo-cache', 3500, '#FFFFFF');
+        colorLetters('.main-logo-cache', 8500, '#FFFFFF');
+        colorWave('.main-logo-cache', '#FFFFFF');
     }, 1400);
     setTimeout(function() {
         $('.slogan, .home-links-wrapper, .home-arrow').css({
