@@ -2225,6 +2225,9 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	.viewer-profile-info .viewer-name {
 		margin-top: 2.5em;
 	}
+	.viewer-label {
+		font-size: 1.5em;
+	}
 }
 @media (min-width: 500px) {
 	.viewer-tag-title {
@@ -2243,11 +2246,27 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	.viewer-profile-info .viewer-name {
 		margin: 0;
 	}
+	.viewer-label {
+		font-size: 6vw;
+	}
+	@media (min-width: 900px) {
+		.viewer-label {
+			font-size: 3.5em;
+		}
+	}
 }
 .viewer-tag-title {
 	opacity: 0.0;
 	font-family: 'Lobster';
 	text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+}
+.viewer-label {
+	position: relative;
+	margin: 0 auto;
+	margin-top: 1em;
+	max-width: 80%;
+	bottom: 0;
+	text-align: center;
 }
 .viewer-input {
 	opacity: 0.0;
@@ -2264,7 +2283,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
 	position: relative;
 	margin: .25em auto;
 	margin-bottom: 2em;
-	width: 50em;
+	max-width: 25em;
 	background-color: rgba(0, 0, 0, 0.2);
 	border: .25em solid white;
 	border-radius: .35em;
@@ -2279,6 +2298,7 @@ div.grid-view-wrapper::-webkit-scrollbar-thumb {-webkit-box-shadow: inset 0 0 6p
     z-index: 1;
     margin-bottom: -.75em;
     width: 70%;
+    max-width: 30em;
 }
 .viewer-slider-label {
 	opacity: 0.0;
@@ -2296,27 +2316,31 @@ input[type=range] {
 }
 input[type=range]::-webkit-slider-runnable-track {
     border: none;
+    height: 0;
+}
+input[type=range]::-moz-range-track {
+	border: none;
+    height: .25em;
+    opacity: 0.6;
+}
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
 }
 input[type=range]::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	margin-top: -.85em;
-	width: 1.75em;
+	width: 3em;
 	height: 1.75em;
-	border-radius: 50%;
-	border: .25em solid white;
+	border-radius: .25em;
 	background: #45C788;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 input[type=range]::-webkit-slider-thumb:hover {
 	cursor: pointer;
-}
-.viewer-label {
-	position: relative;
-	margin-top: .75em;
-	width: 100%;
-	bottom: 0;
-	text-align: center;
-	font-size: 6vw;
 }
 .profile-info-wrapper {
 	opacity: 0.0;

@@ -112,6 +112,7 @@ def view_tag(request, username, tag):
         'tag': tag,
         'tag_number': len(list(set(Tag.objects.filter(gif__owner=user)))),
         'gifs': gifs,
+        'num_gifs': len(gifs),
         'gif_number': total_gifs,
         'url': 'gifcache.com/u/%s/tags/%s' % (username, tag)
     }

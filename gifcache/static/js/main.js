@@ -243,9 +243,10 @@ function profileFadeIn() {
         });
     }, 200);
     setTimeout(function() {
-        $('.welcome-msg, .notification, .message, .profile-info-wrapper, #viewer-slider, .viewer-slider-label, .viewer-img-wrapper').each(function() {
+        $('.welcome-msg, .notification, .message, .profile-info-wrapper, .viewer-slider-label, .viewer-img-wrapper').each(function() {
             $(this).css('opacity', '1');
         });
+        $('#viewer-slider').css('opacity', 0.9);
     }, 200);
 }
 
@@ -1746,7 +1747,7 @@ function viewerResize() {
         var scaleValue = $(this).val();
         var img = $(this).siblings('.viewer-img-wrapper');
         $(img).css({
-            'width': scaleValue + 'em'
+            'max-width': scaleValue + 'em'
         });
     });
 }
