@@ -2,9 +2,11 @@
 {% block content %}
 
 {% if gif %}
-{% if gif.label %}
-<div class="viewer-label">{{ gif.label }}</div>
-{% endif %}
+<div class="viewer-label">
+    {% if gif.label %}
+    {{ gif.label }}
+    {% endif %}
+</div>
 <input class="viewer-input animate" type="text" value="{{ url }}">
 <div class="viewer-blurb animate">Send this URL to a friend!</div>
 <input class="animate" id="viewer-slider" type="range" value="25" min="25" max="50" step="5">
