@@ -81,7 +81,7 @@ def view_profile(request, username):
         'add_form': add_gif_form,
         'gifs': gifs,
         'tagged_gifs': tagged_gifs,
-        'tags': tags,
+        'tags': sorted([str(tag.name) for tag in tags], key=str.lower),
         'user_id': user.id,
         'gif_number': len(gifs),
         'tag_number': len(tags),
