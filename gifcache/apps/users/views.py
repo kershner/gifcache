@@ -22,7 +22,7 @@ import os
 
 
 # Log everything, and send it to stderr.
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 # Returns HTML element type to use for displaying given url
