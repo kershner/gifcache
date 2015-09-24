@@ -1,8 +1,8 @@
 from .views import scrape_reddit, validate_cache, get_nav_gifs, which_element
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .models import Gif, Profile
 from django.test import TestCase
-from .models import Gif
 import os
 
 
@@ -16,7 +16,8 @@ class TestUserViews(TestCase):
         self.user = User.objects.create_user(username='test',
                                              email='test@test.com',
                                              password='test_password')
-        self.gif = Gif(owner=self.user, url='test_gif.gif',
+        self.gif = Gif(owner=self.user,
+                       url='test_gif.gif',
                        display_url='test_gif.gif',
                        created=timezone.now(),
                        thumbnail='test_thumbnail.jpg',
@@ -40,6 +41,73 @@ class TestUserViews(TestCase):
     def test_share_gif_view(self):
         response = self.client.get('/u/%s/gifs/%d' % (self.user.username, self.gif.id))
         self.assertEqual(response.status_code, 200)
+
+
+class TestSiteFunctionality(TestCase):
+    """
+    Testing basic site operations
+    """
+    def setUp(self):
+        # Create fake user
+        self.user = User.objects.create_user(username='testuser',
+                                             email='test@test.com',
+                                             password='test_password',
+                                             first_name='Crazy Random String!')
+
+    def test_edit_profle(self):
+        # Testing that changes to profile model will appear on user profile page
+        test_case = True
+        response = self.client.get('/u/testuser')
+        if 'Crazy Random String!' not in response.content:
+            test_case = False
+        elif 'http://www.test.com/test.gif' in response.content:
+            test_case = False
+        elif 'Tyler' in response.content:
+            test_case = False
+        profile = Profile.objects.get(owner=self.user)
+        self.user.first_name = 'Tyler'
+        profile.avatar = 'http://www.test.com/test.gif'
+        self.user.save()
+        profile.save()
+        response = self.client.get('/u/testuser')
+        if 'Crazy Random String!' in response.content:
+            test_case = False
+        elif 'http://www.test.com/test.gif' not in response.content:
+            test_case = False
+        elif 'Tyler' not in response.content:
+            test_case = False
+        self.assertEqual(test_case, True)
+
+    def test_add_gif(self):
+        # Testing to see if thumbnail appears in user profile after gif was added
+        test_case = False
+        url = 'http://www.test.com/test.gif'
+        label = 'Here\'s a test label!'
+        thumbnail = 'thumbnail.jpg'
+        gif = Gif(owner=self.user, url=url, display_url=url, created=timezone.now(), label=label, thumbnail=thumbnail)
+        gif.save()
+        response = self.client.get('/u/%s' % self.user.username).content
+        if thumbnail in response:
+            test_case = True
+        self.assertEqual(test_case, True)
+
+    def test_delete_gif(self):
+        # Testing to see if thumbnail disappears in user profile after gif is deleted
+        test_case = False
+        url = 'http://www.test.com/test.gif'
+        label = 'Here\'s a test label!'
+        thumbnail = 'thumbnail.jpg'
+        gif = Gif(owner=self.user, url=url, display_url=url, created=timezone.now(), label=label, thumbnail=thumbnail)
+        gif.save()
+        response = self.client.get('/u/%s' % self.user.username).content
+        if thumbnail in response:
+            test_case = True
+        gif_to_delete = Gif.objects.get(id=gif.id)
+        gif_to_delete.delete()
+        response = self.client.get('/u/%s' % self.user.username).content
+        if thumbnail in response:
+            test_case = False
+        self.assertEqual(test_case, True)
 
 
 class TestCustomFunctions(TestCase):
@@ -124,6 +192,7 @@ class TestCustomFunctions(TestCase):
         self.assertEqual(get_nav_gifs(), test_number)
 
     def test_which_element_success(self):
+        # Tseting my 'which element' function
         test_url_1 = 'http://www.gif.com/gif.mp4'
         test_url_2 = 'http://www.gif.com/gif.gif'
         test_url_3 = 'http://www.gfycat.com/gfyname'
